@@ -1,7 +1,5 @@
 ---
-title: "Mizer course"
-description: |
-  Welcome to the website. I hope you enjoy it!
+title: "Online mizer course"
 site: distill::distill_website
 ---
 
@@ -10,9 +8,23 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Learn more about creating websites with Distill at:
 # https://rstudio.github.io/distill/website.html
-
-# Learn more about publishing to GitHub Pages at:
-# https://rstudio.github.io/distill/publish_website.html#github-pages
-
 ```
+<center>
 
+__2022 August 8-26__
+
+## Size based ecosystem models with the R package mizer and applications for coastal and inland ecosystems   
+
+Please join us for an online course to learn about the principles of size based community and ecosystem modelling, implementation of these principles in the R package mizer, learn about adaptation of mizer for shallow ecosystems with multiple resources, and learn how to build a new model with your own or example data 
+
+The online course will be organised as a series of recorded lectures, exercises and group work, combined with two weekly live Q&A sessions adapted to Europe-North America and Australia-Asia-Europe time zones. 
+
+The course is led by Gustav Delius (University of York, UK) and Asta Audzijonyte (Nature Research Centre, Lithuania & University of Tasmania, Australia). Invited speakers include Ken Haste Andersen, Julia Blanchard and others 
+
+Participation is free. 
+If you are interested in this course and would like to continue receiving information about it, please 
+[register here](https://docs.google.com/forms/d/e/1FAIpQLSeLGJfGQ1IBa5ZozqWTGIXX17xF73kPHKYhAFFa0H2nn4CT4Q/viewform?vc=0&c=0&w=1&flr=0)
+
+
+If you need more information, please contact us at info@fishsizeproject.org 
+</center>
