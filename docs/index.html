@@ -2439,9 +2439,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_site_in_header-->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      if (!/.test(location.pathname)) {
-        return;
-      }
 
       var script = document.createElement("script");
       script.src = "https://giscus.app/client.js";
