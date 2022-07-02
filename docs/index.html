@@ -2439,6 +2439,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_site_in_header-->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      if (!/.test(location.pathname)) {
+        return;
+      }
 
       var script = document.createElement("script");
       script.src = "https://giscus.app/client.js";
@@ -2447,9 +2450,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       script.setAttribute("data-category", "General");
       script.setAttribute("data-category-id", "DIC_kwDOHlJwYs4CP-rC");
       script.setAttribute("data-mapping", "og:title");
-      script.setAttribute("data-reactions-enabled", "1");
+      script.setAttribute("data-reactions-enabled", "0");
       script.setAttribute("data-emit-metadata", "0");
-      script.setAttribute("data-input-position", "top");
+      script.setAttribute("data-input-position", "bottom");
       script.setAttribute("data-theme", "light");
       script.setAttribute("data-lang", "en");
 
