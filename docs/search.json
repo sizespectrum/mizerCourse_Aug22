@@ -1,11 +1,92 @@
 {
   "articles": [
     {
+      "path": "build-model.html",
+      "title": "Building a new multi-species model",
+      "description": "Here you will learn how to set up a multi-species mizer model, starting from\na given set of species parameters.\n",
+      "author": [],
+      "date": "`r Sys.Date()`",
+      "contents": "\n\n\n\n",
+      "last_modified": "2022-07-02T13:20:01+01:00"
+    },
+    {
       "path": "index.html",
       "title": "Online mizer course",
       "author": [],
-      "contents": "\n\n2022 August 8-26\nSize\nbased ecosystem models with the R package mizer and applications for\ncoastal and inland ecosystems\nPlease join us for an online course to learn about the principles of\nsize based community and ecosystem modelling, implementation of these\nprinciples in the R package mizer, learn about adaptation of mizer for\nshallow ecosystems with multiple resources, and learn how to build a new\nmodel with your own or example data\nThe online course will be organised as a series of recorded lectures,\nexercises and group work, combined with two weekly live Q&A sessions\nadapted to Europe-North America and Australia-Asia-Europe time\nzones.\nThe course is led by Gustav Delius (University of York, UK) and Asta\nAudzijonyte (Nature Research Centre, Lithuania & University of\nTasmania, Australia). Invited speakers include Ken Haste Andersen, Julia\nBlanchard and others\nParticipation is free. If you are interested in this course and would\nlike to continue receiving information about it, please register\nhere\nIf you need more information, please contact us at info@fishsizeproject.org\n\n\n\n\n",
-      "last_modified": "2022-07-02T10:49:13+01:00"
+      "contents": "\n2022 August 8-26\nSize\nbased ecosystem models with the R package mizer and applications for\ncoastal and inland ecosystems\nPlease join us for an online course to learn about the principles of\nsize based community and ecosystem modelling, implementation of these\nprinciples in the R package mizer, learn about adaptation of mizer for\nshallow ecosystems with multiple resources, and learn how to build a new\nmodel with your own or example data\nThe course consistes of the following tutorials:\nIntroduction to the mizer\ncourse\nIntroduction to the mizer\nmodel\nSize spectra from\nobservations\nSingle-species\nsize-spectrum dynamics\nMulti-species\nsize-spectrum dynamics\nUsing a model to explore the\nconsequences of change\nBuilding a new multi-species\nmodel\nFinding species\nparameters\nSetting up multiple\nresources\nThe course is led by Gustav Delius (University of York, UK) and Asta\nAudzijonyte (Nature Research Centre, Lithuania & University of\nTasmania, Australia). Invited speakers include Ken Haste Andersen, Julia\nBlanchard and others\nParticipation is free. If you are interested in this course and would\nlike to continue receiving information about it, please register\nhere\nIf you need more information, please contact us at info@fishsizeproject.org or comment below.\n\n\n\n\n",
+      "last_modified": "2022-07-02T13:20:02+01:00"
+    },
+    {
+      "path": "introduction-to-course.html",
+      "title": "Introduction to the mizer course",
+      "description": "Here you will learn how the course is organised and how you will interact\nwith the tutorials and with the other participants. This will include\ninstructions on installing and setting up the necessary tools.\n",
+      "author": [],
+      "date": "`r Sys.Date()`",
+      "contents": "\n\n\n\n",
+      "last_modified": "2022-07-02T13:20:02+01:00"
+    },
+    {
+      "path": "introduction-to-mizer.html",
+      "title": "Introduction to the mizer model",
+      "description": "Here you will learn about the basic ideas underlying dynamic \nsize-spectrum modelling with mizer. This includes a guest-lecture by\nKen Andersen.\n",
+      "author": [],
+      "date": "`r Sys.Date()`",
+      "contents": "\n\n\n\n",
+      "last_modified": "2022-07-02T13:20:03+01:00"
+    },
+    {
+      "path": "multi-species-size-spectrum-dynamics.html",
+      "title": "Multi-species size-spectrum dynamics",
+      "description": "Here you will learn ...\n",
+      "author": [],
+      "date": "`r Sys.Date()`",
+      "contents": "\n\n\n\n",
+      "last_modified": "2022-07-02T13:20:03+01:00"
+    },
+    {
+      "path": "multiple-resources.html",
+      "title": "Setting up multiple resources",
+      "description": "Here you will learn how to set up a mizer model with multiple size-structured\nresources.\n",
+      "author": [],
+      "date": "`r Sys.Date()`",
+      "contents": "\n\n\n\n",
+      "last_modified": "2022-07-02T13:20:04+01:00"
+    },
+    {
+      "path": "observational-size-spectra.html",
+      "title": "Size spectra from observations",
+      "description": "Here you will take observational data and plot the resulting size spectra for\nthe community and for individual species.\n",
+      "author": [],
+      "date": "`r Sys.Date()`",
+      "contents": "\n\n\n\n",
+      "last_modified": "2022-07-02T13:20:05+01:00"
+    },
+    {
+      "path": "running-scenarios.html",
+      "title": "Using a model to explore the consequences of change",
+      "description": "Here you will learn how to explore the effects of changing parameters on\nan existing mizer model. This will include a guest lecture by \nJulia Blanchard\n",
+      "author": [],
+      "date": "`r Sys.Date()`",
+      "contents": "\n\n\n\n",
+      "last_modified": "2022-07-02T13:20:05+01:00"
+    },
+    {
+      "path": "single-species-size-spectrum-dynamics.html",
+      "title": "Single-species size-spectrum dynamics",
+      "description": "Here you will learn ...\n",
+      "author": [],
+      "date": "`r Sys.Date()`",
+      "contents": "\n\n\n\n",
+      "last_modified": "2022-07-02T13:20:06+01:00"
+    },
+    {
+      "path": "species-parameters.html",
+      "title": "Finding species parameters",
+      "description": "Here you will learn how to find appropriate values for the species parameters\nneeded to set up your own mizer model.\n",
+      "author": [],
+      "date": "`r Sys.Date()`",
+      "contents": "\n\n\n\n",
+      "last_modified": "2022-07-02T13:20:06+01:00"
     }
   ],
   "collections": []
