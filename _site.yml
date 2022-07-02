@@ -27,6 +27,6 @@ navbar:
 output:
   distill::distill_article:
     includes:
-      in_header: utterances.html
+      in_header: giscus.html
     toc_depth: 2
   
