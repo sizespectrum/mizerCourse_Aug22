@@ -16,7 +16,7 @@ format:
     code-link: true
 
 website:
-  title: "quarto_website"
+  title: "mizer course"
   site-url: "https://course.mizer.sizespectrum.org"
   favicon: images/favicon-16x16.png
   repo-url: https://github.com/sizespectrum/mizerCourse
