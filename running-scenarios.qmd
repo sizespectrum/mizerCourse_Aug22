@@ -1,0 +1,15 @@
+---
+title: "Using a model to explore the consequences of change"
+subtitle: |
+  Here you will learn how to explore the effects of changing parameters on
+  an existing mizer model. This will include a guest lecture by 
+  Julia Blanchard
+---
+
+
+
+
+
+
+
+

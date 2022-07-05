@@ -1,2566 +1,811 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
-  <meta name="generator" content="distill" />
-
-  <style type="text/css">
-  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
-  body {
-    visibility: hidden;
-  }
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.80">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="dcterms.date" content="2022-07-05">
+<title>quarto_website - Single-species size-spectrum dynamics</title>
+<style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
   </style>
-
- <!--radix_placeholder_import_source-->
- <!--/radix_placeholder_import_source-->
-
-<style type="text/css">code{white-space: pre;}</style>
-<style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  { color: #00769e; background-color: #f1f3f5; }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span { color: #00769e; } /* Normal */
-code span.al { color: #ad0000; } /* Alert */
-code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #657422; } /* Attribute */
-code span.bn { color: #ad0000; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #00769e; } /* ControlFlow */
-code span.ch { color: #20794d; } /* Char */
-code span.cn { color: #8f5902; } /* Constant */
-code span.co { color: #5e5e5e; } /* Comment */
-code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
-code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
-code span.dt { color: #ad0000; } /* DataType */
-code span.dv { color: #ad0000; } /* DecVal */
-code span.er { color: #ad0000; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #ad0000; } /* Float */
-code span.fu { color: #4758ab; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #00769e; } /* Keyword */
-code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #00769e; } /* Other */
-code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #5e5e5e; } /* SpecialChar */
-code span.ss { color: #20794d; } /* SpecialString */
-code span.st { color: #20794d; } /* String */
-code span.va { color: #111111; } /* Variable */
-code span.vs { color: #20794d; } /* VerbatimString */
-code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-</style>
-
-
-  <!--radix_placeholder_meta_tags-->
-  <title>Mizer course: Single-species size-spectrum dynamics</title>
-
-  <meta property="description" itemprop="description" content="Here you will learn ..."/>
-
-  <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
-  <link rel="icon" type="image/png" href="images/favicon-16x16.png"/>
-
-  <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2022-07-02"/>
-  <meta property="article:created" itemprop="dateCreated" content="2022-07-02"/>
-
-  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Mizer course: Single-species size-spectrum dynamics"/>
-  <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Here you will learn ..."/>
-  <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="Mizer course"/>
-
-  <!--  https://dev.twitter.com/cards/types/summary -->
-  <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Mizer course: Single-species size-spectrum dynamics"/>
-  <meta property="twitter:description" content="Here you will learn ..."/>
-  <meta property="twitter:site" content="@mizer_model"/>
-
-  <!--/radix_placeholder_meta_tags-->
-  <!--radix_placeholder_rmarkdown_metadata-->
-
-  <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Single-species size-spectrum dynamics"]},{"type":"character","attributes":{},"value":["Here you will learn ...\n"]},{"type":"character","attributes":{},"value":["2022-07-02"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
-  </script>
-  <!--/radix_placeholder_rmarkdown_metadata-->
-  <!--radix_placeholder_navigation_in_header-->
-  <meta name="distill:offset" content=""/>
-
-  <script type="application/javascript">
-
-    window.headroom_prevent_pin = false;
-
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-
-      // initialize headroom for banner
-      var header = $('header').get(0);
-      var headerHeight = header.offsetHeight;
-      var headroom = new Headroom(header, {
-        tolerance: 5,
-        onPin : function() {
-          if (window.headroom_prevent_pin) {
-            window.headroom_prevent_pin = false;
-            headroom.unpin();
-          }
-        }
-      });
-      headroom.init();
-      if(window.location.hash)
-        headroom.unpin();
-      $(header).addClass('headroom--transition');
-
-      // offset scroll location for banner on hash change
-      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
-      window.addEventListener("hashchange", function(event) {
-        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
-      });
-
-      // responsive menu
-      $('.distill-site-header').each(function(i, val) {
-        var topnav = $(this);
-        var toggle = topnav.find('.nav-toggle');
-        toggle.on('click', function() {
-          topnav.toggleClass('responsive');
-        });
-      });
-
-      // nav dropdowns
-      $('.nav-dropbtn').click(function(e) {
-        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
-        $(this).parent().siblings('.nav-dropdown')
-           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $("body").click(function(e){
-        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $(".nav-dropdown").click(function(e){
-        e.stopPropagation();
-      });
-    });
-  </script>
-
-  <style type="text/css">
-
-  /* Theme (user-documented overrideables for nav appearance) */
-
-  .distill-site-nav {
-    color: rgba(255, 255, 255, 0.8);
-    background-color: #0F2E3D;
-    font-size: 15px;
-    font-weight: 300;
-  }
-
-  .distill-site-nav a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .distill-site-nav a:hover {
-    color: white;
-  }
-
-  @media print {
-    .distill-site-nav {
-      display: none;
+<script src="site_libs/quarto-nav/quarto-nav.js"></script><script src="site_libs/quarto-nav/headroom.min.js"></script><script src="site_libs/clipboard/clipboard.min.js"></script><meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script><script src="site_libs/quarto-search/fuse.min.js"></script><script src="site_libs/quarto-search/quarto-search.js"></script><link href="./images/favicon-16x16.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script><script src="site_libs/quarto-html/popper.min.js"></script><script src="site_libs/quarto-html/tippy.umd.min.js"></script><script src="site_libs/quarto-html/anchor.min.js"></script><link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script><link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "textbox",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
     }
-  }
-
-  .distill-site-header {
-
-  }
-
-  .distill-site-footer {
-
-  }
-
-
-  /* Site Header */
-
-  .distill-site-header {
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 3;
-  }
-
-  .distill-site-header .nav-left {
-    display: inline-block;
-    margin-left: 8px;
-  }
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header .nav-left {
-      margin-left: 0;
-    }
-  }
-
-
-  .distill-site-header .nav-right {
-    float: right;
-    margin-right: 8px;
-  }
-
-  .distill-site-header a,
-  .distill-site-header .title {
-    display: inline-block;
-    text-align: center;
-    padding: 14px 10px 14px 10px;
-  }
-
-  .distill-site-header .title {
-    font-size: 18px;
-    min-width: 150px;
-  }
-
-  .distill-site-header .logo {
-    padding: 0;
-  }
-
-  .distill-site-header .logo img {
-    display: none;
-    max-height: 20px;
-    width: auto;
-    margin-bottom: -4px;
-  }
-
-  .distill-site-header .nav-image img {
-    max-height: 18px;
-    width: auto;
-    display: inline-block;
-    margin-bottom: -3px;
-  }
-
-
-
-  @media screen and (min-width: 1000px) {
-    .distill-site-header .logo img {
-      display: inline-block;
-    }
-    .distill-site-header .nav-left {
-      margin-left: 20px;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 20px;
-    }
-    .distill-site-header .title {
-      padding-left: 12px;
-    }
-  }
-
-
-  .distill-site-header .nav-toggle {
-    display: none;
-  }
-
-  .nav-dropdown {
-    display: inline-block;
-    position: relative;
-  }
-
-  .nav-dropdown .nav-dropbtn {
-    border: none;
-    outline: none;
-    color: rgba(255, 255, 255, 0.8);
-    padding: 16px 10px;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    margin: 0;
-    margin-top: 1px;
-    z-index: 2;
-  }
-
-  .nav-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 200px;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 4px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-    z-index: 1;
-    margin-top: 2px;
-    white-space: nowrap;
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-
-  .nav-dropdown-content hr {
-    margin-top: 4px;
-    margin-bottom: 4px;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .nav-dropdown-active {
-    display: block;
-  }
-
-  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
-    color: black;
-    padding: 6px 24px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-
-  .nav-dropdown-content .nav-dropdown-header {
-    display: block;
-    padding: 5px 24px;
-    padding-bottom: 0;
-    text-transform: uppercase;
-    font-size: 14px;
-    color: #999999;
-    white-space: nowrap;
-  }
-
-  .nav-dropdown:hover .nav-dropbtn {
-    color: white;
-  }
-
-  .nav-dropdown-content a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-
-  .nav-right .nav-dropdown-content {
-    margin-left: -45%;
-    right: 0;
-  }
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
-    .distill-site-header a.nav-toggle {
-      float: right;
-      display: block;
-    }
-    .distill-site-header .title {
-      margin-left: 0;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 0;
-    }
-    .distill-site-header {
-      overflow: hidden;
-    }
-    .nav-right .nav-dropdown-content {
-      margin-left: 0;
-    }
-  }
-
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative; min-height: 500px; }
-    .distill-site-header.responsive a.nav-toggle {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-    .distill-site-header.responsive a,
-    .distill-site-header.responsive .nav-dropdown {
-      display: block;
-      text-align: left;
-    }
-    .distill-site-header.responsive .nav-left,
-    .distill-site-header.responsive .nav-right {
-      width: 100%;
-    }
-    .distill-site-header.responsive .nav-dropdown {float: none;}
-    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
-    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
-      display: block;
-      width: 100%;
-      text-align: left;
-    }
-  }
-
-  /* Site Footer */
-
-  .distill-site-footer {
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-    z-index: 3;
-    margin-top: 30px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    text-align: center;
-  }
-
-  /* Headroom */
-
-  d-title {
-    padding-top: 6rem;
-  }
-
-  @media print {
-    d-title {
-      padding-top: 4rem;
-    }
-  }
-
-  .headroom {
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-
-  .headroom--transition {
-    transition: all .4s ease-in-out;
-  }
-
-  .headroom--unpinned {
-    top: -100px;
-  }
-
-  .headroom--pinned {
-    top: 0;
-  }
-
-  /* adjust viewport for navbar height */
-  /* helps vertically center bootstrap (non-distill) content */
-  .min-vh-100 {
-    min-height: calc(100vh - 100px) !important;
-  }
-
-  </style>
-
-  <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
-  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
-  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
-  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
-
-  <script type="application/javascript">
-
-  function getMeta(metaName) {
-    var metas = document.getElementsByTagName('meta');
-    for (let i = 0; i < metas.length; i++) {
-      if (metas[i].getAttribute('name') === metaName) {
-        return metas[i].getAttribute('content');
-      }
-    }
-    return '';
-  }
-
-  function offsetURL(url) {
-    var offset = getMeta('distill:offset');
-    return offset ? offset + '/' + url : url;
-  }
-
-  function createFuseIndex() {
-
-    // create fuse index
-    var options = {
-      keys: [
-        { name: 'title', weight: 20 },
-        { name: 'categories', weight: 15 },
-        { name: 'description', weight: 10 },
-        { name: 'contents', weight: 5 },
-      ],
-      ignoreLocation: true,
-      threshold: 0
-    };
-    var fuse = new window.Fuse([], options);
-
-    // fetch the main search.json
-    return fetch(offsetURL('search.json'))
-      .then(function(response) {
-        if (response.status == 200) {
-          return response.json().then(function(json) {
-            // index main articles
-            json.articles.forEach(function(article) {
-              fuse.add(article);
-            });
-            // download collections and index their articles
-            return Promise.all(json.collections.map(function(collection) {
-              return fetch(offsetURL(collection)).then(function(response) {
-                if (response.status === 200) {
-                  return response.json().then(function(articles) {
-                    articles.forEach(function(article) {
-                      fuse.add(article);
-                    });
-                  })
-                } else {
-                  return Promise.reject(
-                    new Error('Unexpected status from search index request: ' +
-                              response.status)
-                  );
-                }
-              });
-            })).then(function() {
-              return fuse;
-            });
-          });
-
-        } else {
-          return Promise.reject(
-            new Error('Unexpected status from search index request: ' +
-                        response.status)
-          );
-        }
-      });
-  }
-
-  window.document.addEventListener("DOMContentLoaded", function (event) {
-
-    // get search element (bail if we don't have one)
-    var searchEl = window.document.getElementById('distill-search');
-    if (!searchEl)
-      return;
-
-    createFuseIndex()
-      .then(function(fuse) {
-
-        // make search box visible
-        searchEl.classList.remove('hidden');
-
-        // initialize autocomplete
-        var options = {
-          autoselect: true,
-          hint: false,
-          minLength: 2,
-        };
-        window.autocomplete(searchEl, options, [{
-          source: function(query, callback) {
-            const searchOptions = {
-              isCaseSensitive: false,
-              shouldSort: true,
-              minMatchCharLength: 2,
-              limit: 10,
-            };
-            var results = fuse.search(query, searchOptions);
-            callback(results
-              .map(function(result) { return result.item; })
-            );
-          },
-          templates: {
-            suggestion: function(suggestion) {
-              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
-                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
-                : '';
-              var html = `
-                <div class="search-item">
-                  <h3>${suggestion.title}</h3>
-                  <div class="search-item-description">
-                    ${suggestion.description || ''}
-                  </div>
-                  <div class="search-item-preview">
-                    ${img}
-                  </div>
-                </div>
-              `;
-              return html;
-            }
-          }
-        }]).on('autocomplete:selected', function(event, suggestion) {
-          window.location.href = offsetURL(suggestion.path);
-        });
-        // remove inline display style on autocompleter (we want to
-        // manage responsive display via css)
-        $('.algolia-autocomplete').css("display", "");
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-
-  });
-
-  </script>
-
-  <style type="text/css">
-
-  .nav-search {
-    font-size: x-small;
-  }
-
-  /* Algolioa Autocomplete */
-
-  .algolia-autocomplete {
-    display: inline-block;
-    margin-left: 10px;
-    vertical-align: sub;
-    background-color: white;
-    color: black;
-    padding: 6px;
-    padding-top: 8px;
-    padding-bottom: 0;
-    border-radius: 6px;
-    border: 1px #0F2E3D solid;
-    width: 180px;
-  }
-
-
-  @media screen and (max-width: 768px) {
-    .distill-site-nav .algolia-autocomplete {
-      display: none;
-      visibility: hidden;
-    }
-    .distill-site-nav.responsive .algolia-autocomplete {
-      display: inline-block;
-      visibility: visible;
-    }
-    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
-      margin-left: 0;
-      width: 400px;
-      max-height: 400px;
-    }
-  }
-
-  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
-    width: 90%;
-    outline: none;
-    border: none;
-  }
-
-  .algolia-autocomplete .aa-hint {
-    color: #999;
-  }
-  .algolia-autocomplete .aa-dropdown-menu {
-    width: 550px;
-    max-height: 70vh;
-    overflow-x: visible;
-    overflow-y: scroll;
-    padding: 5px;
-    margin-top: 3px;
-    margin-left: -150px;
-    background-color: #fff;
-    border-radius: 5px;
-    border: 1px solid #999;
-    border-top: none;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
-    cursor: pointer;
-    padding: 5px 4px;
-    border-bottom: 1px solid #eee;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
-    border-bottom: none;
-    margin-bottom: 2px;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
-    overflow: hidden;
-    font-size: 0.8em;
-    line-height: 1.4em;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
-    font-size: 1rem;
-    margin-block-start: 0;
-    margin-block-end: 5px;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
-    display: inline-block;
-    overflow: hidden;
-    height: 2.8em;
-    width: 80%;
-    margin-right: 4%;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
-    display: inline-block;
-    width: 15%;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
-    height: 3em;
-    width: auto;
-    display: none;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
-    display: initial;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
-    background-color: #eee;
-  }
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
-    font-weight: bold;
-    font-style: normal;
-  }
-
-  </style>
-
-
-  <!--/radix_placeholder_navigation_in_header-->
-  <!--radix_placeholder_distill-->
-
-  <style type="text/css">
-
-  body {
-    background-color: white;
-  }
-
-  .pandoc-table {
-    width: 100%;
-  }
-
-  .pandoc-table>caption {
-    margin-bottom: 10px;
-  }
-
-  .pandoc-table th:not([align]) {
-    text-align: left;
-  }
-
-  .pagedtable-footer {
-    font-size: 15px;
-  }
-
-  d-byline .byline {
-    grid-template-columns: 2fr 2fr;
-  }
-
-  d-byline .byline h3 {
-    margin-block-start: 1.5em;
-  }
-
-  d-byline .byline .authors-affiliations h3 {
-    margin-block-start: 0.5em;
-  }
-
-  .authors-affiliations .orcid-id {
-    width: 16px;
-    height:16px;
-    margin-left: 4px;
-    margin-right: 4px;
-    vertical-align: middle;
-    padding-bottom: 2px;
-  }
-
-  d-title .dt-tags {
-    margin-top: 1em;
-    grid-column: text;
-  }
-
-  .dt-tags .dt-tag {
-    text-decoration: none;
-    display: inline-block;
-    color: rgba(0,0,0,0.6);
-    padding: 0em 0.4em;
-    margin-right: 0.5em;
-    margin-bottom: 0.4em;
-    font-size: 70%;
-    border: 1px solid rgba(0,0,0,0.2);
-    border-radius: 3px;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  d-article table.gt_table td,
-  d-article table.gt_table th {
-    border-bottom: none;
-  }
-
-  .html-widget {
-    margin-bottom: 2.0em;
-  }
-
-  .l-screen-inset {
-    padding-right: 16px;
-  }
-
-  .l-screen .caption {
-    margin-left: 10px;
-  }
-
-  .shaded {
-    background: rgb(247, 247, 247);
-    padding-top: 20px;
-    padding-bottom: 20px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .shaded .html-widget {
-    margin-bottom: 0;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .shaded .shaded-content {
-    background: white;
-  }
-
-  .text-output {
-    margin-top: 0;
-    line-height: 1.5em;
-  }
-
-  .hidden {
-    display: none !important;
-  }
-
-  d-article {
-    padding-top: 2.5rem;
-    padding-bottom: 30px;
-  }
-
-  d-appendix {
-    padding-top: 30px;
-  }
-
-  d-article>p>img {
-    width: 100%;
-  }
-
-  d-article h2 {
-    margin: 1rem 0 1.5rem 0;
-  }
-
-  d-article h3 {
-    margin-top: 1.5rem;
-  }
-
-  d-article iframe {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    margin-bottom: 2.0em;
-    width: 100%;
-  }
-
-  /* Tweak code blocks */
-
-  d-article div.sourceCode code,
-  d-article pre code {
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-  }
-
-  d-article pre,
-  d-article div.sourceCode,
-  d-article div.sourceCode pre {
-    overflow: auto;
-  }
-
-  d-article div.sourceCode {
-    background-color: white;
-  }
-
-  d-article div.sourceCode pre {
-    padding-left: 10px;
-    font-size: 12px;
-    border-left: 2px solid rgba(0,0,0,0.1);
-  }
-
-  d-article pre {
-    font-size: 12px;
-    color: black;
-    background: none;
-    margin-top: 0;
-    text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    word-wrap: normal;
-    line-height: 1.5;
-
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
-    tab-size: 4;
-
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
-  }
-
-  d-article pre a {
-    border-bottom: none;
-  }
-
-  d-article pre a:hover {
-    border-bottom: none;
-    text-decoration: underline;
-  }
-
-  d-article details {
-    grid-column: text;
-    margin-bottom: 0.8em;
-  }
-
-  @media(min-width: 768px) {
-
-  d-article pre,
-  d-article div.sourceCode,
-  d-article div.sourceCode pre {
-    overflow: visible !important;
-  }
-
-  d-article div.sourceCode pre {
-    padding-left: 18px;
-    font-size: 14px;
-  }
-
-  d-article pre {
-    font-size: 14px;
-  }
-
-  }
-
-  figure img.external {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-    padding: 18px;
-    box-sizing: border-box;
-  }
-
-  /* CSS for d-contents */
-
-  .d-contents {
-    grid-column: text;
-    color: rgba(0,0,0,0.8);
-    font-size: 0.9em;
-    padding-bottom: 1em;
-    margin-bottom: 1em;
-    padding-bottom: 0.5em;
-    margin-bottom: 1em;
-    padding-left: 0.25em;
-    justify-self: start;
-  }
-
-  @media(min-width: 1000px) {
-    .d-contents.d-contents-float {
-      height: 0;
-      grid-column-start: 1;
-      grid-column-end: 4;
-      justify-self: center;
-      padding-right: 3em;
-      padding-left: 2em;
-    }
-  }
-
-  .d-contents nav h3 {
-    font-size: 18px;
-    margin-top: 0;
-    margin-bottom: 1em;
-  }
-
-  .d-contents li {
-    list-style-type: none
-  }
-
-  .d-contents nav > ul {
-    padding-left: 0;
-  }
-
-  .d-contents ul {
-    padding-left: 1em
-  }
-
-  .d-contents nav ul li {
-    margin-top: 0.6em;
-    margin-bottom: 0.2em;
-  }
-
-  .d-contents nav a {
-    font-size: 13px;
-    border-bottom: none;
-    text-decoration: none
-    color: rgba(0, 0, 0, 0.8);
-  }
-
-  .d-contents nav a:hover {
-    text-decoration: underline solid rgba(0, 0, 0, 0.6)
-  }
-
-  .d-contents nav > ul > li > a {
-    font-weight: 600;
-  }
-
-  .d-contents nav > ul > li > ul {
-    font-weight: inherit;
-  }
-
-  .d-contents nav > ul > li > ul > li {
-    margin-top: 0.2em;
-  }
-
-
-  .d-contents nav ul {
-    margin-top: 0;
-    margin-bottom: 0.25em;
-  }
-
-  .d-article-with-toc h2:nth-child(2) {
-    margin-top: 0;
-  }
-
-
-  /* Figure */
-
-  .figure {
-    position: relative;
-    margin-bottom: 2.5em;
-    margin-top: 1.5em;
-  }
-
-  .figure .caption {
-    color: rgba(0, 0, 0, 0.6);
-    font-size: 12px;
-    line-height: 1.5em;
-  }
-
-  .figure img.external {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-    padding: 18px;
-    box-sizing: border-box;
-  }
-
-  .figure .caption a {
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  .figure .caption b,
-  .figure .caption strong, {
-    font-weight: 600;
-    color: rgba(0, 0, 0, 1.0);
-  }
-
-  /* Citations */
-
-  d-article .citation {
-    color: inherit;
-    cursor: inherit;
-  }
-
-  div.hanging-indent{
-    margin-left: 1em; text-indent: -1em;
-  }
-
-  /* Citation hover box */
-
-  .tippy-box[data-theme~=light-border] {
-    background-color: rgba(250, 250, 250, 0.95);
-  }
-
-  .tippy-content > p {
-    margin-bottom: 0;
-    padding: 2px;
-  }
-
-
-  /* Tweak 1000px media break to show more text */
-
-  @media(min-width: 1000px) {
-    .base-grid,
-    distill-header,
-    d-title,
-    d-abstract,
-    d-article,
-    d-appendix,
-    distill-appendix,
-    d-byline,
-    d-footnote-list,
-    d-citation-list,
-    distill-footer {
-      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
-      grid-column-gap: 16px;
-    }
-
-    .grid {
-      grid-column-gap: 16px;
-    }
-
-    d-article {
-      font-size: 1.06rem;
-      line-height: 1.7em;
-    }
-    figure .caption, .figure .caption, figure figcaption {
-      font-size: 13px;
-    }
-  }
-
-  @media(min-width: 1180px) {
-    .base-grid,
-    distill-header,
-    d-title,
-    d-abstract,
-    d-article,
-    d-appendix,
-    distill-appendix,
-    d-byline,
-    d-footnote-list,
-    d-citation-list,
-    distill-footer {
-      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
-      grid-column-gap: 32px;
-    }
-
-    .grid {
-      grid-column-gap: 32px;
-    }
-  }
-
-
-  /* Get the citation styles for the appendix (not auto-injected on render since
-     we do our own rendering of the citation appendix) */
-
-  d-appendix .citation-appendix,
-  .d-appendix .citation-appendix {
-    font-size: 11px;
-    line-height: 15px;
-    border-left: 1px solid rgba(0, 0, 0, 0.1);
-    padding-left: 18px;
-    border: 1px solid rgba(0,0,0,0.1);
-    background: rgba(0, 0, 0, 0.02);
-    padding: 10px 18px;
-    border-radius: 3px;
-    color: rgba(150, 150, 150, 1);
-    overflow: hidden;
-    margin-top: -12px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-
-  /* Include appendix styles here so they can be overridden */
-
-  d-appendix {
-    contain: layout style;
-    font-size: 0.8em;
-    line-height: 1.7em;
-    margin-top: 60px;
-    margin-bottom: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    color: rgba(0,0,0,0.5);
-    padding-top: 60px;
-    padding-bottom: 48px;
-  }
-
-  d-appendix h3 {
-    grid-column: page-start / text-start;
-    font-size: 15px;
-    font-weight: 500;
-    margin-top: 1em;
-    margin-bottom: 0;
-    color: rgba(0,0,0,0.65);
-  }
-
-  d-appendix h3 + * {
-    margin-top: 1em;
-  }
-
-  d-appendix ol {
-    padding: 0 0 0 15px;
-  }
-
-  @media (min-width: 768px) {
-    d-appendix ol {
-      padding: 0 0 0 30px;
-      margin-left: -30px;
-    }
-  }
-
-  d-appendix li {
-    margin-bottom: 1em;
-  }
-
-  d-appendix a {
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  d-appendix > * {
-    grid-column: text;
-  }
-
-  d-appendix > d-footnote-list,
-  d-appendix > d-citation-list,
-  d-appendix > distill-appendix {
-    grid-column: screen;
-  }
-
-  /* Include footnote styles here so they can be overridden */
-
-  d-footnote-list {
-    contain: layout style;
-  }
-
-  d-footnote-list > * {
-    grid-column: text;
-  }
-
-  d-footnote-list a.footnote-backlink {
-    color: rgba(0,0,0,0.3);
-    padding-left: 0.5em;
-  }
-
-
-
-  /* Anchor.js */
-
-  .anchorjs-link {
-    /*transition: all .25s linear; */
-    text-decoration: none;
-    border-bottom: none;
-  }
-  *:hover > .anchorjs-link {
-    margin-left: -1.125em !important;
-    text-decoration: none;
-    border-bottom: none;
-  }
-
-  /* Social footer */
-
-  .social_footer {
-    margin-top: 30px;
-    margin-bottom: 0;
-    color: rgba(0,0,0,0.67);
-  }
-
-  .disqus-comments {
-    margin-right: 30px;
-  }
-
-  .disqus-comment-count {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-    cursor: pointer;
-  }
-
-  #disqus_thread {
-    margin-top: 30px;
-  }
-
-  .article-sharing a {
-    border-bottom: none;
-    margin-right: 8px;
-  }
-
-  .article-sharing a:hover {
-    border-bottom: none;
-  }
-
-  .sidebar-section.subscribe {
-    font-size: 12px;
-    line-height: 1.6em;
-  }
-
-  .subscribe p {
-    margin-bottom: 0.5em;
-  }
-
-
-  .article-footer .subscribe {
-    font-size: 15px;
-    margin-top: 45px;
-  }
-
-
-  .sidebar-section.custom {
-    font-size: 12px;
-    line-height: 1.6em;
-  }
-
-  .custom p {
-    margin-bottom: 0.5em;
-  }
-
-  /* Styles for listing layout (hide title) */
-  .layout-listing d-title, .layout-listing .d-title {
-    display: none;
-  }
-
-  /* Styles for posts lists (not auto-injected) */
-
-
-  .posts-with-sidebar {
-    padding-left: 45px;
-    padding-right: 45px;
-  }
-
-  .posts-list .description h2,
-  .posts-list .description p {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-  }
-
-  .posts-list .description h2 {
-    font-weight: 700;
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .posts-list h2.post-tag {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    padding-bottom: 12px;
-  }
-  .posts-list {
-    margin-top: 60px;
-    margin-bottom: 24px;
-  }
-
-  .posts-list .post-preview {
-    text-decoration: none;
-    overflow: hidden;
-    display: block;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 24px 0;
-  }
-
-  .post-preview-last {
-    border-bottom: none !important;
-  }
-
-  .posts-list .posts-list-caption {
-    grid-column: screen;
-    font-weight: 400;
-  }
-
-  .posts-list .post-preview h2 {
-    margin: 0 0 6px 0;
-    line-height: 1.2em;
-    font-style: normal;
-    font-size: 24px;
-  }
-
-  .posts-list .post-preview p {
-    margin: 0 0 12px 0;
-    line-height: 1.4em;
-    font-size: 16px;
-  }
-
-  .posts-list .post-preview .thumbnail {
-    box-sizing: border-box;
-    margin-bottom: 24px;
-    position: relative;
-    max-width: 500px;
-  }
-  .posts-list .post-preview img {
-    width: 100%;
-    display: block;
-  }
-
-  .posts-list .metadata {
-    font-size: 12px;
-    line-height: 1.4em;
-    margin-bottom: 18px;
-  }
-
-  .posts-list .metadata > * {
-    display: inline-block;
-  }
-
-  .posts-list .metadata .publishedDate {
-    margin-right: 2em;
-  }
-
-  .posts-list .metadata .dt-authors {
-    display: block;
-    margin-top: 0.3em;
-    margin-right: 2em;
-  }
-
-  .posts-list .dt-tags {
-    display: block;
-    line-height: 1em;
-  }
-
-  .posts-list .dt-tags .dt-tag {
-    display: inline-block;
-    color: rgba(0,0,0,0.6);
-    padding: 0.3em 0.4em;
-    margin-right: 0.2em;
-    margin-bottom: 0.4em;
-    font-size: 60%;
-    border: 1px solid rgba(0,0,0,0.2);
-    border-radius: 3px;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  .posts-list img {
-    opacity: 1;
-  }
-
-  .posts-list img[data-src] {
-    opacity: 0;
-  }
-
-  .posts-more {
-    clear: both;
-  }
-
-
-  .posts-sidebar {
-    font-size: 16px;
-  }
-
-  .posts-sidebar h3 {
-    font-size: 16px;
-    margin-top: 0;
-    margin-bottom: 0.5em;
-    font-weight: 400;
-    text-transform: uppercase;
-  }
-
-  .sidebar-section {
-    margin-bottom: 30px;
-  }
-
-  .categories ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .categories li {
-    color: rgba(0, 0, 0, 0.8);
-    margin-bottom: 0;
-  }
-
-  .categories li>a {
-    border-bottom: none;
-  }
-
-  .categories li>a:hover {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-  }
-
-  .categories .active {
-    font-weight: 600;
-  }
-
-  .categories .category-count {
-    color: rgba(0, 0, 0, 0.4);
-  }
-
-
-  @media(min-width: 768px) {
-    .posts-list .post-preview h2 {
-      font-size: 26px;
-    }
-    .posts-list .post-preview .thumbnail {
-      float: right;
-      width: 30%;
-      margin-bottom: 0;
-    }
-    .posts-list .post-preview .description {
-      float: left;
-      width: 45%;
-    }
-    .posts-list .post-preview .metadata {
-      float: left;
-      width: 20%;
-      margin-top: 8px;
-    }
-    .posts-list .post-preview p {
-      margin: 0 0 12px 0;
-      line-height: 1.5em;
-      font-size: 16px;
-    }
-    .posts-with-sidebar .posts-list {
-      float: left;
-      width: 75%;
-    }
-    .posts-with-sidebar .posts-sidebar {
-      float: right;
-      width: 20%;
-      margin-top: 60px;
-      padding-top: 24px;
-      padding-bottom: 24px;
-    }
-  }
-
-
-  /* Improve display for browsers without grid (IE/Edge <= 15) */
-
-  .downlevel {
-    line-height: 1.6em;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-    margin: 0;
-  }
-
-  .downlevel .d-title {
-    padding-top: 6rem;
-    padding-bottom: 1.5rem;
-  }
-
-  .downlevel .d-title h1 {
-    font-size: 50px;
-    font-weight: 700;
-    line-height: 1.1em;
-    margin: 0 0 0.5rem;
-  }
-
-  .downlevel .d-title p {
-    font-weight: 300;
-    font-size: 1.2rem;
-    line-height: 1.55em;
-    margin-top: 0;
-  }
-
-  .downlevel .d-byline {
-    padding-top: 0.8em;
-    padding-bottom: 0.8em;
-    font-size: 0.8rem;
-    line-height: 1.8em;
-  }
-
-  .downlevel .section-separator {
-    border: none;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .downlevel .d-article {
-    font-size: 1.06rem;
-    line-height: 1.7em;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-  }
-
-
-  .downlevel .d-appendix {
-    padding-left: 0;
-    padding-right: 0;
-    max-width: none;
-    font-size: 0.8em;
-    line-height: 1.7em;
-    margin-bottom: 0;
-    color: rgba(0,0,0,0.5);
-    padding-top: 40px;
-    padding-bottom: 48px;
-  }
-
-  .downlevel .footnotes ol {
-    padding-left: 13px;
-  }
-
-  .downlevel .base-grid,
-  .downlevel .distill-header,
-  .downlevel .d-title,
-  .downlevel .d-abstract,
-  .downlevel .d-article,
-  .downlevel .d-appendix,
-  .downlevel .distill-appendix,
-  .downlevel .d-byline,
-  .downlevel .d-footnote-list,
-  .downlevel .d-citation-list,
-  .downlevel .distill-footer,
-  .downlevel .appendix-bottom,
-  .downlevel .posts-container {
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-
-  @media(min-width: 768px) {
-    .downlevel .base-grid,
-    .downlevel .distill-header,
-    .downlevel .d-title,
-    .downlevel .d-abstract,
-    .downlevel .d-article,
-    .downlevel .d-appendix,
-    .downlevel .distill-appendix,
-    .downlevel .d-byline,
-    .downlevel .d-footnote-list,
-    .downlevel .d-citation-list,
-    .downlevel .distill-footer,
-    .downlevel .appendix-bottom,
-    .downlevel .posts-container {
-    padding-left: 150px;
-    padding-right: 150px;
-    max-width: 900px;
-  }
-  }
-
-  .downlevel pre code {
-    display: block;
-    border-left: 2px solid rgba(0, 0, 0, .1);
-    padding: 0 0 0 20px;
-    font-size: 14px;
-  }
-
-  .downlevel code, .downlevel pre {
-    color: black;
-    background: none;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-    text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    word-wrap: normal;
-    line-height: 1.5;
-
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
-    tab-size: 4;
-
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
-  }
-
-  .downlevel .posts-list .post-preview {
-    color: inherit;
-  }
-
-
-
-  </style>
-
-  <script type="application/javascript">
-
-  function is_downlevel_browser() {
-    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
-                                   window.navigator.userAgent)) {
-      return true;
-    } else {
-      return window.load_distill_framework === undefined;
-    }
-  }
-
-  // show body when load is complete
-  function on_load_complete() {
-
-    // add anchors
-    if (window.anchors) {
-      window.anchors.options.placement = 'left';
-      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
-    }
-
-
-    // set body to visible
-    document.body.style.visibility = 'visible';
-
-    // force redraw for leaflet widgets
-    if (window.HTMLWidgets) {
-      var maps = window.HTMLWidgets.findAll(".leaflet");
-      $.each(maps, function(i, el) {
-        var map = this.getMap();
-        map.invalidateSize();
-        map.eachLayer(function(layer) {
-          if (layer instanceof L.TileLayer)
-            layer.redraw();
-        });
-      });
-    }
-
-    // trigger 'shown' so htmlwidgets resize
-    $('d-article').trigger('shown');
-  }
-
-  function init_distill() {
-
-    init_common();
-
-    // create front matter
-    var front_matter = $('<d-front-matter></d-front-matter>');
-    $('#distill-front-matter').wrap(front_matter);
-
-    // create d-title
-    $('.d-title').changeElementType('d-title');
-
-    // create d-byline
-    var byline = $('<d-byline></d-byline>');
-    $('.d-byline').replaceWith(byline);
-
-    // create d-article
-    var article = $('<d-article></d-article>');
-    $('.d-article').wrap(article).children().unwrap();
-
-    // move posts container into article
-    $('.posts-container').appendTo($('d-article'));
-
-    // create d-appendix
-    $('.d-appendix').changeElementType('d-appendix');
-
-    // flag indicating that we have appendix items
-    var appendix = $('.appendix-bottom').children('h3').length > 0;
-
-    // replace footnotes with <d-footnote>
-    $('.footnote-ref').each(function(i, val) {
-      appendix = true;
-      var href = $(this).attr('href');
-      var id = href.replace('#', '');
-      var fn = $('#' + id);
-      var fn_p = $('#' + id + '>p');
-      fn_p.find('.footnote-back').remove();
-      var text = fn_p.html();
-      var dtfn = $('<d-footnote></d-footnote>');
-      dtfn.html(text);
-      $(this).replaceWith(dtfn);
-    });
-    // remove footnotes
-    $('.footnotes').remove();
-
-    // move refs into #references-listing
-    $('#references-listing').replaceWith($('#refs'));
-
-    $('h1.appendix, h2.appendix').each(function(i, val) {
-      $(this).changeElementType('h3');
-    });
-    $('h3.appendix').each(function(i, val) {
-      var id = $(this).attr('id');
-      $('.d-contents a[href="#' + id + '"]').parent().remove();
-      appendix = true;
-      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
-    });
-
-    // show d-appendix if we have appendix content
-    $("d-appendix").css('display', appendix ? 'grid' : 'none');
-
-    // localize layout chunks to just output
-    $('.layout-chunk').each(function(i, val) {
-
-      // capture layout
-      var layout = $(this).attr('data-layout');
-
-      // apply layout to markdown level block elements
-      var elements = $(this).children().not('details, div.sourceCode, pre, script');
-      elements.each(function(i, el) {
-        var layout_div = $('<div class="' + layout + '"></div>');
-        if (layout_div.hasClass('shaded')) {
-          var shaded_content = $('<div class="shaded-content"></div>');
-          $(this).wrap(shaded_content);
-          $(this).parent().wrap(layout_div);
-        } else {
-          $(this).wrap(layout_div);
-        }
-      });
-
-
-      // unwrap the layout-chunk div
-      $(this).children().unwrap();
-    });
-
-    // remove code block used to force  highlighting css
-    $('.distill-force-highlighting-css').parent().remove();
-
-    // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
-
-    // load distill framework
-    load_distill_framework();
-
-    // wait for window.distillRunlevel == 4 to do post processing
-    function distill_post_process() {
-
-      if (!window.distillRunlevel || window.distillRunlevel < 4)
-        return;
-
-      // hide author/affiliations entirely if we have no authors
-      var front_matter = JSON.parse($("#distill-front-matter").html());
-      var have_authors = front_matter.authors && front_matter.authors.length > 0;
-      if (!have_authors)
-        $('d-byline').addClass('hidden');
-
-      // article with toc class
-      $('.d-contents').parent().addClass('d-article-with-toc');
-
-      // strip links that point to #
-      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
-
-      // add orcid ids
-      $('.authors-affiliations').find('.author').each(function(i, el) {
-        var orcid_id = front_matter.authors[i].orcidID;
-        if (orcid_id) {
-          var a = $('<a></a>');
-          a.attr('href', 'https://orcid.org/' + orcid_id);
-          var img = $('<img></img>');
-          img.addClass('orcid-id');
-          img.attr('alt', 'ORCID ID');
-          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
-          a.append(img);
-          $(this).append(a);
-        }
-      });
-
-      // hide elements of author/affiliations grid that have no value
-      function hide_byline_column(caption) {
-        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
-      }
-
-      // affiliations
-      var have_affiliations = false;
-      for (var i = 0; i<front_matter.authors.length; ++i) {
-        var author = front_matter.authors[i];
-        if (author.affiliation !== "&nbsp;") {
-          have_affiliations = true;
-          break;
-        }
-      }
-      if (!have_affiliations)
-        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
-
-      // published date
-      if (!front_matter.publishedDate)
-        hide_byline_column("Published");
-
-      // document object identifier
-      var doi = $('d-byline').find('h3:contains("DOI")');
-      var doi_p = doi.next().empty();
-      if (!front_matter.doi) {
-        // if we have a citation and valid citationText then link to that
-        if ($('#citation').length > 0 && front_matter.citationText) {
-          doi.html('Citation');
-          $('<a href="#citation"></a>')
-            .text(front_matter.citationText)
-            .appendTo(doi_p);
-        } else {
-          hide_byline_column("DOI");
-        }
-      } else {
-        $('<a></a>')
-           .attr('href', "https://doi.org/" + front_matter.doi)
-           .html(front_matter.doi)
-           .appendTo(doi_p);
-      }
-
-       // change plural form of authors/affiliations
-      if (front_matter.authors.length === 1) {
-        var grid = $('.authors-affiliations');
-        grid.children('h3:contains("Authors")').text('Author');
-        grid.children('h3:contains("Affiliations")').text('Affiliation');
-      }
-
-      // remove d-appendix and d-footnote-list local styles
-      $('d-appendix > style:first-child').remove();
-      $('d-footnote-list > style:first-child').remove();
-
-      // move appendix-bottom entries to the bottom
-      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
-      $('.appendix-bottom').remove();
-
-      // hoverable references
-      $('span.citation[data-cites]').each(function() {
-        if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
-          var fn = $(this).children()[0]
-          $(this).html(fn.shadowRoot.querySelector("sup"))
-          $(this).id = fn.id
-          fn.remove()
-        }
-        var refs = $(this).attr('data-cites').split(" ");
-        var refHtml = refs.map(function(ref) {
-          return "<p>" + $('#ref-' + ref).html() + "</p>";
-        }).join("\n");
-        window.tippy(this, {
-          allowHTML: true,
-          content: refHtml,
-          maxWidth: 500,
-          interactive: true,
-          interactiveBorder: 10,
-          theme: 'light-border',
-          placement: 'bottom-start'
-        });
-      });
-
-      // fix footnotes in tables (#411)
-      // replacing broken distill.pub feature
-      $('table d-footnote').each(function() {
-        // we replace internal showAtNode methode which is triggered when hovering a footnote
-        this.hoverBox.showAtNode = function(node) {
-          // ported from https://github.com/distillpub/template/pull/105/files
-          calcOffset = function(elem) {
-              let x = elem.offsetLeft;
-              let y = elem.offsetTop;
-              // Traverse upwards until an `absolute` element is found or `elem`
-              // becomes null.
-              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
-                  x += elem.offsetLeft;
-                  y += elem.offsetTop;
-              }
-
-              return { left: x, top: y };
-          }
-          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
-          const bbox = node.getBoundingClientRect();
-          const offset = calcOffset(node);
-          this.show([offset.left + bbox.width, offset.top + bbox.height]);
-        }
-      })
-
-      // clear polling timer
-      clearInterval(tid);
-
-      // show body now that everything is ready
-      on_load_complete();
-    }
-
-    var tid = setInterval(distill_post_process, 50);
-    distill_post_process();
-
-  }
-
-  function init_downlevel() {
-
-    init_common();
-
-     // insert hr after d-title
-    $('.d-title').after($('<hr class="section-separator"/>'));
-
-    // check if we have authors
-    var front_matter = JSON.parse($("#distill-front-matter").html());
-    var have_authors = front_matter.authors && front_matter.authors.length > 0;
-
-    // manage byline/border
-    if (!have_authors)
-      $('.d-byline').remove();
-    $('.d-byline').after($('<hr class="section-separator"/>'));
-    $('.d-byline a').remove();
-
-    // remove toc
-    $('.d-contents').remove();
-
-    // move appendix elements
-    $('h1.appendix, h2.appendix').each(function(i, val) {
-      $(this).changeElementType('h3');
-    });
-    $('h3.appendix').each(function(i, val) {
-      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
-    });
-
-
-    // inject headers into references and footnotes
-    var refs_header = $('<h3></h3>');
-    refs_header.text('References');
-    $('#refs').prepend(refs_header);
-
-    var footnotes_header = $('<h3></h3');
-    footnotes_header.text('Footnotes');
-    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
-
-    // move appendix-bottom entries to the bottom
-    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
-    $('.appendix-bottom').remove();
-
-    // remove appendix if it's empty
-    if ($('.d-appendix').children().length === 0)
-      $('.d-appendix').remove();
-
-    // prepend separator above appendix
-    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
-
-    // trim code
-    $('pre>code').each(function(i, val) {
-      $(this).html($.trim($(this).html()));
-    });
-
-    // move posts-container right before article
-    $('.posts-container').insertBefore($('.d-article'));
-
-    $('body').addClass('downlevel');
-
-    on_load_complete();
-  }
-
-
-  function init_common() {
-
-    // jquery plugin to change element types
-    (function($) {
-      $.fn.changeElementType = function(newType) {
-        var attrs = {};
-
-        $.each(this[0].attributes, function(idx, attr) {
-          attrs[attr.nodeName] = attr.nodeValue;
-        });
-
-        this.replaceWith(function() {
-          return $("<" + newType + "/>", attrs).append($(this).contents());
-        });
-      };
-    })(jQuery);
-
-    // prevent underline for linked images
-    $('a > img').parent().css({'border-bottom' : 'none'});
-
-    // mark non-body figures created by knitr chunks as 100% width
-    $('.layout-chunk').each(function(i, val) {
-      var figures = $(this).find('img, .html-widget');
-      // ignore leaflet img layers (#106)
-      figures = figures.filter(':not(img[class*="leaflet"])')
-      if ($(this).attr('data-layout') !== "l-body") {
-        figures.css('width', '100%');
-      } else {
-        figures.css('max-width', '100%');
-        figures.filter("[width]").each(function(i, val) {
-          var fig = $(this);
-          fig.css('width', fig.attr('width') + 'px');
-        });
-
-      }
-    });
-
-    // auto-append index.html to post-preview links in file: protocol
-    // and in rstudio ide preview
-    $('.post-preview').each(function(i, val) {
-      if (window.location.protocol === "file:")
-        $(this).attr('href', $(this).attr('href') + "index.html");
-    });
-
-    // get rid of index.html references in header
-    if (window.location.protocol !== "file:") {
-      $('.distill-site-header a[href]').each(function(i,val) {
-        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
-      });
-    }
-
-    // add class to pandoc style tables
-    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
-    $('.kable-table').children('table').addClass('pandoc-table');
-
-    // add figcaption style to table captions
-    $('caption').parent('table').addClass("figcaption");
-
-    // initialize posts list
-    if (window.init_posts_list)
-      window.init_posts_list();
-
-    // implmement disqus comment link
-    $('.disqus-comment-count').click(function() {
-      window.headroom_prevent_pin = true;
-      $('#disqus_thread').toggleClass('hidden');
-      if (!$('#disqus_thread').hasClass('hidden')) {
-        var offset = $(this).offset();
-        $(window).resize();
-        $('html, body').animate({
-          scrollTop: offset.top - 35
-        });
-      }
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    if (is_downlevel_browser())
-      init_downlevel();
-    else
-      window.addEventListener('WebComponentsReady', init_distill);
-  });
-
-  </script>
-
-  <style type="text/css">
-  /* base variables */
-
-  /* Edit the CSS properties in this file to create a custom
-     Distill theme. Only edit values in the right column
-     for each row; values shown are the CSS defaults.
-     To return any property to the default,
-     you may set its value to: unset
-     All rows must end with a semi-colon.                      */
-
-  /* Optional: embed custom fonts here with `@import`          */
-  /* This must remain at the top of this file.                 */
-
-
-
-  html {
-    /*-- Main font sizes --*/
-    --title-size:      50px;
-    --body-size:       1.06rem;
-    --code-size:       14px;
-    --aside-size:      12px;
-    --fig-cap-size:    13px;
-    /*-- Main font colors --*/
-    --title-color:     #000000;
-    --header-color:    rgba(0, 0, 0, 0.8);
-    --body-color:      rgba(0, 0, 0, 0.8);
-    --aside-color:     rgba(0, 0, 0, 0.6);
-    --fig-cap-color:   rgba(0, 0, 0, 0.6);
-    /*-- Specify custom fonts ~~~ must be imported above   --*/
-    --heading-font:    sans-serif;
-    --mono-font:       monospace;
-    --body-font:       sans-serif;
-    --navbar-font:     sans-serif;  /* websites + blogs only */
-  }
-
-  /*-- ARTICLE METADATA --*/
-  d-byline {
-    --heading-size:    0.6rem;
-    --heading-color:   rgba(0, 0, 0, 0.5);
-    --body-size:       0.8rem;
-    --body-color:      rgba(0, 0, 0, 0.8);
-  }
-
-  /*-- ARTICLE TABLE OF CONTENTS --*/
-  .d-contents {
-    --heading-size:    18px;
-    --contents-size:   13px;
-  }
-
-  /*-- ARTICLE APPENDIX --*/
-  d-appendix {
-    --heading-size:    15px;
-    --heading-color:   rgba(0, 0, 0, 0.65);
-    --text-size:       0.8em;
-    --text-color:      rgba(0, 0, 0, 0.5);
-  }
-
-  /*-- WEBSITE HEADER + FOOTER --*/
-  /* These properties only apply to Distill sites and blogs  */
-
-  .distill-site-header {
-    --title-size:       18px;
-    --text-color:       rgba(255, 255, 255, 0.8);
-    --text-size:        15px;
-    --hover-color:      white;
-    --bkgd-color:       #0F2E3D;
-  }
-
-  .distill-site-footer {
-    --text-color:       rgba(255, 255, 255, 0.8);
-    --text-size:        15px;
-    --hover-color:      white;
-    --bkgd-color:       #0F2E3D;
-  }
-
-  /*-- Additional custom styles --*/
-  /* Add any additional CSS rules below                      */
-  </style>
-  <style type="text/css">
-  /* base variables */
-
-  /* Edit the CSS properties in this file to create a custom
-     Distill theme. Only edit values in the right column
-     for each row; values shown are the CSS defaults.
-     To return any property to the default,
-     you may set its value to: unset
-     All rows must end with a semi-colon.                      */
-
-  /* Optional: embed custom fonts here with `@import`          */
-  /* This must remain at the top of this file.                 */
-
-
-
-  html {
-    /*-- Main font sizes --*/
-    --title-size:      50px;
-    --body-size:       1.06rem;
-    --code-size:       14px;
-    --aside-size:      12px;
-    --fig-cap-size:    13px;
-    /*-- Main font colors --*/
-    --title-color:     #317eac;
-    --header-color:    #317eac;
-    --body-color:      #555555;
-    --aside-color:     rgba(0, 0, 0, 0.6);
-    --fig-cap-color:   rgba(0, 0, 0, 0.6);
-    /*-- Specify custom fonts ~~~ must be imported above   --*/
-    --heading-font:    "Helvetica Neue",Helvetica,Arial,sans-serif;
-    --mono-font:       monospace;
-    --body-font:       "Helvetica Neue",Helvetica,Arial,sans-serif;
-    --navbar-font:     "Helvetica Neue",Helvetica,Arial,sans-serif;  /* websites + blogs only */
-  }
-
-  /*-- ARTICLE METADATA --*/
-  d-byline {
-    --heading-size:    0.6rem;
-    --heading-color:   rgba(0, 0, 0, 0.5);
-    --body-size:       0.8rem;
-    --body-color:      rgba(0, 0, 0, 0.8);
-    padding: 0 0;
-  }
-
-  d-title {
-    padding-bottom: 0.2rem;
-    background-color:  #ffffff;
-    color: #555555;
-  }
-
-  d-byline .byline h3 {
-      margin-block-start: 0;
-  }
-
-  /*-- ARTICLE TABLE OF CONTENTS --*/
-  .d-contents {
-    --heading-size:    18px;
-    --contents-size:   13px;
-  }
-
-  /*-- ARTICLE APPENDIX --*/
-  d-appendix {
-    --heading-size:    15px;
-    --heading-color:   rgba(0, 0, 0, 0.65);
-    --text-size:       0.8em;
-    --text-color:      rgba(0, 0, 0, 0.5);
-  }
-
-  /*-- WEBSITE HEADER + FOOTER --*/
-  /* These properties only apply to Distill sites and blogs  */
-
-  .distill-site-header {
-    --title-size:       18px;
-    --text-color:       #ffffff;
-    --text-size:        18px;
-    --hover-color:      white;
-    --bkgd-color:       #30bbed;
-  }
-
-  .distill-site-footer {
-    --text-color:       rgba(255, 255, 255, 0.8);
-    --text-size:        15px;
-    --hover-color:      white;
-    --bkgd-color:       #30bbed;
-  }
-
-  /*-- Additional custom styles --*/
-  /* Add any additional CSS rules below                      */
-  a .metadata {
-    color: #555555;
-  }
-  a .description {
-    color: #555555;
-  }
-  d-article a:hover, a:focus {
-    color: #157ab5;
-    text-decoration: underline;
-    border-bottom: none;
-  }
-
-  d-article a {
-    color: #2fa4e7;
-    text-decoration: none;
-    border-bottom: none;
-  }
-
-
-  d-article pre a  {
-    color: inherit;
-  }
-
-  .distill-site-nav a:hover {
-      color: white;
-      background-color: #178acc;
-  }
-
-  code {
-      padding: 2px 4px;
-      font-size: 90%;
-      color: #c7254e;
-      background-color: #f9f2f4;
-      border-radius: 4px;
-  }
-
-  h1.posts-list-caption {
-    content: url("images/mizer.png");
-    width: 66%;
-  }</style>
-  <style type="text/css">
-  /* base style */
-
-  /* FONT FAMILIES */
-
-  :root {
-    --heading-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-    --mono-default: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-    --body-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-  }
-
-  body,
-  .posts-list .post-preview p,
-  .posts-list .description p {
-    font-family: var(--body-font), var(--body-default);
-  }
-
-  h1, h2, h3, h4, h5, h6,
-  .posts-list .post-preview h2,
-  .posts-list .description h2 {
-    font-family: var(--heading-font), var(--heading-default);
-  }
-
-  d-article div.sourceCode code,
-  d-article pre code {
-    font-family: var(--mono-font), var(--mono-default);
-  }
-
-
-  /*-- TITLE --*/
-  d-title h1,
-  .posts-list > h1 {
-    color: var(--title-color, black);
-  }
-
-  d-title h1 {
-    font-size: var(--title-size, 50px);
-  }
-
-  /*-- HEADERS --*/
-  d-article h1,
-  d-article h2,
-  d-article h3,
-  d-article h4,
-  d-article h5,
-  d-article h6 {
-    color: var(--header-color, rgba(0, 0, 0, 0.8));
-  }
-
-  /*-- BODY --*/
-  d-article > p,  /* only text inside of <p> tags */
-  d-article > ul, /* lists */
-  d-article > ol {
-    color: var(--body-color, rgba(0, 0, 0, 0.8));
-    font-size: var(--body-size, 1.06rem);
-  }
-
-
-  /*-- CODE --*/
-  d-article div.sourceCode code,
-  d-article pre code {
-    font-size: var(--code-size, 14px);
-  }
-
-  /*-- ASIDE --*/
-  d-article aside {
-    font-size: var(--aside-size, 12px);
-    color: var(--aside-color, rgba(0, 0, 0, 0.6));
-  }
-
-  /*-- FIGURE CAPTIONS --*/
-  figure .caption,
-  figure figcaption,
-  .figure .caption {
-    font-size: var(--fig-cap-size, 13px);
-    color: var(--fig-cap-color, rgba(0, 0, 0, 0.6));
-  }
-
-  /*-- METADATA --*/
-  d-byline h3 {
-    font-size: var(--heading-size, 0.6rem);
-    color: var(--heading-color, rgba(0, 0, 0, 0.5));
-  }
-
-  d-byline {
-    font-size: var(--body-size, 0.8rem);
-    color: var(--body-color, rgba(0, 0, 0, 0.8));
-  }
-
-  d-byline a,
-  d-article d-byline a {
-    color: var(--body-color, rgba(0, 0, 0, 0.8));
-  }
-
-  /*-- TABLE OF CONTENTS --*/
-  .d-contents nav h3 {
-    font-size: var(--heading-size, 18px);
-  }
-
-  .d-contents nav a {
-    font-size: var(--contents-size, 13px);
-  }
-
-  /*-- APPENDIX --*/
-  d-appendix h3 {
-    font-size: var(--heading-size, 15px);
-    color: var(--heading-color, rgba(0, 0, 0, 0.65));
-  }
-
-  d-appendix {
-    font-size: var(--text-size, 0.8em);
-    color: var(--text-color, rgba(0, 0, 0, 0.5));
-  }
-
-  d-appendix d-footnote-list a.footnote-backlink {
-    color: var(--text-color, rgba(0, 0, 0, 0.5));
-  }
-
-  /*-- WEBSITE HEADER + FOOTER --*/
-  .distill-site-header .title {
-    font-size: var(--title-size, 18px);
-    font-family: var(--navbar-font), var(--heading-default);
-  }
-
-  .distill-site-header a,
-  .nav-dropdown .nav-dropbtn {
-    font-family: var(--navbar-font), var(--heading-default);
-  }
-
-  .nav-dropdown .nav-dropbtn {
-    color: var(--text-color, rgba(255, 255, 255, 0.8));
-    font-size: var(--text-size, 15px);
-  }
-
-  .distill-site-header a:hover,
-  .nav-dropdown:hover .nav-dropbtn {
-    color: var(--hover-color, white);
-  }
-
-  .distill-site-header {
-    font-size: var(--text-size, 15px);
-    color: var(--text-color, rgba(255, 255, 255, 0.8));
-    background-color: var(--bkgd-color, #0F2E3D);
-  }
-
-  .distill-site-footer {
-    font-size: var(--text-size, 15px);
-    color: var(--text-color, rgba(255, 255, 255, 0.8));
-    background-color: var(--bkgd-color, #0F2E3D);
-  }
-
-  .distill-site-footer a:hover {
-    color: var(--hover-color, white);
-  }</style>
-  <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
-  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
-  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
-  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
-  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
-  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
-  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
-  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
-  <!--radix_placeholder_site_in_header-->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-
-      var script = document.createElement("script");
-      script.src = "https://giscus.app/client.js";
-      script.setAttribute("data-repo", "sizespectrum/mizerCourse");
-      script.setAttribute("data-repo-id", "R_kgDOHlJwYg");
-      script.setAttribute("data-category", "Comments");
-      script.setAttribute("data-category-id", "DIC_kwDOHlJwYs4CP-rC");
-      script.setAttribute("data-mapping", "og:title");
-      script.setAttribute("data-reactions-enabled", "0");
-      script.setAttribute("data-emit-metadata", "0");
-      script.setAttribute("data-input-position", "bottom");
-      script.setAttribute("data-theme", "light");
-      script.setAttribute("data-lang", "en");
-
-      /* wait for article to load, append script to article element */
-      var observer = new MutationObserver(function (mutations, observer) {
-        var article = document.querySelector("d-article");
-        if (article) {
-          observer.disconnect();
-          /* HACK: article scroll */
-          article.setAttribute("style", "overflow-y: hidden");
-          article.appendChild(script);
-        }
-      });
-
-      observer.observe(document.body, { childList: true });
-    });
-  </script>
-
-  <!--/radix_placeholder_site_in_header-->
-
-
+  }</script><script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script><script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]--><link rel="stylesheet" href="styles.css">
+<meta name="twitter:title" content="quarto_website - Single-species size-spectrum dynamics">
+<meta name="twitter:creator" content="gustavdelius">
+<meta name="twitter:card" content="summary">
 </head>
-
 <body>
-
-<!--radix_placeholder_front_matter-->
-
-<script id="distill-front-matter" type="text/json">
-{"title":"Single-species size-spectrum dynamics","description":"Here you will learn ...","authors":[],"publishedDate":"2022-07-02T00:00:00.000+01:00"}
-</script>
-
-<!--/radix_placeholder_front_matter-->
-<!--radix_placeholder_navigation_before_body-->
-<header class="header header--fixed" role="banner">
-<nav class="distill-site-nav distill-site-header">
-<div class="nav-left">
-<a href="index.html" class="title">Mizer course</a>
-<div class="nav-dropdown">
-<button class="nav-dropbtn">
-Tutorials
- 
-<span class="down-arrow">&#x25BE;</span>
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">quarto_website</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
 </button>
-<div class="nav-dropdown-content">
-<a href="introduction-to-course.html">Introduction to the mizer course</a>
-<a href="introduction-to-mizer.html">Introduction to the mizer model</a>
-<a href="observational-size-spectra.html">Size spectra from observations</a>
-<a href="single-species-size-spectrum-dynamics.html">Single-species size-spectrum dynamics</a>
-<a href="multi-species-size-spectrum-dynamics.html">Multi-species size-spectrum dynamics</a>
-<a href="running-scenarios.html">Using a model to explore the consequences of change</a>
-<a href="build-model.html">Building a new multi-species model</a>
-<a href="species-parameters.html">Finding species parameters</a>
-<a href="multiple-resources.html">Setting up multiple resources</a>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorials" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tutorials</a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorials">
+<li>
+    <a class="dropdown-item" href="./introduction-to-course.html">
+ <span class="dropdown-text">Introduction to the mizer course</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./introduction-to-mizer.html">
+ <span class="dropdown-text">Introduction to the mizer model</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./observational-size-spectra.html">
+ <span class="dropdown-text">Size spectra from observations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./single-species-size-spectrum-dynamics.html">
+ <span class="dropdown-text">Single-species size-spectrum dynamics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./multi-species-size-spectrum-dynamics.html">
+ <span class="dropdown-text">Multi-species size-spectrum dynamics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./running-scenarios.html">
+ <span class="dropdown-text">Using a model to explore the consequences of change</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./build-model.html">
+ <span class="dropdown-text">Building a new multi-species model</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./species-parameters.html">
+ <span class="dropdown-text">Finding species parameters</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./multiple-resources.html">
+ <span class="dropdown-text">Setting up multiple resources</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="https://sizespectrum.org/mizer/">mizer home</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/mizer_model"><i class="bi bi-fab fa-twitter fa-lg" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sizespectrum/mizerCourse"><i class="bi bi-fab fa-github fa-lg" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+<div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc"><h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+<li><a href="#why-study-size-spectrum-dynamics" class="nav-link" data-scroll-target="#why-study-size-spectrum-dynamics">Why study size-spectrum dynamics?</a></li>
+<li><a href="#a-first-example" class="nav-link" data-scroll-target="#a-first-example">A first example</a></li>
+<li><a href="#steady-state-spectrum" class="nav-link" data-scroll-target="#steady-state-spectrum">Steady state spectrum</a></li>
+<li><a href="#numbers" class="nav-link" data-scroll-target="#numbers">Numbers</a></li>
+<li><a href="#biomass-spectra" class="nav-link" data-scroll-target="#biomass-spectra">Biomass spectra</a></li>
+<li><a href="#allometric-rates" class="nav-link" data-scroll-target="#allometric-rates">Allometric rates</a></li>
+<li><a href="#slope-of-juvenile-spectrum" class="nav-link" data-scroll-target="#slope-of-juvenile-spectrum">Slope of juvenile spectrum</a></li>
+<li>
+<a href="#shape-of-adult-spectrum" class="nav-link" data-scroll-target="#shape-of-adult-spectrum">Shape of adult spectrum</a>
+<ul class="collapse">
+<li><a href="#investment-into-reproduction" class="nav-link" data-scroll-target="#investment-into-reproduction">Investment into reproduction</a></li>
+<li><a href="#effect-of-change-in-maturity-curve" class="nav-link" data-scroll-target="#effect-of-change-in-maturity-curve">Effect of change in maturity curve</a></li>
+<li><a href="#reproductive-efficiency" class="nav-link" data-scroll-target="#reproductive-efficiency">Reproductive efficiency</a></li>
+</ul>
+</li>
+<li>
+<a href="#predation" class="nav-link" data-scroll-target="#predation">Predation</a>
+<ul class="collapse">
+<li><a href="#effect-of-prey-availability" class="nav-link" data-scroll-target="#effect-of-prey-availability">Effect of prey availability</a></li>
+<li><a href="#how-predation-is-modelled" class="nav-link" data-scroll-target="#how-predation-is-modelled">How predation is modelled</a></li>
+<li><a href="#the-predation-kernel" class="nav-link" data-scroll-target="#the-predation-kernel">The predation kernel</a></li>
+<li><a href="#search-volume" class="nav-link" data-scroll-target="#search-volume">Search volume</a></li>
+<li><a href="#feeding-level" class="nav-link" data-scroll-target="#feeding-level">Feeding level</a></li>
+</ul>
+</li>
+<li>
+<a href="#mortality" class="nav-link" data-scroll-target="#mortality">Mortality</a>
+<ul class="collapse">
+<li><a href="#predation-mortality" class="nav-link" data-scroll-target="#predation-mortality">Predation mortality</a></li>
+<li><a href="#external-mortality" class="nav-link" data-scroll-target="#external-mortality">External mortality</a></li>
+<li><a href="#fishing-mortality" class="nav-link" data-scroll-target="#fishing-mortality">Fishing mortality</a></li>
+</ul>
+</li>
+<li><a href="#reproduction" class="nav-link" data-scroll-target="#reproduction">Reproduction</a></li>
+<li><a href="#outlook" class="nav-link" data-scroll-target="#outlook">Outlook</a></li>
+</ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sizespectrum/mizerCourse/edit/main/single-species-size-spectrum-dynamics.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sizespectrum/mizerCourse/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default">
+
+
+<div class="quarto-title"><h1 class="title display-7">Single-species size-spectrum dynamics</h1><p class="subtitle lead">In this tutorial you will gain an understanding of size-spectrum dynamics. To separate the size-spectrum effects from the multi-species effects, we will concentrate on a single species.</p></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">Invalid Date</p></div></div></div></header><section id="introduction" class="level1"><h1>Introduction</h1>
+<p>In this tutorial you will gain an understanding of size-spectrum dynamics. To separate the size-spectrum effects from the multi-species effects, we will concentrate on a single species in this tutorial.</p>
+<p>Size-spectrum dynamics describes in detail how biomass is transported through the ecosystem from small sizes to large sizes. Thus the best way to think about size-spectrum dynamics is to think of traffic on a highway, except that instead of cars travelling along the road we have fish growing along the size axis, all the way from their egg size to their maximum size. Let us explore this analogy briefly.</p>
+<!-- For traffic, you would be interested in modelling the traffic density.
+From the traffic density we can obtain the number of cars in a section of
+road by multiplying the density there by the length of the section. So the
+traffic density has units of cars per meter. For fish populations, we
+will be interested in modelling fish density. The number of fish in a size
+class is obtained by multiplying the density in that size class by the 
+width of the size class. So the fish density has units of fish per gram.  -->
+<p>The flow of traffic on a highway is dependent on the traffic density, which in turn is dependent on changes in the traffic velocity. High traffic density arises in sections of the road where the traffic velocity decreases. Such a decrease can lead to traffic jams. Low traffic density arises in sections where the velocity increases, as familiar when emerging on the other side of a traffic jam. Traffic jams are self-reinforcing phenomena: if there is a decrease in speed somewhere then the density of cars increases which causes a further decrease in speed, leading to an even higher density, and so on.</p>
+<p>Similarly, high fish density arises in size classes where the growth rate decreases. A pronounced decrease in growth rate can lead to pronounced peaks in the fish density, similar to a traffic jam. Of course fish density is also controlled by the death rate, with a high death rate leading to a decreased fish density.</p>
+<p>To be precise, fish density in a size class increases if the rate at which fish grow into the size class is larger than the rate at which they either grow out of the size class or die while they are in the size class. Thus size-spectrum dynamics is the result of the interplay between the death rate and the changes in the growth rate. For the mathematically minded, this interplay is expressed by the partial differential equation <span class="math display">\frac{\partial}{\partial t}N(w,t) =
+-\frac{\partial}{\partial w}\big(N(w,t)g(w,t)\big)
+- \mu(w,t)</span> where <span class="math inline">N(w,t)</span> is the fish density at size <span class="math inline">w</span> and time <span class="math inline">t</span>, <span class="math inline">g(w,t)</span> is the growth rate of an individual of size <span class="math inline">w</span> at time <span class="math inline">t</span> and <span class="math inline">\mu(w,t)</span> is its death rate. There is no need for you to understand the mathematical notation.</p>
+<p>Size-spectrum dynamics is like the traffic on a highway where cars can leave the highway (fish can die) at any point, but they can only join the highway at its beginning (fish start out at the egg size). To model the size spectrum we therefore also have to describe the rate <span class="math inline">R(t)</span> at which eggs are entering the size spectrum, i.e., the rate at which mature fish reproduce.</p>
+<p>Below we will be discussing in detail what determines the death rate <span class="math inline">\mu(w,t)</span>, the growth rate <span class="math inline">g(w,t)</span> and the rate of reproduction <span class="math inline">R(t)</span>.</p>
+</section><section id="why-study-size-spectrum-dynamics" class="level1"><h1>Why study size-spectrum dynamics?</h1>
+<p>The study of traffic dynamics has had real practical benefits. For example, at least on motorways in Europe, when there is a danger of a traffic jam developing, automatic speed restrictions are imposed at a certain distance in front of the developing slow-moving traffic. For motorists who have not thought about traffic flow, these speed restrictions in places where there is no obvious reason for them are very annoying. However they do indeed avoid the formation of the traffic jam.</p>
+<p>Of course we can not directly tell fish to obey limits to their growth rates. However we do have influence on their size-spectrum dynamics through fishing policy. For example if some species experiences stunted growth, like for example the Herring in the Baltic Sea, we could resolve that by reducing their numbers (which increases their growth rate because of reduced competition for food) or by reducing fishing on their prey.</p>
+<p>The size-spectrum dynamics in a multi-species ecosystem is extremely complex. We can understand very simplified cases analytically, but in general we need to use numerical simulation to understand the consequences of various interventions.</p>
+<p>The mizer package can simulate the size-spectrum dynamics. Given the model parameters that enter into the expression of the growth rate, the death rate and the reproductive rate, and an initial fish size spectrum, mizer simulates the changes in the size spectrum over time according to the above equations.</p>
+<p>Of particular interest is the steady state of the size spectrum, where the effects of the death rate and the changes in the growth rate exactly balance in such a way that the size spectrum stays constant over time. We will be looking both at the steady state and at time-varying size spectra below.</p>
+<p>Our emphasis will be on understanding the dynamics. We do not just want to learn how to run simulations but we want to use the simulations to develop an intuition for how fish populations behave. We therefore start with very simple models first.</p>
+</section><section id="a-first-example" class="level1"><h1>A first example</h1>
+<p>The most effective way of working with this tutorial is to open up an R script file in RStudio and copying all the commands from this tutorial into that R script file. You should then execute them by sending them to the R console, thereby reproducing all the results. Later in this tutorial there will be exercises that you can do by adapting the code in your R script file to the tasks in the exercises. That way you will pick up a facility in working with mizer in R at the same time as gaining a deeper understanding of size spectrum modelling.</p>
+<p>First, load some required packages with the following commands:</p>
+<div class="cell">
+
+</div>
+<p>If you get error messages saying that a particular package is not available, you will need to install that package.</p>
+<p>Mizer collects all the parameters describing a size-spectrum model into one object of class <code>MizerParams</code>. You do not need to set up this object by hand but instead there are several wrapper functions in mizer that create the object for you for various types of models, and also many functions for changing specific parameters in a model. We will use the <code>newSingleSpeciesParams()</code> function to set up a model describing a single fish species living in an ecosystem whose community size spectrum is given by a power-law.</p>
+<p>The <code>newSingleSpeciesParams()</code> function has many arguments that allow you to specify parameters for the fish species as well as for the community, but all these arguments have default values, so we can simply call the function without specifying those arguments. We will only specify the power-law exponent of the background community</p>
+<div class="cell">
+
+</div>
+<p>The function returns a <code>MizerParams</code> object and we have assigned that to the variable <code>params</code>. We will be explaining more about this model as we go along.</p>
+</section><section id="steady-state-spectrum" class="level1"><h1>Steady state spectrum</h1>
+<p>The <code>params</code> object also contains an initial size spectrum that is close to the steady state of the model. The steady state is the state where in each size class the inflow of individuals through growth exactly balances the outflow of individuals through growth and death. If we start close to the steady state then usually if we simulate the size-spectrum dynamics for a while the population will evolve closer and closer to the steady state.</p>
+<p>To get to the steady state we use the <code>steady()</code> function. The result of that function is again a MizerParams object but now with an initial size spectrum that has evolved to be very close to the steady state.</p>
+<div class="cell">
+<div class="cell-output-stderr">
+<pre><code>Convergence was achieved in 1.5 years.</code></pre>
 </div>
 </div>
-<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
+<p>We can plot the size spectrum with the <code>plotSpectra()</code> function.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="nav-right">
-<a href="https://sizespectrum.org/mizer/">mizer home</a>
-<a href="https://twitter.com/mizer_model">
-<i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
-</a>
-<a href="https://github.com/sizespectrum/mizerCourse">
-<i class="fab fa-github fa-lg" aria-hidden="true"></i>
-</a>
-<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
-</nav>
-</header>
-<!--/radix_placeholder_navigation_before_body-->
-<!--radix_placeholder_site_before_body-->
-<!--/radix_placeholder_site_before_body-->
+<p>The <code>power = 0</code> argument to the <code>plotSpectra()</code> function specifies that we want to plot the number density, rather than for example the biomass density.</p>
+<p>The green line represents the number density of the background community, labelled as “Resource” in the plot legend, in which our foreground species finds itself. The green line is a straight line with slope <code>lambda = -2.05</code>. It is important to understand that a power-law curve looks like a straight line when plotted on logarithmic axes and the slope of the line is the exponent in the power law. Thus the number density is proportional to <span class="math inline">w^{-2.05}</span>.</p>
+<p>The other line represents the number density of our single species, which by default is just named unimaginatively “Target species”. We see that it is a straight line initially, but then has a bump before declining rapidly at large sizes. We will discuss in a short while what causes that shape.</p>
+<p>The initial slope of the species number density is negative, which means that there are fewer larger fish than smaller fish. That is of course understandable: some fish die while they are growing up, so there tend to be fewer fish in larger size classes.</p>
+<blockquote class="blockquote">
+<h2 id="exercise-1" class="anchored" data-anchor-id="steady-state-spectrum">Exercise 1</h2>
+<p>Now it is time for you to do the first exercise to use the commands you have just learned about.</p>
+</blockquote>
+</section><section id="numbers" class="level1"><h1>Numbers</h1>
+<p>While the <code>plotSpectra()</code> function gives us a plot of the number density, it would be nice if we could get at the actual numbers. The <code>steady()</code> function has stored those numbers as the initial condition in the params object and we can access them with the <code>initialN()</code> function. Let us assign this to a variable <code>n</code>:</p>
+<div class="cell">
 
-<div class="d-title">
-<h1>Single-species size-spectrum dynamics</h1>
-<!--radix_placeholder_categories-->
-<!--/radix_placeholder_categories-->
-<p><p>Here you will learn …</p></p>
 </div>
+<p>As you can see in the “Environment” pane in RStudio, <code>n</code> is a matrix with 1 row and 101 columns. The one row corresponds to the one species. In a multispecies model there would be one row for each species, holding the number density for that species. The 101 columns are for the number densities in each of the 101 size classes. In fact, <code>n</code> is a named array, i.e., each row and each column has names. These we can extract with the <code><a href="https://rdrr.io/r/base/dimnames.html">dimnames()</a></code> function.</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>$sp
+[1] "Target species"
 
-
-<div class="d-article">
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
-<!--radix_placeholder_article_footer-->
-<!--/radix_placeholder_article_footer-->
+$w
+  [1] "0.001"   "0.00112" "0.00126" "0.00141" "0.00158" "0.00178" "0.002"  
+  [8] "0.00224" "0.00251" "0.00282" "0.00316" "0.00355" "0.00398" "0.00447"
+ [15] "0.00501" "0.00562" "0.00631" "0.00708" "0.00794" "0.00891" "0.01"   
+ [22] "0.0112"  "0.0126"  "0.0141"  "0.0158"  "0.0178"  "0.02"    "0.0224" 
+ [29] "0.0251"  "0.0282"  "0.0316"  "0.0355"  "0.0398"  "0.0447"  "0.0501" 
+ [36] "0.0562"  "0.0631"  "0.0708"  "0.0794"  "0.0891"  "0.1"     "0.112"  
+ [43] "0.126"   "0.141"   "0.158"   "0.178"   "0.2"     "0.224"   "0.251"  
+ [50] "0.282"   "0.316"   "0.355"   "0.398"   "0.447"   "0.501"   "0.562"  
+ [57] "0.631"   "0.708"   "0.794"   "0.891"   "1"       "1.12"    "1.26"   
+ [64] "1.41"    "1.58"    "1.78"    "2"       "2.24"    "2.51"    "2.82"   
+ [71] "3.16"    "3.55"    "3.98"    "4.47"    "5.01"    "5.62"    "6.31"   
+ [78] "7.08"    "7.94"    "8.91"    "10"      "11.2"    "12.6"    "14.1"   
+ [85] "15.8"    "17.8"    "20"      "22.4"    "25.1"    "28.2"    "31.6"   
+ [92] "35.5"    "39.8"    "44.7"    "50.1"    "56.2"    "63.1"    "70.8"   
+ [99] "79.4"    "89.1"    "100"    </code></pre>
 </div>
-
-<div class="d-appendix">
 </div>
-
-
-<!--radix_placeholder_site_after_body-->
-<!--/radix_placeholder_site_after_body-->
-<!--radix_placeholder_appendices-->
-<div class="appendix-bottom">
-<h3 id="updates-and-corrections">Corrections</h3>
-<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/sizespectrum/mizerCourse/issues/new">create an issue</a> on the source repository.</p>
-<h3 id="reuse">Reuse</h3>
-<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/sizespectrum/mizerCourse/">https://github.com/sizespectrum/mizerCourse/</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+<p>The names of the columns are the weight in grams at the start of each size class. Notice how R displays long vectors by breaking them across many lines and starting each line with a number in brackets. That number is the index of the first value in that row. So for example we see that the 61st size bracket starts at 1 gram. The number density in the size class between 1 gram and 1.12 grams is</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>[1] 0.0003282314</code></pre>
 </div>
-<!--/radix_placeholder_appendices-->
-<!--radix_placeholder_navigation_after_body-->
-<!--/radix_placeholder_navigation_after_body-->
+</div>
+<p>It is important to realise that this is not the number of fish in the size class, but the number density. To get the number of fish we have to multiply the number by the width of the size class. Those widths can be obtained with the <code>dw()</code> function. So the number of fish in the 61st size class is</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>[1] 4.005029e-05</code></pre>
+</div>
+</div>
+<p>You may be surprised by the small number if you interpret it as the number of fish between 1 gram and 1.12 gram in the entire ocean. However it looks more reasonable if it is the average number per square meter of sea. For more of a discussion of this issue of working with numbers per area, numbers per volume or numbers for the entire system see <a href="https://sizespectrum.org/mizer/reference/setParams.html#units-in-mizer" class="uri">https://sizespectrum.org/mizer/reference/setParams.html#units-in-mizer</a></p>
+<blockquote class="blockquote">
+<h2 id="exercise-2" class="anchored" data-anchor-id="numbers">Exercise 2</h2>
+<p>Determine the total number of fish with sizes between 10 grams and 20 grams. You can use the <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code> function to add together contributions from the various size classes.</p>
+</blockquote>
+</section><section id="biomass-spectra" class="level1"><h1>Biomass spectra</h1>
+<p>Without the <code>power</code> argument (or with <code>power = 1</code> which is the default) the <code>plotSpectra()</code> function plots the biomass density as a function of size.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now the green line representing the biomass density of the background has a slope of -1.05.</p>
+<p>The initial slope of the species biomass density is negative, meaning that the biomass density decreases with size. This means that even though the individual fish of course gain biomass as they grow up, there is so much death among the larvae and juvenile fish that the total biomass of any cohort nevertheless decreases as it grows up. We will explain the reason for this later when we discuss predation mortality.</p>
+<p>We can also plot the Sheldon spectrum, i.e., the biomass density as a function of the log weight instead of the weight, by supplying the argument <code>power = 2</code> to <code>plotSpectra()</code>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This now shows an approximately constant biomass density as a function of log size (the slope of the green line is -0.05). The biomass density of the species as a function of log size initially increases. So if binned in logarithmically-sized bins the biomass in each bin will initially increase, until it starts decreasing close to the maximum size of the species.</p>
+<p>It may have been a bit confusing that we displayed the same size spectrum in three different ways. But it is important to be aware of this because in the literature you will see all different conventions being used, so if you see a plot of a size spectrum you always need to ask yourself exactly which density is being shown.</p>
+<p>We can obtain the biomass density in a size class from the number density by multiplying the number density by the weight of the individuals in the size class. To obtain these weights, we use the function <code>w()</code> that returns the weights at the start of each size class. Of course using these will lead to a discretisation error because not all fish in the size class have the same weight, but with the small size classes that we use in mizer, the error is not too important. So we calculate</p>
+<div class="cell">
 
-</body>
+</div>
+<p>The total biomass in each size class we obtain by multiplying the biomass density in each size class by the width of each size class</p>
+<div class="cell">
 
-</html>
+</div>
+<p>For example the biomass of fish between 1 gram and 1.12 grams is</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>[1] 4.005029e-05</code></pre>
+</div>
+</div>
+<p>Next we will discuss the shape of the species size-spectrum in more detail.</p>
+</section><section id="allometric-rates" class="level1"><h1>Allometric rates</h1>
+<p>The first striking feature of the species size-spectrum, in all its representations, is that for small fish (larvae and juveniles) it is given by a straight line. This is due to the allometric scaling of the physiological rates, which we will discuss in this section. The other striking feature is the bulge at around maturity size, which we will discuss in the section on reproduction.</p>
+<p>First of all, the metabolic rate, i.e., the rate at which an organism expends energy on its basic metabolic needs, scales as a power of the organism’s body size, and the power is about <span class="math inline">p = 3/4</span>.</p>
+<p>Because this energy needs to be supplied by consumption of food, it is natural to assume that also the consumption rate scales allometrically with a power of <span class="math inline">n = 3/4</span>. When the consumption is greater than the metabolic cost then the excess leads to growth. Hence the growth rate too scales allometrically with power <span class="math inline">n = 3/4</span>. While these are standard choices for the allometric exponents, mizer allows you to choose other values for <span class="math inline">p</span> and <span class="math inline">n</span>.</p>
+<p>Finally, the death rate of organisms tends to scale allometrically with a power of <span class="math inline">p - 1 = 3/4 - 1 = -1/4</span>. The death rate experienced by larger individuals is smaller than that of small individuals. Again this is confirmed by many observations.</p>
+<p>It is a result of the mathematics that if the growth and death rates scale allometrically with exponents <span class="math inline">p</span> and <span class="math inline">1-p</span> respectively, for some metabolic exponent <span class="math inline">p</span>, that the number density at steady state is also a power law, i.e., a straight line on the log-log plot.</p>
+<p>Let us check that in our model the physiological rates are indeed power laws, at least for the small sizes. We can get the growth rate with the <code>getEGrowth()</code> function. We assign the result to a variable that we name <code>growth_rate</code>.</p>
+<div class="cell">
+
+</div>
+<p>You can again see in the “Environment” pane that this is a matrix with one row for the one species and 101 columns for the 101 size classes. So for example the growth rate at size 1 gram is</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>[1] 8.26968</code></pre>
+</div>
+</div>
+<p>(because we had seen that the 61st size class starts at 1 gram). This is the instantaneous per-capita growth rate, measured in grams per year.</p>
+<p>We would like to make a log-log plot of the growth rate against size to check that it gives a straight line. We will use <code>ggplot()</code> for that purpose. <code>ggplot()</code> likes to work with data frames instead of named matrices, so we first convert the matrix into a data frame with the <code>melt()</code> function.</p>
+<div class="cell">
+
+</div>
+<p>You can see in the “Environment” pane that the new variable that we called <code>growth_rate_frame</code> is a data frame with 101 observations of 3 variables. The 101 observations correspond to the 101 size classes. The 3 variables have names</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>[1] "sp"    "w"     "value"</code></pre>
+</div>
+</div>
+<p>They are the species <code>sp</code>, the size <code>w</code>, and the <code>value</code> which contains the growth_rate. This data frame we can pass to <code>ggplot()</code>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Note how we linked the x axis to the <code>w</code> variable and the y axis to the <code>value</code> variable and specified that both axes should be on a logarithmic scale.</p>
+<p>We see that at least up to a size of a few grams the line is straight. Let’s isolate the growth rate for those smaller sizes</p>
+<div class="cell">
+
+</div>
+<p>and fit a linear model</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log(g_small_fish$value) ~ log(g_small_fish$w))
+
+Coefficients:
+        (Intercept)  log(g_small_fish$w)  
+              2.113                0.750  </code></pre>
+</div>
+</div>
+<p>The slope of the line is indeed <span class="math inline">0.75 = 3/4</span>. In fact, the above shows that for juveniles <span class="math display">\log(g(w)) = 2.113 + \frac34 \log(w)</span> and thus <span class="math display">g(w) = g_0\ w^p = 2.113\  w^{3/4}.</span></p>
+<p>Of course in a real model, the growth rate would not so exactly follow a power law, due to variations in the growth rate due to variations in food availability, for example.</p>
+<blockquote class="blockquote">
+<h2 id="exercise-3" class="anchored" data-anchor-id="allometric-rates">Exercise 3</h2>
+<p>Now over to you. Do exercise 3 in the exercise notebook. Use the methods you have just seen to make a log-log plot of the mortality rate. You can get the mortality rate with the <code>getMort()</code> function. While adjusting the code to this new task, you need to take into account that the name of the size-dimension of the array returned by <code>getMort()</code> is <code>"w_prey"</code> instead of <code>"w"</code>.</p>
+</blockquote>
+<blockquote class="blockquote">
+Then fit a linear model to determine the slope and and intercept and thus the allometric exponent and the coefficient for the mortality rate, to establish that the mortality rate is <span class="math display">\mu(w) = \mu_0\ w^{p-1} = 2.038 \ w^{-1/4}.</span>
+<details></details>
+</blockquote>
+</section><section id="slope-of-juvenile-spectrum" class="level1"><h1>Slope of juvenile spectrum</h1>
+<p>We have seen that for juvenile fish the growth rate and the death rate are both power laws with exponents <span class="math inline">p=3/4</span> and <span class="math inline">p-1=-1/4</span> respectively. By solving a differential equation we can derive that the juvenile spectrum also follows a power law: <span class="math display">N(w) = N_0\ w^{-\mu_0/g_0 - p}</span></p>
+<p>I won’t do the maths here with you (and you probably don’t want me to anyway), but we can check this claim numerically. Let’s look at the spectrum up to 10 grams. By now we know how to do this. We first convert the number density matrix <code>n</code> into a dataframe and then filter out all observations that do not have <span class="math inline">w\leq 10</span>. The resulting data frame we pass to <code>ggplot()</code> and ask it to plot a line on log-log axes.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>That confirms what we had seen earlier, that for fish less than 10 grams the number density is a power law. To determine the exponent of the power law we need the slope of that straight line in the log-log plot, and the easiest way to do that is to fit a linear model to the log variables:</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log(nf$value) ~ log(nf$w))
+
+Coefficients:
+(Intercept)    log(nf$w)  
+     -8.022       -1.682  </code></pre>
+</div>
+</div>
+<p>The linear model fit says that the exponent is -1.682. The mathematics claimed that the exponent should be <span class="math inline">-\mu_0 / g_0 - p</span>. We have already observed that <span class="math inline">\mu_0 = 2.038</span> and <span class="math inline">g_0 = 2.113</span> so we get</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>[1] -1.714505</code></pre>
+</div>
+</div>
+<p>That is not quite the result of the linear model fit, but that is the nature of numerical calculations: one gets discretisation errors and rounding errors.</p>
+</section><section id="shape-of-adult-spectrum" class="level1"><h1>Shape of adult spectrum</h1>
+<p>Now that we understand the shape of the size spectrum for the juvenile fish, let us try to understand the bulge that follows. The increase of abundance that we see at around the maturity size of our species is due to a drop in growth rate at that size. This in turn is due to the fact that the mature fish invests some of its energy income into reproduction.</p>
+<section id="investment-into-reproduction" class="level2"><h2 class="anchored" data-anchor-id="investment-into-reproduction">Investment into reproduction</h2>
+<p>Let us look at a plot of the proportion of the available energy that is invested into reproduction as a function of the size</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>How was this maturity curve specified? You can find the details in the <a href="https://sizespectrum.org/mizer/reference/setReproduction.html#investment">mizer documentation</a>. There are four species parameters involved:</p>
+<ul>
+<li>the maturity size <code>w_mat</code> at which 50% of the individuals are mature.</li>
+<li>the size <code>w_mat25</code> at which 25% of the individuals are mature.</li>
+<li>the asymptotic size <code>w_inf</code> at which an organism invests 100% of its income into reproduction and thus growth is zero.</li>
+<li>an exponent <code>m</code> that determines how the proportion that an individual invests into reproduction scales with its size.</li>
+</ul>
+<p>Such species parameters are contained in a data frame inside the <code>params</code> object that we can access with the <code>species_params()</code> function.</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>                      species w_min w_inf    w_mat w_min_idx k_vb    gamma
+Target species Target species 0.001   100 25.11886         1    1 4067.903
+                     ks  f0   fc beta sigma z0 alpha   erepro
+Target species 5.906914 0.6 0.25  100   1.3  0   0.4 0.899483
+               interaction_resource    n    p   q pred_kernel_type        h k
+Target species                    1 0.75 0.75 0.8        lognormal 59.06914 0
+                w_mat25 m R_max
+Target species 22.50546 1   Inf</code></pre>
+</div>
+</div>
+<p>As you can see, there are a lot of other species parameters, some of which we will talk about later. For now let’s just select the 4 parameters we are interested in.</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>                  w_mat  w_mat25 w_inf m
+Target species 25.11886 22.50546   100 1</code></pre>
+</div>
+</div>
+</section><section id="effect-of-change-in-maturity-curve" class="level2"><h2 class="anchored" data-anchor-id="effect-of-change-in-maturity-curve">Effect of change in maturity curve</h2>
+<p>Let us investigate what happens when we change the maturity curve. Let’s assume the maturity size is actually 40 grams and the size at which 25% of individuals is mature is 30 grams. Let us change the values in the <code>species_params</code> data frame. But first we make a copy of the params object so that we can keep the old version around unchanged.</p>
+<div class="cell">
+
+</div>
+<p>In this copy we now change the species parameters</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>               w_mat w_mat25 w_inf m
+Target species    40      30   100 1</code></pre>
+</div>
+</div>
+<p>Now the maturity curve has changed, which we can verify by plotting it</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>At this point let’s take a little break and learn how to draw two curves in the same graph. How can we see the old maturity curve and the new maturity curve in the same plot? First we add an extra column to each dataframe describing it</p>
+<div class="cell">
+
+</div>
+<p>Then we bind the two data frames together</p>
+<div class="cell">
+
+</div>
+<p>and send that combined data frame to <code>ggplot()</code></p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This change in the maturity curve of course implies a change in the growth rates.</p>
+<blockquote class="blockquote">
+<h2 id="exercise-4" class="anchored">Exercise 4</h2>
+<p>Make a plot showing the growth rates of the original model and of the model with the changed maturity curve.</p>
+</blockquote>
+<p>Next let us look at how the steady state spectrum has changed. We first need to run the changed model to steady state</p>
+<div class="cell">
+<div class="cell-output-stderr">
+<pre><code>Convergence was achieved in 6 years.</code></pre>
+</div>
+</div>
+<p>We use the same technique as above to plot the steady-state spectra of both models on top of each other.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As expected, the bump happens later due to the larger maturity size and it is less pronounced, because the maturity curve is less steep.</p>
+</section><section id="reproductive-efficiency" class="level2"><h2 class="anchored" data-anchor-id="reproductive-efficiency">Reproductive efficiency</h2>
+<p>So what happens with the energy that is invested into reproduction? It leads to spawning and thus the influx of new individuals at the egg size. This conversion of energy invested into reproduction into egg biomass is inefficient. Firstly much energy is spent on things like migration to spawning grounds, rather than on production of gonadic mass. Secondly, only a small proportion of eggs that are produced are viable and hatch into larvae.</p>
+<p>In order for the population to be at steady state, the reproductive efficiency has to have a particular value. If it were higher, the population would increase, if it was lower, the population would decrease with time. The <code>steady()</code> function has set the reproductive efficiency to just the right value to maintain the population level and has stored it in the species parameter called <code>erepro</code>.</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>[1] 0.899483</code></pre>
+</div>
+</div>
+<p>The model with the changed maturity curve leads to a different rate of investment into reproduction and thus needs a slightly different reproductive efficiency to remain at steady state:</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>[1] 0.8894015</code></pre>
+</div>
+</div>
+<p>This is the reproductive efficiency at steady state. When the population deviates from the steady state, for example due to a change in fishing, the reproductive efficiency can be set to change according to a Beverton-Holt stock-recruitment curve. We will discuss this again later.</p>
+</section></section><section id="predation" class="level1"><h1>Predation</h1>
+<p>It is now time to discuss the important issue of predation. It is through predation that the fish obtains the energy it needs to maintain its metabolism, to grow and to invest in reproduction. So it is important how we model this predation.</p>
+<section id="effect-of-prey-availability" class="level2"><h2 class="anchored" data-anchor-id="effect-of-prey-availability">Effect of prey availability</h2>
+<p>The energy income for a fish comes from predation on its prey. If there is less prey, the fish consumes less and thus its growth rate will decrease. Let us investigate this by artificially removing some prey.</p>
+<p>Below we decrease the community spectrum by a factor of 10 in the size range from 1mg to 10mg. We again create a new parameter object to be able to keep the old one around</p>
+<div class="cell">
+
+</div>
+<p>That is of course quite a dramatic intervention, and so should allow us to clearly see its effect on the steady-state size distribution of our species.</p>
+<div class="cell">
+<div class="cell-output-stderr">
+<pre><code>Convergence was achieved in 6 years.</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>Warning in setBevertonHolt(params, reproduction_level = old_reproduction_level):
+The following species require an unrealistic reproductive efficiency greater
+than 1: Target species</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As expected, the lack of food and the resulting slow-down in growth leads to a traffic jam: a peak in the biomass density. This slow-down occurs at a size that is about a factor of 100 larger than the size at which food is reduced. Why this is we will discuss in the next section. But first investigate what happens when the prey abundance is increased instead of decreased.</p>
+<blockquote class="blockquote">
+<h2 id="exercise-5" class="anchored">Exercise 5</h2>
+<p>Plot the steady state biomass density in our model when the community abundance is increased by a factor of 10 in the size range from 1mg to 10mg.</p>
+</blockquote>
+</section><section id="how-predation-is-modelled" class="level2"><h2 class="anchored" data-anchor-id="how-predation-is-modelled">How predation is modelled</h2>
+<p>The easiest case in which to understand predation is to imagine a filter feeding fish, swimming around with its mouth open. Clearly the amount of food it takes in is determined by four things:</p>
+<ul>
+<li>the density of prey in the water,</li>
+<li>how much volume of water the fish is able to filter, which will depend on how fast it swims as well as on its gape size.</li>
+<li>what sizes of prey the fish is able to filter out of the water, which will be limited by its gape size and by how fine its gill rakers are,</li>
+<li>how fast it can digest the food. If it can filter the prey faster than it can digest, it will have to start letting prey go uneaten.</li>
+</ul>
+<p>For a more active hunter the situation will be similar. The rate at which it predates will depend on four things:</p>
+<ul>
+<li>the density of prey in the water</li>
+<li>the volume of water that the fish patrols and in which it will be able to seek out its prey. This may depend on things like radius of vision.</li>
+<li>which of this detected prey the fish is able to catch, which will depend on its mouth size but also on its agility and skill as well as on the defensive mechanisms of the prey.</li>
+<li>how fast it can digest the food.</li>
+</ul>
+<p>Of these four factors, we have of course already been discussing the density of prey. In the next section we will discuss the ability to filter out or catch prey of particular sizes, which we model via the predation kernel. In the section after that we will discuss the search volume and then in the following section the maximum consumption rate.</p>
+</section><section id="the-predation-kernel" class="level2"><h2 class="anchored" data-anchor-id="the-predation-kernel">The predation kernel</h2>
+<p>Fish will be particularly good at catching prey in a specific range of sizes, smaller than themselves. This is encoded in the size-spectrum model by the predation kernel. Let us take a look at the predation kernel in our model. We can obtain it with the function <code>getPredKernel()</code>.</p>
+<div class="cell">
+
+</div>
+<p>This is a large three-dimensional array (predator species x predator size x prey size). We extract the kernel of a predator of size 10g (using that we remember that this is in size class 81)</p>
+<div class="cell">
+
+</div>
+<p>The <code>drop = FALSE</code> option is there to prevent R from dropping any of the array dimensions. We can now plot this as usual</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We see that the predator of size 10g likes to feed on prey that is about a factor 100 smaller than itself, but also feeds on other sizes, just with reduced preference. The preferred predator/prey size ratio is determined by the species parameter <code>beta</code> and the width of the feeding kernel, i.e., how fussy the predator is regarding their prey size, is determined by the species parameter <code>sigma</code>. In our model these have the values</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>               beta sigma
+Target species  100   1.3</code></pre>
+</div>
+</div>
+<p>Let us change the preferred predator/prey mass ratio from 100 to 1000. As usual, we first create a copy of the parameter object, then we make the change in that copy.</p>
+<div class="cell">
+
+</div>
+<p>Let’s make a plot to see that the predation kernel has indeed changed.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>If we now again reduce the prey in the size range from 1mg to 10mg as before, we now expect this to produce a peak in the biomass spectrum somewhere between 1g and 10g. Let’s check.</p>
+<div class="cell">
+<div class="cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>Warning in setBevertonHolt(params, reproduction_level = old_reproduction_level):
+The following species require an unrealistic reproductive efficiency greater
+than 1: Target species</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-49-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Yes, as expected.</p>
+<p>For details of how <code>beta</code> and <code>sigma</code> parametrise the predation kernel, see <a href="https://sizespectrum.org/mizer/reference/lognormal_pred_kernel.html#details" class="uri">https://sizespectrum.org/mizer/reference/lognormal_pred_kernel.html#details</a>. For information on how to change the predation kernel, see <a href="https://sizespectrum.org/mizer/reference/setPredKernel.html#setting-predation-kernel" class="uri">https://sizespectrum.org/mizer/reference/setPredKernel.html#setting-predation-kernel</a></p>
+<p>It is very important not to confuse the prey preference with the diet. Just because a predator might prefer to feed on prey of a particular size if it had free choice does not mean that it actually feeds predominantly on such prey. The actual diet of the fish depends also on the availability of prey. Because smaller prey are more abundant, the realised predator/prey mass ratio in the diet will be smaller than the preferred predator/prey mass ratio. This is particularly important when estimating the predation kernel from stomach data.</p>
+<blockquote class="blockquote">
+<h2 id="exercise-6" class="anchored">Exercise 6</h2>
+<p>Change the parameters of the predation kernel to <code>beta = 50</code> and <code>sigma = 2</code> and plot the predation kernel of a predator of size 1g. You should see that the predation kernel is truncated so that the predator never feeds on prey larger than themselves.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Next, plot the steady state arising with this feeding kernel when the prey abundance is artificially reduced by a factor of 10 in the size range between 1mg and 10mg as in previous examples. What do you observe? Are you surprised?</p>
+</blockquote>
+</section><section id="search-volume" class="level2"><h2 class="anchored" data-anchor-id="search-volume">Search volume</h2>
+<p>Next we consider the factor that models the volume of water a filter feeder is able to filter in a certain amount of time, or the volume of water a forage fish is able to patrol in a certain amount of time. This is difficult to model from first principles, although people have tried to argue in terms of swimming speeds of fish. We assume that this search volume rate is also an allometric rate. Let <span class="math inline">\gamma(w)</span> denote this rate for a predator of size <span class="math inline">w</span>. Thus we assume that <span class="math display">\gamma(w) = \gamma_0\ w^q</span> for some exponent <span class="math inline">q</span>. We know that a fish needs to consume prey at a rate that scales with its body size to the power <span class="math inline">p</span>, with <span class="math inline">p</span> about <span class="math inline">3/4</span>. We also know that the prey density will be approximately described by the Sheldon power law, i.e., that <span class="math inline">N(w) = N_0\ w^{-\lambda}</span>. A bit of maths then says that <span class="math display">q = 2 - \lambda + n.</span> This explains the message you got when you created the params object with a certain choice of <span class="math inline">\lambda</span>: mizer chose the search volume exponent automatically according to this formula. In the real world, evolution will have made sure that the fish will have developed a feeding strategy that allows it to cover its metabolic costs, and thus leads to that search volume exponent of <span class="math inline">q</span>. Clearly, filter feeders have taken a very different route to this than forage fish, but the result is the same.</p>
+<p>Let us see what effect changing the coefficient <span class="math inline">\gamma_0</span> in the search volume rate has. Its current value in our model is</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>[1] 4067.903</code></pre>
+</div>
+</div>
+<p>We change that to 2000 and find the new steady state.</p>
+<div class="cell">
+<div class="cell-output-stderr">
+<pre><code>Warning in setBevertonHolt(params, reproduction_level = old_reproduction_level):
+The following species require an unrealistic reproductive efficiency greater
+than 1: Target species</code></pre>
+</div>
+</div>
+<p>We can see the effect in the growth curve of our species. In the original model it looks as follows:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-52-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In the modified model it looks like</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-53-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<blockquote class="blockquote">
+<h2 id="exercise-7" class="anchored">Exercise 7</h2>
+<p>What effect will this change in growth rate have on the slope of the juvenile spectrum? Will it be steeper or shallower? Make the plot of the spectrum to see.</p>
+</blockquote>
+</section><section id="feeding-level" class="level2"><h2 class="anchored" data-anchor-id="feeding-level">Feeding level</h2>
+<p>A predator will have a maximum intake rate. It will simply not be able to utilise food at a faster rate than its maximum intake rate. Of course in practice it will not feed at the maximum intake rate because of limited availability of prey. We describe this by the <em>feeding level</em> which is the proportion of its maximum intake rate at which the predator is actually taking in prey.</p>
+<p>In our simple model this feeding level is constant.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-54-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In the model with the reduced search volume the feeding level will be lower</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-55-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Our model is taking an allometric form for the maximum intake rate <span class="math inline">h(w)</span> as a function of predator size <span class="math inline">w</span>: <span class="math inline">h(w) = h\ w^n</span>. The current value of the coefficient <span class="math inline">h</span> is</p>
+<div class="cell">
+<div class="cell-output-stdout">
+<pre><code>[1] 59.06914</code></pre>
+</div>
+</div>
+</section></section><section id="mortality" class="level1"><h1>Mortality</h1>
+<section id="predation-mortality" class="level2"><h2 class="anchored" data-anchor-id="predation-mortality">Predation mortality</h2>
+<p>Of course growth of the predator is only one aspect of predation. The other is the death of the prey. Growth and mortality are coupled. Increased growth of one class of individuals will necessitate increased death of another. There is no free lunch.</p>
+<p>Once we have specified the predation parameters, these parameters determine both the growth of predators but also the mortality rate of prey. So we don’t have to introduce new parameters for death from predation.</p>
+</section><section id="external-mortality" class="level2"><h2 class="anchored" data-anchor-id="external-mortality">External mortality</h2>
+<p>In addition to mortality caused by predation from other fish, there will be some mortality from other causes. This could be predation from animals that we have not included in our model, like sea birds or mammals, or it could be death from old age (senescent death) or disease. Mizer allows setting of background death with <code>setExtMort()</code>.</p>
+</section><section id="fishing-mortality" class="level2"><h2 class="anchored" data-anchor-id="fishing-mortality">Fishing mortality</h2>
+<p>The cause of mortality that is most under our control is mortality from fishing. You can see how fishing is set up in mizer at <a href="https://sizespectrum.org/mizer/reference/setFishing.html#setting-fishing" class="uri">https://sizespectrum.org/mizer/reference/setFishing.html#setting-fishing</a>. Here we only look at a simple example: we introduce fishing on our species only for fish above 30 grams. All fish greater than 30 grams will be exposed to the same fishing mortality. We call this kind of fishing selectivity “knife_edge” selectivity. Mizer can deal with more general selectivity curves, like sigmoidal or doubly sigmoidal.</p>
+<div class="cell">
+
+</div>
+<p>We also need to specify the fishing effort and can then plot the resulting fishing mortality.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="single-species-size-spectrum-dynamics_files/figure-html/unnamed-chunk-58-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section></section><section id="reproduction" class="level1"><h1>Reproduction</h1>
+</section><section id="outlook" class="level1"><h1>Outlook</h1>
+<p>The fish species we have studied had unlimited food and constant mortality. That of course is very unrealistic. In reality, food will become scarce when the fish population increases too much. Also the number of predators will grow. This will lead to interesting and important non-linear effects that we will study in the next tutorial.</p>
+
+
+</section></main><!-- /main --><script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+</body></html>

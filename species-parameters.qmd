@@ -1,0 +1,19 @@
+---
+title: "Finding species parameters"
+subtitle: |
+  Here you will learn how to find appropriate values for the species parameters
+  needed to set up your own mizer model.
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+
+
+
+

@@ -1,0 +1,52 @@
+project:
+  type: website
+  output-dir: docs
+
+toc: true
+format:
+  html:
+    theme: cerulean
+    css: styles.css
+    html-math-method: katex
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    code-tools:
+      source: repo
+    code-link: true
+
+website:
+  title: "quarto_website"
+  site-url: "https://course.mizer.sizespectrum.org"
+  favicon: images/favicon-16x16.png
+  repo-url: https://github.com/sizespectrum/mizerCourse
+  repo-actions: [edit, issue]
+  twitter-card:
+    site: "@mizer_model"
+    creator: "gustavdelius"
+  opengraph: true
+  search: 
+    location: navbar
+    type: textbox
+  page-navigation: true
+  navbar:
+    background: primary
+    left:
+      - text: "Tutorials"
+        menu:
+          - introduction-to-course.qmd
+          - introduction-to-mizer.qmd
+          - observational-size-spectra.qmd
+          - single-species-size-spectrum-dynamics.qmd
+          - multi-species-size-spectrum-dynamics.qmd
+          - running-scenarios.qmd
+          - build-model.qmd
+          - species-parameters.qmd
+          - multiple-resources.qmd
+    right:
+      - text: "mizer home"
+        href: https://sizespectrum.org/mizer/
+      - icon: "fab fa-twitter fa-lg"
+        href: https://twitter.com/mizer_model
+      - icon: "fab fa-github fa-lg"
+        href: https://github.com/sizespectrum/mizerCourse
