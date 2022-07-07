@@ -1,5 +1,6 @@
 ---
 title: "Online mizer course"
+toc: false
 ---
 
 __2022 August 8-26__
@@ -7,18 +8,6 @@ __2022 August 8-26__
 ## Size based ecosystem models with the R package mizer and applications for coastal and inland ecosystems   
 
 Please join us for an online course to learn about the principles of size based community and ecosystem modelling, implementation of these principles in the R package mizer, learn about adaptation of mizer for shallow ecosystems with multiple resources, and learn how to build a new model with your own or example data 
-
-The course consistes of the following tutorials:
-
-* [Introduction to the mizer course](introduction-to-course.html)
-* [Introduction to the mizer model](introduction-to-mizer.html)
-* [Size spectra from observations](observational-size-spectra.html)
-* [Single-species size-spectrum dynamics](single-species-size-spectrum-dynamics.html)
-* [Multi-species size-spectrum dynamics](multi-species-size-spectrum-dynamics.html)
-* [Using a model to explore the consequences of change](running-scenarios.html)
-* [Building a new multi-species model](build-model.html)
-* [Finding species parameters](species-parameters.html)
-* [Setting up multiple resources](multiple-resources.html)
 
 The course is led by Gustav Delius (University of York, UK) and Asta Audzijonyte (Nature Research Centre, Lithuania & University of Tasmania, Australia). Invited speakers include Ken Haste Andersen, Julia Blanchard and others 
 

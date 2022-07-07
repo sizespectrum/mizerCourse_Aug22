@@ -33,26 +33,65 @@ website:
     location: navbar
     type: textbox
   page-navigation: true
-  navbar:
-    background: primary
-    left:
-      - text: "Tutorials"
-        menu:
-          - introduction-to-course.qmd
-          - introduction-to-mizer.qmd
-          - observational-size-spectra.qmd
-          - single-species-size-spectrum-dynamics.qmd
-          - multi-species-size-spectrum-dynamics.qmd
-          - running-scenarios.qmd
-          - build-model.qmd
-          - species-parameters.qmd
-          - multiple-resources.qmd
-    right:
-      - text: "mizer home"
-        href: https://sizespectrum.org/mizer/
-      - icon: "fab fa-twitter fa-lg"
-        href: https://twitter.com/mizer_model
-        aria-label: Mizer Twitter
-      - icon: "fab fa-github fa-lg"
-        href: https://github.com/sizespectrum/mizerCourse
-        aria-label: Mizer course GitHub
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - section: "Prepare"
+        contents:
+          - text: Introduce yourself
+            href: introductions.qmd
+          - text: Install tools
+            href: install.qmd
+          - text: Use Git and GitHub
+            href: use-git-and-github.qmd
+      - section: "Week 1: Understand"
+        href: understand.qmd
+        contents: 
+          - text: Plot size spectra
+            href: plotting.qmd
+          - text: Shapes of spectra
+            href: shapes.qmd
+          - text: Predation
+            href: predation.qmd
+          - text: Dynamics of spectra
+            href: dynamics.qmd
+          - text: Species interactions
+            href: interactions.qmd
+      - section: "Week 2: Build"
+        href: build.qmd
+        contents:
+          - text: Create first model
+            href: build-model.qmd
+          - text: Tune model
+            href: tune-model.qmd
+          - text: Set multiple resources
+            href: multiple-resources.qmd
+          - text: Find species parameters
+            href: species-parameters.qmd
+          - text: Build your own
+            href: build-your-own.qmd
+      - section: "Week 3: Use"
+        href: use.qmd
+        contents:
+          - text: Simulate change
+            href: simulate.qmd
+          - text: Refine model
+            href: refine.qmd
+          - text: Tune sensitivity
+            href: tune-sensitivity.qmd
+          - text: Change resources
+            href: change-resources.qmd
+          - text: Run your own scenarios
+            href: run-your-own.qmd
+
+
+comments:
+  giscus: 
+    repo: sizespectrum/mizerCourse
+    category: Comments
+    reactions-enabled: false
+    input-position: bottom
+    repo-id: R_kgDOHlJwYg
+    category-id: DIC_kwDOHlJwYs4CP_7j
+    

@@ -1,10 +1,10 @@
 ---
 title: "Introduction to the mizer model"
-subtitle: |
-  Here you will learn about the basic ideas underlying dynamic 
-  size-spectrum modelling with mizer. This includes a guest-lecture by
-  Ken Andersen.
 ---
+  Ken Andersen talks about the basic ideas underlying dynamic 
+  size-spectrum modelling with mizer.
+
+## In preparation
 
 
 
