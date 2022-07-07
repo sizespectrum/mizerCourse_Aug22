@@ -3,17 +3,21 @@ project:
   output-dir: docs
 
 toc: true
+toc-depth: 3
+
 format:
   html:
     theme: cerulean
     css: styles.css
     html-math-method: katex
-    toc: true
-    toc-depth: 3
-    code-fold: show
-    code-tools:
-      source: repo
+    code-fold: false
     code-link: true
+    code-copy: true
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+
+execute:
+  cache: true
 
 website:
   title: "mizer course"
@@ -48,5 +52,7 @@ website:
         href: https://sizespectrum.org/mizer/
       - icon: "fab fa-twitter fa-lg"
         href: https://twitter.com/mizer_model
+        aria-label: Mizer Twitter
       - icon: "fab fa-github fa-lg"
         href: https://github.com/sizespectrum/mizerCourse
+        aria-label: Mizer course GitHub
