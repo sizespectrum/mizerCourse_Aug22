@@ -45,6 +45,8 @@ website:
             href: install.qmd
           - text: Use Git and GitHub
             href: use-git-and-github.qmd
+          - text: Watch introduction
+            href: introduction-to-mizer.qmd
       - section: "Week 1: Understand"
         href: understand.qmd
         contents: 
