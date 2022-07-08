@@ -65,13 +65,13 @@ website:
         contents:
           - text: Create first model
             href: build-model.qmd
-          - text: Tune model
-            href: tune-model.qmd
           - text: Set multiple resources
             href: multiple-resources.qmd
+          - text: Tune model
+            href: tune-model.qmd
           - text: Find species parameters
             href: species-parameters.qmd
-          - text: Build your own
+          - text: Build your own model
             href: build-your-own.qmd
       - section: "Week 3: Use"
         href: use.qmd
