@@ -1,0 +1,11 @@
+---
+title: "Building a new multi-species model"
+---
+
+Here you will learn how to set up a multi-species mizer model, starting from a given set of species parameters.
+
+
+## In preparation
+
+
+

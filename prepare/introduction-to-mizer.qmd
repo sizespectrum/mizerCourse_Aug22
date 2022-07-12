@@ -1,0 +1,13 @@
+---
+title: "Introduction to the mizer model"
+---
+  Ken Andersen talks about the basic ideas underlying dynamic 
+  size-spectrum modelling with mizer.
+
+## In preparation
+
+
+
+
+
+

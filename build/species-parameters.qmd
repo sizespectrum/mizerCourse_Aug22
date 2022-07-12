@@ -1,0 +1,12 @@
+---
+title: "Finding species parameters"
+---
+  Here you will learn how to find appropriate values for the species parameters
+  needed to set up your own mizer model.
+
+## In preparation
+
+
+
+
+

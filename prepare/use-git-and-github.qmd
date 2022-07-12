@@ -1,0 +1,7 @@
+---
+title: "Use Git and GitHub"
+---
+
+You will learn how to work with git repositories and host them on GitHub. During the course you will use GitHub to submit the coursework and receive feedback.
+
+## In preparation

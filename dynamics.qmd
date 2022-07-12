@@ -1,5 +1,0 @@
----
-title: "Dynamics of size spectra"
----
-
-## In preparation

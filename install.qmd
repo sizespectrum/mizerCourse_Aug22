@@ -1,8 +1,0 @@
----
-title: "Install tools"
----
-
-  You will install R, Git, RStudio and important R packages,
-  including of course mizer itself.
-  
-## In preparation

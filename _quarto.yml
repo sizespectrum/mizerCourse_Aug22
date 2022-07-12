@@ -40,52 +40,52 @@ website:
       - section: "Prepare"
         contents:
           - text: Introduce yourself
-            href: introductions.qmd
+            href: prepare/introductions.qmd
           - text: Install tools
-            href: install.qmd
+            href: prepare/install.qmd
           - text: Use Git and GitHub
-            href: use-git-and-github.qmd
+            href: prepare/use-git-and-github.qmd
           - text: Watch introduction
-            href: introduction-to-mizer.qmd
+            href: prepare/introduction-to-mizer.qmd
       - section: "Week 1: Understand"
-        href: understand.qmd
+        href: understand/index.qmd
         contents: 
           - text: Plot size spectra
-            href: plotting.qmd
+            href: understand/plotting-spectra.qmd
           - text: Shapes of spectra
-            href: shapes.qmd
+            href: understand/shapes.qmd
           - text: Predation
-            href: predation.qmd
+            href: understand/predation.qmd
           - text: Dynamics of spectra
-            href: dynamics.qmd
+            href: understand/dynamics.qmd
           - text: Species interactions
-            href: interactions.qmd
+            href: understand/interactions.qmd
       - section: "Week 2: Build"
-        href: build.qmd
+        href: index.qmd
         contents:
           - text: Create first model
-            href: build-model.qmd
+            href: build/build-model.qmd
           - text: Set multiple resources
-            href: multiple-resources.qmd
+            href: build/multiple-resources.qmd
           - text: Tune model
-            href: tune-model.qmd
+            href: build/tune-model.qmd
           - text: Find species parameters
-            href: species-parameters.qmd
+            href: build/species-parameters.qmd
           - text: Build your own model
-            href: build-your-own.qmd
+            href: build/build-your-own.qmd
       - section: "Week 3: Use"
-        href: use.qmd
+        href: index.qmd
         contents:
           - text: Simulate change
-            href: simulate.qmd
+            href: use/simulate.qmd
           - text: Refine model
-            href: refine.qmd
+            href: use/refine.qmd
           - text: Tune sensitivity
-            href: tune-sensitivity.qmd
+            href: use/tune-sensitivity.qmd
           - text: Change resources
-            href: change-resources.qmd
+            href: use/change-resources.qmd
           - text: Run your own scenarios
-            href: run-your-own.qmd
+            href: use/run-your-own.qmd
 
 
 comments:
@@ -96,4 +96,5 @@ comments:
     input-position: bottom
     repo-id: R_kgDOHlJwYg
     category-id: DIC_kwDOHlJwYs4CP_7j
+    data-loading: lazy
     

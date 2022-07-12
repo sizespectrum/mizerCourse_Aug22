@@ -1,0 +1,252 @@
+---
+title: "Plotting size spectra"
+---
+
+In this worksheet you will take observational data and plot the resulting size spectra for the community and for individual species.
+
+We will be making use of the tidyverse package, in particular `dplyr` and `ggplot2` If you are not familiar with these, you can learn what is needed just by studying the example code in this worksheet. You will find explanations of the code if you expand the "R details" sections that you find below many of the code chunks. To expand an explanation section, just click on the "R details".
+
+```{r message=FALSE}
+library(tidyverse)
+```
+
+## The data
+
+We load the data and remove empty records
+
+```{r }
+data <- readRDS("size-data.rds")
+head(data)
+```
+
+The data consists of measurements of the length and the weight of `r nrow(data)` fish. This data was assembled by Ken Andersen at DTU Aqua in Copenhagen.
+
+## Weight histogram
+
+To get an impression of the size distribution of the fish, we plot a histogram of the fish weights.
+
+```{r message=FALSE}
+(p <- ggplot(data) +
+    geom_histogram(aes(weight)) +
+    labs(x = "Weight [g]",
+         y = "Number of fish"))
+```
+
+<details>
+
+<summary>
+
+R details
+
+</summary>
+
+We have used the ggplot2 package, included in the tidyverse package, to make the plot. It is much more powerful and convenient than the base plot commands. It implements the "grammar of graphics". If you are not already using ggplot2 it is worth your time to familiarise yourself with it. However for the purpose of this tutorial, you can simply pick up the syntax from the examples we give.
+
+In the above we first specify with `ggplot(data)` that the graph shall be based on the data frame `data` that we loaded previously. We then add features to the graph with the `+`.
+
+First `geom_histogram()` specifies that we want a histogram plot. The argument specifies the variable to be represented. Note how this is wrapped in a call to `aes()`. Don't ask why, that is the way the grammar of graphics likes it. The specification of how the variables are tied to the aesthetics of the graph will always be given withing the `aes()` function.
+
+Then we add our own labels to the axes with `labs()`.
+
+We assign the resulting plot to the variable `p` because that way we can manipulate the plot further below. Because the assignment operator in R does not display any result, we added another line with just the variable name `p` which will display the plot.
+
+</details>
+
+The plot is not very informative. It just tells us that most fish are very small. We can not see much detail. The first way to improve the plot is to plot the y-axis on a logarithmic scale. That has the effect of stretching out the small values and squashing the large values, revealing more detail.
+
+```{r message=FALSE}
+p + scale_y_log10()
+```
+
+We get a warning because there were bins that contained no fish, and taking the log of 0 is not allowed. We can ignore these warnings because the empty bins will simply not be given a bar in the resulting plot.
+
+The second way to deal with the fact that there are so many more small fish than large fish, is to make the bin width larger at larger sizes and smaller at smaller sizes. For example we could make the smallest bin go from 1 gram to 2 gram, the next bin to go from 2 gram to 4 gram, and so on, with each next bin twice the size of the previous.
+
+```{r }
+log_max <- log2(max(data$weight)) + 1
+(log_breaks <- seq(from = 0, to = log_max, by = 1))
+
+(breaks <- 2 ^ log_breaks)
+```
+
+<details>
+
+<summary>
+
+R details
+
+</summary>
+
+We had decided that we wanted the breaks between the bins to be at powers of 2. We first create the vector `log_breaks` with the exponents. The `seq()` function creates a vector of numbers starting at `from` and going up to `to` in steps of size `by`. You do not need to give the names of the arguments because they can also be identified by their position. So you could also have written `seq(0, log_max, 1)`. Such integer sequences are used so often that there is the even shorter notation `0:log_max` giving the same sequence.
+
+Note how R is good at vectorised calculations. The second line above creates a vector containing the powers of 2 with the exponents taken from the entries of the vector `log_breaks`.
+
+The reason we have put parentheses `( ... )` around the assignments in the above code is because that also leads to the result being displayed whereas the assignment operator without those parentheses around it would not display anything.
+
+</details>
+
+Now we can use these logarithmically spaced bins in the histogram:
+
+```{r message=FALSE}
+(p <- ggplot(data) +
+    geom_histogram(aes(weight), breaks = breaks) +
+    labs(x = "Weight [g]",
+         y = "Number of fish") +
+     scale_y_log10()
+ )
+```
+
+Note that the height of the bars changes as we change how we bin the data. That is obvious. If we make the bins twice as large, we expect twice as many fish in each bin. To get rid of this dependence on the choice of bins, we want to work with the density. This is obtained by dividing the height of each bar by its width.
+
+Because it is important to understand this concept of number density and biomass density, we calculate them by hand below, even though ggplot has a built-in function `geom_density()` that we could use instead. We first bin the data by hand, and then we calculate and plot the densities.
+
+## Binning
+
+To understand better what the histogram did and to improve the plots further, we bin the data ourselves. We do this by first adding a bin number to each observation, which gives the number of the bin in which the weight of the fish lies.
+
+```{r }
+binned <- data |>
+    mutate(bin = cut(weight, breaks = breaks, right = FALSE,
+                     labels = FALSE))
+head(binned)
+```
+
+<details>
+
+<summary>
+
+R details
+
+</summary>
+
+We used the pipe operator `|>` that simply pipes the output of the code preceeding it into the first argument of the function following it. So the above code is equivalent to
+
+```{r eval=FALSE}
+binned <- mutate(data, bin = cut(weight, breaks = breaks, right = FALSE,
+                                 labels = FALSE))
+```
+
+The pipe operator becomes really useful only if you do a longer sequence of operations on data. You will see examples of its use later.
+
+The `mutate()` function can add new columns to a data frame or modify existing columns. In the above example it adds a new column `bin`. The entries in that column are here calculated by the function `cut` that returns the label of the bin into which an observation falls. We specify the bin boundaries with the `breaks = breaks` to be the boundaries we have calculated above. The `right = FALSE` means that in case an observation falls exactly on a right bin boundary, it is not included in that bin but instead in the next bin. The `labels = FALSE` means that the bins are not labelled by the intervals but simply by integer codes.
+
+</details>
+
+We then group the data by bin and calculate the number of fish as well as the biomass in each bin
+
+```{r }
+binned <- binned |> 
+    group_by(bin) |> 
+    summarise(Numbers = n(), 
+              Biomass = sum(weight))
+binned
+```
+
+<details>
+
+<summary>
+
+R details
+
+</summary>
+
+After we have grouped together all the observations with the same bin number with the `group_by(bin)`, the `summarize()` function creates a new data frame with one row for each group, which in this case means one row for each bin. That data frame will always have one column specifying the group and then we specified that we want two extra columns: `Numbers` that just counts the number of observations in the group with the `n()` function and `Biomass` that calculates the total biomass in the group by summing the weights of all the fish in that group. Note that the `species` is ignored in this calculation.
+
+In the above code you see the pipe operator `|>` being quite convenient, because it allows us to write the functions in the order in which they are applied, rather than having to write `summarize(group_by(...))`.
+
+</details>
+
+## Densities
+
+The values for `Numbers` and `Biomass` of course depend on the size of bins we have chosen. It is therefore convenient divide these numbers by their bin widths to get the corresponding densities. We get the number density as a function of weight by dividing the number of fish in each bin by the bin width. Similarly we get the biomass density as a function of weight by dividing the biomass in each bin by the bin width.
+
+```{r}
+bin_width <- diff(breaks)
+
+binned <- binned |> 
+    mutate(Number_dens = Numbers / bin_width[bin],
+           Biomass_dens = Biomass / bin_width[bin])
+```
+
+<details>
+
+<summary>
+
+R details
+
+</summary>
+
+</details>
+
+If we make a plot of the number density against weight, we don't get a very informative graph:
+
+```{r warning=FALSE}
+ggplot(binned) +
+    geom_line(aes(x = breaks[bin], y = Number_dens)) +
+    labs(x = "Weight [g]",
+         y = "Number density")
+```
+
+<details>
+
+<summary>
+
+R details
+
+</summary>
+
+</details>
+
+Again the graph tells us that most of the individuals are very small, but we can not see any of the details. We therefore plot the density on log-log axes:
+
+```{r warning=FALSE}
+ggplot(binned) +
+    geom_line(aes(x = breaks[bin], y = Number_dens)) + 
+    scale_x_log10() + 
+    scale_y_log10() +
+    labs(x = "Weight [g]",
+         y = "Number density")
+```
+
+Now we can see that the number density is described approximately by a straight line. This means that the number density is approximately given as a power of the size.
+
+We can plot the biomass density similarly
+
+```{r }
+ggplot(binned) +
+    geom_line(aes(x = breaks[bin], y = Biomass_dens)) +
+    scale_x_log10() + 
+    scale_y_log10() +
+    labs(x = "Weight [g]",
+         y = "Biomass density")
+```
+
+## Density in log weight
+
+Above we calculated densities by dividing the total number or total biomass in each bin by the width that the bin has on the x axis. The x axis showed the weights, so the bin widths were the differences between the weights at the right and left boundaries of the bin. But we could instead have divided by the width that the bin has on the x-axis when we show the log of the weight on the x axis. Then the bin width would be the differences between the logs of the weights at the right and left boundaries of the bin. The result of dividing the total biomass in each bin by the width of the bin on the logarithmic weight axis, i.e., the biomass density as a function of log weight, is called the Sheldon spectrum, because it is this density that is approximately constant.
+
+```{r }
+log_bin_width <- diff(log_breaks)
+
+binned <- binned |> 
+    mutate(Sheldon_dens = Biomass / log_bin_width[bin])
+```
+
+```{r }
+ggplot(binned) +
+    geom_line(aes(x = log(breaks[bin]), y = Sheldon_dens)) +
+    scale_y_log10() +
+    labs(x = "Log Weight",
+         y = "Biomass density [g]")
+```
+
+## Kernel density estimate
+
+Binning the data is not the only way to approximate the densities. One can also use the kernel density estimation method. ggplot2 even has that built in to its `geom_density()`. Here is a plot of the number density as a function of log weight as estimated by the kernel density method:
+
+```{r }
+ggplot(data) +
+    geom_density(aes(weight, stat(count)), adjust = 4) +
+    scale_x_log10() + 
+    scale_y_log10()
+```
