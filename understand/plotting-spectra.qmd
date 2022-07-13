@@ -2,7 +2,7 @@
 title: "Plotting size spectra"
 ---
 
-In this worksheet you will take observational data and plot the resulting size spectra for the community and for individual species. This will give you a concrete understanding of what size spectra are..
+In this worksheet you will take observational data and plot the resulting size spectra for the community and for individual species. This will give you a concrete understanding of what size spectra are.
 
 We will be making use of the [tidyverse](https://www.tidyverse.org/) package, in particular [dplyr](https://dplyr.tidyverse.org/) and [ggplot2](https://ggplot2.tidyverse.org/) If you are not familiar with these, you can learn what is needed just by studying the example code in this worksheet. You will find explanations of the code if you expand the "R details" sections that you find below many of the code chunks. To expand an explanation section, just click on the "R details".
 
@@ -12,7 +12,7 @@ library(tidyverse)
 
 ## The data
 
-We load the data and remove empty records
+First we load the data.
 
 ```{r }
 data <- readRDS("size-data.rds")
@@ -20,7 +20,7 @@ str(data)
 ```
 
 :::{.callout-note collapse="true"}
-#### Expand for R details
+### Expand for R details
 
 The `readRDS()` function loads the file "size-data.rds" which contains the data frame with the size data. We assign this data frame to the variable `data` for use below and then, to get an impression of what is in the data frame we use the `str()` function.
 
@@ -56,7 +56,7 @@ To get an impression of the size distribution of the fish, we plot a histogram o
 ```
 
 :::{.callout-note collapse="true"}
-#### Expand for R details
+### Expand for R details
 
 We have used the [ggplot2](https://ggplot2.tidyverse.org/) package, included in the tidyverse package, to make the plot. It is much more powerful and convenient than the base plot commands. It implements the "grammar of graphics". If you are not already using ggplot2 it is worth your time to familiarise yourself with it. However for the purpose of this tutorial, you can simply pick up the syntax from the examples we give.
 
@@ -72,7 +72,7 @@ We assign the resulting plot to the variable `p` because that way we can manipul
 
 :::
 
-The plot is not very informative. It just tells us that most fish are very small. We can not see much detail. The first way to improve the plot is to plot the y-axis on a logarithmic scale. That has the effect of stretching out the small values and squashing the large values, revealing more detail.
+The plot is not very informative. It just tells us that most fish are very small but there is a small number of very large fish. We can not see much detail. The first way to improve the plot is to plot the y-axis on a logarithmic scale. That has the effect of stretching out the small values and squashing the large values, revealing more detail.
 
 ```{r message=FALSE}
 p + scale_y_log10()
@@ -80,7 +80,7 @@ p + scale_y_log10()
 
 We get a warning because there were bins that contained no fish, and taking the log of 0 is not allowed. We can ignore these warnings because the empty bins will simply not be given a bar in the resulting plot.
 
-The second way to deal with the fact that there are so many more small fish than large fish, is to make the bin width larger at larger sizes and smaller at smaller sizes. For example we could make the smallest bin go from 1 gram to 2 gram, the next bin to go from 2 gram to 4 gram, and so on, with each next bin twice the size of the previous.
+The second way to deal with the fact that there are so many more small fish than large fish, is to make the bin width larger at larger sizes and smaller at smaller sizes. For example we could make the smallest bin go from 1 gram to 2 gram, the next bin to go from 2 gram to 4 gram, and so on, with each next bin twice the size of the previous. Let's create the break points between these bins:
 
 ```{r }
 log_max <- log2(max(data$weight)) + 1
@@ -90,7 +90,7 @@ log_max <- log2(max(data$weight)) + 1
 ```
 
 :::{.callout-note collapse="true"}
-#### Expand for R details
+### Expand for R details
 
 We had decided that we wanted the breaks between the bins to be at powers of 2. We first create the vector `log_breaks` with the exponents. The `seq()` function creates a vector of numbers starting at `from` and going up to `to` in steps of size `by`. You do not need to give the names of the arguments because they can also be identified by their position. So you could also have written `seq(0, log_max, 1)`. Such integer sequences are used so often that there is the even shorter notation `0:log_max` giving the same sequence.
 
@@ -111,7 +111,9 @@ ggplot(data) +
     scale_y_log10()
 ```
 
-Note that the height of the bars changes as we change how we bin the data. That is obvious. If we make a bin twice as large, we expect twice as many fish in that bin. To get rid of this dependence on the choice of the width of bins, we want to work with the density. This is obtained by dividing the height of each bar by its width.
+The heights are now slightly more even among the bins.
+
+Note that the height of the bars changed as we changed how we bin the data. That is obvious. If we make a bin twice as large, we expect twice as many fish in that bin. To get rid of this dependence on the choice of the width of bins, we want to work with the density. This is obtained by dividing the height of each bar by its width.
 
 Because it is important to understand this concept of number density and biomass density, we calculate them by hand below, even though ggplot has a built-in function `geom_density()` that we could use instead. We first bin the data by hand, and then we calculate and plot the densities.
 
@@ -127,7 +129,7 @@ head(binned)
 ```
 
 :::{.callout-note collapse="true"}
-#### Expand for R details
+### Expand for R details
 
 We used the pipe operator `|>` that simply pipes the output of the code preceeding it into the first argument of the function following it. So the above code is equivalent to
 
@@ -153,7 +155,7 @@ binned
 ```
 
 :::{.callout-note collapse="true"}
-#### Expand for R details
+### Expand for R details
 
 After we have grouped together all the observations with the same bin number with the `group_by(bin)`, the `summarize()` function creates a new data frame with one row for each group, which in this case means one row for each bin. That data frame will always have one column specifying the group and then we specified that we want two extra columns: `Numbers` that just counts the number of observations in the group with the `n()` function and `Biomass` that calculates the total biomass in the group by summing the weights of all the fish in that group. Note that the `species` is ignored in this calculation.
 
@@ -176,17 +178,17 @@ binned <- binned |>
 ```
 
 :::{.callout-note collapse="true"}
-#### Expand for R details
+### Expand for R details
 
 We first calculate the widths of the bins using the `diff()` function which calculates the difference between neighbouring entries in a vector. Then when we calculate the entries for the new `Number_dens` and `Biomass_dens` columns we pick out the bin width appropriate to the given bin for each observation.
 
 :::
 
-### Number density
+## Number density
 Let's make a plot of the number density against weight. Of course we don't know the number density for all weights because we discretised the continuous weight variable into bins. We only have an average value for the number density in each bin, which we use to determine the height of the curve at the midpoint of the bin. The plot interpolates between these discrete points by straight lines to produce a continuous curve.
 
 ```{r warning=FALSE}
-mid_points <- breaks + bin_width / 2
+mid_points <- 2 ^ (log_breaks + 1/2)
 
 ggplot(binned) +
     geom_line(aes(x = mid_points[bin], y = Number_dens)) +
@@ -205,7 +207,7 @@ ggplot(binned) +
          y = "Number density")
 ```
 
-### Fitting a power law
+## Fitting a power law
 
 Now we can see that the number density in this log-log plot is described approximately by a straight line. We can approximate the slope and intercept of that straight line by fitting a linear model
 
@@ -213,7 +215,7 @@ Now we can see that the number density in this log-log plot is described approxi
 (model <- lm(log(Number_dens) ~ log(mid_points[bin]), data = binned))
 ```
 
-This tells us that the straight-line approximation has a slope of about $-2.241$. We can also ask ggplot to put this line, together with its 5% confidence interval:
+This tells us that the straight-line approximation has a slope of about `r signif(model$coefficients[[2]], 3)`. We can also ask ggplot to put this line, together with its 5% confidence interval:
 
 ```{r warning=FALSE}
 ggplot(binned, aes(x = mid_points[bin], y = Number_dens)) +
@@ -226,17 +228,17 @@ ggplot(binned, aes(x = mid_points[bin], y = Number_dens)) +
 ```
 
 :::{.callout-note collapse="true"}
-#### Expand for R details
+### Expand for R details
 
 The linear regression line is produced by `geom_smooth(method='lm')`. Not how we moved the call to `aes()` into the call to `ggplot()`. That is then used automatically for both the `geom_line()` and the `geom_smooth()`, so that we did not have to specify the information twice.
 :::
 
-If we denote the number density at weight $w$ by $N(w)$, then the above tells us that $$\log(N(w)) \approx 14.695 + \log(w)^{-2.241}.$$
+If we denote the number density at weight $w$ by $N(w)$, then the above tells us that $$\log(N(w)) \approx `r signif(model$coefficients[[1]], 3)` + \log(w)^{`r signif(model$coefficients[[2]], 3)`}.$$
 
 If we exponentiate both sides to get rid of the logarithms this gives
 
-$$ N(w) \approx \exp(14.695) w^{-2.241} = N(1) w^{-\lambda} $$
-with $\lambda \approx -2.241$.
+$$ N(w) \approx \exp(`r signif(model$coefficients[[1]], 3)`) w^{`r signif(model$coefficients[[2]], 3)`} = N(1) w^{-\lambda} $$
+with $\lambda \approx `r signif(model$coefficients[[2]], 3)`$.
 
 :::{.callout-important}
 A straight line on a log-log plot indicates a power-law relationship between the variables with the slope of the line being the exponent in the power law.
@@ -251,7 +253,7 @@ lambda
 ```
 
 :::{.callout-note collapse="true"}
-#### Expand for mathematical details
+### Expand for mathematical details
 
 The linear regression line is produced by `geom_smooth(method='lm')`. Not how we moved the call to `aes()` into the call to `ggplot()`. That is then used automatically for both the `geom_line()` and the `geom_smooth()`, so that we did not have to specify the information twice.
 :::
@@ -260,7 +262,7 @@ So this approach, which gives equal weight to each observation rather than givin
 
 A good approach is to try to observe the power law over a wider range of sizes, all the way from bacteria to whales. This is what Sheldon et.al. did in 1972 and he observed that $\lambda \approx 2$. More thorough investigations since then have led to values just slightly above $2$ on average. TODO: references.
 
-### Biomass density
+## Biomass density
 We can plot the biomass density similarly
 
 ```{r }
@@ -309,28 +311,37 @@ ggplot(binned) +
          y = "Density")
 ```
 
-You will notice the reduced slope. In fact the slope of the Sheldon density is 1 less than the slope of the biomass density. If we denote the Sheldon density as $S(w)$ then we have the following relation to the biomass density $B(w)$ and the number density $N(w)$:
+We will refer to Sheldon's density as "the biomass density in log weight" and notate it as $B_{\log w}(w)$. Similarly we introduce "the number density in log weight" $N_{\log w}(w)$.
 
-$$S(w) = w B(w) = w^2 N(w).$$
+You will notice the reduced slope. In fact the slope of the Sheldon density is less negative than the slope of the biomass density. We have the following relations among the various densities:
 
-Sheldon's observation was that $S(w)$ is approximately constant over a large range of sizes $w$ from bacteria to whales. That corresponds to the earlier phrasing of Sheldon's observation that $N(w)\propto w^{-\lambda}$ with $\lambda$ close to 2.
+$$B_{\log w}(w) = w\, B(w) = w\, N_{\log}(w) = w^2 N(w).$$
 
+Sheldon's observation was that $B_{\log w}(w)$ is approximately constant over a large range of sizes $w$ from bacteria to whales. That corresponds to the earlier phrasing of Sheldon's observation that $N(w)\propto w^{-\lambda}$ with $\lambda$ close to 2.
 
 
 ## Kernel density estimate
 
-Binning the data is not the only way to approximate the densities. One can also use the kernel density estimation method. ggplot2 even has that built in to its `geom_density()`. Here is a plot of the biomass density as estimated by the kernel density method:
+Binning the data is not the only way to approximate the densities. One can also use the kernel density estimation method. ggplot2 even has that built in to its `geom_density()`. Here is a plot of the number density in log weight estimated by the kernel density method:
 
 ```{r}
-ggplot(binned, aes(x = mid_points[bin], y = Biomass_dens)) +
-    geom_line() + 
+ggplot(data) +
+    geom_density(aes(weight, stat(count)), adjust = 4) +
     scale_x_log10() + 
     scale_y_log10() +
     labs(x = "Weight [g]",
-         y = "Number density") + 
-    geom_smooth(method='lm') +
-    geom_density(data = data, aes(weight, stat(count)), adjust = 4) 
+         y = "Number density in log w")
 ```
 
+## Species spectra
 
-
+```{r}
+p <- ggplot(data) +
+    geom_density(aes(weight, stat(count), colour = species), adjust = 4) +
+    geom_density(aes(weight, stat(count)), colour = "black", adjust = 4) +
+    scale_x_continuous(trans = "log10") +
+    scale_y_continuous(trans = "log10", limits = c(1, NA)) +
+    labs(x = "Weight [g]",
+         y = "Number density in log w")
+plotly::ggplotly(p)
+```
