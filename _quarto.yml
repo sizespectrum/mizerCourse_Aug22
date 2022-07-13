@@ -88,13 +88,13 @@ website:
             href: use/run-your-own.qmd
 
 
-comments:
-  giscus: 
-    repo: sizespectrum/mizerCourse
-    category: Comments
-    reactions-enabled: false
-    input-position: bottom
-    repo-id: R_kgDOHlJwYg
-    category-id: DIC_kwDOHlJwYs4CP_7j
-    data-loading: lazy
+# comments:
+#   giscus: 
+#     repo: sizespectrum/mizerCourse
+#     category: Comments
+#     reactions-enabled: false
+#     input-position: bottom
+#     repo-id: R_kgDOHlJwYg
+#     category-id: DIC_kwDOHlJwYs4CP_7j
+#     data-loading: lazy
     
