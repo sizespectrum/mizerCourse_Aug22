@@ -322,7 +322,7 @@ Sheldon's observation was that $B_{\log w}(w)$ is approximately constant over a 
 
 ## Kernel density estimate
 
-Binning the data is not the only way to approximate the densities. One can also use the kernel density estimation method. ggplot2 even has that built in to its `geom_density()`. Here is a plot of the number density in log weight estimated by the kernel density method:
+Binning the data is not the only way to approximate the densities. One can also use the kernel density estimation method. ggplot2 even has that built in to its `geom_density()`. Here is a plot of the number density in log weight $N_{\log w}(w)$ estimated by the kernel density method:
 
 ```{r}
 ggplot(data) +
@@ -333,7 +333,18 @@ ggplot(data) +
          y = "Number density in log w")
 ```
 
+:::{.callout-note collapse="true"}
+### Expand for R details
+
+By default, `geom_density()` would normalise the density so that the integral under the density curve is 1. We use `stat(count)` to tell it that we want the number density, so that the integral under the curve is the total number, not normalised to 1.
+
+The kernel density method works by placing a small Gaussian (bell curve) at each data point and then adding up all these little Gaussians. The `adjust = 4` means that the width of these Gaussians is 4 times wider than `geom_density()` would choose by default. This leads to a smoother density estimate curve. This plays a similar role as the bin width does in histograms.
+
+:::
+
 ## Species spectra
+
+So far we have looked at the community spectrum, where we ignored the species identity of the fish. We will now look at the spectra of the individual species. We'll plot them all on the same graph and display them with [plotly](https://plotly.com/r/) so that you can hover over the resulting graph to see which line corresponds to which species. We also include the community size spectrum in black for comparison. 
 
 ```{r}
 p <- ggplot(data) +
@@ -345,3 +356,23 @@ p <- ggplot(data) +
          y = "Number density in log w")
 plotly::ggplotly(p)
 ```
+
+:::{.callout-note collapse="true"}
+### Expand for R details
+
+Note how easy it was to ask ggplot to draw a separate line for each species. We only had to add the `colour = species` to `geom_density()`. ggplot automatically chose some colours for the species and added a legend to the plot.
+
+We have replaced `scale_x_log10()` by `scale_x_continuous(trans = "log10")` which does exactly the same thing. But the latter form is more flexible, which we used in `scale_y_continuous(trans = "log10", limits = c(1, NA))` to also specify limits for the y axis. We chose to plot densities above 1 only because at smaller values there is only noise. We did not want to set an upper limit, hence the `NA`.
+
+We then did not display the plot `p` but instead fed it to `plotly::ggplotly()`. The `ggplotly()` function takes a plot created with ggplot and converts it into a plot created with plotly. plotly plots are more interactive. We called the `ggplotly()` function with `plotly::ggplotly()` because that way we did not need to load the plotly package first, i.e., we did not need to do `library(plotly)`.
+:::
+
+Don't worry about the fact that in places the estimate of the number density for the entire community is below the estimate of the number density for individual species. That just shows that we are dealing only with __estimates__ of the true densities based on a finite amount of data.
+
+There are message you should take away from this plot:
+
+1. Different species have very different size spectra.
+2. The estimates of the species size spectra are not very reliable because we do not have very good data.
+3. The community size spectrum looks more regular than the species size spectra.
+
+We will discuss species size spectra more in the next worksheet, where we will look at them with the help of the mizer model.
