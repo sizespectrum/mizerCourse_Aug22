@@ -3,3 +3,17 @@ title: "Week 1: Understand size-spectrum modelling"
 ---
 
 ## In preparation
+
+Your goal in this first week of the course is to gain a through understanding of size spectra and their dynamics. This means that at the end of the week you will understand the parameters that shape the size spectra and how they respond to changes.
+
+The material is split into 5 worksheets:
+
+1. Observed size spectra
+
+2. Single-species spectra
+
+3. Predation
+
+4. Dynamics of spectra
+
+5. Species interactions

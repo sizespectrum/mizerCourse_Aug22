@@ -15,6 +15,8 @@ format:
     code-copy: true
     code-block-bg: true
     code-block-border-left: "#31BAE9"
+    anchor-sections: true
+    link-external-newwindow: true
 
 execute:
   cache: true
@@ -50,9 +52,9 @@ website:
       - section: "Week 1: Understand"
         href: understand/index.qmd
         contents: 
-          - text: Plot size spectra
+          - text: Observed size spectra
             href: understand/plotting-spectra.qmd
-          - text: Shapes of spectra
+          - text: Single species spectra
             href: understand/shapes.qmd
           - text: Predation
             href: understand/predation.qmd

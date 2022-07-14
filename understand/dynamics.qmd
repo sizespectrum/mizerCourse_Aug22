@@ -3,3 +3,72 @@ title: "Dynamics of size spectra"
 ---
 
 ## In preparation
+
+```{r message=FALSE}
+library(mizer)
+library(tidyverse)
+library(plotly)
+params <- newSingleSpeciesParams(lambda = 2.05)
+```
+
+TODO: So far this only contains stuff posted in from the old single-species model tutorial.
+
+Size-spectrum dynamics describes in detail how biomass is transported through the ecosystem from small sizes to large sizes. Thus the best way to think about size-spectrum dynamics is to think of traffic on a highway, except that instead of cars travelling along the road we have fish growing along the size axis, all the way from their egg size to their maximum size. Let us explore this analogy briefly.
+
+```{=html}
+<!-- For traffic, you would be interested in modelling the traffic density.
+From the traffic density we can obtain the number of cars in a section of
+road by multiplying the density there by the length of the section. So the
+traffic density has units of cars per meter. For fish populations, we
+will be interested in modelling fish density. The number of fish in a size
+class is obtained by multiplying the density in that size class by the 
+width of the size class. So the fish density has units of fish per gram.  -->
+```
+The flow of traffic on a highway is dependent on the traffic density, which in turn is dependent on changes in the traffic velocity. High traffic density arises in sections of the road where the traffic velocity decreases. Such a decrease can lead to traffic jams. Low traffic density arises in sections where the velocity increases, as familiar when emerging on the other side of a traffic jam. Traffic jams are self-reinforcing phenomena: if there is a decrease in speed somewhere then the density of cars increases which causes a further decrease in speed, leading to an even higher density, and so on.
+
+Similarly, high fish density arises in size classes where the growth rate decreases. A pronounced decrease in growth rate can lead to pronounced peaks in the fish density, similar to a traffic jam. Of course fish density is also controlled by the death rate, with a high death rate leading to a decreased fish density.
+
+To be precise, fish density in a size class increases if the rate at which fish grow into the size class is larger than the rate at which they either grow out of the size class or die while they are in the size class. Thus size-spectrum dynamics is the result of the interplay between the death rate and the changes in the growth rate. For the mathematically minded, this interplay is expressed by the partial differential equation $$\frac{\partial}{\partial t}N(w,t) = 
+-\frac{\partial}{\partial w}\big(N(w,t)g(w,t)\big)
+- \mu(w,t)$$ where $N(w,t)$ is the fish density at size $w$ and time $t$, $g(w,t)$ is the growth rate of an individual of size $w$ at time $t$ and $\mu(w,t)$ is its death rate. There is no need for you to understand the mathematical notation.
+
+Size-spectrum dynamics is like the traffic on a highway where cars can leave the highway (fish can die) at any point, but they can only join the highway at its beginning (fish start out at the egg size). To model the size spectrum we therefore also have to describe the rate $R(t)$ at which eggs are entering the size spectrum, i.e., the rate at which mature fish reproduce.
+
+Below we will be discussing in detail what determines the death rate $\mu(w,t)$, the growth rate $g(w,t)$ and the rate of reproduction $R(t)$.
+
+# Why study size-spectrum dynamics?
+
+The study of traffic dynamics has had real practical benefits. For example, at least on motorways in Europe, when there is a danger of a traffic jam developing, automatic speed restrictions are imposed at a certain distance in front of the developing slow-moving traffic. For motorists who have not thought about traffic flow, these speed restrictions in places where there is no obvious reason for them are very annoying. However they do indeed avoid the formation of the traffic jam.
+
+Of course we can not directly tell fish to obey limits to their growth rates. However we do have influence on their size-spectrum dynamics through fishing policy. For example if some species experiences stunted growth, like for example the Herring in the Baltic Sea, we could resolve that by reducing their numbers (which increases their growth rate because of reduced competition for food) or by reducing fishing on their prey.
+
+The size-spectrum dynamics in a multi-species ecosystem is extremely complex. We can understand very simplified cases analytically, but in general we need to use numerical simulation to understand the consequences of various interventions.
+
+The mizer package can simulate the size-spectrum dynamics. Given the model parameters that enter into the expression of the growth rate, the death rate and the reproductive rate, and an initial fish size spectrum, mizer simulates the changes in the size spectrum over time according to the above equations.
+
+Of particular interest is the steady state of the size spectrum, where the effects of the death rate and the changes in the growth rate exactly balance in such a way that the size spectrum stays constant over time. We will be looking both at the steady state and at time-varying size spectra below.
+
+Our emphasis will be on understanding the dynamics. We do not just want to learn how to run simulations but we want to use the simulations to develop an intuition for how fish populations behave. We therefore start with very simple models first.
+
+-->
+
+## Reproductive efficiency
+
+So what happens with the energy that is invested into reproduction? It leads to spawning and thus the influx of new individuals at the egg size. This conversion of energy invested into reproduction into egg biomass is inefficient. Firstly much energy is spent on things like migration to spawning grounds, rather than on production of gonadic mass. Secondly, only a small proportion of eggs that are produced are viable and hatch into larvae.
+
+In order for the population to be at steady state, the reproductive efficiency has to have a particular value. If it were higher, the population would increase, if it was lower, the population would decrease with time. The `steady()` function has set the reproductive efficiency to just the right value to maintain the population level and has stored it in the species parameter called `erepro`.
+
+```{r}
+species_params(params)$erepro
+```
+
+The model with the changed maturity curve leads to a different rate of investment into reproduction and thus needs a slightly different reproductive efficiency to remain at steady state:
+
+```{r}
+#species_params(params_changed_maturity)$erepro
+```
+
+This is the reproductive efficiency at steady state. When the population deviates from the steady state, for example due to a change in fishing, the reproductive efficiency can be set to change according to a Beverton-Holt stock-recruitment curve. We will discuss this again later.
+
+
+The fish species we have studied had unlimited food and constant mortality. That of course is very unrealistic. In reality, food will become scarce when the fish population increases too much. Also the number of predators will grow. This will lead to interesting and important non-linear effects that we will study in the next tutorial.
