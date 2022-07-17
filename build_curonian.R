@@ -16,27 +16,27 @@ sp <- curonian_params |>
     rename(biomass_observed = Scaled_biomass)
 
 p <- newMultispeciesParams(sp, curonian_interaction, no_w = 200,
-                           initial_effort = 0.3)
+                           initial_effort = 0.3, lambda = 2.1)
 plotSpectra(p)
 
 p <- matchBiomasses(p)
 plotSpectra(p)
 
+# Rescale resource to be in line with fish community
 p <- alignResource(p)
 plotSpectra(p)
 
 p <- steady(p)
 plotSpectra(p)
 
+# Run the following several times until steady state is reached quickly
 p <- p |> calibrateBiomass() |> matchBiomasses() |> steady()
 plotSpectra(p)
 
+# Now tune the growth rates
 p <- tuneGrowth(p)
 
+# Finally look at other aspects of the model
 p <- tuneParams(p)
 
-
-
-plotFeedingLevel(p, include_critical = TRUE)
-plotGrowthCurves(p, species_panel = TRUE)
-
+saveRDS(p, "curonian_model_2.rds")
