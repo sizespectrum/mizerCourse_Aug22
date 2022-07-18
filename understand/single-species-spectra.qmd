@@ -18,7 +18,7 @@ library(mizer)
 library(tidyverse)
 ```
 
-If you get error messages saying that a particular package is not available, you will need to install that package. This was discussed in the preparatory tutorial on [installing tools](../prepare/install.qmd).
+If you get error messages saying that a particular package is not available, you will need to install that package. This was discussed in the preparatory tutorial on [installing tools](../prepare/install-tools.qmd).
 
 ## Single-species model
 
@@ -106,7 +106,7 @@ plotSpectra(params)
 
 Now the green line representing the biomass density of the background has a slope of -1.05.
 
-The initial slope of the species biomass density is negative, meaning that the biomass density decreases with size. This means that even though the individual fish of course gain biomass as they grow up, there is so much death among the larvae and juvenile fish that the total biomass of any cohort nevertheless decreases as it grows up. We will explain the reason for this in the next tutorial when we discuss [predation mortality](predation.qmd#predation-mortality).
+The initial slope of the species biomass density is negative, meaning that the biomass density decreases with size. This means that even though the individual fish of course gain biomass as they grow up, there is so much death among the larvae and juvenile fish that the total biomass of any cohort nevertheless decreases as it grows up. We will explain the reason for this in the next tutorial when we discuss [predation mortality](predation-growth-and-mortality.qmd#predation-mortality).
 
 We can also plot the Sheldon spectrum, i.e., the biomass density in log weight, by supplying the argument `power = 2` to `plotSpectra()`.
 

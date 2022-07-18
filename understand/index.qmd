@@ -10,12 +10,12 @@ It is worth spending an entire week on building this understanding, because it w
 
 The material is split into 5 tutorials:
 
-1. [Observed size spectra](plotting-spectra.qmd)
+1. [Observed size spectra](observed-size-spectra.qmd)
 
-2. [Single-species spectra](shapes.qmd)
+2. [Single-species spectra](single-species-spectra.qmd)
 
-3. [Predation, growth and death](predation.qmd)
+3. [Predation, growth and mortality](predation-growth-and-mortality.qmd)
 
-4. [Dynamics of spectra](dynamics.qmd)
+4. [Dynamics of spectra](dynamics-of-spectra.qmd)
 
-5. [Species interactions](interactions.qmd)
+5. [Species interactions](species-interactions.qmd)

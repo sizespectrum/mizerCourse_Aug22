@@ -42,52 +42,52 @@ website:
       - section: "Prepare"
         contents:
           - text: Introduce yourself
-            href: prepare/introductions.qmd
+            href: prepare/introduce-yourself.qmd
           - text: Install tools
-            href: prepare/install.qmd
+            href: prepare/install-tools.qmd
           - text: Use Git and GitHub
             href: prepare/use-git-and-github.qmd
           - text: Watch introduction
-            href: prepare/introduction-to-mizer.qmd
+            href: prepare/watch-introduction.qmd
       - section: "Week 1: Understand"
         href: understand/index.qmd
         contents: 
           - text: Observed size spectra
-            href: understand/plotting-spectra.qmd
+            href: understand/observed-size-spectra.qmd
           - text: Single species spectra
-            href: understand/shapes.qmd
-          - text: Predation, growth and death
-            href: understand/predation.qmd
+            href: understand/single-species-spectra.qmd
+          - text: Predation, growth and mortality
+            href: understand/predation-growth-and-mortality.qmd
           - text: Dynamics of spectra
-            href: understand/dynamics.qmd
+            href: understand/dynamics-of-spectra.qmd
           - text: Species interactions
-            href: understand/interactions.qmd
+            href: understand/species-interactions.qmd
       - section: "Week 2: Build"
         href: index.qmd
         contents:
           - text: Create first model
-            href: build/build-model.qmd
+            href: build/create-first-model.qmd
           - text: Set multiple resources
-            href: build/multiple-resources.qmd
+            href: build/set-multiple-resources.qmd
           - text: Tune model
             href: build/tune-model.qmd
           - text: Find species parameters
-            href: build/species-parameters.qmd
+            href: build/find-species-parameters.qmd
           - text: Build your own model
-            href: build/build-your-own.qmd
+            href: build/build-your-own-model.qmd
       - section: "Week 3: Use"
         href: index.qmd
         contents:
           - text: Simulate change
-            href: use/simulate.qmd
+            href: use/simulate-change.qmd
           - text: Refine model
-            href: use/refine.qmd
+            href: use/refine-model.qmd
           - text: Tune sensitivity
             href: use/tune-sensitivity.qmd
           - text: Change resources
             href: use/change-resources.qmd
           - text: Run your own scenarios
-            href: use/run-your-own.qmd
+            href: use/run-your-own-scenarios.qmd
 
 
 # comments:
