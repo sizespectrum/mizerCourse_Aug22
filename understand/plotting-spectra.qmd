@@ -2,20 +2,19 @@
 title: "Observed size spectra"
 ---
 
-In this worksheet you will take observational data and plot the resulting size spectra for the community and for individual species. This will give you a concrete understanding of what size spectra are.
+In this tutorial you will take observational data and plot the resulting size spectra for the community and for individual species. This will give you a concrete understanding of what size spectra are. There are various different ways of how size spectra can be represented, and this is a common source of confusion. We will discuss this in detail.
 
+## Introduction
 
-We will be making use of the [tidyverse](https://www.tidyverse.org/) package, in particular [dplyr](https://dplyr.tidyverse.org/) and [ggplot2](https://ggplot2.tidyverse.org/) If you are not familiar with these, you can learn what is needed just by studying the example code in this worksheet. You will find explanations of the code if you expand the "R details" sections that you find below many of the code chunks. To expand an explanation section, just click on the "R details".
+TODO: Write about the origin of the size spectrum concept, with references. In particular we need to take into account that participants come from different backgrounds and therefore will have differing prior associations with the term "size-spectrum". 
+
+## The data
+
+To analyse and plot the data we will be making use of the [tidyverse](https://www.tidyverse.org/) package, in particular [dplyr](https://dplyr.tidyverse.org/) and [ggplot2](https://ggplot2.tidyverse.org/). If you are not familiar with these, you can learn what is needed just by studying the example code in this tutorial. You will find explanations of the code if you expand the "R details" sections that you find below many of the code chunks. To expand an explanation section, just click on the "R details".
 
 ```{r message=FALSE}
 library(tidyverse)
 ```
-
-## Introduction
-
-TODO: Write about the origin of the size spectrum concept, with references.
-
-## The data
 
 First we load the data.
 
@@ -43,21 +42,22 @@ This data was assembled by Ken Andersen at DTU Aqua in Copenhagen. The `length` 
 
 $$ w = a\, l ^ b,$$
 
-where the coefficient $a$ and the exponent $b$ are species-specific parameters (we'll discuss how to find such species parameters in a [later tutorial](../build/species-parameters.qmd)). The reason we like to work with weight as the measure of a fish's size is that there are well-known allometric relationships between weight and physiological rates. For example metabolic rate is often taken to scale as $w^{3/4}$ and mortality is taken to scale as $w^{-1/4}$, as we will be discussing in the section on [allometric rates](shapes.qmd#allometric-rates) in the next worksheet.
+where the coefficient $a$ and the exponent $b$ are species-specific parameters (we'll discuss how to find such species parameters in a [later tutorial](../build/species-parameters.qmd)). The reason we like to work with weight as the measure of a fish's size is that there are well-known allometric relationships between weight and physiological rates. For example metabolic rate is often taken to scale as $w^{3/4}$ and mortality is taken to scale as $w^{-1/4}$, as we will be discussing in the section on [allometric rates](shapes.qmd#allometric-rates) in the next tutorial.
 
 :::{.callout-important}
 When not otherwise specified, all lengths are given in centimetres [cm] and all weights are given in grams [g].
 :::
 
-## Weight histogram
+## Histogram
 
 To get an impression of the size distribution of the fish, we plot a histogram of the fish weights.
 
 ```{r message=FALSE}
-(p <- ggplot(data) +
+p <- ggplot(data) +
     geom_histogram(aes(weight), fill = "blue", colour = "black") +
     labs(x = "Weight [g]",
-         y = "Number of fish"))
+         y = "Number of fish")
+p
 ```
 
 :::{.callout-note collapse="true"}
@@ -88,8 +88,7 @@ We get a warning because there were bins that contained no fish, and taking the 
 The second way to deal with the fact that there are so many more small fish than large fish, is to make the bin width larger at larger sizes and smaller at smaller sizes. For example we could make the smallest bin go from 1 gram to 2 gram, the next bin to go from 2 gram to 4 gram, and so on, with each next bin twice the size of the previous. Let's create the break points between these bins:
 
 ```{r }
-log_max <- log2(max(data$weight)) + 1
-(log_breaks <- seq(from = 0, to = log_max, by = 1))
+(log_breaks <- seq(from = 0, to = 11, by = 1))
 
 (breaks <- 2 ^ log_breaks)
 ```
@@ -97,7 +96,7 @@ log_max <- log2(max(data$weight)) + 1
 :::{.callout-note collapse="true"}
 ### Expand for R details
 
-We had decided that we wanted the breaks between the bins to be at powers of 2. We first create the vector `log_breaks` with the exponents. The `seq()` function creates a vector of numbers starting at `from` and going up to `to` in steps of size `by`. You do not need to give the names of the arguments because they can also be identified by their position. So you could also have written `seq(0, log_max, 1)`. Such integer sequences are used so often that there is the even shorter notation `0:log_max` giving the same sequence.
+We had decided that we wanted the breaks between the bins to be at powers of 2. We first create the vector `log_breaks` with the exponents. The `seq()` function creates a vector of numbers starting at `from` and going up to `to` in steps of size `by`. You do not need to give the names of the arguments because they can also be identified by their position. So you could also have written `seq(0, 11, 1)`. Such integer sequences are used so often that there is the even shorter notation `0:11` giving the same sequence.
 
 Note how R is good at vectorised calculations. The second line above creates a vector containing the powers of 2 with the exponents taken from the entries of the vector `log_breaks`.
 
@@ -118,19 +117,28 @@ ggplot(data) +
 
 The heights are now slightly more even among the bins.
 
+:::{.callout-caution collapse="false"}
+### Exercise 1
+
+Now you want to double the number of logarithmically-sized bins used to get a more detailed picture of the size spectrum. So instead of using 11 bins to cover the range from 1g to 2048g, where each bin is twice as large as the previous, you want to use 22 bins where each bin is larger than the previous one by a factor of $\sqrt{2}$.
+
+Create the vector with the breaks between the bins and then use that when you plot the histogram. 
+
+:::
+
 Note that the height of the bars changed as we changed how we bin the data. That is obvious. If we make a bin twice as large, we expect twice as many fish in that bin. To get rid of this dependence on the choice of the width of bins, we want to work with the density. This is obtained by dividing the height of each bar by its width.
 
-Because it is important to understand this concept of number density and biomass density, we calculate them by hand below, even though ggplot has a built-in function `geom_density()` that we could use instead. We first bin the data by hand, and then we calculate and plot the densities.
+Because it is important to understand this concept of __density__, we calculate the number density by hand below, even though ggplot has a built-in function `geom_density()` that we could use instead. We first bin the data by hand, and then we calculate and plot the densities.
 
 ## Binning
 
 To understand better what the histogram did and to improve the plots further, we bin the data ourselves. We do this by first adding a bin number to each observation, which gives the number of the bin in which the weight of the fish lies.
 
 ```{r }
-binned <- data |>
+data_with_bins <- data |>
     mutate(bin = cut(weight, breaks = breaks, right = FALSE,
                      labels = FALSE))
-head(binned)
+head(data_with_bins)
 ```
 
 :::{.callout-note collapse="true"}
@@ -139,8 +147,8 @@ head(binned)
 We used the pipe operator `|>` that simply pipes the output of the code preceeding it into the first argument of the function following it. So the above code is equivalent to
 
 ```{r eval=FALSE}
-binned <- mutate(data, bin = cut(weight, breaks = breaks, right = FALSE,
-                                 labels = FALSE))
+data_with_bins <- mutate(data, bin = cut(weight, breaks = breaks, right = FALSE,
+                                         labels = FALSE))
 ```
 
 The pipe operator becomes really useful only if you do a longer sequence of operations on data. You will see examples of its use later.
@@ -149,20 +157,19 @@ The `mutate()` function can add new columns to a data frame or modify existing c
 
 :::
 
-We then group the data by bin and calculate the number of fish as well as the biomass in each bin
+We then group the data by bin and calculate the number of fish in each bin
 
 ```{r }
-binned <- binned |> 
+binned_numbers <- data_with_bins |> 
     group_by(bin) |> 
-    summarise(Numbers = n(), 
-              Biomass = sum(weight))
-binned
+    summarise(Numbers = n())
+binned_numbers
 ```
 
 :::{.callout-note collapse="true"}
 ### Expand for R details
 
-After we have grouped together all the observations with the same bin number with the `group_by(bin)`, the `summarize()` function creates a new data frame with one row for each group, which in this case means one row for each bin. That data frame will always have one column specifying the group and then we specified that we want two extra columns: `Numbers` that just counts the number of observations in the group with the `n()` function and `Biomass` that calculates the total biomass in the group by summing the weights of all the fish in that group. Note that the `species` is ignored in this calculation.
+After we have grouped together all the observations with the same bin number with the `group_by(bin)`, the `summarize()` function creates a new data frame with one row for each group, which in this case means one row for each bin. That data frame will always have one column specifying the group and then we specified that we want an extra column `Numbers` that just counts the number of observations in the group with the `n()` function. Note that the `species` is ignored in this calculation.
 
 In the above code you see the pipe operator `|>` being quite convenient, because it allows us to write the functions in the order in which they are applied, rather than having to write `summarize(group_by(...))`.
 
@@ -170,32 +177,31 @@ In the above code you see the pipe operator `|>` being quite convenient, because
 
 The numbers in each bin give us the heights of the histogram above.
 
-## Densities
 
-The values for `Numbers` and `Biomass` of course depend on the size of bins we have chosen. It is therefore convenient to divide these numbers by their bin widths to get the corresponding densities. We get the number density as a function of weight by dividing the number of fish in each bin by the bin width. Similarly we get the biomass density as a function of weight by dividing the biomass in each bin by the bin width.
+## Number density
+
+The values for `Numbers` of course depend on the size of the bins we have chosen. Wider bins will have more fish in them. It is therefore convenient to divide these numbers by the bin widths to get the average number density in the bins.
 
 ```{r}
 bin_width <- diff(breaks)
 
-binned <- binned |> 
-    mutate(Number_dens = Numbers / bin_width[bin],
-           Biomass_dens = Biomass / bin_width[bin])
+binned_numbers <- binned_numbers |> 
+    mutate(Number_dens = Numbers / bin_width[bin])
 ```
 
 :::{.callout-note collapse="true"}
 ### Expand for R details
 
-We first calculate the widths of the bins using the `diff()` function which calculates the difference between neighbouring entries in a vector. Then when we calculate the entries for the new `Number_dens` and `Biomass_dens` columns we pick out the bin width appropriate to the given bin for each observation.
+We first calculate the widths of the bins using the `diff()` function which calculates the difference between neighbouring entries in a vector. Then when we calculate the entries for the new `Number_dens` column we pick out the bin width appropriate to the given bin for each observation.
 
 :::
 
-## Number density
 Let's make a plot of the number density against weight. Of course we don't know the number density for all weights because we discretised the continuous weight variable into bins. We only have an average value for the number density in each bin, which we use to determine the height of the curve at the midpoint of the bin. The plot interpolates between these discrete points by straight lines to produce a continuous curve.
 
 ```{r warning=FALSE}
 mid_points <- 2 ^ (log_breaks + 1/2)
 
-ggplot(binned) +
+ggplot(binned_numbers) +
     geom_line(aes(x = mid_points[bin], y = Number_dens)) +
     labs(x = "Weight [g]",
          y = "Number density")
@@ -204,7 +210,7 @@ ggplot(binned) +
 Again the graph tells us that most of the individuals are very small, but we can not see any of the details. We therefore plot the density on log-log axes:
 
 ```{r warning=FALSE}
-ggplot(binned) +
+ggplot(binned_numbers) +
     geom_line(aes(x = mid_points[bin], y = Number_dens)) + 
     scale_x_log10() + 
     scale_y_log10() +
@@ -212,18 +218,28 @@ ggplot(binned) +
          y = "Number density")
 ```
 
+
+:::{.callout-caution collapse="false"}
+### Exercise 2
+
+Earlier you increased the number of bins from 11 to 22. Because the same number of observed fish was then spread over this larger number of bins, all the bars in the histogram were accordingly less high. By going to the number density we have corrected for this. The density plot created with the 22 bins will of course not look exactly the same as the one created with 11 bins. It will look more ragged because it exposes the noise in the data more. 
+
+Create the plot of the number density using the 22 logarithmically sized bins from exercise 1.
+
+:::
+
 ## Fitting a power law
 
-Now we can see that the number density in this log-log plot is described approximately by a straight line. We can approximate the slope and intercept of that straight line by fitting a linear model
+The number density in the above log-log plot is described approximately by a straight line. We can approximate the slope and intercept of that straight line by fitting a linear model
 
 ```{r}
-(model <- lm(log(Number_dens) ~ log(mid_points[bin]), data = binned))
+(model <- lm(log(Number_dens) ~ log(mid_points[bin]), data = binned_numbers))
 ```
 
-This tells us that the straight-line approximation has a slope of about `r signif(model$coefficients[[2]], 3)`. We can also ask ggplot to put this line, together with its 5% confidence interval:
+This tells us that the straight-line approximation has a slope of about `r signif(model$coefficients[[2]], 3)`. We can also ask ggplot to put this line into the plot, together with its 5% confidence interval:
 
 ```{r warning=FALSE}
-ggplot(binned, aes(x = mid_points[bin], y = Number_dens)) +
+ggplot(binned_numbers, aes(x = mid_points[bin], y = Number_dens)) +
     geom_line() + 
     scale_x_log10() + 
     scale_y_log10() +
@@ -249,7 +265,9 @@ with $\lambda \approx `r signif(model$coefficients[[2]], 3)`$.
 A straight line on a log-log plot indicates a power-law relationship between the variables with the slope of the line being the exponent in the power law.
 :::
 
-Of course the approach we took above of estimating the exponent in the power law from the binned data is not ideal. If one has access to unbinned data, as we have here, one should always use that unbinned data for inference. So the better to infer the exponent from our data would be to ask: "If we randomly sampled individuals from the population described by the power law, for which exponent would our observations be the most likely". In other words, we should do a maximum likelihood estimation of the exponent.
+Of course the approach we took above of estimating the exponent in the power law from the binned data is not ideal. If one has access to unbinned data, as we have here, one should always use that unbinned data for inference. So the better way to infer the exponent from our data would be to ask: "If we view our set of observed fish sizes as a random sample from the population described by the power law, for which exponent would our observations be the most likely". In other words, we should do a maximum likelihood estimation of the exponent. We'll skip the mathematical details and just tell you the result that the maximum likelihood estimate for the power-law exponent $\lambda$ is
+$$\lambda = 1+\frac{n}{\sum_{i=1}^n\log\frac{w_i}{w_{min}}},$$
+where $n$ is the number of observed fish, $w_i$ is the weight of the $i$th fish and $w_{min}$ is the weight of the smallest fish. For our data this gives
 
 ```{r}
 w_min = min(data$weight)
@@ -257,55 +275,55 @@ lambda <- 1 + nrow(data) / sum(log(data$weight / w_min))
 lambda
 ```
 
-:::{.callout-note collapse="true"}
-### Expand for mathematical details
-
-The linear regression line is produced by `geom_smooth(method='lm')`. Not how we moved the call to `aes()` into the call to `ggplot()`. That is then used automatically for both the `geom_line()` and the `geom_smooth()`, so that we did not have to specify the information twice.
-:::
-
-So this approach, which gives equal weight to each observation rather than giving equal weight to each bin, gives a lower value for $\lambda$, namely $\lambda \approx 1.71$ instead of $\lambda \approx 2.24$. But this is still not the end of the story, because we did not take measurement error into account. We assumed that we sample perfectly in proportion of the density. But in reality, small individuals are much easier to miss than large ones, so our data is almost certainly under-reporting the number of small individuals, which leads to a smaller $\lambda$. 
+So this approach, which gives equal weight to each observation rather than giving equal weight to each bin, gives a lower value for $\lambda$, namely $\lambda \approx 1.71$ instead of $\lambda \approx 2.24$. But this is still not the end of the story, because we did not take measurement error into account. We assumed that we sample perfectly. But in reality, small individuals are much easier to miss than large ones, so our data is almost certainly under-reporting the number of small individuals, which leads to a smaller $\lambda$. 
 
 A good approach is to try to observe the power law over a wider range of sizes, all the way from bacteria to whales. This is what Sheldon et.al. did in 1972 and he observed that $\lambda \approx 2$. More thorough investigations since then have led to values just slightly above $2$ on average. TODO: references.
 
 ## Biomass density
-We can plot the biomass density similarly
 
-```{r }
-ggplot(binned, aes(x = mid_points[bin], y = Biomass_dens)) +
-    geom_line() + 
-    scale_x_log10() + 
-    scale_y_log10() +
-    labs(x = "Weight [g]",
-         y = "Number density") + 
-    geom_smooth(method='lm') +
-    geom_density(data = data, aes(weight, stat(count)), adjust = 4) 
+Above we first calculated the number of fish in each weight bin and then divided by the width of each bin to obtain the average number density in each bin. Exactly analogous to that, we can calculate the biomass of all the fish in each weight bin and divide that by the width of each bin to obtain the average biomass density in each bin.
+
+```{r}
+
+binned_biomass <- data_with_bins |> 
+    group_by(bin) |> 
+    summarise(Biomass = sum(weight)) |>
+    mutate(Biomass_dens = Biomass / bin_width[bin])
 ```
+
+:::{.callout-caution collapse="false"}
+### Exercise 3
+
+Make a plot the biomass density similarly to how we plotted the number density above, using logarithmic axes and also plotting the straight-line approximation.
+
+:::
 
 Fitting a linear model to the binned biomass data gives
 
 ```{r}
-(model <- lm(log(Biomass_dens) ~ log(mid_points[bin]), data = binned))
+(model <- lm(log(Biomass_dens) ~ log(mid_points[bin]), data = binned_biomass))
 ```
 
 The slope is $-1.265$ for the biomass density whereas it was $-2.241$ for the number density. This makes perfect sense, because if we denote the biomass density by $B(w)$ then $B(w) = w N(w)$ and hence if $N(w) \propto w^{-\lambda}$ then $B(w)\propto w^{1-\lambda}$.
 
 
-## Density in log weight
+## Densities in log weight
 
-There is still a weakness in the way we visualised the size spectrum via the number density or the biomass density plotted on logarithmic axes.
+There is perhaps something a bit strange about the way we visualised the size spectrum via the number density or the biomass density plotted on logarithmic axes.
 
-Above we calculated densities by dividing the total number or total biomass in each bin by the width that the bin has on the $w$ axis. That is fine. But then we decided to use a logarithmic axis that showed $\log(w)$. But then would it not have been more natural to calculate the densities by dividing by the width of the bin on that logarithmic axis? 
+Above we calculated densities by dividing the total number or total biomass in each bin by the width that the bin has on the $w$ axis. That is fine. Then we decided to use a logarithmic axis that showed $\log(w)$. But then would it not have been more natural to calculate the densities by dividing by the width of the bin on that logarithmic axis? 
 
 Well, the answer to that is probably a matter of taste. Different people make a different choice. It is very important to be aware of this to understand discrepancies between reported power-law exponents: they depend on the choice made.
 
 The result of dividing the total biomass in each bin by the width of the bin on the logarithmic weight axis is sometimes called the Sheldon spectrum, because it is this density that is approximately constant. Below we plot the Biomass density (in black) and the Sheldon density (in blue) on the same axes.
+
 ```{r }
 log_bin_width <- diff(log_breaks)
 
-binned <- binned |> 
+binned_biomass <- binned_biomass |> 
     mutate(Sheldon_dens = Biomass / log_bin_width[bin])
 
-ggplot(binned) +
+ggplot(binned_biomass) +
     geom_line(aes(x = mid_points[bin], y = Biomass_dens),
               colour = "black") +
     geom_line(aes(x = mid_points[bin], y = Sheldon_dens),
@@ -380,4 +398,11 @@ There are message you should take away from this plot:
 2. The estimates of the species size spectra are not very reliable because we do not have very good data.
 3. The community size spectrum looks more regular than the species size spectra.
 
-We will discuss species size spectra more in the next worksheet, where we will look at them with the help of the mizer model.
+We will discuss species size spectra more in the next tutorial, where we will look at them with the help of the mizer model.
+
+:::{.callout-caution collapse="false"}
+### Exercise 4
+
+Now make a size-spectrum plot for a new data set. If you happen to have access to size data yourself, you could use that. Otherwise use ... TODO: provide data set.
+
+:::

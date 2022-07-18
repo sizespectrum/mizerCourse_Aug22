@@ -56,7 +56,7 @@ website:
             href: understand/plotting-spectra.qmd
           - text: Single species spectra
             href: understand/shapes.qmd
-          - text: Predation
+          - text: Predation, growth and death
             href: understand/predation.qmd
           - text: Dynamics of spectra
             href: understand/dynamics.qmd

@@ -2,16 +2,16 @@
 title: "Predation"
 ---
 
-## In preparation
-
-```{r message=FALSE}
+```{r}
+#| include: false
+#| message: false
 library(mizer)
 library(tidyverse)
 params <- newSingleSpeciesParams(lambda = 2.05)
 ```
 
 
-It is now time to discuss the important issue of predation. It is through predation that the fish obtains the energy it needs to maintain its metabolism, to grow and to invest in reproduction. So it is important how we model this predation.
+It is now time to discuss the important issue of predation. It is through predation that the fish obtains the energy it needs to maintain its metabolism, to grow and to invest in reproduction. But also a large proportion of the natural mortality of fish comes from predation by their predators. So it is important how mizer models predation. While you can also read about the details in the description of [the general mizer size-spectrum model](https://sizespectrum.org/mizer/articles/model_description.html), in this tutorial we will approach the topic in a more hands-on experimental fashion, using the mizer package itself to help us build intuition.
 
 ## Effect of prey availability
 
@@ -42,7 +42,7 @@ TODO: Explain the shape
 The lack of food and the resulting slow-down in growth leads to a traffic jam: a peak in the biomass density. This slow-down occurs at a size that is about a factor of 100 larger than the size at which food is reduced. Why this is we will discuss in the next section. But first investigate what happens when the prey abundance is increased instead of decreased.
 
 :::{.callout-caution collapse="false"}
-### Exercise 1
+### Exercise 9
 
 Plot the steady state biomass density in our model when the community abundance is increased by a factor of 10 in the size range from 1mg to 10mg.
 :::
@@ -125,7 +125,7 @@ For details of how `beta` and `sigma` parametrise the predation kernel, see <htt
 It is very important not to confuse the prey preference with the diet. Just because a predator might prefer to feed on prey of a particular size if it had free choice does not mean that it actually feeds predominantly on such prey. The actual diet of the fish depends also on the availability of prey. Because smaller prey are more abundant, the realised predator/prey mass ratio in the diet will be smaller than the preferred predator/prey mass ratio. This is particularly important when estimating the predation kernel from stomach data.
 
 :::{.callout-caution collapse="false"}
-### Exercise 2
+### Exercise 10
 
 Change the parameters of the predation kernel to `beta = 50` and `sigma = 2` and plot the predation kernel of a predator of size 1g. You should see that the predation kernel is truncated so that the predator never feeds on prey larger than themselves.
 
@@ -163,7 +163,7 @@ plotGrowthCurves(params_new_gamma)
 ```
 
 :::{.callout-caution collapse="false"}
-### Exercise 3
+### Exercise 11
 
 What effect will this change in growth rate have on the slope of the juvenile spectrum? Will it be steeper or shallower? Make the plot of the spectrum to see.
 :::

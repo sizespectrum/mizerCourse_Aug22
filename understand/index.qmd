@@ -4,16 +4,18 @@ title: "Week 1: Understand size-spectrum modelling"
 
 ## In preparation
 
-Your goal in this first week of the course is to gain a through understanding of size spectra and their dynamics. This means that at the end of the week you will understand the parameters that shape the size spectra and how they respond to changes.
+Your goal in this first week of the course is to gain a through understanding of size spectra and their dynamics. This means that at the end of the week you will understand the parameters that shape the size spectra and how size spectra respond to changes. You will have a feel for how size-spectrum dynamics is different from usual single-species age-based dynamics, but also how it is different from multi-species food-web dynamics.
 
-The material is split into 5 worksheets:
+It is worth spending an entire week on building this understanding, because it will enable you to build more reliable models in the second week and to appropriately explore the model predictions in the third week.
 
-1. Observed size spectra
+The material is split into 5 tutorials:
 
-2. Single-species spectra
+1. [Observed size spectra](plotting-spectra.qmd)
 
-3. Predation
+2. [Single-species spectra](shapes.qmd)
 
-4. Dynamics of spectra
+3. [Predation, growth and death](predation.qmd)
 
-5. Species interactions
+4. [Dynamics of spectra](dynamics.qmd)
+
+5. [Species interactions](interactions.qmd)

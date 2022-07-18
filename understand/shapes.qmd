@@ -2,15 +2,13 @@
 title: "Single species spectra"
 ---
 
-## In preparation
-
 ## Introduction
 
 TODO
 
-At the end of the previous worksheet we plotted single-species size spectra from our dataset and observed that they were a bit of a mess. In this worksheet we will use the mizer model to gain an understanding of what determines the shape of a species size spectrum.
+At the end of the previous tutorial we plotted single-species size spectra from our dataset and observed that they were a bit of a mess. In this tutorial we will use the mizer model to gain an understanding of what determines the shape of a species size spectrum.
 
-In this worksheet you are also going to start using mizer functions. When you want to learn more about any of the functions that we use in the examples, simply click on the function name. This will open the function's help page in a new browser window. 
+In this tutorial you are also going to start using mizer functions. When you want to learn more about any of the functions that we use in the examples, simply click on the function name. This will open the function's help page in a new browser window. 
 
 
 First, load some required packages with the following commands:
@@ -20,7 +18,9 @@ library(mizer)
 library(tidyverse)
 ```
 
-If you get error messages saying that a particular package is not available, you will need to install that package.
+If you get error messages saying that a particular package is not available, you will need to install that package. This was discussed in the preparatory tutorial on [installing tools](../prepare/install.qmd).
+
+## Single-species model
 
 Mizer collects all the parameters describing a size-spectrum model into one object of class `MizerParams`. You do not need to set up this object by hand but instead there are several wrapper functions in mizer that create the object for you for various types of models, and also many functions for changing specific parameters in a model. We will use the `newSingleSpeciesParams()` function to set up a model describing a single fish species living in an ecosystem whose community size spectrum is given by a power-law.
 
@@ -57,7 +57,7 @@ The other line represents the number density of our single species, which by def
 The initial slope of the species number density is negative, which means that there are fewer larger fish than smaller fish. That is of course understandable: some fish die while they are growing up, so there tend to be fewer fish in larger size classes.
 
 :::{.callout-caution collapse="false"}
-### Exercise 1
+### Exercise 5
 
 Create a MizerParams object describing a single species in a power-law background where the Sheldon exponent is 2.1 and run that model to steady state. Then plot the number density as a function of weight
 :::
@@ -91,7 +91,7 @@ It is important to realise that this is not the number of fish in the size class
 You may be surprised by the small number if you interpret it as the number of fish between 1 gram and 1.12 gram in the entire ocean. However it looks more reasonable if it is the average number per square meter of sea. For more of a discussion of this issue of working with numbers per area, numbers per volume or numbers for the entire system see <https://sizespectrum.org/mizer/reference/setParams.html#units-in-mizer>
 
 :::{.callout-caution collapse="false"}
-### Exercise 2
+### Exercise 6
 
 Determine the total number of fish in the model with sizes between 10 grams and 20 grams. You can use the `sum()` function to add together contributions from the various size classes.
 :::
@@ -106,7 +106,7 @@ plotSpectra(params)
 
 Now the green line representing the biomass density of the background has a slope of -1.05.
 
-The initial slope of the species biomass density is negative, meaning that the biomass density decreases with size. This means that even though the individual fish of course gain biomass as they grow up, there is so much death among the larvae and juvenile fish that the total biomass of any cohort nevertheless decreases as it grows up. We will explain the reason for this in the next worksheet when we discuss [predation mortality](predation.qmd#predation-mortality).
+The initial slope of the species biomass density is negative, meaning that the biomass density decreases with size. This means that even though the individual fish of course gain biomass as they grow up, there is so much death among the larvae and juvenile fish that the total biomass of any cohort nevertheless decreases as it grows up. We will explain the reason for this in the next tutorial when we discuss [predation mortality](predation.qmd#predation-mortality).
 
 We can also plot the Sheldon spectrum, i.e., the biomass density in log weight, by supplying the argument `power = 2` to `plotSpectra()`.
 
@@ -218,7 +218,7 @@ m0 <- round(mm$coefficients[[1]], digits = 3)
 ```
 
 :::{.callout-caution collapse="false"}
-## Exercise 3
+## Exercise 7
 
 Use the methods you have just seen to make a log-log plot of the mortality rate. You can get the mortality rate with the `getMort()` function. While adjusting the code to this new task, you need to take into account that the name of the size-dimension of the array returned by `getMort()` is `"w_prey"` instead of `"w"`.
 
@@ -355,7 +355,7 @@ ggplot(psi_combined) +
 This change in the maturity curve of course implies a change in the growth rates.
 
 :::{.callout-caution collapse="false"}
-### Exercise 4
+### Exercise 8
 
 Make a plot showing the growth rates of the original model and of the model with the changed maturity curve.
 :::
@@ -384,4 +384,4 @@ ggplot(nf_combined) +
 
 As expected, the bump happens later due to the larger maturity size and it is less pronounced, because the maturity curve is less steep.
 
-This was our first investigation of how the shape of a species size spectrum changes as model parameters are changed. We will do much more in this direction in the next worksheet in which we discuss how growth and mortality are determined through predation.
+This was our first investigation of how the shape of a species size spectrum changes as model parameters are changed. We will do much more in this direction in the next tutorial in which we discuss how growth and mortality are determined through predation.
