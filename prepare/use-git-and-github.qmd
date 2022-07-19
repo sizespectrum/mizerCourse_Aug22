@@ -2,6 +2,48 @@
 title: "Use Git and GitHub"
 ---
 
-You will learn how to work with git repositories and host them on GitHub. During the course you will use GitHub to submit the coursework and receive feedback.
+In this course we will collaborate via Git and GitHub. This means that if you have not used these tools before, then you will have to learn some new concepts and get used to a particular workflow. The investment of your time will more than pay off. Developing your research code with Git and GitHub has great advantages, and it'll be great if this course gets you hooked on these tools. The use we make of Git and GitHub in this course is relatively simple, so it may be the perfect gateway drug.
 
-## In preparation
+We'll start by first introducing some of the ideas theoretically, but then we will also show what the workflow looks like in practice. 
+
+## Theory
+
+[__Git__](https://git-scm.com/) is a distributed version control system. So we will start by explaining the "version control" and the "distributed". We'll typeset typical Git terminology in bold.
+
+__Version control__ means that while you are working on your code or data files you can keep track of all the changes you are making. You can then later review the history of changes and, if necessary, go back to earlier versions. 
+You may say that any cloud storage service like Google Drive or Dropbox does that as well, but there are important differences that we will now discuss. 
+
+1. Git keeps the __repository__ with all your changes on your local computer. The version control does not rely on an internet connection.
+
+2. You explicitly say when you want a batch of changes to be stored in the repository. Saving changes to the files in your local file area does not yet modify the repository. You have to make a so-called __commit__ to commit the changes you want to the repository.
+
+3. Typically you will add a __commit message__ that summarises briefly what the changes are about. This makes it much easier to understand the development of your code later on.
+
+__Distributed__ means that the repository typically does not reside only on a single computer. There can be __clones__ of the repository on many other computers. For example, you might want your collaborators to have a copy of the repository for a common project that you are working on jointly. They can make commits to their clone of the repository in the same way you can make commits to yours. Of course from time to time you will want to __merge__ the changes from one clone to another. For that there needs to be some communication via the internet, facilitated by a Git server.
+
+[__GitHub__](https://github.com) is a service that hosts a clone of your repository and runs a Git server, so that you and your collaborators do not have to run your own Git servers. Instead you can __push__ any commits that you made to your local repository to the GitHub clone and then your collaborators can __pull__ those changes to their clone.
+
+So with Git and GitHub we have a very different workflow than what you get when you collaborate using for example a Google Drive folder. There are more steps before your collaborator sees your changes, namely: 
+
+1) you __save__ your changes to your disk, 
+2) you __commit__ the changes to your repository, 
+3) you __push__ your commits to GitHub, 
+4) your collaborator __pulls__ your commits from GitHub which automatically get __merged__ into their clone. 
+
+When you __pull__ new commits from github, the files that have changed will automatically be changed on your disk, unless you have made changes to the same files, in which case you will be asked to either __commit__ or __revert__ those changes before doing the pull. 
+
+If you and your collaborator independently made commits to your respective clones that touched the same lines of code then there may be __merge conflicts__ that need to be resolved by hand. But you probably won't have to worry about such issues for this course.
+
+This more involved workflow takes a bit of getting used to, but is definitely the best way to work on code.
+
+## Practice
+
+For each week of this course you will get a Git repository with worksheets for you to complete. You will commit your work to that same repository. This gives us a chance to see your work and to comment on it. These repositories will be private repositories, visible only to you and the course leaders [Asta](https://github.com/astaaudzi) and [Gustav](https://github.com/gustavdelius) and to [Romain](https://github.com/baldrech) who provides technological support to the course.
+Below you will get a preparatory repository (also private) on which you can practice the workflow.
+
+If you do not yet have an account on [GitHub](https://github.com) yet, please go there now and sign up. Otherwise just log in. Then please follow the following link:
+
+[https://classroom.github.com/a/Fc-YtAIb](https://classroom.github.com/a/Fc-YtAIb)
+
+TODO: use screenshots to talk the participant through their first commit and push and to how to view the feedback pull request.
+

@@ -2,7 +2,41 @@
 title: "Install tools"
 ---
 
-  You will install R, Git, RStudio and important R packages,
-  including of course mizer itself.
-  
-## In preparation
+For this course you will need access to a machine with an installation of R, Git, RStudio and some important R packages, including, of course, mizer itself and mizerExperimental. Below we give the necessary information to allow you to install these tools.
+
+If you run into difficulties, please make a post in the Comments section below. It is quite likely that someone else on the course has encountered similar difficulties and that someone has ideas on how to solve them.
+
+If you already have some of these tools installed, please make sure that the version you have is recent.
+
+## R
+
+Mizer is compatible with [R](https://www.r-project.org/) versions 3.1 and later. However in this course we will assume that you have a version newer than 4.0. So if you are still using 3.x, now is the time to upgrade. You can install or upgrade R on your computer by following the instructions at <https://cran.r-project.org/> for your particular platform. In fact, upgrading follows the same procedure as installing from scratch.
+
+Alternatively, if you can not or do not want to install R on your computer, you can also work with R and RStudio in your internet browser by creating yourself a free account at <https://rstudio.cloud>. There you can then install mizer as described above. Running mizer in the RStudio Cloud may be slightly slower than running it locally on your machine, but the speed is usually quite acceptable.
+
+## RStudio
+
+This course assumes that you will be using [RStudio](https://www.rstudio.com/products/rstudio/) to work with R. There is really no reason not to use RStudio and it makes a lot of things much easier. RStudio develops rapidly and adds useful features all the time and so it is best if you install the [latest version](https://www.rstudio.com/products/rstudio/download/preview/). This course was written with version 2022.07.0+548. If you already have RStudio installed but it is an older version, the way to upgrade is to just install the newest version. The old version will automatically be replaced by the new.
+
+## Git
+
+[Git](https://git-scm.com/) is a distributed version control system that we will use in this course. We will discuss that more on the page [Use Git and GitHub](use-git-and-github.qmd). If you are using Linux, then Git may already be installed. Just type `git` in a terminal and see whether it responds with a help page. It does not matter what version of Git you have. To install Git follow the links at <https://git-scm.com/downloads> for your operating system. You do not need a GUI client for Git because you will be using Git from within RStudio.
+
+## R Packages
+
+R packages extend the functionality of R. mizer itself is such an R package. There is a central repository for R packages called CRAN which hosts all of the packages needed for this course, except for the mizerExperimental package. To install them on your computer just start RStudio and then in the console issue the command
+
+```{r}
+#| eval: false
+install.packages(c("mizer", "tidyverse", "plotly", "remotes"))
+```
+
+The mizerExperimental package is for code that is still experimental and thus changes frequently. Therefore it is hosted in a [GitHub repository](https://github.com/sizespectrum/mizerExperimental). You install it with
+
+```{r}
+#| eval: false
+remotes::install_github("sizespectrum/mizerExperimental")
+```
+
+And that's it! Of course as with all computer-related things, unexpected problems are likely to crop up. Be sure to post about them below.
+
