@@ -4,46 +4,67 @@ title: "Use Git and GitHub"
 
 In this course we will collaborate via Git and GitHub. This means that if you have not used these tools before, then you will have to learn some new concepts and get used to a particular workflow. The investment of your time will more than pay off. Developing your research code with Git and GitHub has great advantages, and it'll be great if this course gets you hooked on these tools. The use we make of Git and GitHub in this course is relatively simple, so it may be the perfect gateway drug.
 
-We'll start by first introducing some of the ideas theoretically, but then we will also show what the workflow looks like in practice. 
+We'll start by first introducing some of the ideas theoretically, but then we will also show what the workflow looks like in practice.
 
 ## Theory
 
-[__Git__](https://git-scm.com/) is a distributed version control system. So we will start by explaining the "version control" and the "distributed". We'll typeset typical Git terminology in bold.
+[**Git**](https://git-scm.com/) is a distributed version control system. So we will start by explaining the "version control" and the "distributed". We'll typeset typical Git terminology in bold.
 
-__Version control__ means that while you are working on your code or data files you can keep track of all the changes you are making. You can then later review the history of changes and, if necessary, go back to earlier versions. 
-You may say that any cloud storage service like Google Drive or Dropbox does that as well, but there are important differences that we will now discuss. 
+**Version control** means that while you are working on your code or data files you can keep track of all the changes you are making. You can then later review the history of changes and, if necessary, go back to earlier versions. You may say that any cloud storage service like Google Drive or Dropbox does that as well, but there are important differences that we will now discuss.
 
-1. Git keeps the __repository__ with all your changes on your local computer. The version control does not rely on an internet connection.
+1.  Git keeps the **repository** with all your changes on your local computer. The version control does not rely on an internet connection.
 
-2. You explicitly say when you want a batch of changes to be stored in the repository. Saving changes to the files in your local file area does not yet modify the repository. You have to make a so-called __commit__ to commit the changes you want to the repository.
+2.  You explicitly say when you want a batch of changes to be stored in the repository. Saving changes to the files in your local file area does not yet modify the repository. You have to make a so-called **commit** to commit the changes you want to the repository.
 
-3. Typically you will add a __commit message__ that summarises briefly what the changes are about. This makes it much easier to understand the development of your code later on.
+3.  Typically you will add a **commit message** that summarises briefly what the changes are about. This makes it much easier to understand the development of your code later on.
 
-__Distributed__ means that the repository typically does not reside only on a single computer. There can be __clones__ of the repository on many other computers. For example, you might want your collaborators to have a copy of the repository for a common project that you are working on jointly. They can make commits to their clone of the repository in the same way you can make commits to yours. Of course from time to time you will want to __merge__ the changes from one clone to another. For that there needs to be some communication via the internet, facilitated by a Git server.
+**Distributed** means that the repository typically does not reside only on a single computer. There can be **clones** of the repository on many other computers. For example, you might want your collaborators to have a copy of the repository for a common project that you are working on jointly. They can make commits to their clone of the repository in the same way you can make commits to yours. Of course from time to time you will want to **merge** the changes from one clone to another. For that there needs to be some communication via the internet, facilitated by a Git server.
 
-[__GitHub__](https://github.com) is a service that hosts a clone of your repository and runs a Git server, so that you and your collaborators do not have to run your own Git servers. Instead you can __push__ any commits that you made to your local repository to the GitHub clone and then your collaborators can __pull__ those changes to their clone.
+[**GitHub**](https://github.com) is a service that hosts a clone of your repository and runs a Git server, so that you and your collaborators do not have to run your own Git servers. Instead you can **push** any commits that you made to your local repository to the GitHub clone and then your collaborators can **pull** those changes to their clone.
 
-So with Git and GitHub we have a very different workflow than what you get when you collaborate using for example a Google Drive folder. There are more steps before your collaborator sees your changes, namely: 
+So with Git and GitHub we have a very different workflow than what you get when you collaborate using for example a Google Drive folder. There are more steps before your collaborator sees your changes, namely:
 
-1) you __save__ your changes to your disk, 
-2) you __commit__ the changes to your repository, 
-3) you __push__ your commits to GitHub, 
-4) your collaborator __pulls__ your commits from GitHub which automatically get __merged__ into their clone. 
+1)  you **save** your changes to your drive into a directory associated with the git repository,
+2)  you **stage** the changes that you want to be committed to the repository,
+3)  you **commit** those selected changes to your repository,
+4)  you **push** your commits to GitHub,
+5)  your collaborator **pulls** your commits from GitHub,
+6)  these commits automatically get **merged** into their clone,
+7)  the changed files are \_checked out\_\_ from their repository into the corresponding directory on their drive.
 
-When you __pull__ new commits from github, the files that have changed will automatically be changed on your disk, unless you have made changes to the same files, in which case you will be asked to either __commit__ or __revert__ those changes before doing the pull. 
+If you pull commits from GitHub that want to change files that you have also made changes to locally, then you will be asked to either **commit**, **revert** or **stash** your changes before doing the pull. If you and your collaborator independently made commits to your respective clones that touched the same lines of code then there may be **merge conflicts** that need to be resolved by hand. But you probably won't have to worry about such issues for this course.
 
-If you and your collaborator independently made commits to your respective clones that touched the same lines of code then there may be __merge conflicts__ that need to be resolved by hand. But you probably won't have to worry about such issues for this course.
-
-This more involved workflow takes a bit of getting used to, but is definitely the best way to work on code.
+This more involved workflow takes a bit of getting used to, but is definitely the best way to work on code. Luckily we will see that RStudio makes the above steps really easy.
 
 ## Practice
 
-For each week of this course you will get a Git repository with worksheets for you to complete. You will commit your work to that same repository. This gives us a chance to see your work and to comment on it. These repositories will be private repositories, visible only to you and the course leaders [Asta](https://github.com/astaaudzi) and [Gustav](https://github.com/gustavdelius) and to [Romain](https://github.com/baldrech) who provides technological support to the course.
-Below you will get a preparatory repository (also private) on which you can practice the workflow.
+For each week of this course you will get a Git repository with worksheets for you to complete. This repository will be set up for you on GitHub by [GitHub classroom](https://classroom.github.com/). You will clone that repository to your computer and then commit your work to that repository and push it back to GitHub. This gives the course leaders a chance to see your work and to comment on it. These repositories will be private repositories, visible only to you and the course leaders [Asta](https://github.com/astaaudzi) and [Gustav](https://github.com/gustavdelius) and to [Romain](https://github.com/baldrech) who provides technological support for the course. Below you will get a preparatory repository (also private) on which you can practice the workflow.
 
 If you do not yet have an account on [GitHub](https://github.com) yet, please go there now and sign up. Otherwise just log in. Then please follow the following link:
 
-[https://classroom.github.com/a/Fc-YtAIb](https://classroom.github.com/a/Fc-YtAIb)
+<https://classroom.github.com/a/Fc-YtAIb>
 
-TODO: use screenshots to talk the participant through their first commit and push and to how to view the feedback pull request.
+Once you are logged into GitHub, this should bring you to a screen asking you to accept an assignment.
 
+![](screenshots/accept_assignment.png){width="80%" fig-align="center"}
+
+Please click on "Accept the assignment". This will first tell you that your repository is prepared and that you should refresh the page in your browser.
+
+![](screenshots/refresh.png){width="80%" fig-align="center"}
+
+When you hit the refresh button on your browwer after a just a short moment, you should see a page with a URL for your new repository on GitHub at the bottom.
+
+![](screenshots/ready-to-go.png){width="80%" fig-align="center"}
+
+Please follow that URL to your repository. You will then see a page with lots of stuff and with a big red "Code" button, which when clicked will give a popup button with
+
+![Code button](screenshots/code-button.png){width="80%" fig-align="center"}
+
+TODO: use screenshots to talk the participant through the following steps:
+
+1)  create an RStudio project with a clone of that repository,
+2)  use the Files tab to open the worksheet in the editor where they should complete the first exercise,
+3)  use the Commit button in the Git tab to first stage and then commit their work up to this stage,
+4)  view the result of their commit on GitHub classroom (they should see a 10/20 grade but also still a reject)
+
+Then they can go on to the second exercise and follow the same steps.
