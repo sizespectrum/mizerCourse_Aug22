@@ -80,7 +80,7 @@ gitcreds::gitcreds_set()
 
 This will prompt you to enter your token. Go back to the webpage with your token and copy the token to your clipboard. Go back to RStudio and paste in that token and press Enter. That completes the setup. You will not have to do this again on this computer, but if you switch to a new computer, you will repeat the above.
 
-If you run into difficulties with the above, please post about it in the comments section at the bottom of this page. If you want to dig in deeper yourself, you can take a look at the [troubleshooting](https://happygitwithr.com/troubleshooting.html) section in "[Happy Git and GitHub for the useR](https://happygitwithr.com/index.html)".
+If you run into difficulties with the above, please post about it in the comments section at the bottom of this page. If you want to dig in deeper yourself, you can take a look at the [troubleshooting](https://happygitwithr.com/troubleshooting.html) section in "[Happy Git and GitHub for the useR](https://happygitwithr.com/index.html)". But even if you manage to solve some problem yourself, please let us know about it in the comments.
 
 ### Create repository
 
