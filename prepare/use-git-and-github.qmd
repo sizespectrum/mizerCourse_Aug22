@@ -8,6 +8,8 @@ We'll start by first introducing some of the ideas theoretically, but then we wi
 
 ## Theory
 
+### Git
+
 [__Git__](https://git-scm.com/) is a distributed version control system. So we will start by explaining the "version control" and the "distributed". We'll typeset typical Git terminology in bold.
 
 __Version control__ means that while you are working on your code or data files you can keep track of all the changes you are making. You can then later review the history of changes and, if necessary, go back to earlier versions. 
@@ -20,6 +22,8 @@ You may say that any cloud storage service like Google Drive or Dropbox does tha
 3. Typically you will add a __commit message__ that summarises briefly what the changes are about. This makes it much easier to understand the development of your code later on.
 
 __Distributed__ means that the repository typically does not reside only on a single computer. There can be __clones__ of the repository on many other computers. For example, you might want your collaborators to have a copy of the repository for a common project that you are working on jointly. They can make commits to their clone of the repository in the same way you can make commits to yours. Of course from time to time you will want to __merge__ the changes from one clone to another. For that there needs to be some communication via the internet, facilitated by a Git server.
+
+### GitHub
 
 [__GitHub__](https://github.com) is a service that hosts a clone of your repository and runs a Git server, so that you and your collaborators do not have to run your own Git servers. Instead you can __push__ any commits that you made to your local repository to the GitHub clone and then your collaborators can __pull__ those changes to their clone.
 
@@ -34,16 +38,86 @@ When you __pull__ new commits from github, the files that have changed will auto
 
 If you and your collaborator independently made commits to your respective clones that touched the same lines of code then there may be __merge conflicts__ that need to be resolved by hand. But you probably won't have to worry about such issues for this course.
 
-This more involved workflow takes a bit of getting used to, but is definitely the best way to work on code.
+This more involved workflow takes a bit of getting used to, but is definitely the best way to work on code. So next you will get to try this out in practice.
 
 ## Practice
 
 For each week of this course you will get a Git repository with worksheets for you to complete. You will commit your work to that same repository. This gives us a chance to see your work and to comment on it. These repositories will be private repositories, visible only to you and the course leaders [Asta](https://github.com/astaaudzi) and [Gustav](https://github.com/gustavdelius) and to [Romain](https://github.com/baldrech) who provides technological support to the course.
 Below you will get a preparatory repository (also private) on which you can practice the workflow.
 
-If you do not yet have an account on [GitHub](https://github.com) yet, please go there now and sign up. Otherwise just log in. Then please follow the following link:
+If you do not yet have an account on [GitHub](https://github.com) yet, please go there now and sign up, otherwise go there and sign in.
+
+### Connect RStudio to GitHub
+
+We will be interacting with Git and GitHub via RStudio. This just requires some initial setup but will be very convenient from then on. Please open RStudio and use the following command to tell Git about yourself, where of course you change the name and email address to your own.
+
+```{r}
+#| eval: false
+usethis::use_git_config(user.name = "Jane Doe", 
+                        user.email = "jane@example.org")
+```
+
+Next you will create a personal access token for accessing GitHub. The following command will bring you to the GitHub webpage that creates that personal access token for you:
+
+```{r}
+#| eval: false
+usethis::create_github_token()
+```
+
+![](screenshots/new-pat.png)
+
+
+You can edit the Note to something like "mizer course" or whatever will remind you later what this was for. You can leave the rest of the form as it is and scroll down to the bottom and press the "Generate token" button. That will lead you to a page that displays your new token:
+
+![](screenshots/pat.png)
+
+Leave this page open for now and return to RStudio and issue the command
+
+```{r}
+#| eval: false
+gitcreds::gitcreds_set()
+```
+
+This will prompt you to enter your token. Go back to the webpage with your token and copy the token to your clipboard. Go back to RStudio and paste in that token and press Enter. That completes the setup. You will not have to do this again on this computer, but if you switch to a new computer, you will repeat the above.
+
+If you run into difficulties with the above, please post about it in the comments section at the bottom of this page. If you want to dig in deeper yourself, you can take a look at the [troubleshooting](https://happygitwithr.com/troubleshooting.html) section in "[Happy Git and GitHub for the useR](https://happygitwithr.com/index.html)".
+
+### Create repository
+
+To create your practice repository, please follow the following link:
 
 [https://classroom.github.com/a/Fc-YtAIb](https://classroom.github.com/a/Fc-YtAIb)
+
+TODO: push what I did for this bit on my other computer.
+
+
+### Clone repository
+
+Now we can use RStudio to clone this repository to your computer. For this you create a new RStudio project by clicking on the project drop-down menu at the top-right of the RStudio window and selecthing "New Project...".
+
+![](screenshots/new-project.png)
+
+That will open a dialog where you first choose "Version Control" and then choose "Git".
+
+::: {layout-ncol=2}
+
+![](screenshots/version-control.png)
+
+![](screenshots/git.png)
+
+:::
+
+In the resulting dialog window you paste in the repository URL that you copied from GitHub. You also specify the directory in your file area where you want the project directory to be saved. Then you click "Create Project".
+
+![](screenshots/create-project.png)
+
+RStudio now communicates with GitHub to download a clone of the repository and it also checks out all the files contained in the repository to the newly created directory. You can see them in the "Files" tab in RStudio.
+
+### Edit work notebook
+
+### Commit your work
+
+### View feedback
 
 TODO: use screenshots to talk the participant through their first commit and push and to how to view the feedback pull request.
 
