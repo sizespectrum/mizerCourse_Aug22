@@ -57,7 +57,7 @@ The other line represents the number density of our single species, which by def
 The initial slope of the species number density is negative, which means that there are fewer larger fish than smaller fish. That is of course understandable: some fish die while they are growing up, so there tend to be fewer fish in larger size classes.
 
 :::{.callout-caution collapse="false"}
-### Exercise 5
+### Exercise 1
 
 Create a MizerParams object describing a single species in a power-law background where the Sheldon exponent is 2.1 and run that model to steady state. Then plot the number density as a function of weight
 :::
@@ -91,7 +91,7 @@ It is important to realise that this is not the number of fish in the size class
 You may be surprised by the small number if you interpret it as the number of fish between 1 gram and 1.12 gram in the entire ocean. However it looks more reasonable if it is the average number per square meter of sea. For more of a discussion of this issue of working with numbers per area, numbers per volume or numbers for the entire system see <https://sizespectrum.org/mizer/reference/setParams.html#units-in-mizer>
 
 :::{.callout-caution collapse="false"}
-### Exercise 6
+### Exercise 2
 
 Determine the total number of fish in the model with sizes between 10 grams and 20 grams. You can use the `sum()` function to add together contributions from the various size classes.
 :::
@@ -218,7 +218,7 @@ m0 <- round(mm$coefficients[[1]], digits = 3)
 ```
 
 :::{.callout-caution collapse="false"}
-## Exercise 7
+## Exercise 3
 
 Use the methods you have just seen to make a log-log plot of the mortality rate. You can get the mortality rate with the `getMort()` function. While adjusting the code to this new task, you need to take into account that the name of the size-dimension of the array returned by `getMort()` is `"w_prey"` instead of `"w"`.
 
@@ -355,7 +355,7 @@ ggplot(psi_combined) +
 This change in the maturity curve of course implies a change in the growth rates.
 
 :::{.callout-caution collapse="false"}
-### Exercise 8
+### Exercise 4
 
 Make a plot showing the growth rates of the original model and of the model with the changed maturity curve.
 :::

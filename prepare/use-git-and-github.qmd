@@ -10,7 +10,7 @@ We'll start by first introducing some of the ideas theoretically, but then we wi
 
 ### Git
 
-[__Git__](https://git-scm.com/) is a distributed version control system. So we will start by explaining the "version control" and the "distributed". We'll typeset typical Git terminology in bold.
+[**Git**](https://git-scm.com/) is a distributed version control system. So we will start by explaining the "version control" and the "distributed". We'll typeset typical Git terminology in bold.
 
 **Version control** means that while you are working on your code or data files you can keep track of all the changes you are making. You can then later review the history of changes and, if necessary, go back to earlier versions. You may say that any cloud storage service like Google Drive or Dropbox does that as well, but there are important differences that we will now discuss.
 
@@ -22,10 +22,9 @@ We'll start by first introducing some of the ideas theoretically, but then we wi
 
 **Distributed** means that the repository typically does not reside only on a single computer. There can be **clones** of the repository on many other computers. For example, you might want your collaborators to have a copy of the repository for a common project that you are working on jointly. They can make commits to their clone of the repository in the same way you can make commits to yours. Of course from time to time you will want to **merge** the changes from one clone to another. For that there needs to be some communication via the internet, facilitated by a Git server.
 
-
 ### GitHub
 
-[__GitHub__](https://github.com) is a service that hosts a clone of your repository and runs a Git server, so that you and your collaborators do not have to run your own Git servers. Instead you can __push__ any commits that you made to your local repository to the GitHub clone and then your collaborators can __pull__ those changes to their clone.
+[**GitHub**](https://github.com) is a service that hosts a clone of your repository and runs a Git server, so that you and your collaborators do not have to run your own Git servers. Instead you can **push** any commits that you made to your local repository to the GitHub clone and then your collaborators can **pull** those changes to their clone.
 
 So with Git and GitHub we have a very different workflow than what you get when you collaborate using for example a Google Drive folder. There are more steps before your collaborator sees your changes, namely:
 
@@ -35,11 +34,11 @@ So with Git and GitHub we have a very different workflow than what you get when 
 4)  you **push** your commits to GitHub,
 5)  your collaborator **pulls** your commits from GitHub,
 6)  these commits automatically get **merged** into their clone,
-7)  the changed files are \_checked out\_\_ from their repository into the corresponding directory on their drive.
+7)  the changed files are **checked out** from their repository into the corresponding directory on their drive.
 
 If you pull commits from GitHub that want to change files that you have also made changes to locally, then you will be asked to either **commit**, **revert** or **stash** your changes before doing the pull. If you and your collaborator independently made commits to your respective clones that touched the same lines of code then there may be **merge conflicts** that need to be resolved by hand. But you probably won't have to worry about such issues for this course.
 
-If you and your collaborator independently made commits to your respective clones that touched the same lines of code then there may be __merge conflicts__ that need to be resolved by hand. But you probably won't have to worry about such issues for this course.
+If you and your collaborator independently made commits to your respective clones that touched the same lines of code then there may be **merge conflicts** that need to be resolved by hand. But you probably won't have to worry about such issues for this course.
 
 This more involved workflow takes a bit of getting used to, but is definitely the best way to work on code. So next you will get to try this out in practice.
 
@@ -67,7 +66,6 @@ usethis::create_github_token()
 ```
 
 ![](screenshots/new-pat.png)
-
 
 You can edit the Note to something like "mizer course" or whatever will remind you later what this was for. You can leave the rest of the form as it is and scroll down to the bottom and press the "Generate token" button. That will lead you to a page that displays your new token:
 
@@ -106,9 +104,6 @@ Please follow that URL to your repository. You will then see a page with lots of
 
 ![Code button](screenshots/code-button.png){width="80%" fig-align="center"}
 
-
-
-
 ### Clone repository
 
 Now we can use RStudio to clone this repository to your computer. For this you create a new RStudio project by clicking on the project drop-down menu at the top-right of the RStudio window and selecthing "New Project...".
@@ -117,12 +112,10 @@ Now we can use RStudio to clone this repository to your computer. For this you c
 
 That will open a dialog where you first choose "Version Control" and then choose "Git".
 
-::: {layout-ncol=2}
-
+::: {layout-ncol="2"}
 ![](screenshots/version-control.png)
 
 ![](screenshots/git.png)
-
 :::
 
 In the resulting dialog window you paste in the repository URL that you copied from GitHub. You also specify the directory in your file area where you want the project directory to be saved. Then you click "Create Project".
