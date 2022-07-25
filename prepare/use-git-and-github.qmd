@@ -12,7 +12,7 @@ We'll start by first introducing some of the ideas theoretically, but then we wi
 
 [**Git**](https://git-scm.com/) is a distributed version control system. So we will start by explaining the "version control" and the "distributed". We'll typeset typical Git terminology in bold.
 
-**Version control** means that while you are working on your code or data files you can keep track of all the changes you are making. You can then later review the history of changes and, if necessary, go back to earlier versions. You may say that any cloud storage service like Google Drive or Dropbox does that as well, but there are important differences that we will now discuss.
+**Version control** means that while you are working on your code or data files you can keep track of all the changes you are making. You can then later review the **history** of changes and, if necessary, **revert** to earlier versions. You may say that any cloud storage service like Google Drive or Dropbox does that as well, but there are important differences that we will now discuss.
 
 1.  Git keeps the **repository** with all your changes on your local computer. The version control does not rely on an internet connection.
 
@@ -20,11 +20,11 @@ We'll start by first introducing some of the ideas theoretically, but then we wi
 
 3.  Typically you will add a **commit message** that summarises briefly what the changes are about. This makes it much easier to understand the development of your code later on.
 
-**Distributed** means that the repository typically does not reside only on a single computer. There can be **clones** of the repository on many other computers. For example, you might want your collaborators to have a copy of the repository for a common project that you are working on jointly. They can make commits to their clone of the repository in the same way you can make commits to yours. Of course from time to time you will want to **merge** the changes from one clone to another. For that there needs to be some communication via the internet, facilitated by a Git server.
+**Distributed** means that the repository typically does not reside only on a single computer. There can be **clones** of the repository on many other computers. For example, you might want to switch between computers during your work or you might want your collaborators to have a copy of the repository for a common project that you are working on jointly. They can make commits to their clone of the repository in the same way you can make commits to yours. Of course, from time to time you will want to **merge** the changes from one clone to another. For that there needs to be some communication via the internet, facilitated by a Git **server**.
 
 ### GitHub
 
-[**GitHub**](https://github.com) is a service that hosts a clone of your repository and runs a Git server, so that you and your collaborators do not have to run your own Git servers. Instead you can **push** any commits that you made to your local repository to the GitHub clone and then your collaborators can **pull** those changes to their clone.
+[**GitHub**](https://github.com) is a service that hosts a clone of your repository and runs a Git server, so that you and your collaborators do not have to run your own Git servers. Instead you can **push** any commits that you made in your local repository to the GitHub clone and then your collaborators can **pull** those changes to their clone.
 
 So with Git and GitHub we have a very different workflow than what you get when you collaborate using for example a Google Drive folder. There are more steps before your collaborator sees your changes, namely:
 
@@ -36,11 +36,11 @@ So with Git and GitHub we have a very different workflow than what you get when 
 6)  these commits automatically get **merged** into their clone,
 7)  the changed files are **checked out** from their repository into the corresponding directory on their drive.
 
-If you pull commits from GitHub that want to change files that you have also made changes to locally, then you will be asked to either **commit**, **revert** or **stash** your changes before doing the pull. If you and your collaborator independently made commits to your respective clones that touched the same lines of code then there may be **merge conflicts** that need to be resolved by hand. But you probably won't have to worry about such issues for this course.
+If you pull commits from GitHub that change files that you have also made changes to locally, then you will be asked to either **commit**, **revert** or **stash** your changes before doing the pull.
 
 If you and your collaborator independently made commits to your respective clones that touched the same lines of code then there may be **merge conflicts** that need to be resolved by hand. But you probably won't have to worry about such issues for this course.
 
-This more involved workflow takes a bit of getting used to, but is definitely the best way to work on code. So next you will get to try this out in practice.
+This more involved workflow takes a bit of getting used to, but is definitely the best way to work on code and data. So next you will get to try this out in practice.
 
 ## Practice
 
@@ -92,21 +92,21 @@ Once you are logged into GitHub, this should bring you to a screen asking you to
 
 ![](screenshots/accept_assignment.png){width="80%" fig-align="center"}
 
-Please click on "Accept the assignment". This will first tell you that your repository is prepared and that you should refresh the page in your browser.
+Please click on "Accept the assignment". This will first tell you that your repository is being prepared and that you should refresh the page in your browser.
 
 ![](screenshots/refresh.png){width="80%" fig-align="center"}
 
-When you hit the refresh button on your browser after a just a short moment, you should see a page with a URL for your new repository on GitHub at the bottom.
+When you hit the refresh button on your browser after just a short moment, you should see a page with a URL for your new repository on GitHub.
 
 ![](screenshots/ready-to-go.png){width="80%" fig-align="center"}
 
-Please follow that URL to your repository. This repository home page displays the README at the bottom. There you for example find a progress bar where you accumulate points as you complete the exercises in the worksheet. We are now interested in the big green "Code" button, which when clicked will give a popup button with the URL for cloning your repository.
+Please follow that URL to your repository's home page. This page displays the README at the bottom. There you for example find a points bar where you accumulate points as you complete the exercises in the worksheet. We are now interested in the big green "Code" button which, when clicked, will give a popup with the URL for cloning your repository.
 
 ![](screenshots/code-button.png){width="80%" fig-align="center"}
 
 ### Clone repository
 
-Now we can use RStudio to clone this repository to your computer. For this you create a new RStudio project by clicking on the project drop-down menu at the top-right of the RStudio window and selecthing "New Project...".
+Now we can use RStudio to clone this repository to your computer. For this you create a new RStudio project by clicking on the project drop-down menu at the top-right of the RStudio window and selecting "New Project...".
 
 ![](screenshots/new-project.png){width="80%" fig-align="center"}
 
@@ -136,3 +136,6 @@ In the Files tab you will in particular see a file called "worksheet-use-git-and
 ![](screenshots/visual.png)
 :::
 
+Now just follow the instructions in that worksheet. This will guide you through the process of performing your first commits to your repository and pushes to GitHub.
+
+As you work through the exercises, you will get some automatic feedback. You can also always ask for personal feedback from us. The details are described in the worksheet. But if you run into a problem that you think might be of interest to others as well, please post in the comments below.
