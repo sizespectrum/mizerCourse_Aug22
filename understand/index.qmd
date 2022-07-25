@@ -8,18 +8,23 @@ It is worth spending an entire week on building this understanding, because it w
 
 The material is split into 5 tutorials:
 
-1.  [Observed size spectra](observed-size-spectra.qmd)
+1.  [**Observed size spectra**](observed-size-spectra.qmd)\
+    Because many of the physiological rates in fish (like growth, mortality, metabolism, reproduction) depend on the size of the individuals, a mizer model needs to keep track of the size distribution of the populations, the so-called size spectra. To get a feel for size spectra, in this first tutorial you will take observational data and make plots of size spectra. There is confusion in the size spectrum literature because there are different ways to represent the size spectra and this tutorial will introduce these, so that you can cut through the confusion.
 
-2.  [Single-species spectra](single-species-spectra.qmd)
+2.  [**Single-species spectra**](single-species-spectra.qmd)\
+    At the community level, size spectra tend to look like power laws. But the size spectrum of each individual species making up the community will look different. In this tutorial we will investigate how the shape of the single species spectrum is determined by an interplay of growth and mortality.
 
-3.  [Predation, growth and mortality](predation-growth-and-mortality.qmd)
+3.  [**Predation, growth and mortality**](predation-growth-and-mortality.qmd)\
+    A particular strength of a mizer model is that growth curves and mortality rates are not fixed externally but are emergent and dependent on the availability of prey and the presence of predators. In this tutorial we explore how predation is modelled in mizer and how it effects growth and mortality.
 
-4.  [Dynamics of spectra](dynamics-of-spectra.qmd)
+4.  [**Dynamics of spectra**](dynamics-of-spectra.qmd)\
+    In previous tutorials we have concentrated on the steady state of the mizer model, where for each size class and each species, the rate at which individuals grow into the size class balances the rate at which individuals grow out of the size class or die, thus keeping the size spectrum constant. In this tutorial we explore the dynamic that takes place when this balance is changed.
 
-5.  [Species interactions](species-interactions.qmd)
+5.  [**Species interactions**](species-interactions.qmd)\
+    In a mizer model all the species in the community interact with each other through size-based predation. So any changes in one species' size spectrum affects the size spectra of the other species, which in turn affects that first species. In this tutorial we start investigating some of the effects this has.
 
 Each tutorial comes with exercises and a worksheet in which to complete the exercises. These worksheets are contained in a dedicated repository on GitHub to which you will push your work to get feedback. This will work the same way as we discussed in the tutorial [Use Git and GitHub](../prepare/use-git-and-github.qmd). If you did not yet get a chance to work through that tutorial, please do so now before continuing with this week's tutorials.
 
-To get your worksheet repository, follow this link:
+To get your worksheet repository for this week, follow this link:
 
 <https://classroom.github.com/a/5cnr1H7R>
