@@ -4,12 +4,11 @@ title: "Single species spectra"
 
 ## Introduction
 
-TODO
+TODO: extend introduction
 
 At the end of the previous tutorial we plotted single-species size spectra from our dataset and observed that they were a bit of a mess. In this tutorial we will use the mizer model to gain an understanding of what determines the shape of a species size spectrum.
 
-In this tutorial you are also going to start using mizer functions. When you want to learn more about any of the functions that we use in the examples, simply click on the function name. This will open the function's help page in a new browser window. 
-
+In this tutorial you are also going to start using mizer functions. When you want to learn more about any of the functions that we use in the examples, simply click on the function name. This will open the function's help page in a new browser window.
 
 First, load some required packages with the following commands:
 
@@ -18,7 +17,7 @@ library(mizer)
 library(tidyverse)
 ```
 
-If you get error messages saying that a particular package is not available, you will need to install that package. This was discussed in the preparatory tutorial on [installing tools](../prepare/install-tools.qmd).
+If you get error messages saying that a particular package is not available, you will need to install that package. This was discussed in the preparatory tutorial on [installing tools](../prepare/install-tools.qmd#r-packages).
 
 ## Single-species model
 
@@ -50,16 +49,18 @@ plotSpectra(params, power = 0)
 
 The `power = 0` argument to the `plotSpectra()` function specifies that we want to plot the number density, rather than for example the biomass density.
 
-The green line represents the number density of the background community, labelled as "Resource" in the plot legend, in which our foreground species finds itself. The green line is a straight line with slope `lambda = -2.05`. It is important to understand that a power-law curve looks like a straight line when plotted on logarithmic axes and the slope of the line is the exponent in the power law. Thus the number density is proportional to $w^{-2.05}$.
+The green line represents the number density of the background community, labelled as "Resource" in the plot legend, in which our foreground species finds itself. The green line is a straight line with slope `lambda = -2.05`. Thus the number density of the background community is proportional to $w^{-2.05}$. It is important to understand that a power-law curve looks like a straight line when plotted on logarithmic axes and the slope of the line is the exponent in the power law. If this does not sound familiar, please revisit the section in the previous tutorial where we [fitted a power-law](observed-size-spectra.qmdfitting-a-power-law) to the community spectrum.
 
 The other line represents the number density of our single species, which by default is just named unimaginatively "Target species". We see that it is a straight line initially, but then has a bump before declining rapidly at large sizes. We will discuss in a short while what causes that shape.
 
-The initial slope of the species number density is negative, which means that there are fewer larger fish than smaller fish. That is of course understandable: some fish die while they are growing up, so there tend to be fewer fish in larger size classes.
+The initial slope of the species number density is negative, which means vaguely that there are fewer larger fish than smaller fish. That is of course understandable: some fish die while they are growing up, so there tend to be fewer fish in larger size classes.
 
-:::{.callout-caution collapse="false"}
+It is now time to do the first exercise of this tutorial. For this go to your copy of this week's worksheet repository and open the file "worksheet2-single-species-spectra.Rmd" in RStudio. There you will find the following first exercise:
+
+::: {.callout-caution collapse="false"}
 ### Exercise 1
 
-Create a MizerParams object describing a single species in a power-law background where the Sheldon exponent is 2.1 and run that model to steady state. Then plot the number density as a function of weight
+Create a MizerParams object describing a single species in a power-law background where the Sheldon exponent is 2.1 and run that model to steady state. Then plot the number density as a function of weight.
 :::
 
 # Numbers
@@ -82,7 +83,7 @@ The names of the columns are the weight in grams at the start of each size class
 n[1, 61]
 ```
 
-It is important to realise that this is not the number of fish in the size class, but the number density. To get the number of fish we have to multiply the number density by the width of the size class. Those widths can be obtained with the `dw()` function. So the number of fish in the 61st size class is
+It is important to realise that this is not the number of fish in the size class, but the average number density in the size class. To get the number of fish we have to multiply the number density by the width of the size class. Those widths can be obtained with the `dw()` function. So the number of fish in the 61st size class is
 
 ```{r}
 (n * dw(params))[1, 61]
@@ -90,7 +91,7 @@ It is important to realise that this is not the number of fish in the size class
 
 You may be surprised by the small number if you interpret it as the number of fish between 1 gram and 1.12 gram in the entire ocean. However it looks more reasonable if it is the average number per square meter of sea. For more of a discussion of this issue of working with numbers per area, numbers per volume or numbers for the entire system see <https://sizespectrum.org/mizer/reference/setParams.html#units-in-mizer>
 
-:::{.callout-caution collapse="false"}
+::: {.callout-caution collapse="false"}
 ### Exercise 2
 
 Determine the total number of fish in the model with sizes between 10 grams and 20 grams. You can use the `sum()` function to add together contributions from the various size classes.
@@ -98,7 +99,7 @@ Determine the total number of fish in the model with sizes between 10 grams and 
 
 # Biomass spectra
 
-Without the `power` argument (or with `power = 1` which is the default) the `plotSpectra()` function plots the biomass density as a function of size.
+Without the `power` argument (or with `power = 1` which is the default) the `plotSpectra()` function plots the biomass density as a function of weight.
 
 ```{r}
 plotSpectra(params)
@@ -108,13 +109,13 @@ Now the green line representing the biomass density of the background has a slop
 
 The initial slope of the species biomass density is negative, meaning that the biomass density decreases with size. This means that even though the individual fish of course gain biomass as they grow up, there is so much death among the larvae and juvenile fish that the total biomass of any cohort nevertheless decreases as it grows up. We will explain the reason for this in the next tutorial when we discuss [predation mortality](predation-growth-and-mortality.qmd#predation-mortality).
 
-We can also plot the Sheldon spectrum, i.e., the biomass density in log weight, by supplying the argument `power = 2` to `plotSpectra()`.
+We can also plot the Sheldon spectrum, i.e., the biomass density in log weight, by supplying the argument `power = 2` to `plotSpectra()`. We discussed this way of describing the size spectrum in the section on [Densities in log weight](observed-size-spectra.html#densities-in-log-weight) in the previous tutorial.
 
 ```{r}
 plotSpectra(params, power = 2)
 ```
 
-This now shows an approximately constant biomass density in log size (the slope of the green line is -0.05). The biomass density of the species in log size initially increases. So if binned in logarithmically-sized bins the biomass in each bin will initially increase, until it starts decreasing close to the maximum size of the species.
+This now shows an approximately constant background biomass density in log size (the slope of the green line is -0.05). The biomass density of the species in log size initially increases. So if binned in logarithmically-sized bins the biomass in each bin will initially increase, until it starts decreasing close to the maximum size of the species.
 
 It may have been a bit confusing that we displayed the same size spectrum in three different ways. But it is important to be aware of this because in the literature you will see all different conventions being used, so if you see a plot of a size spectrum you always need to ask yourself exactly which density is being shown.
 
@@ -217,7 +218,7 @@ mm <- lm(log(mort_rate_frame$value) ~ log(mort_rate_frame$w_prey))
 m0 <- round(mm$coefficients[[1]], digits = 3)
 ```
 
-:::{.callout-caution collapse="false"}
+::: {.callout-caution collapse="false"}
 ## Exercise 3
 
 Use the methods you have just seen to make a log-log plot of the mortality rate. You can get the mortality rate with the `getMort()` function. While adjusting the code to this new task, you need to take into account that the name of the size-dimension of the array returned by `getMort()` is `"w_prey"` instead of `"w"`.
@@ -261,14 +262,13 @@ The linear model fit says that the exponent is `r jexp`. The mathematics claimed
 
 That is not quite the result of the linear model fit, but that is the nature of numerical calculations: one gets discretisation errors and rounding errors.
 
-# Shape of adult spectrum
+# Shape of adult spectrum {#shape-of-adult-spectrum}
 
-Now that we understand the shape of the size spectrum for the juvenile fish, let us try to understand the shape of the adult spectrum. Here is the plot again:
+Now that we understand the shape of the size spectrum for the juvenile fish, let us try to understand the shape of the adult spectrum. Here is the plot again, but with the $w$ axis restricted to weights above 10g:
 
 ```{r}
 plotSpectra(params, wlim = c(10, NA))
 ```
-
 
 The increase of abundance that we see at around the maturity size of our species is due to a drop in growth rate at that size. This in turn is due to the fact that the mature fish invests some of its energy income into reproduction.
 
@@ -303,7 +303,7 @@ As you can see, there are a lot of other species parameters, some of which we wi
 select(species_params(params), w_mat, w_mat25, w_inf, m)
 ```
 
-## Effect of change in maturity curve
+## Change in maturity curve
 
 Let us investigate what happens when we change the maturity curve. Let's assume the maturity size is actually 40 grams and the size at which 25% of individuals is mature is 30 grams. Let us change the values in the `species_params` data frame. But first we make a copy of the params object so that we can keep the old version around unchanged.
 
@@ -330,6 +330,8 @@ ggplot(psi_changed_maturity) +
        y = "Proportion invested into reproduction")
 ```
 
+### Two curves in one plot
+
 At this point let's take a little break and learn how to draw two curves in the same graph. How can we see the old maturity curve and the new maturity curve in the same plot? First we add an extra column to each dataframe describing it
 
 ```{r}
@@ -354,11 +356,13 @@ ggplot(psi_combined) +
 
 This change in the maturity curve of course implies a change in the growth rates.
 
-:::{.callout-caution collapse="false"}
+::: {.callout-caution collapse="false"}
 ### Exercise 4
 
 Make a plot showing the growth rates of the original model and of the model with the changed maturity curve.
 :::
+
+### Effect of changed maturity
 
 Next let us look at how the steady state spectrum has changed. We first need to run the changed model to steady state
 
@@ -376,7 +380,7 @@ nf_changed_maturity$type <- "changed"
 nf_combined <- rbind(nf, nf_changed_maturity)
 ggplot(nf_combined) +
   geom_line(aes(x = w, y = value, colour = type)) +
-  scale_x_log10() +
+  scale_x_log10(limits = c(10, NA)) +
   scale_y_log10() +
   labs(x = "Weight [g]",
        y = "Number density [1/g]")
