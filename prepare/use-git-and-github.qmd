@@ -65,11 +65,11 @@ Next you will create a personal access token for accessing GitHub. The following
 usethis::create_github_token()
 ```
 
-![](screenshots/new-pat.png)
+![](screenshots/new-pat.png){width="80%" fig-align="center"}
 
 You can edit the Note to something like "mizer course" or whatever will remind you later what this was for. You can leave the rest of the form as it is and scroll down to the bottom and press the "Generate token" button. That will lead you to a page that displays your new token:
 
-![](screenshots/pat.png)
+![](screenshots/pat.png){width="80%" fig-align="center"}
 
 Leave this page open for now and return to RStudio and issue the command
 
@@ -96,19 +96,19 @@ Please click on "Accept the assignment". This will first tell you that your repo
 
 ![](screenshots/refresh.png){width="80%" fig-align="center"}
 
-When you hit the refresh button on your browwer after a just a short moment, you should see a page with a URL for your new repository on GitHub at the bottom.
+When you hit the refresh button on your browser after a just a short moment, you should see a page with a URL for your new repository on GitHub at the bottom.
 
 ![](screenshots/ready-to-go.png){width="80%" fig-align="center"}
 
-Please follow that URL to your repository. You will then see a page with lots of stuff and with a big red "Code" button, which when clicked will give a popup button with
+Please follow that URL to your repository. This repository home page displays the README at the bottom. There you for example find a progress bar where you accumulate points as you complete the exercises in the worksheet. We are now interested in the big green "Code" button, which when clicked will give a popup button with the URL for cloning your repository.
 
-![Code button](screenshots/code-button.png){width="80%" fig-align="center"}
+![](screenshots/code-button.png){width="80%" fig-align="center"}
 
 ### Clone repository
 
 Now we can use RStudio to clone this repository to your computer. For this you create a new RStudio project by clicking on the project drop-down menu at the top-right of the RStudio window and selecthing "New Project...".
 
-![](screenshots/new-project.png)
+![](screenshots/new-project.png){width="80%" fig-align="center"}
 
 That will open a dialog where you first choose "Version Control" and then choose "Git".
 
@@ -120,16 +120,19 @@ That will open a dialog where you first choose "Version Control" and then choose
 
 In the resulting dialog window you paste in the repository URL that you copied from GitHub. You also specify the directory in your file area where you want the project directory to be saved. Then you click "Create Project".
 
-![](screenshots/create-project.png)
+![](screenshots/create-project.png){width="60%" fig-align="center"}
 
 RStudio now communicates with GitHub to download a clone of the repository and it also checks out all the files contained in the repository to the newly created directory. You can see them in the "Files" tab in RStudio.
 
-### Edit work notebook
+![](screenshots/files.png){width="80%" fig-align="center"}
 
-### Commit your work
+### Continue in worksheet
 
-### View feedback
+In the Files tab you will in particular see a file called "worksheet-use-git-and-github.Rmd". That is the worksheet for this tutorial. Please click on the file name in the Files tab of RStudio to open this worksheet in the RStudio editor. The editor has a "Source" mode and a "Visual" mode. Try out both and see which one you prefer.
 
-TODO: use screenshots to talk the participant through their first commit and push and to how to view the feedback pull request.
+::: {layout-ncol="2"}
+![](screenshots/source.png)
 
-Then they can go on to the second exercise and follow the same steps.
+![](screenshots/visual.png)
+:::
+
