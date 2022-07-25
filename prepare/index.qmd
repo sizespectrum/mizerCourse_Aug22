@@ -1,0 +1,14 @@
+---
+title: "Prepare for the mizer course"
+editor: visual
+---
+
+While the course only starts on Monday the 8th of August, if you like you can already start preparations:
+
+1\) You can [install the tools](install-tools.qmd) that we will use in the course.
+
+2\) You can familiarise with how we will be [using Git and GitHub](use-git-and-github.qmd) in this course for collaboration and feedback on your coursework.
+
+3\) You can [introduce yourself](introduce-yourself.qmd) and your interests to your fellow participants.
+
+That will allow for a flying start to the course. You won't believe how much we are looking forward to meeting you all on the 8th of August
