@@ -53,5 +53,21 @@ The mizerExperimental package is for code that is still experimental and thus ch
 remotes::install_github("sizespectrum/mizerExperimental")
 ```
 
-And that's it! Of course as with all computer-related things, unexpected problems are likely to crop up. Be sure to post about them below.
+Finally, you can now tell Git about yourself by running the following command, where of course you change the name and email address to your own.
+
+```{r}
+#| eval: false
+usethis::use_git_config(user.name = "Jane Doe", 
+                        user.email = "jane@example.org")
+```
+
+And that's it! 
+
+## Issues
+
+As with all computer-related things, unexpected problems are likely to crop up. Be sure to post about them below. Alternatively you can also report issues by clicking on the "Report an issue" link that you find at the bottom of the right side-bar. That will create an entry in the GitHub issue tracker. 
+
+If you have a correction to this page or want to suggest an edit, use the "Edit this page" link. Don't worry: we will need to approve your edits before they go live, so you can feel free to edit as much as you like. 
+
+This course should be a collaborative experience. You will find the "Edit this page" and "Report an issue" links on every tutorial page and you will find a comments section on every page of the course website. Never hesitate to use them.
 

@@ -50,15 +50,9 @@ If you do not yet have an account on [GitHub](https://github.com) yet, please go
 
 ### Connect RStudio to GitHub
 
-We will be interacting with Git and GitHub via RStudio. This just requires some initial setup but will be very convenient from then on. Please open RStudio and use the following command to tell Git about yourself, where of course you change the name and email address to your own.
+We will be interacting with Git and GitHub via RStudio. This just requires some initial setup but will be very convenient from then on. Of course, if you are already using GitHub from within RStudio, then you can skip the steps below that you have gone through on your computer in the past.
 
-```{r}
-#| eval: false
-usethis::use_git_config(user.name = "Jane Doe", 
-                        user.email = "jane@example.org")
-```
-
-Next you will create a personal access token for accessing GitHub. The following command will bring you to the GitHub webpage that creates that personal access token for you:
+RStudio needs a personal access token for accessing GitHub. The following command will bring you to the GitHub webpage that creates that personal access token:
 
 ```{r}
 #| eval: false
