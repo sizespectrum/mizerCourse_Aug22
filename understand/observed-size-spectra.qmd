@@ -41,7 +41,7 @@ This data was assembled by Ken Andersen at DTU Aqua in Copenhagen. The `length` 
 
 $$ w = a\, l ^ b,$$
 
-where the coefficient $a$ and the exponent $b$ are species-specific parameters (we'll discuss how to find such species parameters in a [later tutorial](../build/species-parameters.qmd)). The reason we like to work with weight as the measure of a fish's size is that there are well-known allometric relationships between weight and physiological rates. For example metabolic rate is often taken to scale as $w^{3/4}$ and mortality is taken to scale as $w^{-1/4}$, as we will be discussing in the section on [allometric rates](single-species-spectra.qmd#allometric-rates) in the next tutorial.
+where the coefficient $a$ and the exponent $b$ are species-specific parameters (we'll discuss how to find such species parameters in a [later tutorial](../build/find-species-parameters.qmd)). The reason we like to work with weight as the measure of a fish's size is that there are well-known allometric relationships between weight and physiological rates. For example metabolic rate is often taken to scale as $w^{3/4}$ and mortality is taken to scale as $w^{-1/4}$, as we will be discussing in the section on [allometric rates](single-species-spectra.qmd#allometric-rates) in the next tutorial.
 
 ::: callout-important
 When not otherwise specified, all lengths are given in centimetres \[cm\] and all weights are given in grams \[g\].
