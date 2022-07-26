@@ -36,9 +36,7 @@ So with Git and GitHub we have a very different workflow than what you get when 
 6)  these commits automatically get **merged** into their clone,
 7)  the changed files are **checked out** from their repository into the corresponding directory on their drive.
 
-If you pull commits from GitHub that change files that you have also made changes to locally, then you will be asked to either **commit**, **revert** or **stash** your changes before doing the pull.
-
-If you and your collaborator independently made commits to your respective clones that touched the same lines of code then there may be **merge conflicts** that need to be resolved by hand. But you probably won't have to worry about such issues for this course.
+If you pull commits from GitHub that change files that you have also made changes to locally, then the pull will fail with an error message. This could happen for example if you do work on several computers and forgot to pull the changes down to your new computer before starting to do edits on that computer. Similarly if you and a collaborator independently made commits to your respective clones that touched the same lines of code then there may be **merge conflicts** that need to be resolved by hand. If something like this happens to you then congratulations: you have arrived in more advanced Git territory than we will discuss in this tutorial. If at some point during the course something like this happens to you, let us know by posting a comment and we or some git-savy participant will give advice.
 
 This more involved workflow takes a bit of getting used to, but is definitely the best way to work on code and data. So next you will get to try this out in practice.
 
@@ -112,11 +110,11 @@ That will open a dialog where you first choose "Version Control" and then choose
 ![](screenshots/git.png)
 :::
 
-In the resulting dialog window you paste in the repository URL that you copied from GitHub. You also specify the directory in your file area where you want the project directory to be saved. Then you click "Create Project".
+In the resulting dialog window you paste in the repository URL that you copied from GitHub. You also specify the directory in your file area where you want the project directory to be saved. To do that click the "Browse..." button and find a location that is convenient for you. You may want to create a dedicated directory for this mizer course and then select that.
 
 ![](screenshots/create-project.png){width="60%" fig-align="center"}
 
-RStudio now communicates with GitHub to download a clone of the repository and it also checks out all the files contained in the repository to the newly created directory. You can see them in the "Files" tab in RStudio.
+Then click "Create Project". RStudio now communicates with GitHub to download a clone of the repository and it also checks out all the files contained in the repository to the newly created directory. You can see them in the "Files" tab in RStudio.
 
 ![](screenshots/files.png){width="80%" fig-align="center"}
 
