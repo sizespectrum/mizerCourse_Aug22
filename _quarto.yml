@@ -64,7 +64,7 @@ website:
           - text: Species interactions
             href: understand/species-interactions.qmd
       - section: "Week 2: Build"
-        href: index.qmd
+        href: build/index.qmd
         contents:
           - text: Create first model
             href: build/create-first-model.qmd
@@ -77,7 +77,7 @@ website:
           - text: Build your own model
             href: build/build-your-own-model.qmd
       - section: "Week 3: Use"
-        href: index.qmd
+        href: use/index.qmd
         contents:
           - text: Simulate change
             href: use/simulate-change.qmd
