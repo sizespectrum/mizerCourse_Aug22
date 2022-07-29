@@ -4,8 +4,6 @@ title: "Single species spectra"
 
 ## Introduction
 
-TODO: extend introduction
-
 At the end of the previous tutorial we plotted single-species size spectra from our dataset and observed that they were a bit of a mess. In this tutorial we will use the mizer model to gain an understanding of what determines the shape of a species size spectrum.
 
 In this tutorial you are also going to start using mizer functions. When you want to learn more about any of the functions that we use in the examples, simply click on the function name. This will open the function's help page in a new browser window.
@@ -21,9 +19,11 @@ If you get error messages saying that a particular package is not available, you
 
 ## Single-species model
 
+In the first four tutorials this week we will want to keep the size-spectrum aspects of the mizer model separate from the multi-species aspects, in order to not have to think about too many things at once. So we will explore a model where a single species lives in a non-dynamical background community that we will set to a Sheldon power-law abundance. Only in the last tutorial this week on [species interactions](species-interactions.qmd) will we start to consider the interesting multi-species phenomena that arise in mizer models.
+
 Mizer collects all the parameters describing a size-spectrum model into one object of class `MizerParams`. You do not need to set up this object by hand but instead there are several wrapper functions in mizer that create the object for you for various types of models, and also many functions for changing specific parameters in a model. We will use the `newSingleSpeciesParams()` function to set up a model describing a single fish species living in an ecosystem whose community size spectrum is given by a power-law.
 
-The `newSingleSpeciesParams()` function has many arguments that allow you to specify parameters for the fish species as well as for the community, but all these arguments have default values, so we can simply call the function without specifying those arguments. We will only specify the power-law exponent of the background community
+The `newSingleSpeciesParams()` function has many arguments that allow you to specify parameters for the fish species as well as for the community, but all these arguments have default values, so we can simply call the function without specifying those arguments. We will only specify the power-law exponent `lambda` of the background community
 
 ```{r}
 params <- newSingleSpeciesParams(lambda = 2.05)
@@ -62,6 +62,14 @@ It is now time to do the first exercise of this tutorial. For this go to your co
 
 Create a MizerParams object describing a single species in a power-law background where the Sheldon exponent is 2.1 and run that model to steady state. Then plot the number density as a function of weight.
 :::
+
+In this tutorial we will only be interested in the shape of the size spectrum, i.e., with how the total number of individuals is distributed over the different sizes. We are not yet interested in the overall abundance of the species. The overall abundance will be influenced by the total rate of reproduction for the species. This in turn will be influenced by the size spectrum, because that determines how many of the individuals are mature. This dynamic feedback will of course become important when we build real-world models in week 2 and use them in week 3. But for now we have enough on our plate without thinking also about this, so we will set the rate of reproduction to stay constant at the current level. In our single-species model. The following code gives you a first glimpse of how mizer provides functions to change aspects of a model after it has been created. But don't worry about the details for now.
+
+```{r}
+species_params(params)$constant_reproduction <- getRDD(params)
+params <- setReproduction(params, RDD = "constantRDD")
+```
+
 
 # Numbers
 
@@ -373,8 +381,8 @@ params_changed_maturity <- steady(params_changed_maturity)
 We use the same technique as above to plot the steady-state spectra of both models on top of each other.
 
 ```{r}
-nf <- melt(initialN(params))
-nf_changed_maturity <- melt(initialN(params_changed_maturity))
+nf <- melt(initialN(params) * w(params)^2)
+nf_changed_maturity <- melt(initialN(params_changed_maturity) * w(params)^2)
 nf$type <- "original"
 nf_changed_maturity$type <- "changed"
 nf_combined <- rbind(nf, nf_changed_maturity)
@@ -389,3 +397,5 @@ ggplot(nf_combined) +
 As expected, the bump happens later due to the larger maturity size and it is less pronounced, because the maturity curve is less steep.
 
 This was our first investigation of how the shape of a species size spectrum changes as model parameters are changed. We will do much more in this direction in the next tutorial in which we discuss how growth and mortality are determined through predation.
+
+TODO: Write summary points
