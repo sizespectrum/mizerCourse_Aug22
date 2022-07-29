@@ -410,3 +410,10 @@ We will discuss species size spectra more in the next tutorial, where we will lo
 
 Now make a size-spectrum plot for a new data set. If you happen to have access to size data yourself, you could use that. Otherwise use ... TODO: provide data set.
 :::
+
+
+Summary from Asta
+1. It is very useful to know how many organisms of different sizes there are. This is what size spectra show
+2. Yet, we can measure sizes in different ways. The key thing to understand is how we group different sizes into bins. The width of these bins will determine how many individuals we find in them. A bin from 1 to 2g will have fewer individuals than a bin from 1 to 10g. 
+3. To avoid variable bin sizes we use normalised densities, where numbers of individuals in each bin are divided by the width of the bin. This is called the number density spectrum. 
+4. When we group observed individuals into bins, for each bin we can calculate either a total number of observations or the total weight of all individuals in that bin. This is NOT the same. There will be a lot of very small things, so the numbers in a small sized bin will be large. But their total weight will not be high. This means that we can talk either about abundance size spectra or biomass size spectra. The abundance size spectra will be steeper, because there will be lots of small things and few large things. The biomass size spectra will be much more flat, because the normalised biomass is about the same. 

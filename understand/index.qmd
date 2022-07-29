@@ -2,7 +2,7 @@
 title: "Week 1: Understand size-spectrum modelling"
 ---
 
-Your goal in this first week of the course is to gain a through understanding of size spectra and their dynamics. This means that at the end of the week you will understand the parameters that shape the size spectra and how size spectra respond to changes. You will have a feel for how size-spectrum dynamics is different from usual single-species age-based dynamics, but also how it is different from multi-species food-web dynamics.
+Your goal in this first week of the course is to gain a thorough understanding of size spectra and their dynamics. This means that at the end of the week you will understand the parameters that shape the size spectra and how size spectra respond to changes. You will have a feel for how size-spectrum dynamics is different from usual single-species age-based dynamics, but also how it is different from multi-species food-web dynamics.
 
 It is worth spending an entire week on building this understanding, because it will enable you to build more reliable models in the second week and to appropriately explore the model predictions in the third week.
 
