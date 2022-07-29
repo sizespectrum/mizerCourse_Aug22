@@ -1,5 +1,5 @@
 ---
-title: "Predation"
+title: "Predation, growth and mortality"
 ---
 
 As in the previous tutorials, we load the mizer and tidyverse packages and create a single-species model with a power-law background with exponent -2.05.
