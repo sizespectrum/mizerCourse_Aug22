@@ -1,13 +1,13 @@
 library(tidyverse)
 #remotes::install_github("sizespectrum/mizer")
-#remotes::install_github("sizespectrum/mizerExperimental")
-#remotes::install_github("sizespectrum/mizerMR")
+remotes::install_github("sizespectrum/mizerExperimental")
+remotes::install_github("sizespectrum/mizerMR")
 library(mizerExperimental)
 library(mizerMR)
-source("helpers.R")
+source("experiment/helpers.R")
 
-curonian_params <- read_csv("curonian_params.csv")
-curonian_interaction <- read_csv("curonian_interaction.csv")
+curonian_params <- read_csv("experiment/curonian_params.csv")
+curonian_interaction <- read_csv("experiment/curonian_interaction.csv")
 
 # Test that ordering of species is consistent
 all(colnames(curonian_interaction) == curonian_params$species)
@@ -41,10 +41,10 @@ p <- tuneGrowth(p)
 # Finally look at other aspects of the model
 p <- tuneParams(p)
 
-#saveRDS(p, "curonian_model_2.rds")
+#saveRDS(p, "experiment/curonian_model_2.rds")
 
 
-p <- readRDS("curonian_model_2.rds")
+p <- readRDS("experiment/curonian_model_2.rds")
 ### Asta continues
 
 # #number of size groups 
@@ -123,7 +123,7 @@ p <- tuneGrowth(p)
 # Finally look at other aspects of the model
 p <- tuneParams(p)
 
-saveRDS(p, "curonian_model_2res_a.rds")
+saveRDS(p, "experiment/curonian_model_2res_a.rds")
 
 #predators still have too much benthos, reduce availability further 
 

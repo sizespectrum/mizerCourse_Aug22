@@ -8,11 +8,11 @@ alignResource <- function(params) {
     min_w_mat = min(p@species_params$w_mat)
     max_w_mat = max(p@species_params$w_mat)
     sel <- (p@w > min_w_mat) & (p@w < max_w_mat)
-    factor <- sum(sc[sel]) / sum(sel) / resource_params(p)$kappa 
+    factor <- sum(sc[sel]) / sum(sel) / p@resource_params$kappa 
     
     p@cc_pp <- p@cc_pp * factor
     p@resource_params$kappa <- p@resource_params$kappa * factor
-    initialNResource(p) <- p@initial_n_pp * factor
+    p@initial_n_pp <- p@initial_n_pp * factor
     p@search_vol = p@search_vol / factor
     p@species_params$gamma <- p@species_params$gamma / factor
     
