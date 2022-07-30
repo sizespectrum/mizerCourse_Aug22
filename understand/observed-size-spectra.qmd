@@ -413,9 +413,18 @@ We will discuss species size spectra more in the next tutorial, where we will lo
 Now make a size-spectrum plot for a new data set. If you happen to have access to size data yourself, you could use that. Otherwise use ... TODO: provide data set.
 :::
 
+## Summary
 
-Summary from Asta
-1. It is very useful to know how many organisms of different sizes there are. This is what size spectra show
-2. Yet, we can measure sizes in different ways. The key thing to understand is how we group different sizes into bins. The width of these bins will determine how many individuals we find in them. A bin from 1 to 2g will have fewer individuals than a bin from 1 to 10g. 
-3. To avoid variable bin sizes we use normalised densities, where numbers of individuals in each bin are divided by the width of the bin. This is called the number density spectrum. 
-4. When we group observed individuals into bins, for each bin we can calculate either a total number of observations or the total weight of all individuals in that bin. This is NOT the same. There will be a lot of very small things, so the numbers in a small sized bin will be large. But their total weight will not be high. This means that we can talk either about abundance size spectra or biomass size spectra. The abundance size spectra will be steeper, because there will be lots of small things and few large things. The biomass size spectra will be much more flat, because the normalised biomass is about the same. 
+1.  It is very useful to know how many organisms of different sizes there are. This is what size spectra show.
+
+2.  We can represent size spectra in different ways. The key thing to understand is how we group different sizes into bins. The width of these bins will determine how many individuals we find in them. A bin from 1 to 2g will have fewer individuals than a bin from 1 to 10g.
+
+3.  When we group observed individuals into bins, for each bin we can calculate either a total number of individuals or the total weight of individuals in that bin. This is NOT the same. There will be a lot of very small individuals, so the numbers in a small sized bin will be large but their total weight will not be large.
+
+4.  To avoid the dependence on bin sizes, we use densities, where the number of individuals or the biomass in each bin are divided by the width of the bin. We refer to these as the number density or the biomass density respectively.
+
+5.  When we work with a logarithmic weight axis, then it is natural to use densities in log weight, where the numbers of individuals in each bin are divided by the log of the width of the bin. We refer to these as the number density in log weight or the biomass density in log weight respectively.
+
+6.  Community size spectra are approximately power laws. When displayed on log-log axes, they therefore look like straight lines. The slope of the number density is approximately -2, the slope of the biomass density, which is also the number density in log weight, is approximately -1, and the slope of the biomass density in log weight is approximately 0, i.e., the biomass density in log weight is approximately constant.
+
+7.  The species size spectra are not approximately power laws and thus do not look like straight lines on log-log axes. The approximate power law only emerges when we add all the species spectra together.
