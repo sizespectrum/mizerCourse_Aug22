@@ -38,7 +38,7 @@ If you are new to RStudio, the video on the RStudio IDE homepage is well worth w
 
 ## R Packages
 
-R packages extend the functionality of R. mizer itself is such an R package. There is a central repository for R packages called CRAN which hosts all of the packages needed for this course, except for the mizerExperimental package. To install them on your computer just start RStudio and then in the console issue the command
+R packages extend the functionality of R. mizer itself is such an R package. There is a central repository for R packages called CRAN which hosts all of the packages needed for this course, except for the mizerExperimental and mizerMR packages. To install them on your computer just start RStudio and then in the console issue the command
 
 ```{r}
 #| eval: false
@@ -51,6 +51,13 @@ The mizerExperimental package is for code that is still experimental and thus ch
 ```{r}
 #| eval: false
 remotes::install_github("sizespectrum/mizerExperimental")
+```
+
+The mizerMR package that extends mizer to work with multiple resources has not been released to CRAN because the plan is to incorporate it into core mizer in the future, so this too you need to install directly from GitHub.
+
+```{r}
+#| eval: false
+remotes::install_github("sizespectrum/mizerMR")
 ```
 
 Finally, you can now tell Git about yourself by running the following command, where of course you change the name and email address to your own.
