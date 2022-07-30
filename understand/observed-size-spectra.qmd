@@ -343,6 +343,8 @@ ggplot(binned_biomass) +
 
 We will refer to Sheldon's density as "the biomass density in log weight" and notate it as $B_{\log w}(w)$. Similarly we introduce "the number density in log weight" $N_{\log w}(w)$.
 
+If on uses a logarithmic weight axis, then the advantage of plotting the number density in log weight is that the area under the density curve is the total number of individuals in that size range. Similarly the area under the plot of the biomass density in log weight is the total biomass in that size range.
+
 You will notice the reduced slope. In fact the slope of the Sheldon density is less negative than the slope of the biomass density. We have the following relations among the various densities:
 
 $$B_{\log w}(w) = w\, B(w) = w\, N_{\log}(w) = w^2 N(w).$$
