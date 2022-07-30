@@ -2,11 +2,12 @@
 title: "Predation, growth and mortality"
 ---
 
-As in the previous tutorials, we load the mizer and tidyverse packages and create a single-species model with a power-law background with exponent -2.05.
+As in the previous tutorials, we load the mizerExperimental and tidyverse packages and create a single-species model with a power-law background with exponent -2.05.
 
 ```{r}
 #| message: false
-library(mizer)
+remotes::install_github("sizespectrum/mizerExperimental")
+library(mizerExperimental)
 library(tidyverse)
 params <- newSingleSpeciesParams(lambda = 2.05)
 ```
@@ -29,7 +30,7 @@ initialNResource(params_starved)[size_range] <-
 That is of course quite a dramatic intervention, and so should allow us to clearly see its effect on the steady-state size distribution of our species.
 
 ```{r}
-params_starved <- steady(params_starved)
+params_starved <- singleSpeciesSteady(params_starved)
 ```
 
 We got a warning about unrealistic reproductive efficiency, which we ignore for now because we don't want to discuss reproductive efficiency until the next tutorial.
@@ -113,7 +114,7 @@ If we now again reduce the prey in the size range from 1mg to 10mg as before, we
 
 ```{r}
 initialNResource(params_pk) <- initialNResource(params_starved)
-params_pk <- steady(params_pk)
+params_pk <- singleSpeciesSteady(params_pk)
 plotSpectra(params_pk, power = 2)
 ```
 
@@ -146,7 +147,7 @@ We change that to 2000 and find the new steady state.
 ```{r message=FALSE}
 params_new_gamma <- params
 species_params(params_new_gamma)$gamma <- 2000
-params_new_gamma <- steady(params_new_gamma)
+params_new_gamma <- singleSpeciesSteady(params_new_gamma)
 ```
 
 We can see the effect in the growth curve of our species. In the original model it looks as follows:
@@ -221,7 +222,7 @@ plotFMort(params_fishing)
 We can now see how fishing affects the size spectrum.
 
 ```{r}
-params_fishing <- steady(params_fishing)
+params_fishing <- singleSpeciesSteady(params_fishing)
 plotSpectra(params_fishing, power = 2)
 ```
 
