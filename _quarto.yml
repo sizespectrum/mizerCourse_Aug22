@@ -42,12 +42,12 @@ website:
       - section: "Prepare"
         href: prepare/index.qmd
         contents:
+          - text: Introduce yourself
+            href: prepare/introduce-yourself.qmd
           - text: Install tools
             href: prepare/install-tools.qmd
           - text: Use Git and GitHub
             href: prepare/use-git-and-github.qmd
-          - text: Introduce yourself
-            href: prepare/introduce-yourself.qmd
 #          - text: Watch introduction
 #            href: prepare/watch-introduction.qmd
       - section: "Week 1: Understand"
@@ -59,30 +59,26 @@ website:
             href: understand/single-species-spectra.qmd
           - text: Predation, growth and mortality
             href: understand/predation-growth-and-mortality.qmd
-          - text: Dynamics of spectra
-            href: understand/dynamics-of-spectra.qmd
           - text: Species interactions
             href: understand/species-interactions.qmd
+          - text: Dynamics of spectra
+            href: understand/dynamics-of-spectra.qmd
       - section: "Week 2: Build"
         href: build/index.qmd
         contents:
+          - text: Find species parameters
+            href: build/find-species-parameters.qmd
           - text: Create first model
             href: build/create-first-model.qmd
           - text: Set multiple resources
             href: build/set-multiple-resources.qmd
-          - text: Tune model
-            href: build/tune-model.qmd
-          - text: Find species parameters
-            href: build/find-species-parameters.qmd
-          - text: Build your own model
-            href: build/build-your-own-model.qmd
+          - text: Refine model
+            href: build/refine-model.qmd
       - section: "Week 3: Use"
         href: use/index.qmd
         contents:
           - text: Simulate change
             href: use/simulate-change.qmd
-          - text: Refine model
-            href: use/refine-model.qmd
           - text: Tune sensitivity
             href: use/tune-sensitivity.qmd
           - text: Change resources

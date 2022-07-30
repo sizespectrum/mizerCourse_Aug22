@@ -38,7 +38,7 @@ The function returns a `MizerParams` object and we have assigned that to the var
 
 ## Steady state spectrum
 
-As a final simplification in this tutorial and the next, we will only consider the steady state size spectra. The steady state is the state where in each size class the inflow of individuals through growth exactly balances the outflow of individuals through growth and death. The initial abundances in the `params` object that we created with `newSingleSpeciesParams()` has also been set to the steady-state abundances.
+As a final simplification in this tutorial and the next two, we will only consider the steady state size spectra. The steady state is the state where in each size class the inflow of individuals through growth exactly balances the outflow of individuals through growth and death. The initial abundances in the `params` object that we created with `newSingleSpeciesParams()` has also been set to the steady-state abundances.
 
 We can plot the size spectrum with the `plotSpectra()` function.
 
