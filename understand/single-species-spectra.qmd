@@ -11,15 +11,20 @@ In this tutorial you are also going to start using mizer functions. When you wan
 First, load some required packages with the following commands:
 
 ```{r message=FALSE}
-library(mizer)
+remotes::install_github("sizespectrum/mizerExperimental")
+library(mizerExperimental)
 library(tidyverse)
 ```
 
-If you get error messages saying that a particular package is not available, you will need to install that package. This was discussed in the preparatory tutorial on [installing tools](../prepare/install-tools.qmd#r-packages).
+Note how for the mizerExperimental package we also call `remotes::install_github()`. This will reinstall the package only if it has changed on GitHub since you last installed it. If nothing has changed, the command will just issue a message to reassure you of that fact. So for packages that improves as frequently as mizerExperimental, it is always a good idea to call `remotes::install_github()` frequently.
+
+If you get error messages saying that the tidyverse package is not available, you will need to install that package as well. This was discussed in the preparatory tutorial on [installing tools](../prepare/install-tools.qmd#r-packages).
 
 ## Single-species model
 
 In the first four tutorials this week we will want to keep the size-spectrum aspects of the mizer model separate from the multi-species aspects, in order to not have to think about too many things at once. So we will explore a model where a single species lives in a non-dynamical background community that we will set to a Sheldon power-law abundance. Only in the last tutorial this week on [species interactions](species-interactions.qmd) will we start to consider the interesting multi-species phenomena that arise in mizer models.
+
+In this tutorial we will only be interested in the shape of the size spectrum, i.e., in how the total number of individuals is distributed over the different sizes. We are not yet interested in the overall abundance of the species. The overall abundance would be influenced by the total rate of reproduction for the species. This in turn would be influenced by the size spectrum, because that determines how many of the individuals are mature. This dynamic feedback will of course become important when we build real-world models in week 2 and use them in week 3. But for now we have enough on our plate without thinking also about this.
 
 Mizer collects all the parameters describing a size-spectrum model into one object of class `MizerParams`. You do not need to set up this object by hand but instead there are several wrapper functions in mizer that create the object for you for various types of models, and also many functions for changing specific parameters in a model. We will use the `newSingleSpeciesParams()` function to set up a model describing a single fish species living in an ecosystem whose community size spectrum is given by a power-law.
 
@@ -33,13 +38,7 @@ The function returns a `MizerParams` object and we have assigned that to the var
 
 ## Steady state spectrum
 
-The `params` object also contains an initial size spectrum that is close to the steady state of the model. The steady state is the state where in each size class the inflow of individuals through growth exactly balances the outflow of individuals through growth and death. If we start close to the steady state then usually if we simulate the size-spectrum dynamics for a while the population will evolve closer and closer to the steady state.
-
-To get to the steady state we use the `steady()` function. The result of that function is again a MizerParams object but now with an initial size spectrum that has evolved to be very close to the steady state.
-
-```{r}
-params <- steady(params)
-```
+As a final simplification in this tutorial and the next, we will only consider the steady state size spectra. The steady state is the state where in each size class the inflow of individuals through growth exactly balances the outflow of individuals through growth and death. The initial abundances in the `params` object that we created with `newSingleSpeciesParams()` has also been set to the steady-state abundances.
 
 We can plot the size spectrum with the `plotSpectra()` function.
 
@@ -60,20 +59,14 @@ It is now time to do the first exercise of this tutorial. For this go to your co
 ::: {.callout-caution collapse="false"}
 ### Exercise 1
 
-Create a MizerParams object describing a single species in a power-law background where the Sheldon exponent is 2.1 and run that model to steady state. Then plot the number density as a function of weight.
+Create a MizerParams object describing a single species in a power-law background where the Sheldon exponent is 2.1. Then plot the number density as a function of weight.
 :::
 
-In this tutorial we will only be interested in the shape of the size spectrum, i.e., with how the total number of individuals is distributed over the different sizes. We are not yet interested in the overall abundance of the species. The overall abundance will be influenced by the total rate of reproduction for the species. This in turn will be influenced by the size spectrum, because that determines how many of the individuals are mature. This dynamic feedback will of course become important when we build real-world models in week 2 and use them in week 3. But for now we have enough on our plate without thinking also about this, so we will set the rate of reproduction to stay constant at the current level. In our single-species model. The following code gives you a first glimpse of how mizer provides functions to change aspects of a model after it has been created. But don't worry about the details for now.
-
-```{r}
-species_params(params)$constant_reproduction <- getRDD(params)
-params <- setReproduction(params, RDD = "constantRDD")
-```
 
 
 # Numbers
 
-While the `plotSpectra()` function gives us a plot of the number density, it would be nice if we could get at the actual numerical values. The `steady()` function has stored those values as the initial condition in the params object and we can access them with the `initialN()` function. Let us assign this to a variable `n`:
+While the `plotSpectra()` function gives us a plot of the number density, it would be nice if we could get at the actual numerical values. We can access them with the `initialN()` function. Let us assign this to a variable `n`:
 
 ```{r}
 n <- initialN(params)
@@ -372,13 +365,13 @@ Make a plot showing the growth rates of the original model and of the model with
 
 ### Effect of changed maturity
 
-Next let us look at how the steady state spectrum has changed. We first need to run the changed model to steady state
+Next let us look at how the steady state spectrum has changed. We first need to run calculate the new steady state with
 
 ```{r}
-params_changed_maturity <- steady(params_changed_maturity)
+params_changed_maturity <- singleSpeciesSteady(params_changed_maturity)
 ```
 
-We use the same technique as above to plot the steady-state spectra of both models on top of each other.
+Then we can use the same technique as above to plot the steady-state spectra of both models on top of each other.
 
 ```{r}
 nf <- melt(initialN(params) * w(params)^2)
