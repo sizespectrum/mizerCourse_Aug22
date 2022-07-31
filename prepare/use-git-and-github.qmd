@@ -112,7 +112,7 @@ That will open a dialog where you first choose "Version Control" and then choose
 ![](screenshots/git.png)
 :::
 
-In the resulting dialog window you paste in the repository URL that you copied from GitHub. You also specify the directory in your file area where you want the project directory to be saved. To do that click the "Browse..." button and find a location that is convenient for you. You may want to create a dedicated directory for this mizer course and then select that.
+In the resulting dialog window you paste in the repository URL that you copied from GitHub. You also specify the directory in your file area where you want the project directory to be saved. To do that click the "Browse..." button and find a location that is convenient for you. You may want to create a dedicated directory for this mizer course and then select that. But avoid creating a directory path that is too long. We have seen problems arise for people who used pathnames longer than 100 characters.
 
 ![](screenshots/create-project.png){width="60%" fig-align="center"}
 
