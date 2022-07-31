@@ -1,0 +1,11 @@
+---
+title: "Troubleshooting"
+---
+
+On this page we will collect issues that people have come across while working on the course, together with the solutions. If you paste your error message into the search box on this course website, it should find the appropriate issue on this page in case it has been reported by someone else already.
+
+If you can't find your issue resolved on this page, make sure to post a comment.
+
+You can help out by editing this page when you come across an issue and its solution. For example if you managed to find the solution yourself, please nevertheless edit this page to add your issue and your solution because it will save others time.
+
+* 

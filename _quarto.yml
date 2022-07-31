@@ -85,6 +85,10 @@ website:
             href: use/change-resources.qmd
           - text: Run your own scenarios
             href: use/run-your-own-scenarios.qmd
+      - section: "Info"
+        contents:
+          - text: Troubleshooting
+            href: troubleshooting.qmd
 
 
 comments:
