@@ -2,6 +2,10 @@
 title: "Predation, growth and mortality"
 ---
 
+TODO: Record video
+
+It is now time to discuss the important issue of predation. It is through predation that the fish obtains the energy it needs to maintain its metabolism, to grow and to invest in reproduction. But also a large proportion of the natural mortality of fish comes from predation by their predators. So it is important how mizer models predation. While you can also read about the details in the description of [the general mizer size-spectrum model](https://sizespectrum.org/mizer/articles/model_description.html), in this tutorial we will approach the topic in a more hands-on experimental fashion, using the mizer package itself to help us build intuition.
+
 As in the previous tutorials, we load the mizerExperimental and tidyverse packages and create a single-species model with a power-law background with exponent -2.05.
 
 ```{r}
@@ -12,39 +16,98 @@ library(tidyverse)
 params <- newSingleSpeciesParams(lambda = 2.05)
 ```
 
-It is now time to discuss the important issue of predation. It is through predation that the fish obtains the energy it needs to maintain its metabolism, to grow and to invest in reproduction. But also a large proportion of the natural mortality of fish comes from predation by their predators. So it is important how mizer models predation. While you can also read about the details in the description of [the general mizer size-spectrum model](https://sizespectrum.org/mizer/articles/model_description.html), in this tutorial we will approach the topic in a more hands-on experimental fashion, using the mizer package itself to help us build intuition.
-
 ## Effect of prey availability
 
 The energy income for a fish comes from predation on its prey. If there is less prey, the fish consumes less and thus its growth rate will decrease. Let us investigate this by artificially removing some prey.
 
-Below we decrease the community spectrum by a factor of 10 in the size range from 1mg to 10mg. We again create a new parameter object to be able to keep the old one around
+Below we decrease the community spectrum by a factor of 10 in the size range from 1mg to 10mg. 
 
 ```{r}
+# Create a new parameter object to be able to keep the old one around unchanged.
 params_starved <- params
+
+# Create logical vector identifying the size bins we want to change
 size_range <- w_full(params) > 10^-3 & w_full(params) < 10^-2
+
+# Divide the abundances in those size bins by 10
 initialNResource(params_starved)[size_range] <- 
-  initialNResource(params)[size_range] / 10
+    initialNResource(params)[size_range] / 10
 ```
 
-That is of course quite a dramatic intervention, and so should allow us to clearly see its effect on the steady-state size distribution of our species.
+Let's make a plot to check that this did what we intended:
+
+```{r}
+# The `species = FALSE` means that we will only plot the background
+plotSpectra(params_starved, power = 2, species = FALSE)
+```
+
+This reduced availability of prey in that size range will lead to a drop in the growth rate in the fish that feed in that size range. We can see the slow-down in growth by comparing the growth rates in the original model and the new model. We will use the method that we saw at the end of the previous tutorial in the section "[Two curves in one plot](single-species-spectra.qmd#two-curves-in-one-plot)".
+
+```{r}
+gf_original <- melt(getEGrowth(params))
+gf_original$Model <- "Original"
+gf_starved <- melt(getEGrowth(params_starved))
+gf_starved$Model <- "Reduced prey"
+gf <- rbind(gf_original, gf_starved)
+ggplot(gf, aes(x = w, y = value, colour = Model)) +
+    geom_line() +
+    scale_x_log10("Weight [g]") +
+    scale_y_log10("Growth rate [g/year]")
+```
+
+The slow-down occurs at a size that is about a factor of 100 larger than the size at which food is reduced. Why this is we will discuss in the next section. 
+
+The dip in the growth rate may not seem very significant in the above plot, but it has a dramatic effect on the steady-state size distribution of our species. We know from the previous tutorial that we can set the abundances in the single-species model to the steady state value with
 
 ```{r}
 params_starved <- singleSpeciesSteady(params_starved)
 ```
 
-We got a warning about unrealistic reproductive efficiency, which we ignore for now because we don't want to discuss reproductive efficiency until the next tutorial.
+We can now plot this:
 
 ```{r}
 plotSpectra(params_starved, power = 2)
 ```
 
-The lack of food and the resulting slow-down in growth leads to a traffic jam: a peak in the biomass density and then low density on the other side of the traffic jam. The slow-down occurs at a size that is about a factor of 100 larger than the size at which food is reduced. Why this is we will discuss in the next section. But first we hand over to you to investigate what happens when the prey abundance is increased instead of decreased. Please open the worksheet named "worksheet3-predation-growth-and-mortality.Rmd" in your worksheet repository, where you will find the following exercise:
+It would again be nice to put this onto the same plot as the original model. So we need to adapt our previous method for combining plots to the case where the plot is created by one of mizer's built-in plot functions. 
+
+We first get the data frames behind the plots by specifying the `return_data = TRUE` argument.
+
+```{r}
+bf_original <- plotSpectra(params, power = 2, return_data = TRUE)
+bf_starved <- plotSpectra(params_starved, power = 2, return_data = TRUE)
+```
+
+We add an extra column `Model` to each dataframe describing it and then bind the two data frames together:
+
+```{r}
+bf_original$Model <- "Original"
+bf_starved$Model <- "Reduced prey"
+
+bf <- rbind(bf_original, bf_starved)
+```
+
+We send the combined dataframe to ggplot, specifying that the linetype should be determined by the variable `Model`:
+
+```{r}
+ggplot(bf, aes(x = w, y = value, colour = Legend, linetype = Model)) +
+    geom_line() +
+    scale_x_log10("Weight [g]") +
+    scale_y_log10("Biomass density [g]") + 
+    # The following uses the same colours as the built-in plot functions
+    scale_colour_manual(values = getColours(params), limits = force)
+```
+
+The lack of food and the resulting slow-down in growth leads to a traffic jam: a peak in the biomass density and then low density on the other side of the traffic jam. However, the low density is even more pronounced than in a traffic jam because mortality is picking off individuals while they are stuck in the slow-growth region.
+
+Note that the lack of prey has led to a significant reduction in the overall abundance of the species. This is in spite of the fact that we have kept the abundance constant at the lowest size. In reality, the drastic reduction of spawning stock biomass will lead to a reduction in the number of eggs as well, so the effect will be even more dramatic.
+
+Here we hand over to you to investigate what happens when the prey abundance is increased instead of decreased. Please open the worksheet named "worksheet3-predation-growth-and-mortality.Rmd" in your worksheet repository, where you will find the following exercise:
 
 :::{.callout-caution collapse="false"}
 ### Exercise 1
 
-Plot the steady state biomass density in our model when the community abundance is increased by a factor of 10 in the size range from 1mg to 10mg.
+Make a single plot, similar to the one above, comparing the steady state biomass density in log weight in the original model with that when the community abundance is increased by a factor of 10 in the size range from 1mg to 10mg.
 :::
 
 ## How predation is modelled
@@ -63,7 +126,7 @@ For a more active hunter the situation will be similar. The rate at which it pre
 -   which of this detected prey the fish is able to catch, which will depend on its mouth size but also on its agility and skill as well as on the defensive mechanisms of the prey.
 -   how fast it can digest the food.
 
-Of these four factors, we have of course already been discussing the density of prey. In the next section we will discuss the ability to filter out or catch prey of particular sizes, which we model via the predation kernel. In the section after that we will discuss the search volume and then in the following section the maximum consumption rate.
+Of these four factors, we have already been discussing the density of prey. In the next section we will discuss the ability to filter out or catch prey of particular sizes, which we model via the predation kernel. In the section after that we will discuss the search volume and then in the following section the maximum consumption rate.
 
 ## The predation kernel
 
@@ -115,14 +178,29 @@ If we now again reduce the prey in the size range from 1mg to 10mg as before, we
 ```{r}
 initialNResource(params_pk) <- initialNResource(params_starved)
 params_pk <- singleSpeciesSteady(params_pk)
-plotSpectra(params_pk, power = 2)
+bf_pk <- plotSpectra(params_pk, power = 2, return_data = TRUE)
+bf_pk$Model <- "Reduced prey, large PPMR"
+bf <- rbind(bf_original, bf_starved, bf_pk)
+ggplot(bf, aes(x = w, y = value, colour = Legend, linetype = Model)) +
+    geom_line() +
+    scale_x_log10("Weight [g]") +
+    scale_y_log10("Biomass density [g]") + 
+    # The following uses the same colours as the built-in plot functions
+    scale_colour_manual(values = getColours(params), limits = force)
 ```
 
-Yes, as expected.
+The dip is indeed happening later. 
 
+You can see another phenomenon in the above plot: Initially the biomass density in log weight is increasing faster in the model with the larger PPMR. Can you explain why? This is something worth discussing at one of the online meetings this week.
+
+::: {.callout-note collapse="true"}
+### Links to documentation
 For details of how `beta` and `sigma` parametrise the predation kernel, see <https://sizespectrum.org/mizer/reference/lognormal_pred_kernel.html#details>. For information on how to change the predation kernel, see <https://sizespectrum.org/mizer/reference/setPredKernel.html#setting-predation-kernel>
+:::
 
-It is very important not to confuse the prey preference with the diet. Just because a predator might prefer to feed on prey of a particular size if it had free choice does not mean that it actually feeds predominantly on such prey. The actual diet of the fish depends also on the availability of prey. Because smaller prey are more abundant, the realised predator/prey mass ratio in the diet will be smaller than the preferred predator/prey mass ratio. This is particularly important when estimating the predation kernel from stomach data.
+::: {.callout-important collapse="false"}
+Do not confuse the prey preference with the diet. Just because a predator might prefer to feed on prey of a particular size if it had free choice does not mean that it actually feeds predominantly on such prey. The actual diet of the fish depends also on the availability of prey. Because smaller prey are more abundant, the realised predator/prey mass ratio in the diet will be smaller than the preferred predator/prey mass ratio. This is particularly important when estimating the predation kernel from stomach data.
+:::
 
 :::{.callout-caution collapse="false"}
 ### Exercise 2
@@ -134,7 +212,9 @@ Next, plot the steady state arising with this feeding kernel when the prey abund
 
 ## Search volume
 
-Next we consider the factor that models the volume of water a filter feeder is able to filter in a certain amount of time, or the volume of water a forage fish is able to patrol in a certain amount of time. This is difficult to model from first principles, although people have tried to argue in terms of swimming speeds of fish. We assume that this search volume rate is also an allometric rate. Let $\gamma(w)$ denote this rate for a predator of size $w$. Thus we assume that $$\gamma(w) = \gamma_0\ w^q$$ for some exponent $q$. We know that a fish needs to consume prey at a rate that scales with its body size to the power $p$, with $p$ about $3/4$. We also know that the prey density will be approximately described by the Sheldon power law, i.e., that $N(w) = N_0\ w^{-\lambda}$. A bit of maths then says that $$q = 2 - \lambda + n.$$ This explains the message you got when you created the params object with a certain choice of $\lambda$: mizer chose the search volume exponent automatically according to this formula. In the real world, evolution will have made sure that the fish will have developed a feeding strategy that allows it to cover its metabolic costs, and thus leads to that search volume exponent of $q$. Clearly, filter feeders have taken a very different route to this than forage fish, but the result is the same.
+Next we consider the factor that models the volume of water a filter feeder is able to filter in a certain amount of time, or the volume of water a forage fish is able to patrol in a certain amount of time. This is difficult to model from first principles, although people have tried to argue in terms of swimming speeds of fish. We assume that this search volume rate is also an allometric rate. Let $\gamma(w)$ denote this rate for a predator of size $w$. Thus we assume that $$\gamma(w) = \gamma_0\ w^q$$ for some exponent $q$. We know that a fish needs to consume prey at a rate that scales with its body size to the power $n$, with $n$ about $3/4$. We also know that the prey density will be approximately described by a power law, i.e., that $N(w) \approx N_0\ w^{-\lambda}$. A bit of maths then says that $$q = 2 - \lambda + n.$$ This explains the message you got when you created the params object with a certain choice of $\lambda$: mizer chose the search volume exponent automatically according to this formula. 
+
+In the real world, evolution will have made sure that the fish will have developed a feeding strategy that allows it to cover its metabolic costs, and thus will have led to that search volume exponent of $q=2-\lambda+n$. Clearly, filter feeders have taken a very different evolutionary route to this than forage fish, but the result is the same.
 
 Let us see what effect changing the coefficient $\gamma_0$ in the search volume rate has. Its current value in our model is
 
@@ -150,17 +230,21 @@ species_params(params_new_gamma)$gamma <- 2000
 params_new_gamma <- singleSpeciesSteady(params_new_gamma)
 ```
 
-We can see the effect in the growth curve of our species. In the original model it looks as follows:
+We can see the effect in the growth curve of our species.
 
-```{r warning=FALSE}
-plotGrowthCurves(params)
+```{r}
+#| warning: false
+gf_original <- plotGrowthCurves(params, return_data = TRUE)
+gf_original$Model <- "Original"
+gf_new <- plotGrowthCurves(params_new_gamma, return_data = TRUE)
+gf_new$Model <- "Reduced search volume"
+
+ggplot(rbind(gf_original, gf_new), aes(x = Age, y = value, colour = Model)) +
+    geom_line()
 ```
 
-In the modified model it looks like
+As expected, the smaller search volume leads to a slower growth.
 
-```{r warning=FALSE}
-plotGrowthCurves(params_new_gamma)
-```
 
 :::{.callout-caution collapse="false"}
 ### Exercise 3
@@ -175,14 +259,16 @@ A predator will have a maximum intake rate. It will simply not be able to utilis
 In our simple model this feeding level is constant.
 
 ```{r}
-plotFeedingLevel(params)
+#| warning: false
+#| layout-ncol: 2
+#| fig-cap: 
+#|   - "Original"
+#|   - "Modified"
+plotFeedingLevel(params) + theme(text = element_text(size = 20))
+plotFeedingLevel(params_new_gamma) + theme(text = element_text(size = 20))
 ```
 
-In the model with the reduced search volume the feeding level will be lower
-
-```{r}
-plotFeedingLevel(params_new_gamma)
-```
+In the model with the reduced search volume the feeding level is lower, as one would expect.
 
 Our model is taking an allometric form for the maximum intake rate $h(w)$ as a function of predator size $w$: $h(w) = h\ w^n$. The current value of the coefficient $h$ is
 
@@ -204,12 +290,12 @@ In addition to mortality caused by predation from other fish, there will be some
 
 ## Fishing mortality
 
-The cause of mortality that is most under our control is mortality from fishing. We discuss more how fishing is set up in mizer in week 3 of this course when we study the consequences of changes in fishing policy. Here we only look at a simple example: we introduce fishing on our species only for fish above 30 grams. All fish greater than 30 grams will be exposed to the same fishing mortality. We call this kind of fishing selectivity "knife_edge" selectivity. Mizer can deal with more general selectivity curves, like sigmoidal or doubly sigmoidal.
+The cause of mortality that is most under our control is mortality from fishing. We discuss more how fishing is set up in mizer in week 3 of this course when we study the consequences of changes in fishing policy. Here we only look at a simple example: we introduce fishing on our species only for fish above 30 grams. All fish greater than 30 grams will be exposed to the same fishing mortality. We call this kind of fishing selectivity "knife_edge" selectivity. Mizer can of course deal with more general selectivity curves, like sigmoidal or doubly sigmoidal.
 
 ```{r}
 params_fishing <- params
-species_params(params_fishing)$sel_func <- "knife_edge"
-species_params(params_fishing)$knife_edge_size <- 30
+gear_params(params_fishing)$sel_func <- "knife_edge"
+gear_params(params_fishing)$knife_edge_size <- 30
 ```
 
 We also need to specify the fishing effort and can then plot the resulting fishing mortality.
@@ -219,11 +305,26 @@ params_fishing <- setFishing(params_fishing, initial_effort = 1)
 plotFMort(params_fishing)
 ```
 
-We can now see how fishing affects the size spectrum.
+We can now see how fishing affects the adult size spectrum.
 
 ```{r}
 params_fishing <- singleSpeciesSteady(params_fishing)
-plotSpectra(params_fishing, power = 2)
+bf_original <- plotSpectra(params, power = 2, wlim = c(10, NA), return_data = TRUE)
+bf_original$Fishing <- "No Fishing"
+bf_fishing <- plotSpectra(params_fishing, power = 2, wlim = c(10, NA),return_data = TRUE)
+bf_fishing$Fishing <- "Knife-edge"
+bf <- rbind(bf_original, bf_fishing)
+
+ggplot(bf, aes(x = w, y = value, colour = Legend, linetype = Fishing)) +
+    geom_line() +
+    scale_x_log10("Weight [g]") +
+    scale_y_log10("Biomass density [g]") + 
+    # The following uses the same colours as the built-in plot functions
+    scale_colour_manual(values = getColours(params), limits = force)
 ```
 
-TODO: put this on the same plot as without fishing.
+The result is hardly surprising.
+
+# Summary
+
+TODO: write summary
