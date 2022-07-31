@@ -301,7 +301,7 @@ gear_params(params_fishing)$knife_edge_size <- 30
 We also need to specify the fishing effort and can then plot the resulting fishing mortality.
 
 ```{r}
-params_fishing <- setFishing(params_fishing, initial_effort = 1)
+initial_effort(params_fishing) <- 1
 plotFMort(params_fishing)
 ```
 
