@@ -3,3 +3,77 @@ title: "Species interactions"
 ---
 
 ## In preparation
+
+```{r}
+#| message: false
+remotes::install_github("sizespectrum/mizerExperimental")
+library(mizerExperimental)
+library(tidyverse)
+params <- newSingleSpeciesParams(lambda = 2.05)
+```
+
+```{r}
+mp <- newTraitParams()
+plotSpectra(mp, power = 2, total = TRUE)
+```
+
+```{r}
+gear_params(mp) <- 
+    data.frame(gear = "main", species = 5, sel_func = "knife_edge", 
+               knife_edge_size = 20, catchability = 1)
+initial_effort(mp) <- 2
+```
+
+```{r}
+mp <- mp |>
+    setRateFunction("RDI", "constantEggRDI") |>
+    setRateFunction("RDD", "noRDD")
+```
+
+
+```{r}
+mp <- steady(mp)
+plotSpectra(mp, total = TRUE, power = 2)
+```
+
+```{r}
+sp <- data.frame(species = "Target", w_inf = 100, w_mat = 25, k_vb = 0.5)
+```
+
+
+```{r}
+mp <- addSpecies(mp, species_params = sp)
+plotSpectra(mp, total = TRUE, ylim = c(1e-8, NA))
+```
+
+```{r}
+mp <- steady(mp)
+plotSpectra(mp, total = TRUE, ylim = c(1e-8, NA))
+```
+
+```{r}
+plotSpectra(mp, species = "Target", resource = FALSE, ylim = c(1e-8, NA))
+```
+
+
+```{r}
+plotDeath(mp, species = "Target", proportion = FALSE)
+```
+
+```{r}
+initialN(mp)[4:7, ] <- initialN(mp)[4:7, ] * 10
+```
+
+```{r}
+plotSpectra(mp, power = 2, total = TRUE)
+```
+
+```{r}
+species_params(mp)$constant_reproduction <- get_required_reproduction(mp)
+mp <- setReproduction(mp, RDD = "constantRDD")
+```
+
+```{r}
+mp <- steady(mp)
+plotSpectra(mp, total = TRUE, power = 2)
+```

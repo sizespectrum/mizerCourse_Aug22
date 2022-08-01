@@ -3,19 +3,33 @@ title: "Online mizer course"
 toc: false
 ---
 
-__2022 August 8-26__
+**2022 August 8-26**
 
-## Size based ecosystem models with the R package mizer and applications for coastal and inland ecosystems   
+## Size based ecosystem models with the R package mizer and applications for coastal and inland ecosystems
 
-Please join us for an online course to learn about the principles of size based community and ecosystem modelling, implementation of these principles in the R package mizer, learn about adaptation of mizer for shallow ecosystems with multiple resources, and learn how to build a new model with your own or example data 
+In this online course you will learn about the principles of size based community and ecosystem modelling, implementation of these principles in the R package mizer, learn about adaptation of mizer for shallow ecosystems with multiple resources, and learn how to build a new model with your own or example data and use it to investigate the ecosystem effect of changes in fishing or other stressors.
 
 The course is led by Gustav Delius (University of York, UK) and Asta Audzijonyte (Nature Research Centre, Lithuania & University of Tasmania, Australia). Invited speakers include Ken Haste Andersen and Julia Blanchard.
 
-Participation is free. 
-If you are interested in this course and would like to continue receiving information about it, please 
-[register here](https://docs.google.com/forms/d/e/1FAIpQLSeLGJfGQ1IBa5ZozqWTGIXX17xF73kPHKYhAFFa0H2nn4CT4Q/viewform?vc=0&c=0&w=1&flr=0)
+Participation is free. If you would like to participate in this course, please [register](https://docs.google.com/forms/d/e/1FAIpQLSeLGJfGQ1IBa5ZozqWTGIXX17xF73kPHKYhAFFa0H2nn4CT4Q/viewform?vc=0&c=0&w=1&flr=0).
 
-If you need more information, please contact us at info@fishsizeproject.org 
-or comment below.
+The course has three week-long sections:
 
-</center>
+-   **Week 1: Understand**\
+    You will gain an understanding of size spectra and their dynamics by exploring simple example systems hands-on with mizer.
+
+-   **Week 2: Build**\
+    Following our example, you will build your own multi-species mizer model for the Curonian sea. We will collect the models from all participants to create an ensemble of models.
+
+-   **Week 3: Use**\
+    We will use this new ensemble of mizer models to explore the effects of changes in fishing and changes in resource dynamics. You will run your own model scenarios.
+
+## Tutorials and worksheets
+
+The course is organised into several tutorials each week. Each tutorial is associated with a worksheet in which you perform the exercises that are dotted throughout the tutorials. You will work through these tutorials and worksheets at times that are convenient for you.
+
+## On-line meetings
+
+There will be several online meeting scheduled throughout the course.
+
+Monday 8th of August we will have two welcome meetings, one at
