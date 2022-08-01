@@ -48,43 +48,15 @@ website:
             href: prepare/install-tools.qmd
           - text: Use Git and GitHub
             href: prepare/use-git-and-github.qmd
-#          - text: Watch introduction
-#            href: prepare/watch-introduction.qmd
       - section: "Week 1: Understand"
-        href: understand/index.qmd
-        contents: 
-          - text: Observed size spectra
-            href: understand/observed-size-spectra.qmd
-          - text: Single species spectra
-            href: understand/single-species-spectra.qmd
-          - text: Predation, growth and mortality
-            href: understand/predation-growth-and-mortality.qmd
-          - text: Species interactions
-            href: understand/species-interactions.qmd
-          - text: Dynamics of size spectra
-            href: understand/dynamics-of-spectra.qmd
+        contents:
+          - text: Released on 8 August
       - section: "Week 2: Build"
-        href: build/index.qmd
         contents:
-          - text: Find species parameters
-            href: build/find-species-parameters.qmd
-          - text: Create your first model
-            href: build/create-first-model.qmd
-          - text: Set up multiple resources
-            href: build/set-multiple-resources.qmd
-          - text: Refine your model
-            href: build/refine-model.qmd
+          - text: Released on 15 August
       - section: "Week 3: Use"
-        href: use/index.qmd
         contents:
-          - text: Tune reproduction sensitivity
-            href: use/simulate-change.qmd
-          - text: Simulate fishing scenarios
-            href: use/tune-sensitivity.qmd
-          - text: Tune resource sensitivity
-            href: use/change-resources.qmd
-          - text: Simulate resource scenarios
-            href: use/run-your-own-scenarios.qmd
+          - text: Released on 22 August
       - section: "Info"
         contents:
           - text: Troubleshooting

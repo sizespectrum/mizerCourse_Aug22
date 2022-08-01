@@ -1,6 +1,0 @@
----
-title: "Change resources"
----
-
-## In preparation
-

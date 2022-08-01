@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>mizer course - Online mizer course</title>
+<title>mizer course - Troubleshooting</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,6 +25,7 @@ ul.task-list{list-style: none;}
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./prepare/use-git-and-github.html" rel="prev">
 <link href="./images/favicon-16x16.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -57,19 +58,19 @@ ul.task-list{list-style: none;}
 
 
 <link rel="stylesheet" href="styles.css">
-<meta name="twitter:title" content="mizer course - Online mizer course">
-<meta name="twitter:description" content="2022 August 8-26">
+<meta name="twitter:title" content="mizer course - Troubleshooting">
+<meta name="twitter:description" content="On this page we will collect issues that people have come across while working on the course, together with the solutions.">
 <meta name="twitter:creator" content="gustavdelius">
 <meta name="twitter:card" content="summary">
 </head>
 
-<body class="nav-sidebar docked fullcontent">
+<body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Online mizer course</h1>
+      <h1 class="quarto-secondary-nav-title">Troubleshooting</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -166,7 +167,7 @@ ul.task-list{list-style: none;}
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">Troubleshooting</a>
+  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link active">Troubleshooting</a>
   </div>
 </li>
       </ul>
@@ -175,13 +176,15 @@ ul.task-list{list-style: none;}
     </div>
 </nav>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Online mizer course</h1>
+<h1 class="title d-none d-lg-block">Troubleshooting</h1>
 </div>
 
 
@@ -195,124 +198,18 @@ ul.task-list{list-style: none;}
 
 </header>
 
-<p><strong>2022 August 8-26</strong></p>
-<section id="size-based-ecosystem-models-with-the-r-package-mizer-and-applications-for-coastal-and-inland-ecosystems" class="level2">
-<h2 class="anchored" data-anchor-id="size-based-ecosystem-models-with-the-r-package-mizer-and-applications-for-coastal-and-inland-ecosystems">Size based ecosystem models with the R package mizer and applications for coastal and inland ecosystems</h2>
-<p>In this online course you will learn about the principles of size based community and ecosystem modelling, implementation of these principles in the R package mizer, learn about adaptation of mizer for shallow ecosystems with multiple resources, and learn how to build a new model with your own or example data and use it to investigate the ecosystem effect of changes in fishing or other stressors.</p>
-<p>The course is led by Gustav Delius (University of York, UK) and Asta Audzijonyte (Nature Research Centre, Lithuania &amp; University of Tasmania, Australia), with technical support by Romain Forestier (University of Tasmania). Invited speakers include Ken Haste Andersen and Julia Blanchard.</p>
-<p>Participation is free. If you would like to participate in this course, please <a href="https://docs.google.com/forms/d/e/1FAIpQLSeLGJfGQ1IBa5ZozqWTGIXX17xF73kPHKYhAFFa0H2nn4CT4Q/viewform?vc=0&amp;c=0&amp;w=1&amp;flr=0">register</a>.</p>
-</section>
-<section id="tutorials-and-worksheets" class="level2">
-<h2 class="anchored" data-anchor-id="tutorials-and-worksheets">Tutorials and worksheets</h2>
-<p>The course has three week-long sections:</p>
+<p>On this page we will collect issues that people have come across while working on the course, together with the solutions. If you paste your error message into the search box on this course website, it should find the appropriate issue on this page in case it has been reported by someone else already.</p>
+<p>If you can’t find your issue resolved on this page, make sure to post a comment.</p>
+<p>You can help out by editing this page when you come across an issue and its solution. For example if you managed to find the solution yourself, please nevertheless edit this page to add your issue and your solution because it will save others time.</p>
 <ul>
-<li><p><strong>Week 1: Understand</strong><br>
-You will gain an understanding of size spectra and their dynamics by exploring simple example systems hands-on with mizer.</p></li>
-<li><p><strong>Week 2: Build</strong><br>
-Following our example, you will build your own multi-species mizer model for the Curonian sea. We will collect the models from all participants to create an ensemble of models.</p></li>
-<li><p><strong>Week 3: Use</strong><br>
-We will use this new ensemble of mizer models to explore the effects of changes in fishing and changes in resource dynamics. You will run your own model scenarios.</p></li>
+<li><p>If your R project is located inside a directory with a very long path name, you might get an error messge because R will not be able to access the path.<br>
+The error message may look like this: ’Warning in gzfile(file, “wb”): cannot open the compressed file ’C:/….. “<br>
+<strong>Solution</strong>: make sure you create your R project in a higher directory with a shorter path</p></li>
+<li><p>For some users, Github asks for username and password (or personal access token) every time you want to push your commits to Github. This can happen if your Git version is too old.<br>
+<strong>Solution</strong>: install the latest version of Git.</p></li>
 </ul>
-<p>The course is organised into several tutorials each week. Each tutorial is associated with a worksheet in which you perform the exercises that are dotted throughout the tutorials. You will work through these tutorials and worksheets at times that are convenient for you.</p>
-</section>
-<section id="on-line-meetings" class="level2">
-<h2 class="anchored" data-anchor-id="on-line-meetings">On-line meetings</h2>
-<p>There will be several online meeting scheduled throughout the course, see the list of meetings in the table below. <strong>All times are indicated in UK summer time, GMT+1.</strong> For each day we organise two meetings to accommodate different time zones (7.00 and 15.00 UK time).</p>
-<p>For all meetings go to the course meeting link at <a href="https://live.remo.co/e/mizer-course-meetings"><strong>https://live.remo.co/e/mizer-course-meetings</strong></a> <strong>Note!</strong> For security reasons, this link will only be open to the registered participants, based on the email address used for the registration. If you need to use another email address, please send an email from your that email address to <a href="mailto:gustav.delius@gmail.com">gustav.delius@gmail.com</a> and he will add you to the safe list.</p>
-<p>On Monday <strong>8th of August</strong> we will have an introductory and welcome meeting with all course participants. On Tuesdays and Thursdays of each week course participants are encouraged to join the meetings with other course participants to discuss their progress, challenges and ideas (course tutors will not attend all these meetings). On Fridays we will have meetings with tutors to recap the experience from that week and discuss remaining questions.</p>
-<table class="table">
-<colgroup>
-<col style="width: 17%">
-<col style="width: 8%">
-<col style="width: 9%">
-<col style="width: 63%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><em>Date</em></th>
-<th><em>Time 1</em></th>
-<th><em>Time 2</em></th>
-<th><em>Notes</em></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Aug 8, Monday</strong></td>
-<td><strong>7.00</strong></td>
-<td><strong>15.00</strong></td>
-<td>Introductory meeting for all course participants and tutors</td>
-</tr>
-<tr class="even">
-<td>Aug 9, Tuesday</td>
-<td>7.00</td>
-<td>15.00</td>
-<td>Course participants are encouraged to join and form group discussions</td>
-</tr>
-<tr class="odd">
-<td>Aug 11, Thursday</td>
-<td>7.00</td>
-<td>15.00</td>
-<td>Course participants are encouraged to join and form group discussions</td>
-</tr>
-<tr class="even">
-<td><strong>Aug 12, Friday</strong></td>
-<td><strong>7.00</strong></td>
-<td><strong>15.00</strong></td>
-<td>Meetings with course participants and tutors</td>
-</tr>
-<tr class="odd">
-<td>Aug 16, Tuesday</td>
-<td>7.00</td>
-<td>15.00</td>
-<td>Course participants are encouraged to join and form group discussions</td>
-</tr>
-<tr class="even">
-<td>Aug 18, Thursday</td>
-<td>7.00</td>
-<td>15.00</td>
-<td>Course participants are encouraged to join and form group discussions</td>
-</tr>
-<tr class="odd">
-<td><strong>Aug 19, Friday</strong></td>
-<td><strong>7.00</strong></td>
-<td><strong>15.00</strong></td>
-<td>Meetings with course participants and tutors</td>
-</tr>
-<tr class="even">
-<td>Aug 23, Tuesday</td>
-<td>7.00</td>
-<td>15.00</td>
-<td>Course participants are encouraged to join and form group discussions</td>
-</tr>
-<tr class="odd">
-<td>Aug 25, Thursday</td>
-<td>7.00</td>
-<td>15.00</td>
-<td>Course participants are encouraged to join and form group discussions</td>
-</tr>
-<tr class="even">
-<td><strong>Aug 26, Friday</strong></td>
-<td><strong>7.00</strong></td>
-<td><strong>15.00</strong></td>
-<td>Final days of meetings with course participants and tutors</td>
-</tr>
-</tbody>
-</table>
-<p><img src="images/paste-3ABCF373.png" class="img-fluid" width="734"></p>
-<p>This course is organised as a part of the <a href="https://sif.lt">“Sustainable inland fisheries”</a> project, funded by the European Regional Development Fund (project No 01.2.2-LMT-K-718-02-0006) under grant agreement with the Research Council of Lithuania (LMTLT) and the <a href="https://pyramidsoflife.york.ac.uk/">Pyramids of Life</a>, funded by <a href="https://www.ukri.org/">UK Research and Innovation</a> via the <a href="https://www.smmr.org.uk/">Sustainable Management of Marine Resources</a> fund.</p>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="images/smmr-blue.png" class="img-fluid"></p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="images/UOY-Logo.png" class="img-fluid"></p>
-</div>
-</div>
-</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -428,6 +325,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <script src="https://giscus.app/client.js" data-repo="sizespectrum/mizerCourse" data-repo-id="R_kgDOHlJwYg" data-category="Comments" data-category-id="DIC_kwDOHlJwYs4CP_7j" data-mapping="title" data-reactions-enabled="0" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./prepare/use-git-and-github.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Use Git and GitHub</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
