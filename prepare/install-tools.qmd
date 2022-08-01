@@ -16,7 +16,7 @@ Alternatively, if you can not or do not want to install R on your computer, you 
 
 ## RStudio
 
-This course assumes that you will be using [RStudio](https://www.rstudio.com/products/rstudio/) to work with R. There is really no reason not to use RStudio and it makes a lot of things much easier. 
+This course assumes that you will be using [RStudio](https://www.rstudio.com/products/rstudio/) to work with R. There is really no reason not to use RStudio and it makes a lot of things much easier.
 
 RStudio develops rapidly and adds useful features all the time and so it is best if you install the [latest version](https://www.rstudio.com/products/rstudio/download/preview/). This course was written with version 2022.07.0+548. If you already have RStudio installed but it is an older version, the way to upgrade is to just install the newest version. The old version will automatically be replaced by the new.
 
@@ -31,10 +31,10 @@ If you are new to RStudio, the video on the RStudio IDE homepage is well worth w
 <script async src="https://fast.wistia.net/assets/external/E-v1.js">
 </script>
 ```
-
 ## Git
 
-[Git](https://git-scm.com/) is a distributed version control system that we will use in this course. We will discuss that more on the page [Use Git and GitHub](use-git-and-github.qmd). If you are using Linux, then Git may already be installed. Just type `git` in a terminal and see whether it responds with a help page. It does not matter what version of Git you have. To install Git follow the links at <https://git-scm.com/downloads> for your operating system. You do not need a GUI client for Git because you will be using Git from within RStudio.
+[Git](https://git-scm.com/) is a distributed version control system that we will use in this course. We will discuss that more on the page [Use Git and GitHub](use-git-and-github.qmd). Make sure your Git version is 2.25.1 or newer. If you don't know your Git version, it is best to install the latest version anyway. To install Git follow the links at <https://git-scm.com/downloads> for your operating system. \
+If you are using Linux, then Git may already be installed. Just type `git` in a terminal and see whether it responds with a help page. You do not need a GUI client for Git because you will be using Git from within RStudio.
 
 ## R Packages
 
@@ -68,13 +68,12 @@ usethis::use_git_config(user.name = "Jane Doe",
                         user.email = "jane@example.org")
 ```
 
-And that's it! 
+And that's it!
 
 ## Issues
 
-As with all computer-related things, unexpected problems are likely to crop up. Be sure to post about them below. Alternatively you can also report issues by clicking on the "Report an issue" link that you find at the bottom of the right side-bar. That will create an entry in the GitHub issue tracker. 
+As with all computer-related things, unexpected problems are likely to crop up. Be sure to post about them below. Alternatively you can also report issues by clicking on the "Report an issue" link that you find at the bottom of the right side-bar. That will create an entry in the GitHub issue tracker.
 
-If you have a correction to this page or want to suggest an edit, use the "Edit this page" link. Don't worry: we will need to approve your edits before they go live, so you can feel free to edit as much as you like. 
+If you have a correction to this page or want to suggest an edit, use the "Edit this page" link. Don't worry: we will need to approve your edits before they go live, so you can feel free to edit as much as you like.
 
 This course should be a collaborative experience. You will find the "Edit this page" and "Report an issue" links on every tutorial page and you will find a comments section on every page of the course website. Never hesitate to use them.
-
