@@ -32,27 +32,23 @@ The course is organised into several tutorials each week. Each tutorial is assoc
 
 There will be several online meeting scheduled throughout the course, see the list of meetings in the table below. **All times are indicated in the UK time, GMT+0.** For each day we organise two meetings to accommodate different time zones (7.00 and 15.00 UK time).
 
-For all meetings go to the course meeting link at
-[**https://live.remo.co/e/mizer-course-meetings**](https://live.remo.co/e/mizer-course-meetings)
-**Note!** For security reasons, this link will only be open to the registered participants, based on the email address used for the registration. If you need to use another email address, please contact course organisers, and we will add you to the safe list.
+For all meetings go to the course meeting link at [**https://live.remo.co/e/mizer-course-meetings**](https://live.remo.co/e/mizer-course-meetings) **Note!** For security reasons, this link will only be open to the registered participants, based on the email address used for the registration. If you need to use another email address, please contact course organisers, and we will add you to the safe list.
 
 On Monday **8th of Augus**t we will have an introductory and welcome meeting with all course participants. On Tuesdays and Thursdays of each week course participants are encouraged to join the meetings with other course participants to discuss their progress, challenges and ideas (course tutors will not attend these meetings). On Fridays we will have meetings with tutors to recap the experience from the past week and discuss remaining questions.
 
-| *Date*             | *Time 1* | *Time 2*  | *Notes*                                                                 |
-|----------------|-----------|------------|----------------------------------|
-| **Aug 8, Monday**  | **7.00** | **15.00** | Introductory meeting for all course participants and tutors             |
-| Aug 9, Tuesday     | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions   |
-| Aug 11, Thursday   | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions   |
-| **Aug 12, Friday** | **7.00** | **15.00** | Meetings with course participants and tutors                            |
-| Aug 16, Tuesday    | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions   |
-| Aug 18, Thursday   | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions   |
-| **Aug 19, Friday** | **7.00** | **15.00** | Meetings with course participants and tutors                            |
-| Aug 23, Tuesday    | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions   |
-| Aug 25, Thursday   | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions   |
-| **Aug 26, Friday** | **7.00** | **15.00** | Final days of meetings with course participants and tutors              |
+| *Date*             | *Time 1* | *Time 2*  | *Notes*                                                               |
+|---------------|---------------|---------------|-----------------------------|
+| **Aug 8, Monday**  | **7.00** | **15.00** | Introductory meeting for all course participants and tutors           |
+| Aug 9, Tuesday     | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
+| Aug 11, Thursday   | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
+| **Aug 12, Friday** | **7.00** | **15.00** | Meetings with course participants and tutors                          |
+| Aug 16, Tuesday    | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
+| Aug 18, Thursday   | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
+| **Aug 19, Friday** | **7.00** | **15.00** | Meetings with course participants and tutors                          |
+| Aug 23, Tuesday    | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
+| Aug 25, Thursday   | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
+| **Aug 26, Friday** | **7.00** | **15.00** | Final days of meetings with course participants and tutors            |
 
 ![](images/paste-3ABCF373.png){width="734"}
 
-This course is organised as a part of ["Sustainable inland fisheries"](https://sif.lt) project and is funded by the European Regional Development Fund (project No 01.2.2-LMT-K-718-02-0006) under grant agreement with the Research Council of Lithuania (LMTLT).
-
-
+This course is organised as a part of ["Sustainable inland fisheries"](https://sif.lt) project, which is funded by the European Regional Development Fund (project No 01.2.2-LMT-K-718-02-0006) under grant agreement with the Research Council of Lithuania (LMTLT).
