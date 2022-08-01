@@ -8,9 +8,9 @@ If you can't find your issue resolved on this page, make sure to post a comment.
 
 You can help out by editing this page when you come across an issue and its solution. For example if you managed to find the solution yourself, please nevertheless edit this page to add your issue and your solution because it will save others time.
 
--   If your R project is located inside a directory with a very long path name, you might get an error messge because R will not be able to access the path. \
-    The error message was 'Warning in gzfile(file, "wb"): cannot open the compressed file 'C:/..... " \
-    **Solution**: make sure you create your R git project in a higher directory with a shorter path
+-   If your R project is located inside a directory with a very long path name, you might get an error messge because R will not be able to access the path.\
+    The error message may look like this: 'Warning in gzfile(file, "wb"): cannot open the compressed file 'C:/..... "\
+    **Solution**: make sure you create your R project in a higher directory with a shorter path
 
--   For some users, Github asks for username and password (or personal access token) every time you want to push your commits to Github. This can happen if you Git version is too old. \
+-   For some users, Github asks for username and password (or personal access token) every time you want to push your commits to Github. This can happen if your Git version is too old.\
     **Solution**: install the latest version of Git.

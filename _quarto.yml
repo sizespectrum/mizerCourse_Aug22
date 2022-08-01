@@ -61,29 +61,29 @@ website:
             href: understand/predation-growth-and-mortality.qmd
           - text: Species interactions
             href: understand/species-interactions.qmd
-          - text: Dynamics of spectra
+          - text: Dynamics of size spectra
             href: understand/dynamics-of-spectra.qmd
       - section: "Week 2: Build"
         href: build/index.qmd
         contents:
           - text: Find species parameters
             href: build/find-species-parameters.qmd
-          - text: Create first model
+          - text: Create your first model
             href: build/create-first-model.qmd
-          - text: Set multiple resources
+          - text: Set up multiple resources
             href: build/set-multiple-resources.qmd
-          - text: Refine model
+          - text: Refine your model
             href: build/refine-model.qmd
       - section: "Week 3: Use"
         href: use/index.qmd
         contents:
-          - text: Simulate change
+          - text: Tune reproduction sensitivity
             href: use/simulate-change.qmd
-          - text: Tune sensitivity
+          - text: Simulate fishing scenarios
             href: use/tune-sensitivity.qmd
-          - text: Change resources
+          - text: Tune resource sensitivity
             href: use/change-resources.qmd
-          - text: Run your own scenarios
+          - text: Simulate resource scenarios
             href: use/run-your-own-scenarios.qmd
       - section: "Info"
         contents:
