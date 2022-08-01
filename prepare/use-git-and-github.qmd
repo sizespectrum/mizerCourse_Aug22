@@ -4,7 +4,7 @@ title: "Use Git and GitHub"
 
 In this course we will collaborate via Git and GitHub. This means that if you have not used these tools before, then you will have to learn some new concepts and get used to a particular workflow. The investment of your time will more than pay off. Developing your research code with Git and GitHub has great advantages, and it'll be great if this course gets you hooked on these tools. The use we make of Git and GitHub in this course is relatively simple, so it may be the perfect gateway drug.
 
-We'll start by first introducing some of the ideas theoretically, but then we will also show what the workflow looks like in practice.
+We'll start by first introducing some of the ideas theoretically, but then we will also show what the workflow looks like in practice. We will only scratch the surface, if you want to go deeper then [Happy git with R](https://happygitwithr.com/) is a useful resource.
 
 ## Theory
 
