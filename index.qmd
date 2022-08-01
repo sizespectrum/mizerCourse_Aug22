@@ -13,7 +13,6 @@ The course is led by Gustav Delius (University of York, UK) and Asta Audzijonyte
 
 Participation is free. If you would like to participate in this course, please [register](https://docs.google.com/forms/d/e/1FAIpQLSeLGJfGQ1IBa5ZozqWTGIXX17xF73kPHKYhAFFa0H2nn4CT4Q/viewform?vc=0&c=0&w=1&flr=0).
 
-
 ## Tutorials and worksheets
 
 The course has three week-long sections:
@@ -33,12 +32,12 @@ The course is organised into several tutorials each week. Each tutorial is assoc
 
 There will be several online meeting scheduled throughout the course, see the list of meetings in the table below. **All times are indicated in UK summer time, GMT+1.** For each day we organise two meetings to accommodate different time zones (7.00 and 15.00 UK time).
 
-For all meetings go to the course meeting link at [**https://live.remo.co/e/mizer-course-meetings**](https://live.remo.co/e/mizer-course-meetings) **Note!** For security reasons, this link will only be open to the registered participants, based on the email address used for the registration. If you need to use another email address, please contact course organisers, and we will add you to the safe list.
+For all meetings go to the course meeting link at [**https://live.remo.co/e/mizer-course-meetings**](https://live.remo.co/e/mizer-course-meetings) **Note!** For security reasons, this link will only be open to the registered participants, based on the email address used for the registration. If you need to use another email address, please send an email from your that email address to [gustav.delius\@gmail.com](mailto:gustav.delius@gmail.com) and he will add you to the safe list.
 
 On Monday **8th of August** we will have an introductory and welcome meeting with all course participants. On Tuesdays and Thursdays of each week course participants are encouraged to join the meetings with other course participants to discuss their progress, challenges and ideas (course tutors will not attend all these meetings). On Fridays we will have meetings with tutors to recap the experience from that week and discuss remaining questions.
 
 | *Date*             | *Time 1* | *Time 2*  | *Notes*                                                               |
-|---------------|---------------|---------------|-----------------------------|
+|--------------------|----------|-----------|-----------------------------------------------------------------------|
 | **Aug 8, Monday**  | **7.00** | **15.00** | Introductory meeting for all course participants and tutors           |
 | Aug 9, Tuesday     | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
 | Aug 11, Thursday   | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
@@ -54,7 +53,7 @@ On Monday **8th of August** we will have an introductory and welcome meeting wit
 
 This course is organised as a part of the ["Sustainable inland fisheries"](https://sif.lt) project, funded by the European Regional Development Fund (project No 01.2.2-LMT-K-718-02-0006) under grant agreement with the Research Council of Lithuania (LMTLT) and the [Pyramids of Life](https://pyramidsoflife.york.ac.uk/), funded by [UK Research and Innovation](https://www.ukri.org/) via the [Sustainable Management of Marine Resources](https://www.smmr.org.uk/) fund.
 
-::: {layout-ncol=2}
+::: {layout-ncol="2"}
 ![](images/smmr-blue.png)
 
 ![](images/UOY-Logo.png)
