@@ -28,7 +28,7 @@ str(data)
 
 The `readRDS()` function loads the file "size-data.rds" which contains the data frame with the size data. We assign this data frame to the variable `data` for use below and then, to get an impression of what is in the data frame we use the `str()` function.
 
-You can always easily read more information about the functions we are using by clicking on the function name (**ASTA: clicking how and where??**). This will open the function's help page in a new browser window.
+When you hover over any function name in the R code in these tutorials, you will notice that they are links. If you click on them this will open the function's help page in a new browser window. Thus you can always easily read more information about the functions we are using.
 :::
 
 The data consists of measurements of the length in centimetres of `r nrow(data)` fish of various species. The species included are
@@ -41,7 +41,7 @@ This data was assembled by Ken Andersen at DTU Aqua in Copenhagen. The `length` 
 
 $$ w = a\, l ^ b,$$
 
-where the coefficient $a$ and the exponent $b$ are species-specific parameters (we'll discuss how to find such species parameters in a [later tutorial](../build/find-species-parameters.qmd)). The reason we like to work with weight as the measure of a fish's size is that there are well-known allometric relationships between weight and physiological rates. For example, metabolic rate is generally expected to scale as $w^{3/4}$ and mortality is often scales as $w^{-1/4}$, as we will be discussing in the section on [allometric rates](single-species-spectra.qmd#allometric-rates) in the next tutorial.
+where the coefficient $a$ and the exponent $b$ are species-specific parameters (we'll discuss how to find such species parameters in a [later tutorial](../build/find-species-parameters.qmd)). The reason we like to work with weight as the measure of a fish's size is that there are well-known allometric relationships between weight and physiological rates. For example, metabolic rate is generally expected to scale as $w^{3/4}$ and mortality to scales as $w^{-1/4}$, as we will be discussing in the section on [allometric rates](single-species-spectra.qmd#allometric-rates) in the next tutorial.
 
 ::: callout-important
 When not otherwise specified, all lengths are given in centimetres \[cm\] and all weights are given in grams \[g\].
@@ -94,14 +94,14 @@ The second way to deal with the fact that there are so many more small fish than
 ::: {.callout-note collapse="true"}
 ### Expand for R details
 
-We had decided that we wanted the breaks between the bins to increase with powers of 2. We first create the vector `log_breaks` with the exponents. The `seq()` function creates a vector of numbers starting at `from` and going up to `to` in steps of size `by`. You do not need to give the names of the arguments because they can also be identified by their position. So you could also have written `seq(0, 11, 1)`. Such integer sequences are used so often that there is the even shorter notation `0:11` giving the same sequence.
+We had decided that we wanted the breaks between the bins to be located at powers of 2. We first create the vector `log_breaks` with the exponents. The `seq()` function creates a vector of numbers starting at `from` and going up to `to` in steps of size `by`. You do not need to give the names of the arguments because they can also be identified by their position. So you could also have written `seq(0, 11, 1)`. Such integer sequences are used so often that there is the even shorter notation `0:11` giving the same sequence.
 
-The second line above creates a vector containing the powers of 2 with the exponents we just created in the vector `log_breaks`.
+The second line above creates a vector containing the powers of 2 with the exponents we just created in the vector `log_breaks`. Note how R can perform calculations for all entries of a vector at once, without the need for a loop.
 
 The reason we have put parentheses `( ... )` around the assignments in the above code is because that also leads to the result being displayed whereas the assignment operator without those parentheses around it would not display anything.
 :::
 
-Now we can use these logarithmically increasing bins in the histogram:
+Now we can use these logarithmically spaced bins in the histogram:
 
 ```{r message=FALSE}
 ggplot(data) +
@@ -114,15 +114,15 @@ ggplot(data) +
 
 The heights are now slightly more even among the bins, because the largest bin is so wide.
 
-It is very important that you break up your reading of the tutorials with some hands-on work that builds on what you have just learned. Therefore you will find exercises throughout the tutorials. You have now reached the first exercise. You will find that it can be accomplished using the R functions you have already learned about. Please do your work in the worksheet that accompanies this tutorial. You will find that worksheet in the file "worksheet1-observed-size-spectra.Rmd" in your worksheet repository for this week. This will sound familiar to you if you have worked through the [Use Git and GitHub](../prepare/use-git-and-github.qmd) tutorial and its associated worksheet. If you have not worked through that tutorial yet, please do so now.
+It is very important that you break up your reading of the tutorials with some hands-on work that builds on what you have just learned. Therefore you will find exercises throughout the tutorials. You have now reached the first exercise. You will find that it can be accomplished using the R functions you have already learned about. Please do your work in the worksheet that accompanies this tutorial and that you will find in this week's worksheet repository.
 
 If you have not yet created this week's worksheet repository, you can do so by following this link to accept your assignments for week 1:
 
 <https://classroom.github.com/a/5cnr1H7R>
 
-You must then clone this to your computer and open it in RStudio. To do that you will need to follow the same steps as in the prepare week, when you conducted your first exercised. This means that you will start a new R project, checkout the week 1 repository using the GitHub url link with your name (e.g. https://github.com/Mizer-course/week-1-understand-astaaudzi) and then pull all the exercises for the first week. This may seem challenging, but it only requires a few clicks. You can follow the instructions from [here](../prepare/use-git-and-github.qmd)
+Once your repository has been created on GitHub, you will be given the URL that you need to clone it to your computer by creating a new project in RStudio. To do that you will need to follow the same steps as in the [Use Git and GitHub](../prepare/use-git-and-github.qmd) tutorial. You may want to review the instructions in the [Create repository](../prepare/use-git-and-github.qmd#create-repository) and [Clone repository](../prepare/use-git-and-github.html#clone-repository) sections.
 
-In that worksheet you will find the following first exercise:
+You will find the worksheet for this tutorial in the file "worksheet1-observed-size-spectra.Rmd" in your worksheet repository for this week. In that worksheet you will find the following first exercise:
 
 ::: {.callout-caution collapse="false"}
 ### Exercise 1
@@ -142,7 +142,7 @@ Because it is important to understand this concept of **density**, we will calcu
 
 ## Binning
 
-To understand better what the histogram did and to improve the plots further, we bin the data ourselves. We do this by first adding a bin number to each observation, which indicates in which bin each weight of the fish lies.
+To understand better what the histogram did and to improve the plots further, we bin the data ourselves. We do this by first adding a bin number to each observation, which indicates in which bin the weight of the fish lies.
 
 ```{r }
 data_with_bins <- data |>
@@ -157,7 +157,8 @@ head(data_with_bins)
 We used the pipe operator `|>` that simply pipes the output of the code preceeding it into the first argument of the function following it. So the above code is equivalent to
 
 ```{r eval=FALSE}
-data_with_bins <- mutate(data, bin = cut(weight, breaks = binbreaks, right = FALSE, labels = FALSE))
+data_with_bins <- mutate(data, bin = cut(weight, breaks = binbreaks, 
+                                         right = FALSE, labels = FALSE))
 ```
 
 The pipe operator becomes really useful only if you do a longer sequence of operations on data. You will see examples of its use later.
@@ -219,13 +220,11 @@ ggplot(binned_numbers) +
     geom_line(aes(x = mid_points[bin], y = Number_dens)) + 
     scale_x_log10() + 
     scale_y_log10() +
-    labs(x = "Log10 Weight [g]",
-         y = "Log10 Number density")
+    labs(x = "Weight [g]",
+         y = "Number density")
 ```
 
-Congratulations! You have plotted a size spectrum.
-
-It is time for your second exercise of the course. Go back to your week 1 exercise project in RStudio, and do Exercise 2 in the worksheet 1 (**ASTA - as I understand it is not ready yet**):
+It is time for your second exercise of the course. Go back to your week 1 exercise project in RStudio, and do Exercise 2 in worksheet 1:
 
 ::: {.callout-caution collapse="false"}
 ### Exercise 2
@@ -243,7 +242,7 @@ The number density in the above log-log plot is described approximately by a str
 (model <- lm(log(Number_dens) ~ log(mid_points[bin]), data = binned_numbers))
 ```
 
-This tells us that the straight-line approximation has a slope of about `r signif(model$coefficients[[2]], 3)`. We can also ask ggplot to put this line into the plot, together with its 95% (**ASTA - I asume this was 95% not 5%?? - also the model coefficient above**) confidence interval:
+This tells us that the straight-line approximation has a slope of about `r signif(model$coefficients[[2]], 3)`. We can also ask ggplot to put this line into the plot, together with its 95% confidence interval:
 
 ```{r warning=FALSE}
 ggplot(binned_numbers, aes(x = mid_points[bin], y = Number_dens)) +
@@ -319,7 +318,7 @@ Fitting a same linear model to the binned biomass density data now gives
 (model <- lm(log(Biomass_dens) ~ log(mid_points[bin]), data = binned_biomass))
 ```
 
-The slope is `r signif(model$coefficients[[2]], 4)` for the biomass density whereas it was `r exponent` for the number density. This makes perfect sense, because if we denote the biomass density by $B(w)$ then $B(w) = w N(w)$. Therefore if numbers at weight scale with the exponent $\lambda$ as $N(w) \propto w^{-\lambda}$ then biomass at weight will scale as $B(w)\propto w^{1-\lambda}$.
+The slope is `r signif(model$coefficients[[2]], 4)` for the biomass density whereas it was `r exponent` for the number density. This makes perfect sense, because if we denote the biomass density by $B(w)$ then $B(w) = w N(w)$. Therefore if the number density scales with the exponent $\lambda$ as $N(w) \propto w^{-\lambda}$ then the biomass density will scale as $B(w)\propto w^{1-\lambda}$.
 
 ## A few final points before the summary: 
 
@@ -327,7 +326,7 @@ The slope is `r signif(model$coefficients[[2]], 4)` for the biomass density wher
 
 There is perhaps something a bit strange about the way we visualised the size spectrum via the number density or the biomass density plotted on logarithmic axes.
 
-Above we calculated densities by dividing the total number or total biomass in each bin by the width that the bin has on the linear weight ($w$) axis. That is fine. Then we decided to use a logarithmic axis that showed $\log(w)$. But then would it not have been more natural to calculate the densities by dividing by the width of the bin on that logarithmic axis? **ASTA - I can't follow this and we need some example here. Log_bin_width is just 1 1 1 1 1 1. So what's the point of dividing by it?**
+Above we calculated densities by dividing the total number or total biomass in each bin by the width that the bin has on the linear weight ($w$) axis. That is fine. Then we decided to use a logarithmic axis that showed $\log(w)$. But then would it not have been more natural to calculate the densities by dividing by the width of the bin on that logarithmic axis?
 
 Well, the answer to that is probably a matter of taste. Different people make a different choice. It is very important to be aware of this to understand discrepancies between reported power-law exponents: they depend on the choice made.
 
@@ -406,8 +405,6 @@ We have replaced `scale_x_log10()` by `scale_x_continuous(trans = "log10")` whic
 We then did not display the plot `p` but instead fed it to `plotly::ggplotly()`. The `ggplotly()` function takes a plot created with ggplot and converts it into a plot created with plotly. plotly plots are more interactive. We called the `ggplotly()` function with `plotly::ggplotly()` because that way we did not need to load the plotly package first, i.e., we did not need to do `library(plotly)`.
 :::
 
-**Asta - suggest removing this** \[\[Don't worry about the fact that in places the estimate of the number density for the entire community is below the estimate of the number density for individual species. That just shows that we are dealing only with **estimates** of the true densities based on a finite amount of data.\]\]
-
 There are three messages you should take away from this plot:
 
 1.  Different species have very different size spectra.
@@ -415,12 +412,6 @@ There are three messages you should take away from this plot:
 3.  The community size spectrum looks more regular than the species size spectra.
 
 We will discuss species size spectra more in the next tutorial, where we will look at them with the help of the mizer model.
-
-::: {.callout-caution collapse="false"}
-### Exercise 4 - ASTA: suggest removing this
-
-Now make a size-spectrum plot for a new data set. If you happen to have access to size data yourself, you could use that. Otherwise use ... TODO: provide data set.
-:::
 
 ## Summary and recap
 
@@ -432,7 +423,7 @@ Now make a size-spectrum plot for a new data set. If you happen to have access t
 
 4.  To avoid the dependence on bin sizes, we use densities, where the total number of individuals or the total biomass of individuals in each bin are divided by the width of the bin. We refer to these as the number density or the biomass density respectively.
 
-5.  When we work with a logarithmic weight axis, then it is natural to use densities in log weight, where the numbers of individuals in each bin are divided by the log (**ASTA - what log? log 10, natural log or log 2?)** of the width of the bin. We refer to these as the number density in log weight or the biomass density in log weight respectively.
+5.  When we work with a logarithmic weight axis, then it is natural to use densities in log weight, where the numbers of individuals in each bin are divided by the log of the width of the bin. We refer to these as the number density in log weight or the biomass density in log weight respectively.
 
 6.  Community size spectra are approximately power laws. When displayed on log-log axes, they look like straight lines. The slope of the number density is approximately -2, the slope of the biomass density (which is also the number density in log weight) is approximately -1, and the slope of the biomass density in log weight is approximately 0, i.e., the biomass density in log weight is approximately constant. The latter is called the Sheldon spectrum.
 
