@@ -4,7 +4,7 @@ title: "Species interactions"
 
 ## In preparation
 
-In the previous tutorials we studied a single species interacting with a fixed background community. In this tutorial we want to acknowledge that there is no such thing as a fixed background community. Instead all species form part of a dynamical ecosystem in which changes to any species has knock-on effects on other species. Furthermore the resulting changes in the other species will react back on the first species, which now finds its prey community and its predator community changed.
+In the previous tutorials we studied a single species interacting with a fixed background community. In this tutorial we want to acknowledge that there is no such thing as a fixed background community. Instead, all species form part of a dynamical ecosystem in which changes to any species has knock-on effects on other species. Furthermore, the resulting changes in the other species will react back on the first species, which now finds its prey community and its predator community changed.
 
 ## Trait-based model
 
@@ -19,7 +19,7 @@ library(mizerExperimental)
 library(tidyverse)
 ```
 
-Then we can use the `newTraitParams()` function to create our idealised trait-based multispecies model. The function has many parameters, but we will just keep the defaults. We assign the resulting MizerParams object to the variable `mp`.
+Then we can use the `newTraitParams()` function to create our idealised trait-based multi-species model. The function has many parameters, but we will just keep the defaults. We assign the resulting MizerParams object to the variable `mp`.
 
 ```{r}
 mp <- newTraitParams()
@@ -31,11 +31,11 @@ Let us look at the biomass density in log weight.
 plotSpectra(mp, power = 2, total = TRUE)
 ```
 
-We see 11 species spectra. Each species spectrum has a shape of the type we expect from our tutorial on [single speces spectra](single-species-spectra.qmd). The spectra of the different species all look essentially the same, except for being shifted along the size axis. This is because in this trait-based model the species differ only through their asymptotic size. This regularity will of course not be present in a real-world ecosystem, but it makes it easier for us to build an intuition about the effects of species interactions.
+We see 11 species spectra. Each species spectrum has a shape of the type we expect, given what we have seen in the tutorial on [single speces spectra](single-species-spectra.qmd). The spectra of the different species all look essentially the same, except for being shifted along the size axis. This is because in this trait-based model the species differ only through their asymptotic size. This regularity will of course not be present in a real-world ecosystem, but it makes it easier for us to build an intuition about the effects of species interactions.
 
 Note how the community size spectrum, plotted in black, that is obtained by summing together all the individual spectra, approximately follows a power law (i.e., approximately follows a straight line in the log-log plot).
 
-### Turn of reproduction dynamics
+### Turn off reproduction dynamics
 
 As in previous tutorials, we want to concentrate on the shapes of the size spectra and we do not yet want to look at what determines the overall abundance of each species. Therefore we modify the model so that it keeps the abundances at egg size fixed. You do not need to look in detail at the following code, except to note that a mizer model is very customisable in the sense that an advanced user can overwrite almost any behaviour with custom behaviour. 
 
@@ -47,16 +47,23 @@ mp <- mp |>
 
 ## Mortality from other species
 
+The species interact with each other via predator-prey interactions. So these interactions shape both mortality and energy income. In this section we look at mortality imposed on a particular species by its predators. We choose to look at species 8. The following graph shows the relative contributions to the mortality rate for species 8 from all the other species:
+
 ```{r}
 plotlyDeath(mp, species = "8")
 ```
 
+The horizontal axis shows the size of the individual whose mortality we are looking at. Towards the left we see the mortality of the small larvae, as we move towards the right we move to larger individuals. So the main important message from this graph is that as an individual grows up, their main predators change. 
+
+You might have expected that species 8 would be predated upon by the larger species 9, 10 and 11. And for large individuals of species 8, these do indeed form the dominant source of predation mortality, but the larvae are predominantly predated upon by predators from smaller species. This arises because each predator prefers to feed at a certain fraction of its own size (which is set to 1/100th in this model), so the larger predators loose interest in the larvae and concentrate on the larger prey.
+
+In the above graph you also see that the smallest individuals and the largest individuals get the majority of their mortality from "external" sources, by which we designate all the mortality that is not from predation by the modelled species. For large individuals this external mortality would include predation from mammals and senescent mortality. For small individuals this external mortality comes from predation by small, possibly planktonic, organisms or bacteria that are not explicitly modelled.
+
+Larval mortality is actually quite high, because we assume that mortality scales with an individual's size to the power of -1/4, so is much higher for very small individuals than for larger individuals. We can see this in the following plot which instead of proportions shows the actual mortality rates:
+
 ```{r}
 plotDeath(mp, species = "8", proportion = FALSE)
 ```
-
-### Modifying feeding interactions
-
 
 
 ## Income from other species
@@ -65,9 +72,36 @@ plotDeath(mp, species = "8", proportion = FALSE)
 plotDiet(mp, species = "8")
 ```
 
-### Modifying feeding interactions
+## Interaction matrix
 
+```{r}
+getInteraction(mp)
+```
 
+```{r}
+interaction_modified <- getInteraction(mp)
+interaction_modified[11, 2] <- 0.2
+mp_modified <- setInteraction(mp, interaction_modified)
+getInteraction(mp_modified)
+```
+
+```{r}
+#| layout-ncol: 2
+#| fig-subcap:
+#|   - "Original"
+#|   - "Modified"
+plotDeath(mp, species = 2)
+plotDeath(mp_modified, species = 2)
+```
+
+```{r}
+#| layout-ncol: 2
+#| fig-subcap:
+#|   - "Original"
+#|   - "Modified"
+plotDiet(mp, species = 11)
+plotDiet(mp_modified, species = 11)
+```
 
 ## Trophic cascades
 
@@ -84,14 +118,14 @@ We can plot the resulting fishing mortality:
 plotFMort(mp_fishing)
 ```
 
-This is not a realistic gear and mizer can do much better, as we will see in week 3. But it serves our current purpose, because it will impose a fishing mortality that only impacts the larger species that actually grow to sizes above 1kg., we can see the effect that this fishing mortality has on individual species:
+This is not a realistic gear and mizer can do much better, as we will see in week 3. But it serves our current purpose, because it will impose a fishing mortality that only impacts the larger species that actually grow to sizes above 1kg. As we did in the section on [fishing mortality](predation-growth-and-mortality.html#fishing-mortality) in the previous tutorial, we can visualise the direct effect that this fishing mortality has on individual species:
 
 ```{r}
 mp_fishing <- singleSpeciesSteady(mp_fishing)
 plotSpectra(mp_fishing, power = 2)
 ```
 
-As expected, the largest species have their abundances reduced above 1kg. This reminds us of what we saw in the section on [fishing mortality](predation-growth-and-mortality.html#fishing-mortality) in the previous tutorial.
+As expected, the largest species have their abundances reduced above 1kg. 
 
 The important point is that the above picture does does not show a steady state of the ecosystem. Species now find themselves with a different abundance of predators and this will change their mortality and hence their size spectra. As a result of that secondary effect of fishing, species will then find themselves with a different abundance of prey and this will change their growth rates and hence their size spectra. And so on ...
 
@@ -107,4 +141,6 @@ When we plot this new steady state on top of that of the un-fished system, we ca
 plotSpectra2(mp_fishing, "with fishing", mp, "no fishing", 
             total = TRUE, power = 2, ylim = c(1e-8, NA), wlim = c(1e-3, NA))
 ```
+
+There is much to see in this graph. 
 

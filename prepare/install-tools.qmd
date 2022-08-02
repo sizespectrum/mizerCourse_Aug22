@@ -31,11 +31,6 @@ If you are new to RStudio, the video on the RStudio IDE homepage is well worth w
 <script async src="https://fast.wistia.net/assets/external/E-v1.js">
 </script>
 ```
-## Git
-
-[Git](https://git-scm.com/) is a distributed version control system that we will use in this course. We will discuss that more on the page [Use Git and GitHub](use-git-and-github.qmd). Make sure your Git version is 2.25.1 or newer. If you don't know your Git version, it is best to install the latest version anyway. To install Git follow the links at <https://git-scm.com/downloads> for your operating system. \
-If you are using Linux, then Git may already be installed. Just type `git` in a terminal and see whether it responds with a help page. You do not need a GUI client for Git because you will be using Git from within RStudio.
-
 ## R Packages
 
 R packages extend the functionality of R. mizer itself is such an R package. There is a central repository for R packages called CRAN which hosts all of the packages needed for this course, except for the mizerExperimental and mizerMR packages. To install them on your computer just start RStudio and then in the console issue the command
@@ -60,7 +55,19 @@ The mizerMR package that extends mizer to work with multiple resources has not b
 remotes::install_github("sizespectrum/mizerMR")
 ```
 
-Finally, you can now tell Git about yourself by running the following command, where of course you change the name and email address to your own.
+## Git
+
+[Git](https://git-scm.com/) is a distributed version control system that we will use in this course. We will discuss that more on the page [Use Git and GitHub](use-git-and-github.qmd).
+
+Git may already be installed on your system. If you are in RStudio, then you can issue the following command in the "Terminal" tab:
+
+    git --version
+
+If that comes back with a version number, then git is already installed. The current Git version is 2.25.1. If you have an older version then keep this in mind and if you should at some point notice that Git is not behaving the same for you as for others, then you might want to install the latest version. Or simply install the latest version now to be on the safe side.
+
+To install Git follow the links at <https://git-scm.com/downloads> for your operating system. You do not need a GUI client for Git because you will be using Git from within RStudio. After you have installed Git, you may want to restart RStudio.
+
+Finally, you should tell Git about yourself by running the following command in the RStudio Console, where of course you change the name and email address to your own:
 
 ```{r}
 #| eval: false
@@ -68,7 +75,6 @@ usethis::use_git_config(user.name = "Jane Doe",
                         user.email = "jane@example.org")
 ```
 
-And that's it!
 
 ## Issues
 

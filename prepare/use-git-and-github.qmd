@@ -4,7 +4,7 @@ title: "Use Git and GitHub"
 
 In this course we will collaborate via Git and GitHub. This means that if you have not used these tools before, then you will have to learn some new concepts and get used to a particular workflow. The investment of your time will more than pay off. Developing your research code with Git and GitHub has great advantages, and it'll be great if this course gets you hooked on these tools. The use we make of Git and GitHub in this course is relatively simple, so it may be the perfect gateway drug.
 
-We'll start by first introducing some of the ideas theoretically, but then we will also show what the workflow looks like in practice.
+We'll start by first introducing some of the ideas theoretically, but then we will also show what the workflow looks like in practice. We will only scratch the surface, if you want to go deeper then [Happy Git and GitHub for the useR](https://happygitwithr.com/) is a useful resource.
 
 ## Theory
 
@@ -20,25 +20,29 @@ We'll start by first introducing some of the ideas theoretically, but then we wi
 
 3.  Typically you will add a **commit message** that summarises briefly what the changes are about. This makes it much easier to understand the development of your code later on.
 
-So Git provides you a full control of creating points at which you want to save your code and documents to your **repository**. The **commit messages** you add can be very detailed or short, and their goal is for you and your collaborators to know what has been changed between different **commit** steps.
+So Git provides you a full control of creating points at which you want to save your code and documents to your **repository**. The **commit messages** you add can be very detailed or short. Their goal is for you and your collaborators to know what has been changed between different **commit** steps.
 
-**Distributed** means that the repository typically does not reside only on a single computer. There can be **clones** of the repository on many other computers. For example, you might want your collaborators to have a copy of the repository for a common project that you are working on jointly. They can make commits to their clone of the repository in the same way you can make commits to yours. Of course, from time to time you will want to **merge** the changes from one clone to another to have a new common version that incorporates changes by all collaborators. For that there needs to be some communication via the internet, facilitated by a Git **server**.
+**Distributed** means that the repository typically does not reside only on a single computer. There can be **clones** of the repository on many other computers. For example, you might want your collaborators to have a copy of the repository for a common project that you are working on jointly. They can make commits to their clone of the repository in the same way you can make commits to yours.
+
+Even if you only intend to work on your code alone, you may want to have copies of it on all the computers you occasionally work at and you will then want to be able to commit changes from any of those computers and pick up those changes from any other computer. So below when we speak of your "collaborator", that collaborator could be yourself on another computer.
+
+From time to time you will want to **merge** the changes from one clone to another to have a new common version that incorporates changes by all collaborators. For that there needs to be some communication via the internet, facilitated by a Git **server**.
 
 ### GitHub
 
-[**GitHub**](https://github.com) is a service that hosts a clone of your repository on your account and runs a Git server, so that you and your collaborators do not have to run your own Git servers. Instead you can **push** any commits that you made into your GitHub repository or your clone and then your collaborators can **pull** those changes to their clone.
+[**GitHub**](https://github.com) is a service that hosts a clone of your repository on your account and runs a Git server, so that you and your collaborators do not have to run your own Git servers. Instead you can **push** any commits that you made into your local Git repository to the GitHub clone and then your collaborators can **pull** those changes to their clone.
 
-So with Git and GitHub we have a very different workflow than what you get when you collaborate using for example a Google Drive folder. This is because GitHub keeps track of each collaborator's clones and commits. There are more steps before your collaborator sees your changes, namely:
+So with Git and GitHub we have a very different workflow than what you get when you collaborate using for example a Google Drive folder. There are more steps before your collaborator sees your changes, namely:
 
-1)  you **save** your code changes on your computer's directory (associated with the git repository),
+1)  you **save** your code changes on your computer to the directory that is associated with the git repository,
 2)  you select or **stage** which of your changed code files you want to **commit** to your local repository,
-3)  you **commit** those selected changes to your repository with a commit message,
-4)  you **push** your commits to GitHub and they now appear on your online GitHub repository,
+3)  you **commit** those selected changes to your repository with a **commit message**,
+4)  you **push** your commits to your online GitHub repository,
 5)  your collaborators **pull** your commits from GitHub,
 6)  these commits automatically get **merged** into their clone,
-7)  the changed files are **checked out** from their online repository into the corresponding directory on their local computer drive.
+7)  the changed files are **checked out** from their clone into the corresponding directory on their local computer drive.
 
-If you attempt to pull commits from GitHub that change files that you have also modified locally, then the pull will fail with an error message. This could happen if you and a collaborator independently made commits to your respective clones that touched the same lines of code then there may be **merge conflicts** that need to be resolved. If something like this happens to you then congratulations: you have arrived in more advanced Git territory than we will discuss in this tutorial. If at some point during the course something like this happens to you, let us know by posting a comment and we or some git-savy participant will give advice.
+There are circumstances where the standard workflow fails. If you attempt to pull commits from GitHub that change files that you have also modified locally but not yet committed, then the pull will fail with an error message. If you and a collaborator independently made commits to your respective clones that touched the same lines of code then there may be **merge conflicts** that need to be resolved. If something like this happens to you then congratulations: you have arrived in more advanced Git territory than we will discuss in this tutorial. If at some point during the course something like this happens to you, let us know by posting a comment and we or some git-savy participant will give advice.
 
 This more involved workflow takes a bit of getting used to, but is definitely the best way to work on code and data. If you follow the guidelines about committing your code changes regularly you will easily go back to earlier versions of your code if you need to, work with multiple people on the same code development, return to old coding projects that need reviewing, and be a part of open and reproducible science. So next you will get to try this out in practice.
 
@@ -116,7 +120,7 @@ In the resulting dialog window you paste in the repository URL that you copied f
 
 ![](screenshots/create-project.png){width="60%" fig-align="center"}
 
-Then click "Create Project" and, if requested, enter your GitHub username and personal access token. RStudio now communicates with GitHub to download a clone of the repository and it also checks out all the files contained in the repository to the newly created directory. You can see them in the "Files" tab in RStudio.
+Then click "Create Project". RStudio now communicates with GitHub to download a clone of the repository and it also checks out all the files contained in the repository to the newly created directory. You can see them in the "Files" tab in RStudio. 
 
 ![](screenshots/files.png){width="80%" fig-align="center"}
 
