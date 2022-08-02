@@ -6,11 +6,29 @@ In this tutorial you will take observational data and plot the resulting size sp
 
 ## Introduction
 
-TODO: Write about the origin of the size spectrum concept, with references. In particular we need to take into account that participants come from different backgrounds and therefore will have differing prior associations with the term "size-spectrum".
+We will start the introduction into size spectra using text from Ken H Andersen's book ["Fish Ecology, Evolution, and Exploitation" (2019](https://ken.haste.dk/home/publications)):
+
+**"**What is the abundance of organisms in the ocean as a function of body size? If you take a representative sample of all life in the ocean and organize it according to the logarithm of body size, a remarkable pattern appears: the total biomass of all species is almost the same in each size group. The sample of marine life does not have to be very large for the pattern to appear. ... What is even more surprising is that the pattern extends beyond the microbial community sampled by plankton nets---it persists up to the largest fish, and even to large marine mammals.
+
+This regular pattern is often referred to as the Sheldon spectrum in deference to R. W. Sheldon, who first described it in a groundbreaking series of publications. Sheldon had gotten hold of an early Coulter counter that quickly and efficiently measured the size of microscopic particles in water. Applying the Coulter counter to microbial life in samples of coastal sea water, he observed that the biomass was roughly independent of cell size among these small organisms (Sheldon and Parsons, 1967). And he saw the pattern repeated again and again when he applied the technique to samples from around the world's oceans. Mulling over this result for a few years, he came up with a bold conjecture (Sheldon et al., 1972): the pattern exists not only among microbial aquatic life, but it also extends all the way from bacteria to whales**"**
+
+You can read more about this work in the references below:
+
+Sheldon, R. W., and T. R. Parsons (1967). "A Continuous Size Spectrum for Particulate Matter in the Sea." Journal Fisheris Research Board of Canada 24(5): 909--915.
+
+Sheldon, R.W., A. Prakash, andW. H. Sutcliffe (1972). "The Size Distribution of Particles in the Ocean." Limnology and Oceanography 17(3): 327--340
+
+Blanchard, J. L., Heneghan, R. F., Everett, J. D., Trebilco, R., & Richardson, A. J. (2017). [From bacteria to whales: using functional size spectra to model marine ecosystems](https://www.sciencedirect.com/science/article/pii/S0169534716302361). *Trends in ecology & evolution*, *32*(3), 174-186.
+
+K.H. Andersen, N.S. Jacobsen and K.D. Farnsworth (2016): [The theoretical foundations for size spectrum models of fish communities](https://www.nrcresearchpress.com/doi/abs/10.1139/cjfas-2015-0230#.XLGeHS97HOR). Canadian Journal of Fisheries and Aquatic Science 73(4): 575-588.
+
+K.H. Andersen (2019): Fish Ecology, Evolution, and Exploitation - a New Theoretical Synthesis. [Princeton University Press](https://press.princeton.edu/titles/13516.html).
+
+And in many other references listed in the sizespectrum.org [publications](https://sizespectrum.org/mizer/articles/publications.html) page
 
 ## The data
 
-To analyse and plot the data we will be making use of the [tidyverse](https://www.tidyverse.org/) package, in particular [dplyr](https://dplyr.tidyverse.org/) and [ggplot2](https://ggplot2.tidyverse.org/). If you are not familiar with these, you can learn what is needed just by studying the example code in this tutorial. You will find explanations of the code if you expand the "R details" sections located below many of the code chunks. To expand an explanation section, just click on the "R details".
+So let's see if we can find this pattern ourselves. To analyse and plot the data we will be making use of the [tidyverse](https://www.tidyverse.org/) package, in particular [dplyr](https://dplyr.tidyverse.org/) and [ggplot2](https://ggplot2.tidyverse.org/). If you are not familiar with these, you can learn what is needed just by studying the example code in this tutorial. You will find explanations of the code if you expand the "R details" sections located below many of the code chunks. To expand an explanation section, just click on the "R details".
 
 ```{r message=FALSE}
 library(tidyverse)
@@ -329,21 +347,53 @@ Fitting a same linear model to the binned biomass density data now gives
 
 The slope is `r signif(model$coefficients[[2]], 4)` for the biomass density whereas it was `r exponent` for the number density. This makes perfect sense, because if we denote the biomass density by $B(w)$ then $B(w) = w N(w)$. Therefore if the number density scales with the exponent $\lambda$ as $N(w) \propto w^{-\lambda}$ then the biomass density will scale as $B(w)\propto w^{1-\lambda}$.
 
-## A few final points before the summary: 
+## Densities in log weight
 
-### Densities in log weight
+So far we found various size spectrum slopes and evidence of decreasing biomass densities with size. Yet, the tutorial started with a reference to Sheldon's observation about equal biomass across sizes. Why?
 
-There is perhaps something a bit strange about the way we visualised the size spectrum via the number density or the biomass density plotted on logarithmic axes.
+Above we calculated densities by dividing the total number or total biomass in each bin by the width that the bin has on the linear weight ($w$) axis. Instead Sheldon did the same analysis but divided the total biomass in each bin by the width of the bin on the logarithmic weight axis. In our example above, if we plotted the histogram on a logarithmic weight axis the widths of the bins would be equal.
 
-Above we calculated densities by dividing the total number or total biomass in each bin by the width that the bin has on the linear weight ($w$) axis. That is fine. Then we decided to use a logarithmic axis that showed $\log(w)$. But then would it not have been more natural to calculate the densities by dividing by the width of the bin on that logarithmic axis?
+```{r}
+#| layout-ncol: 2
+#| fig-subcap:
+#|   - "Linear scale"
+#|   - "Logarithmic scale"}
+#|   
+#First we look at the same old histogram on a linear x axis
+ggplot(data) +
+    geom_histogram(aes(weight), fill = "blue", colour = "black",
+                   breaks = binbreaks) +
+    labs(x = "Weight [g]",
+         y = "Number of fish") +
+    scale_y_log10()
 
-Well, the answer to that is probably a matter of taste. Different people make a different choice. It is very important to be aware of this to understand discrepancies between reported power-law exponents: they depend on the choice made.
+#Then we look at the same plot but plot x axis on a log scale
+ggplot(data) +
+    geom_histogram(aes(weight), fill = "blue", colour = "black",
+                   breaks = binbreaks) +
+    labs(x = "Weight [g]",
+         y = "Number of fish") +
+    scale_y_log10() + 
+    scale_x_log10()
 
-The result of dividing the total biomass in each bin by the width of the bin on the logarithmic weight axis is sometimes called the Sheldon spectrum, because it is this density that is approximately constant. Below we plot the Biomass density (in black) and the Sheldon density (in blue) on the same axes.
+```
+
+Now we can see that when we plot bins on a log x axis they are all equally sized. Now we can use the width of the size bins on a logarithmic axis on get biomass density on a Sheldon spectrum. Since all the bins are equally sized (on a logarithmic axis!) the widths will all be the same. Below we plot the Biomass density (in black) and the Sheldon density (in blue) on the same axes.
 
 ```{r }
+#calculate the widths of size bins on a log axis
 log_bin_width <- diff(log_breaks)
+#you can see that they are all the same
+log_bin_width
 
+#remember how we calculate biomass density by dividing by bin_width above
+binned_biomass <- data_with_bins |> 
+    group_by(bin) |> 
+    summarise(Biomass = sum(weight)) |>
+    mutate(Biomass_dens = Biomass / bin_width[bin]) |>
+    mutate(bin_midpoint = bin_midpoints)
+
+#and now we will add Sheldon density estimate by dividing by long bin_width
 binned_biomass <- binned_biomass |> 
     mutate(Sheldon_dens = Biomass / log_bin_width[bin])
 
@@ -354,6 +404,7 @@ ggplot(binned_biomass) +
               colour = "blue") +
     scale_x_log10() +
     scale_y_log10() +
+    #ylim(1e+01,1e+08)+
     labs(x = "Log Weight",
          y = "Density")
 ```
@@ -362,13 +413,17 @@ We will refer to Sheldon's density as "the biomass density in log weight" and no
 
 If one uses a logarithmic weight axis, then the advantage of plotting the number density in log weight is that the area under the density curve is the total number of individuals in that size range. Similarly the area under the plot of the biomass density in log weight is the total biomass in that size range.
 
-You will notice the reduced slope. In fact the slope of the Sheldon density is less negative than the slope of the biomass density. We have the following relations among the various densities:
+You will notice the reduced slope of the Sheldon spectrum. The slope of the Sheldon density is less negative than the slope of the biomass density. We have the following relations among the various densities:
 
 $$B_{\log w}(w) = w\, B(w) = w\, N_{\log}(w) = w^2 N(w).$$
 
-Sheldon's observation was that $B_{\log w}(w)$ is approximately constant over a large range of sizes $w$ from bacteria to whales. That corresponds to the earlier phrasing of Sheldon's observation that $N(w)\propto w^{-\lambda}$ with $\lambda$ close to 2.
+Sheldon's observation was that $B_{\log w}(w)$ is approximately constant over a large range of sizes $w$ from bacteria to whales. That corresponds to the earlier phrasing of Sheldon's observation that $N(w)\propto w^{-\lambda}$ with $\lambda$ close to 2. Here is a very important and interesting summary about the slopes:
 
-### Kernel density estimate 
+**The slope of the number density is approximately -2, the slope of the biomass density (which is also the number density in log weight) is approximately -1, and the slope of the biomass density in log weight is approximately 0, i.e., the biomass density in log weight is approximately constant.**
+
+## A few final points
+
+### Kernel density estimate
 
 Binning the data is useful but is not the only way to approximate the densities. In reality you don't need to bin the data by hand or bin it at all. One can also use the kernel density estimation method and ggplot2 even has that built in to its `geom_density()`. Here is a plot of the number density in log weight $N_{\log w}(w)$ estimated by the kernel density method:
 
@@ -389,7 +444,7 @@ By default, `geom_density()` would normalise the density so that the integral un
 The kernel density method works by placing a small Gaussian (bell curve) at each data point and then adding up all these little Gaussians. The `adjust = 4` means that the width of these Gaussians is 4 times wider than `geom_density()` would choose by default. This leads to a smoother density estimate curve. This plays a similar role as the bin width does in histograms.
 :::
 
-### Size spectra of individual species 
+### Size spectra of individual species
 
 So far we have looked at the community spectrum, where we ignored the species identity of the fish. We will now look at the spectra of the individual species. We'll plot them all on the same graph and display them with [plotly](https://plotly.com/r/) so that you can hover over the resulting graph to see which line corresponds to which species. We also include the community size spectrum in black for comparison.
 
