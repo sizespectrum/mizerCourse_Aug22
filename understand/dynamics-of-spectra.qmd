@@ -5,19 +5,31 @@ title: "Dynamics of size spectra"
 ## In preparation
 
 ```{r message=FALSE}
-library(mizer)
+#| message: false
+remotes::install_github("sizespectrum/mizerExperimental")
+library(mizerExperimental)
 library(tidyverse)
 library(plotly)
-params <- newSingleSpeciesParams(lambda = 2.05)
 ```
 
-TODO: So far this only contains stuff posted in from the old single-species model tutorial.
+
 
 ## Introduction
 
 In previous tutorials we have concentrated on the steady state of the mizer model, where for each size class and each species, the rate at which individuals grow into the size class balances the rate at which individuals grow out of the size class or die, thus keeping the size spectrum constant. In this tutorial we explore the dynamic that takes place when this balance is changed.
 
-Size-spectrum dynamics describes in detail how biomass is transported through the ecosystem from small sizes to large sizes. Thus the best way to think about size-spectrum dynamics is to think of traffic on a highway, except that instead of cars travelling along the road we have fish growing along the size axis, all the way from their egg size to their maximum size. Let us explore this analogy briefly.
+## Biomass flow
+
+## Traffic jams
+
+## Reproduction dynamics
+
+## Resource dynamics
+
+## Old stuff
+TODO: The following only contains stuff posted in from the old single-species model tutorial. We should see if anyting can usefully be incorporated above.
+
+Size-spectrum dynamics describes in detail how biomass flows through the ecosystem from small sizes to large sizes. Thus the best way to think about size-spectrum dynamics is to think of traffic on a highway, except that instead of cars travelling along the road we have fish growing along the size axis, all the way from their egg size to their maximum size. Let us explore this analogy briefly.
 
 ```{=html}
 <!-- For traffic, you would be interested in modelling the traffic density.
@@ -40,7 +52,7 @@ Size-spectrum dynamics is like the traffic on a highway where cars can leave the
 
 Below we will be discussing in detail what determines the death rate $\mu(w,t)$, the growth rate $g(w,t)$ and the rate of reproduction $R(t)$.
 
-# Why study size-spectrum dynamics?
+## Why study size-spectrum dynamics?
 
 The study of traffic dynamics has had real practical benefits. For example, at least on motorways in Europe, when there is a danger of a traffic jam developing, automatic speed restrictions are imposed at a certain distance in front of the developing slow-moving traffic. For motorists who have not thought about traffic flow, these speed restrictions in places where there is no obvious reason for them are very annoying. However they do indeed avoid the formation of the traffic jam.
 
