@@ -204,13 +204,12 @@ We first calculate the widths of the bins using the `diff()` function which calc
 Let's make a plot of the number density against weight. Note that we only estimated the number density of weights within each bin, so we only have an average value which we use to determine the height of the curve at the midpoint of the bin. So the plot interpolates between these discrete points (at the midpoint of each bin weights) by straight lines to produce a continuous curve.
 
 ```{r warning=FALSE}
-mid_points <- 2 ^ (log_breaks + 1/2)
+bin_midpoints <- 2 ^ (log_breaks[-length(log_breaks)] + 1/2)
 
-binned_numbers <- binned_numbers |> 
-    mutate(mid_points = mid_points[-length(mid_points)])
+binned_numbers$bin_midpoint = bin_midpoints
 
 ggplot(binned_numbers) +
-    geom_line(aes(x = mid_points, y = Number_dens)) +
+    geom_line(aes(x = bin_midpoint, y = Number_dens)) +
     labs(x = "Weight [g]",
          y = "Number density")
 ```
@@ -218,14 +217,14 @@ ggplot(binned_numbers) +
 ::: {.callout-note collapse="true"}
 ### Expand for R details
 
-We first calculate the midpoint of each bin using the same breaks as earlier. The last midpoint is after the last bin so we remove the value before adding the midpoints to the data frame.
+We first calculate a vector `bin_midpoints` holding the midpoint of all the bins. We do this using the vector `log_breaks[-length(log_breaks)]` which contains all the entries of `log_breaks` except the last. We then add a `bin_midpoint` column to the dataframe `binned_numbers` and use that as the variable for the x-axis in the plot.
 :::
 
 Again the graph tells us that most of the individuals are very small, but we can not see any of the details. We therefore plot the density on log-log axes:
 
 ```{r warning=FALSE}
 ggplot(binned_numbers) +
-    geom_line(aes(x = mid_points, y = Number_dens)) + 
+    geom_line(aes(x = bin_midpoint, y = Number_dens)) + 
     scale_x_log10() + 
     scale_y_log10() +
     labs(x = "Log10 Weight [g]",
@@ -249,13 +248,13 @@ Create the plot of the number density using the 22 logarithmically sized bins fr
 The number density in the above log-log plot is described approximately by a straight line. We can approximate the slope and intercept of that straight line by fitting a linear model
 
 ```{r}
-(model <- lm(log(Number_dens) ~ log(mid_points), data = binned_numbers))
+(model <- lm(log(Number_dens) ~ log(bin_midpoint), data = binned_numbers))
 ```
 
 This tells us that the straight-line approximation has a slope of about `r signif(model$coefficients[[2]], 3)`. We can also ask ggplot to put this line into the plot, together with its 95% (**ASTA - I asume this was 95% not 5%?? - also the model coefficient above**) confidence interval:
 
 ```{r warning=FALSE}
-ggplot(binned_numbers, aes(x = mid_points, y = Number_dens)) +
+ggplot(binned_numbers, aes(x = bin_midpoint, y = Number_dens)) +
     geom_line() + 
     scale_x_log10() + 
     scale_y_log10() +
@@ -314,7 +313,7 @@ binned_biomass <- data_with_bins |>
     group_by(bin) |> 
     summarise(Biomass = sum(weight)) |>
     mutate(Biomass_dens = Biomass / bin_width[bin]) |>
-    mutate(mid_points = mid_points[-length(mid_points)])
+    mutate(bin_midpoint = bin_midpoints)
 ```
 
 ::: {.callout-caution collapse="false"}
@@ -326,7 +325,7 @@ Make a plot the biomass density similarly to how we plotted the number density a
 Fitting a same linear model to the binned biomass density data now gives
 
 ```{r}
-(model <- lm(log(Biomass_dens) ~ log(mid_points), data = binned_biomass))
+(model <- lm(log(Biomass_dens) ~ log(bin_midpoint), data = binned_biomass))
 ```
 
 The slope is `r signif(model$coefficients[[2]], 4)` for the biomass density whereas it was `r exponent` for the number density. This makes perfect sense, because if we denote the biomass density by $B(w)$ then $B(w) = w N(w)$. Therefore if numbers at weight scale with the exponent $\lambda$ as $N(w) \propto w^{-\lambda}$ then biomass at weight will scale as $B(w)\propto w^{1-\lambda}$.
@@ -350,9 +349,9 @@ binned_biomass <- binned_biomass |>
     mutate(Sheldon_dens = Biomass / log_bin_width[bin])
 
 ggplot(binned_biomass) +
-    geom_line(aes(x = mid_points, y = Biomass_dens),
+    geom_line(aes(x = bin_midpoint, y = Biomass_dens),
               colour = "black") +
-    geom_line(aes(x = mid_points, y = Sheldon_dens),
+    geom_line(aes(x = bin_midpoint, y = Sheldon_dens),
               colour = "blue") +
     scale_x_log10() +
     scale_y_log10() +
