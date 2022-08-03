@@ -8,9 +8,9 @@ In this tutorial you will take observational data and plot the resulting size sp
 
 We will start the introduction into size spectra using text from Ken H Andersen's book ["Fish Ecology, Evolution, and Exploitation" (2019](https://ken.haste.dk/home/publications)):
 
-**"**What is the abundance of organisms in the ocean as a function of body size? If you take a representative sample of all life in the ocean and organize it according to the logarithm of body size, a remarkable pattern appears: the total biomass of all species is almost the same in each size group. The sample of marine life does not have to be very large for the pattern to appear. ... What is even more surprising is that the pattern extends beyond the microbial community sampled by plankton nets---it persists up to the largest fish, and even to large marine mammals.
+> What is the abundance of organisms in the ocean as a function of body size? If you take a representative sample of all life in the ocean and organize it according to the logarithm of body size, a remarkable pattern appears: the total biomass of all species is almost the same in each size group. The sample of marine life does not have to be very large for the pattern to appear. ... What is even more surprising is that the pattern extends beyond the microbial community sampled by plankton nets---it persists up to the largest fish, and even to large marine mammals.
 
-This regular pattern is often referred to as the Sheldon spectrum in deference to R. W. Sheldon, who first described it in a groundbreaking series of publications. Sheldon had gotten hold of an early Coulter counter that quickly and efficiently measured the size of microscopic particles in water. Applying the Coulter counter to microbial life in samples of coastal sea water, he observed that the biomass was roughly independent of cell size among these small organisms (Sheldon and Parsons, 1967). And he saw the pattern repeated again and again when he applied the technique to samples from around the world's oceans. Mulling over this result for a few years, he came up with a bold conjecture (Sheldon et al., 1972): the pattern exists not only among microbial aquatic life, but it also extends all the way from bacteria to whales**"**
+> This regular pattern is often referred to as the Sheldon spectrum in deference to R. W. Sheldon, who first described it in a ground-breaking series of publications. Sheldon had gotten hold of an early Coulter counter that quickly and efficiently measured the size of microscopic particles in water. Applying the Coulter counter to microbial life in samples of coastal sea water, he observed that the biomass was roughly independent of cell size among these small organisms (Sheldon and Parsons, 1967). And he saw the pattern repeated again and again when he applied the technique to samples from around the world's oceans. Mulling over this result for a few years, he came up with a bold conjecture (Sheldon et al., 1972): the pattern exists not only among microbial aquatic life, but it also extends all the way from bacteria to whales.
 
 You can read more about this work in the references below:
 
@@ -28,7 +28,7 @@ And in many other references listed in the sizespectrum.org [publications](https
 
 ## The data
 
-So let's see if we can find this pattern ourselves. To analyse and plot the data we will be making use of the [tidyverse](https://www.tidyverse.org/) package, in particular [dplyr](https://dplyr.tidyverse.org/) and [ggplot2](https://ggplot2.tidyverse.org/). If you are not familiar with these, you can learn what is needed just by studying the example code in this tutorial. You will find explanations of the code if you expand the "R details" sections located below many of the code chunks. To expand an explanation section, just click on the "R details".
+So let's see if we can find this pattern ourselves. To analyse and plot the data we will be making use of the [tidyverse](https://www.tidyverse.org/) package, in particular [dplyr](https://dplyr.tidyverse.org/) and [ggplot2](https://ggplot2.tidyverse.org/). If you are not familiar with these, you can learn what is needed just by studying the example code in this tutorial. You will find explanations of the code if you expand the "R details" sections located below many of the code chunks. To expand an explanation section, just click on the "Expand for R details".
 
 ```{r message=FALSE}
 library(tidyverse)
@@ -93,13 +93,19 @@ Then we add our own labels to the axes with `labs()`.
 We assign the resulting plot to the variable `p` because that way we can manipulate the plot further below. Because the assignment operator in R does not display any result, we added another line with just the variable name `p` which will display the plot.
 :::
 
-The plot is not very informative. It just tells us that most fish are very small but there is a small number of very large fish. We can not see much detail. The first way to improve the plot is to plot the y-axis on a logarithmic scale. That has the effect of stretching out the small values and squashing the large values, revealing more detail.
+The plot is not very informative. It just tells us that most fish are very small but there is a small number of very large fish. We can not see much detail. We will apply 3 methods to improve the graph.
+
+### Logarithmic y axis
+
+The first way to improve the plot is to plot the y-axis on a logarithmic scale. That has the effect of stretching out the small values and squashing the large values, revealing more detail.
 
 ```{r message=FALSE}
 p + scale_y_log10()
 ```
 
 We get a warning because there were bins that contained no fish, and taking the log of 0 is not allowed. We can ignore these warnings because the empty bins will simply not be given a bar in the resulting plot.
+
+### Logarithmically sized bins
 
 The second way to deal with the fact that there are so many more small fish than large fish, is to make the bin widths different. At the moment all bins are the same width, but we can make bin widths larger at larger sizes and smaller at smaller sizes. For example we could make the smallest bin go from 1 gram to 2 gram, the next bin to go from 2 gram to 4 gram, and so on, with each next bin twice the size of the previous. This means that for large fish bins will be very wide and a lot more individuals will fall into these bins. So let's create the break points between these bins:
 
@@ -119,15 +125,16 @@ The second line above creates a vector containing the powers of 2 with the expon
 The reason we have put parentheses `( ... )` around the assignments in the above code is because that also leads to the result being displayed whereas the assignment operator without those parentheses around it would not display anything.
 :::
 
-Now we can use these logarithmically spaced bins in the histogram:
+Now we can use these logarithmically spaced bins in the histogram while also keeping the logarithmic y-axis.
 
 ```{r message=FALSE}
-ggplot(data) +
+p2 <- ggplot(data) +
     geom_histogram(aes(weight), fill = "blue", colour = "black",
                    breaks = binbreaks) +
     labs(x = "Weight [g]",
          y = "Number of fish") +
     scale_y_log10()
+p2
 ```
 
 The heights are now slightly more even among the bins, because the largest bin is so wide.
@@ -152,9 +159,23 @@ Create the vector with the breaks between the bins and then use that when you pl
 
 After successful completion of that exercise, return here to continue with the tutorial. Do not do the other exercises until you reach them in this tutorial.
 
+### Logarithmic w axis
+
+Finally, we can also display the weight axis on a logarithmic scale:
+
+```{r}
+p2 + scale_x_log10()
+```
+
+Note how on the logarithmic axis the logarithmically-sized bins all have the same width.
+
+This is the way in which Sheldon plotted the data and observed that size spectrum is approximately flat.
+
+### Densities
+
 Note that the height of the bars changed as we changed how we bin the data. That is obvious. If we make a bin twice as large, we expect twice as many fish in that bin.
 
-Now please pay attention! We want to get rid of this dependence on the choice of the bin width. We can do this if we divide the height of each bar by its width. This means we will work with **density** and the bin height will be scaled by the bin width.
+Now please pay attention! We want to get rid of this dependence on the choice of the bin width. We want to represent the data in a way that does not depend on our choice of binning. We can do this if we divide the height of each bar by its width. This means we will work with **density** and the bin height will be scaled by the bin width.
 
 Because it is important to understand this concept of **density**, we will calculate the number density by hand below, even though ggplot has a built-in function `geom_density()` that we could use instead. We first bin the data by hand, and then we calculate and plot the densities.
 
@@ -181,7 +202,7 @@ data_with_bins <- mutate(data, bin = cut(weight, breaks = binbreaks,
 
 The pipe operator becomes really useful only if you do a longer sequence of operations on data. You will see examples of its use later.
 
-The `mutate()` function can add new columns to a data frame or modify existing columns. In the above example it adds a new column `bin`. The entries in that column are here calculated by the function `cut` that returns the label of the bin into which an observation falls. We specify the bin boundaries with the `breaks = breaks` to be the boundaries we have calculated above. The `right = FALSE` means that in case an observation falls exactly on a right bin boundary, it is not included in that bin but instead in the next bin. The `labels = FALSE` means that the bins are not labelled by the intervals but simply by integer codes.
+The `mutate()` function can add new columns to a data frame or modify existing columns. In the above example it adds a new column `bin`. The entries in that column are here calculated by the function `cut` that returns the label of the bin into which an observation falls. We specify the bin boundaries with the `breaks = binbreaks` to be the boundaries we have calculated above. The `right = FALSE` means that in case an observation falls exactly on a right bin boundary, it is not included in that bin but instead in the next bin. The `labels = FALSE` means that the bins are not labelled by the intervals but simply by integer codes.
 :::
 
 We then group the data by bin and calculate the number of fish in each bin
@@ -351,102 +372,86 @@ The slope is `r signif(model$coefficients[[2]], 4)` for the biomass density wher
 
 So far we found various size spectrum slopes and evidence of decreasing biomass densities with size. Yet, the tutorial started with a reference to Sheldon's observation about equal biomass across sizes. Why?
 
-Above we calculated densities by dividing the total number or total biomass in each bin by the width that the bin has on the linear weight ($w$) axis. Instead Sheldon did the same analysis but divided the total biomass in each bin by the width of the bin on the logarithmic weight axis. In our example above, if we plotted the histogram on a logarithmic weight axis the widths of the bins would be equal.
+Above, we calculated densities by dividing the total number or total biomass in each bin by the width that the bin has on the linear weight ($w$) axis. Instead, we could divide the total biomass in each bin by the width of the bin on the logarithmic weight axis. 
+
+We saw [earlier](#logarithmic-w-axis) that when we plot the logarithmically-sized bins on a logarithmic w axis they are all equally sized. We can calculate the size of the bins in log weight:
 
 ```{r}
-#| layout-ncol: 2
-#| fig-subcap:
-#|   - "Linear scale"
-#|   - "Logarithmic scale"}
-#|   
-#First we look at the same old histogram on a linear x axis
-ggplot(data) +
-    geom_histogram(aes(weight), fill = "blue", colour = "black",
-                   breaks = binbreaks) +
-    labs(x = "Weight [g]",
-         y = "Number of fish") +
-    scale_y_log10()
-
-#Then we look at the same plot but plot x axis on a log scale
-ggplot(data) +
-    geom_histogram(aes(weight), fill = "blue", colour = "black",
-                   breaks = binbreaks) +
-    labs(x = "Weight [g]",
-         y = "Number of fish") +
-    scale_y_log10() + 
-    scale_x_log10()
-
+log10_breaks <- log10(binbreaks)
+log10_bin_width <- diff(log10_breaks)
+log10_bin_width
 ```
 
-Now we can see that when we plot bins on a log x axis they are all equally sized. Now we can use the width of the size bins on a logarithmic axis on get biomass density on a Sheldon spectrum. Since all the bins are equally sized (on a logarithmic axis!) the widths will all be the same. Below we plot the Biomass density (in black) and the Sheldon density (in blue) on the same axes.
+We used the logarithm to base 10 above because that is the convention that mizer uses. 
+
+An aside: Because, while we wrote this section we got confused ourselves, let us state an obvious fact lest it cause confusion for you as well: the width of a bin on the logarithmic axis is __not__ the logarithm of the width of the bin on the linear axis.
+
+Now if we divide the number of fish in each bin by the width of the size bin in log weight we get what we denote as the "number density in log weight". Similarly if we divide the biomass in each bin by the width of the size bin on a logarithmic axis we get the "biomass density in log weight", which is the Sheldon density. 
+
+Below we plot the number densities (in black) and the biomass densities (in black), with the solid lines the densities in weight and the dashed lines the densities in log weight, all on the same axes.
 
 ```{r }
-#calculate the widths of size bins on a log axis
-log_bin_width <- diff(log_breaks)
-#you can see that they are all the same
-log_bin_width
-
-#remember how we calculate biomass density by dividing by bin_width above
-binned_biomass <- data_with_bins |> 
+# remember how we calculated densities by dividing numbers and biomasses 
+# by bin_widths
+binned <- data_with_bins |> 
     group_by(bin) |> 
-    summarise(Biomass = sum(weight)) |>
-    mutate(Biomass_dens = Biomass / bin_width[bin]) |>
-    mutate(bin_midpoint = bin_midpoints)
+    summarise(Numbers = n(),
+              Biomass = sum(weight)) |>
+    mutate(bin_midpoint = bin_midpoints,
+           Number_dens = Numbers / bin_width[bin],
+           Biomass_dens = Biomass / bin_width[bin])
 
-#and now we will add Sheldon density estimate by dividing by long bin_width
-binned_biomass <- binned_biomass |> 
-    mutate(Sheldon_dens = Biomass / log_bin_width[bin])
+# and now we add densities in log weight by dividing by log_bin_width
+binned <- binned |> 
+    mutate(Number_dens_log_w = Numbers / log10_bin_width[bin],
+           Biomass_dens_log_w = Biomass / log10_bin_width[bin])
 
-ggplot(binned_biomass) +
-    geom_line(aes(x = bin_midpoint, y = Biomass_dens),
+ggplot(binned) +
+    geom_line(aes(x = bin_midpoint, y = Number_dens),
               colour = "black") +
-    geom_line(aes(x = bin_midpoint, y = Sheldon_dens),
+    geom_line(aes(x = bin_midpoint, y = Biomass_dens),
               colour = "blue") +
+    geom_line(aes(x = bin_midpoint, y = Number_dens_log_w),
+              colour = "black", linetype = "dashed") +
+    geom_line(aes(x = bin_midpoint, y = Biomass_dens_log_w),
+              colour = "blue", linetype = "dashed") +
     scale_x_log10() +
     scale_y_log10() +
-    #ylim(1e+01,1e+08)+
-    labs(x = "Log Weight",
+    labs(x = "Weight [g]",
          y = "Density")
 ```
 
-We will refer to Sheldon's density as "the biomass density in log weight" and notate it as $B_{\log w}(w)$. Similarly we introduce "the number density in log weight" $N_{\log w}(w)$.
 
-If one uses a logarithmic weight axis, then the advantage of plotting the number density in log weight is that the area under the density curve is the total number of individuals in that size range. Similarly the area under the plot of the biomass density in log weight is the total biomass in that size range.
+The blue dashed line shows that Sheldon's density. You will notice that the slope of the Sheldon density is less negative than the slope of the biomass density. 
 
-You will notice the reduced slope of the Sheldon spectrum. The slope of the Sheldon density is less negative than the slope of the biomass density. We have the following relations among the various densities:
+We introduce the notation $N_{\log w}(w)$ for the number density in log weight and $B_{\log w}(w)$ for the biomass density in log weight (Sheldon's density). We have the following relations among the various densities:
 
-$$B_{\log w}(w) = w\, B(w) = w\, N_{\log}(w) = w^2 N(w).$$
+$$B_{\log w}(w) = w\, B(w) \propto w\, N_{\log}(w) = w^2 N(w).$$
 
 Sheldon's observation was that $B_{\log w}(w)$ is approximately constant over a large range of sizes $w$ from bacteria to whales. That corresponds to the earlier phrasing of Sheldon's observation that $N(w)\propto w^{-\lambda}$ with $\lambda$ close to 2. Here is a very important and interesting summary about the slopes:
 
-**The slope of the number density is approximately -2, the slope of the biomass density (which is also the number density in log weight) is approximately -1, and the slope of the biomass density in log weight is approximately 0, i.e., the biomass density in log weight is approximately constant.**
+**The slope of the number density is approximately -2, the slope of the biomass density and the number density in log weight is approximately -1, and the slope of the biomass density in log weight is approximately 0, i.e., the biomass density in log weight is approximately constant.**
 
-## A few final points
 
-### Kernel density estimate
+:::{.callout-caution collapse="true"}
+### Expand for technical detail
+When we talk of "log weight", we have to define what we mean. Weight is a dimensionful quantity. We need to choose a unit before we can take the logarithm. In mizer we choose to measure weight in grams. So when we say "log weight", we mean the logarithm of the weight measured in grams. The result is a dimensionless quantity.
 
-Binning the data is useful but is not the only way to approximate the densities. In reality you don't need to bin the data by hand or bin it at all. One can also use the kernel density estimation method and ggplot2 even has that built in to its `geom_density()`. Here is a plot of the number density in log weight $N_{\log w}(w)$ estimated by the kernel density method:
+We also need to specify the base of the logarithm. The ggplot package likes to work with log10, mizer also follows that convention, therefore that is what we chose in the above graphs. It does not matter: choosing a different base just rescales the density by an overall factor.
 
-```{r}
-ggplot(data) +
-    geom_density(aes(weight, stat(count)), adjust = 4) +
-    scale_x_log10() + 
-    scale_y_log10() +
-    labs(x = "Weight [g]",
-         y = "Number density in log w")
-```
+The different densities have different units. This is the result of two factors: 1) Biomass is measured in grams whereas Numbers are dimensionless and 2) bin widths are measured in grams whereas bin widths in log weight are dimensionless. The densities, obtained by dividing either Biomass or Numbers by either bin widths or bin widths in log weight, have the following units:
 
-::: {.callout-note collapse="true"}
-### Expand for R details
+* $N(w)$ has unit 1/grams,
+* $B(w)$ and $N_{\log w}(w)$ are dimensionless,
+* $B_{\log w}(w)$ has unit grams.
 
-By default, `geom_density()` would normalise the density so that the integral under the density curve is 1. We use `stat(count)` to tell it that we want the number density, so that the integral under the curve is the total number, not normalised to 1.
-
-The kernel density method works by placing a small Gaussian (bell curve) at each data point and then adding up all these little Gaussians. The `adjust = 4` means that the width of these Gaussians is 4 times wider than `geom_density()` would choose by default. This leads to a smoother density estimate curve. This plays a similar role as the bin width does in histograms.
+We know that one should be careful when plotting quantities with different dimensions on the same axis because the result depends on the units chosen. Above we chose grams as our unit.
 :::
 
-### Size spectra of individual species
 
-So far we have looked at the community spectrum, where we ignored the species identity of the fish. We will now look at the spectra of the individual species. We'll plot them all on the same graph and display them with [plotly](https://plotly.com/r/) so that you can hover over the resulting graph to see which line corresponds to which species. We also include the community size spectrum in black for comparison.
+## Size spectra of individual species
+
+So far we have looked at the community spectrum, where we ignored the species identity of the fish. We will now look at the spectra of the individual species. We'll plot them all on the same graph and display them with [plotly](https://plotly.com/r/) so that you can hover over the resulting graph to see which line corresponds to which species. We also include the community size spectrum in black for comparison. The lines look smoother than earlier because now we use kernel density estimation rather than binning to estimate the densities.
 
 ```{r}
 p <- ggplot(data) +
@@ -461,6 +466,11 @@ plotly::ggplotly(p)
 
 ::: {.callout-note collapse="true"}
 ### Expand for R details
+Binning the data is useful but is not the only way to approximate the densities. In reality you don't need to bin the data by hand or bin it at all. One can also use the kernel density estimation method and ggplot2 even has that built in to its `geom_density()`. 
+
+By default, `geom_density()` would normalise the density so that the integral under the density curve is 1. We use `stat(count)` to tell it that we want the number density, so that the integral under the curve is the total number, not normalised to 1.
+
+The kernel density method works by placing a small Gaussian (bell curve) at each data point and then adding up all these little Gaussians. The `adjust = 4` means that the width of these Gaussians is 4 times wider than `geom_density()` would choose by default. This leads to a smoother density estimate curve. This plays a similar role as the bin width does in histograms.
 
 Note how easy it was to ask ggplot to draw a separate line for each species. We only had to add the `colour = species` to `geom_density()`. ggplot automatically chose some colours for the species and added a legend to the plot.
 
@@ -481,14 +491,14 @@ We will discuss species size spectra more in the next tutorial, where we will lo
 
 1.  It is very useful to know how many organisms of different sizes there are. This is what size spectra show.
 
-2.  We can represent size spectra in different ways. The key thing to understand is how we group different sizes into bins. The width of these bins will determine how many individuals we find in them. A bin from 1 to 2g will have fewer individuals than a bin from 1 to 10g.
+2.  We can represent size spectra in different ways. One is to bin the data and plot histograms. The drawback is that the height of the bars in a histogram depend on our choice of bins. A bin from 1 to 2g will have fewer individuals than a bin from 1 to 10g.
 
-3.  When we group observed individuals into bins, for each bin we can calculate either a total number of individuals or the total weight of individuals in that bin. This is NOT the same. There will be a lot of very small individuals, so the numbers in a small sized bin will be large but their total weight will not be large.
+3.  To avoid the dependence on bin sizes, we use densities, where the total number of individuals or the total biomass of individuals in each bin are divided by the width of the bin. We refer to these as the number density or the biomass density respectively.
 
-4.  To avoid the dependence on bin sizes, we use densities, where the total number of individuals or the total biomass of individuals in each bin are divided by the width of the bin. We refer to these as the number density or the biomass density respectively.
+3.  The number density looks very different from the biomass density. There will be a lot of very small individuals, so the number density at small sizes will be large, but each individual weighs little, so their total biomass will not be large. 
 
-5.  When we work with a logarithmic weight axis, then it is natural to use densities in log weight, where the numbers of individuals in each bin are divided by the log of the width of the bin. We refer to these as the number density in log weight or the biomass density in log weight respectively.
+5.  When we work with a logarithmic weight axis, then it is natural to use densities in log weight, where the numbers of individuals in each bin are divided by the width of the bin on the log axis. We refer to these as the number density in log weight or the biomass density in log weight respectively.
 
-6.  Community size spectra are approximately power laws. When displayed on log-log axes, they look like straight lines. The slope of the number density is approximately -2, the slope of the biomass density (which is also the number density in log weight) is approximately -1, and the slope of the biomass density in log weight is approximately 0, i.e., the biomass density in log weight is approximately constant. The latter is called the Sheldon spectrum.
+6.  Community size spectra are approximately power laws. When displayed on log-log axes, they look like straight lines. The slope of the number density is approximately -2, the slope of the biomass density and the number density in log weight is approximately -1, and the slope of the biomass density in log weight is approximately 0, i.e., the biomass density in log weight is approximately constant. The latter is called the Sheldon spectrum.
 
 7.  The individual species size spectra are not approximately power laws and thus do not look like straight lines on log-log axes. The approximate power law only emerges when we add all the species spectra together.
