@@ -16,29 +16,29 @@ library(mizerExperimental)
 library(tidyverse)
 ```
 
-Note how for the mizerExperimental package we also call `remotes::install_github()`. This will reinstall the package only if it has changed on GitHub since you last installed it. If nothing has changed, the command will just issue a message to reassure you of that fact. So for packages that improves as frequently as mizerExperimental, it is always a good idea to call `remotes::install_github()` frequently.
+Note how for the mizerExperimental package we also call `remotes::install_github()`. This will reinstall the package only if it has changed on GitHub since you last installed it. If nothing has changed, the command will just issue a message to reassure you of that fact. So for packages that improve as frequently as mizerExperimental, it is always a good idea to call `remotes::install_github()` frequently.
 
 If you get error messages saying that the tidyverse package is not available, you will need to install that package as well. This was discussed in the preparatory tutorial on [installing tools](../prepare/install-tools.qmd#r-packages).
 
 ## Single-species model
 
-In this and the next tutorial we want to keep the size-spectrum aspects of the mizer model separate from the multi-species aspects, in order to not have to think about too many things at once. So we will explore a model where a single species lives in a non-dynamical background community that we will set to a Sheldon power-law abundance. Only in the last tutorial this week on [species interactions](species-interactions.qmd) will we start to consider the interesting multi-species phenomena that arise in mizer models.
+In this and the next tutorial we want to keep the size-spectrum aspects of the mizer model separate from the multi-species aspects, in order to not have to think about too many things at once. So we will explore a model where a single species lives in a non-dynamical background community that we will set to a Sheldon power-law abundance. Only in the last tutorial of this week exploring [species interactions](species-interactions.qmd) will we start to consider the interesting multi-species phenomena that arise in mizer models.
 
-In this tutorial we will only be interested in the shape of the size spectrum, i.e., in how the total number of individuals is distributed over the different sizes. We are not yet interested in the overall abundance of the species. The overall abundance would be influenced by the total rate of reproduction for the species. This in turn would be influenced by the size spectrum, because that determines how many of the individuals are mature. This dynamic feedback will of course become important when we build real-world models in week 2 and use them in week 3. But for now we have enough on our plate without thinking also about this.
+In this tutorial we will only be interested in the shape of the size spectrum, i.e., in how the total number of individuals is distributed over the different sizes. We are not yet interested in the overall abundance of the species. The overall abundance would be influenced by the total rate of reproduction and recruitment for the species. This in turn would be influenced by the size spectrum, because that determines how many of the individuals are mature. This dynamic feedback will of course become important when we build real-world models in week 2 and use them in week 3. But for now we have enough on our plate without thinking also about this.
 
 Mizer collects all the parameters describing a size-spectrum model into one object of class `MizerParams`. You do not need to set up this object by hand but instead there are several wrapper functions in mizer that create the object for you for various types of models, and also many functions for changing specific parameters in a model. We will use the `newSingleSpeciesParams()` function to set up a model describing a single fish species living in an ecosystem whose community size spectrum is given by a power-law.
 
-The `newSingleSpeciesParams()` function has many arguments that allow you to specify parameters for the fish species as well as for the community, but all these arguments have default values, so we can simply call the function without specifying those arguments. We will only specify the power-law exponent `lambda` of the background community
+The `newSingleSpeciesParams()` function has many arguments that allow you to specify parameters for the fish species as well as for the community, but all these arguments have default values, so we can simply call the function without specifying those arguments. We will only specify the power-law exponent `lambda` of the background community. Note that in mizer the size spectrum exponent refers to the number density on a linear weight axis x and is therefore expected to be around 2.
 
 ```{r}
 params <- newSingleSpeciesParams(lambda = 2.05)
 ```
 
-The function returns a `MizerParams` object and we have assigned that to the variable `params`. We will be explaining more about this model as we go along.
+The function returns a `MizerParams` object and we have assigned that to the variable `params`. We will be explaining more about this model as we go along, but you can also explore all the values and details that are stored in this `params` object, by typing params\@ in the console and selecting different options.
 
 ## Steady state spectrum
 
-As a final simplification in this tutorial and the next two, we will only consider the steady state size spectra. The steady state is the state where in each size class the inflow of individuals through growth exactly balances the outflow of individuals through growth and death. The initial abundances in the `params` object that we created with `newSingleSpeciesParams()` have already been set to the steady-state abundances.
+As a final simplification in this and the next two tutorials, we will only consider the steady state size spectra. The steady state is the state where in each size class the inflow of individuals through growth exactly balances the outflow of individuals through growth and death. This means that the size spectrum is in equilibrium. You might have heard that models are often "initialised" from some initial species abundances and then ran to equilibrium until model properties (species biomasses and size distributions) stop changing. However, we can calculate what sort of initial abundance we need to ensure that a species is in an equilibrium and this is what mizer does. The initial abundances in the `params` object that we created with `newSingleSpeciesParams()` have already been set to the steady state abundances.
 
 We can plot the size spectrum with the `plotSpectra()` function.
 
@@ -52,7 +52,7 @@ The green line represents the number density of the background community, labell
 
 The other line represents the number density of our single species, which by default is just named unimaginatively "Target species". We see that it is a straight line initially, but then has a bump before declining rapidly at large sizes. We will discuss in a short while what causes that shape.
 
-The initial slope of the species number density is negative, which means vaguely that there are fewer larger fish than smaller fish. That is of course understandable: some fish die while they are growing up, so there tend to be fewer fish in larger size classes.
+Remember what these size spectra plots indicate? They show numbers or number density of individuals in various size bins. The initial slope of the taget species number density is negative, which of course means that there are fewer larger fish than smaller fish. That is of course understandable: lots of fish die while they are growing up, so there tend to be fewer fish in larger size classes. However, please bear in mind that you are now looking at numbers of individuals across size groups and not age groups. For people coming from age or stage structured modelling background it takes a while to understand that numbers in size bins do not represent age. Depending on how quickly individuals grow they will spend different times in each size bins - small individuals grow fast and move from one bin to another very quickly and large individuals may stay in the same bin for a long time.
 
 It is now time to do the first exercise of this tutorial. To complete the exercise, go to your copy of this week's worksheet repository and open the file "worksheet2-single-species-spectra.Rmd" in RStudio. There you will find the following first exercise:
 
@@ -70,13 +70,13 @@ While the `plotSpectra()` function gives us a plot of the number density, it wou
 n <- initialN(params)
 ```
 
-As you can see in the "Environment" pane in RStudio, `n` is a matrix with 1 row and 101 columns. The one row corresponds to the one species. In a multispecies model there would be one row for each species, holding the number density for that species. The 101 columns are for the number densities in each of the 101 size classes. In fact, `n` is a named array, i.e., each row and each column has names. These we can extract with the `dimnames()` function.
+As you can see in the "Environment" pane in RStudio, `n` is a matrix with 1 row and 101 columns. The one row corresponds to the one species. In a multispecies model there would be one row for each species, holding the number density for that species. The 101 columns are for the number densities in each of the 101 size classes. By default mizer uses 100+1 size clases (or size bins) in simulations, although you can easily change that. In fact, `n` is a named array, i.e., each row and each column has names. These we can extract with the `dimnames()` function.
 
 ```{r}
 dimnames(n)
 ```
 
-The names of the columns are the weight in grams at the start of each size class. Notice how R displays long vectors by breaking them across many lines and starting each line with a number in brackets. That number is the index of the first value in that row. So for example we see that the 61st size class starts at 1 gram. The number density in the size class between 1 gram and 1.12 grams is
+The names of the columns are the weight in grams at the start of each size class. Notice how R displays long vectors by breaking them across many lines and starting each line with a number in brackets. That number is the index of the first value in that row. So for example we see that the 61st size class starts at 1 gram. The number density in the size class between 1 gram and 1.12 grams (next size bin) is
 
 ```{r}
 n[1, 61]
@@ -116,7 +116,7 @@ We can use the `power` argument of the `plotSpectra()` function to determine whi
 plotSpectra(params)
 ```
 
-Now the green line representing the biomass density of the background has a slope of -1.05.
+Now the green line representing the biomass density of the background has a slope of -1.05 and not the -2.05 number density slope that we actually set when creating the params object.
 
 The initial slope of the species biomass density is also negative, meaning that the biomass density in the species decreases with size.
 
@@ -138,13 +138,13 @@ It may have been a bit confusing that we displayed the same size spectrum in thr
 
 As we did for [numbers](#numbers) above, let us also look at how to extract biomasses from the model.
 
-We already said above that we can obtain the biomass density in a size class from the number density by multiplying the number density by the weight of the individuals in the size class. To obtain these weights, we use the function `w()` that returns the weights at the start of each size class. Of course using these will lead to a discretisation error because not all fish in the size class have the same weight, but with the small size classes that we use in mizer, the error is not too important. So we calculate
+We already said above that we can obtain the biomass density in a size class from the number density by multiplying the number density by the weight of the individuals in the size class. To obtain these weights, we use the function `w()` that returns the weights at the start of each size class. Of course using these will lead to a discretisation error because not all fish in the size class have the same weight **\[ASTA - in the model they all have the same weight. Do you mean in real life? I find this bit confusing\]**, but with the small size classes that we use in mizer, the error is not too important. So we calculate
 
 ```{r}
 biomass_density <- n * w(params)
 ```
 
-The total biomass in each size class we obtain by multiplying the biomass density in each size class by the width of each size class
+We obtain the total biomass in each size class by multiplying the biomass density in each size class by the width of each size class
 
 ```{r}
 biomass <- biomass_density * dw(params)
@@ -188,9 +188,9 @@ The first striking feature of the species size-spectrum, independently of which 
 
 We will assume that the metabolic rate, i.e., the rate at which an organism expends energy on its basic metabolic needs, scales as a power of the organism's body size, and the power is about $p = 3/4$.
 
-Because this energy needs to be supplied by consumption of food, it is natural to assume that also the consumption rate scales allometrically with a power of $n = 3/4$. When the consumption is greater than the metabolic cost then the excess leads to growth. Hence the growth rate too scales allometrically with power $3/4$. While these are standard choices for the allometric exponents, mizer allows you to choose other values for $p$ and $n$.
+Because this energy needs to be supplied by consumption of food, it is natural to assume that also the consumption rate scales allometrically with a power of $n = 3/4$. **\[ASTA - should we be more specific here? mizer has two values that determine intake - search rate and maximum intake rate. and two scaling parameters for them. I know it may be confusing, but for people who know mizer it will also not be clear which consumption we are talking about\]** Note that this is only the scaling of metabolism and feeding with size. At each given size, unless fish is almost starving, energy intake from feeding must be larger than energy use for metabolism (or maintenance), otherwise fish cannot grow and reproduce. Since intake and maintenance scales with $3/4$ then growth is also expected to scale with body weight with $3/4$. The $3/4$ are standard choices for the allometric exponents and are based on [metabolic theory of ecology](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/03-9000), mizer also allows you to choose other values for these body size scaling exponents $p$ and $n$ (and there is a lot of debate in the literature about the correct values to use).
 
-Finally, the death rate of organisms tends to scale allometrically with a power of $n - 1 = 3/4 - 1 = -1/4$. This means that the death rate experienced by larger individuals is smaller than that of small individuals.
+Finally, the death rate of organisms tends to scale allometrically with a power of $n - 1 = 3/4 - 1 = -1/4$. This means that the death rate experienced by larger individuals is smaller than that of small individuals (until some very final size, but mizer does not currently use senescence mortality). **ASTA - it is not clear whether this death rate is an emergent property or a mizer parameters. Do you mean background mortality?**
 
 It is a result of the mathematics that if the growth and death rates scale allometrically with exponents $p$ and $1-p$ respectively, for some metabolic exponent $p$, that the number density at steady state is also a power law, i.e., a straight line on the log-log plot.
 
@@ -206,7 +206,13 @@ You can again see in the "Environment" pane that this is a matrix with one row f
 growth_rate[1, 61]
 ```
 
-(because we had seen that the 61st size class starts at 1 gram). This is the instantaneous per-capita growth rate, measured in grams per year.
+(because we had seen that the 61st size class starts at 1 gram). This is the instantaneous per-capita growth rate, measured in grams per year. Note that in mizer all rates are measured in units of year, but for many people daily values are easier to understand. Since growth rate here is an instantaneous rate we can simply divide it by 365 to get a daily rate (although note that mizer does not simulate processes on daily time steps)
+
+```{r}
+growth_rate[1, 61]/365
+```
+
+which gives us about 0.022g of growth per day for a 1g sized fish.
 
 We would like to make a log-log plot of the growth rate against size to check that it gives a straight line. We will use `ggplot()` for that purpose. `ggplot()` likes to work with data frames instead of named matrices, so we first convert the matrix into a data frame with the `melt()` function.
 
@@ -253,7 +259,7 @@ g0 <- round(gm$coefficients[[1]], digits=3)
 
 The slope of the line is indeed $0.75 = 3/4$. In fact, the above shows that for juveniles $$\log(g(w)) = `r g0` + \frac34 \log(w)$$ and thus $$g(w) = g_0\ w^p = `r g0`\  w^{3/4}.$$
 
-Of course in a real model, the growth rate would not so exactly follow a power law, due to variations in the growth rate due to variations in food availability, for example.
+Of course in a real model, the growth rate would not so exactly follow a power law, because growth rate would very depending on food availability, for example. In this example food is the background resource and its abundance is fixed, so food abundance does not vary.
 
 ```{r include=FALSE}
 mort_rate_frame <- melt(getMort(params))
@@ -267,19 +273,20 @@ m0 <- round(mm$coefficients[[1]], digits = 3)
 Use the methods you have just seen to make a log-log plot of the mortality rate. You can get the mortality rate with the `getMort()` function. While adjusting the code to this new task, you need to take into account that the name of the size-dimension of the array returned by `getMort()` is `"w_prey"` instead of `"w"`.
 
 Then fit a linear model to determine the slope and and intercept and thus the allometric exponent $r$ and the coefficient $\mu_0$ for the mortality rate $$\mu(w) = \mu_0 w^r.$$
-:::
 
 # Slope of juvenile spectrum
+:::
 
 We have seen that for juvenile fish the growth rate and the death rate are both power laws with exponents $p=3/4$ and $r=p-1=-1/4$ respectively. By solving a differential equation we can derive that the juvenile spectrum also follows a power law: $$N(w) = N_0\ w^{-\mu_0/g_0 - p}$$
 
-I won't do the maths here with you (and you probably don't want me to anyway), but we can see that the result makes sense. It tells us that the number density drops of faster with size if the mortality rate is higher or if the growth rate is smaller, which is what we would expect.
+I won't do the maths here with you (and you probably don't want me to anyway), but we can see that the result makes sense. It tells us that the number density drops of faster with size if the mortality rate $\mu_0$ is higher or if the growth rate $g_0$ is smaller, which is what we would expect.
 
 We can also check this claim numerically. Let's look at the spectrum of individuals up to 10 grams. By now we know how to do this. We first convert the number density matrix `n` into a dataframe and then filter out all observations that do not have $w\leq 10$. The resulting data frame we pass to `ggplot()` and ask it to plot a line on log-log axes.
 
 ```{r}
 nf <- melt(n) %>% 
   filter(w <= 10)
+
 ggplot(nf) +
   geom_line(aes(x = w, y = value)) +
   scale_x_log10() +
@@ -305,7 +312,7 @@ The linear model fit says that the exponent is `r jexp`. The mathematics claimed
 -m0 / g0 - 3/4
 ```
 
-That is not quite the result of the linear model fit, but that is the nature of numerical calculations: one gets discretisation errors and rounding errors.
+That is not quite the result of the linear model fit, but that is the nature of numerical calculations: one gets discretisation errors and rounding errors. Anyway it is close enough. And it is also amazing how we can calculate expected numbers of fish from basic assumptions and rules. Of course natural ecosystems never look like that, but if we have theoretical expectations derived from clear assumptions (about growth and mortality rate and food availability), we can start asking questions about which processes in natural ecosystems deviate from these generic assumptions, why this happens and how it should affect the observed size spectra.
 
 # Shape of adult spectrum {#shape-of-adult-spectrum}
 
@@ -315,18 +322,28 @@ Now that we understand the shape of the size spectrum for the juvenile fish, let
 plotSpectra(params, wlim = c(10, NA))
 ```
 
-The increase of abundance that we see at around the maturity size of our species is due to a drop in growth rate at that size. This in turn is due to the fact that the mature fish invests some of its energy income into reproduction. So the details of the shape of the adult spectrum is influenced by the details of how adults split their energy income between growth and reproduction.
+The increase of abundance that we see at around the maturity size of our species is due to a drop in growth rate at that size. This in turn is due to the fact that the mature fish invests some of its energy into reproduction. So the details of the shape of the adult spectrum will be influenced both by food intake, maintenance and mortality (like in juveniles), but also by how adults split their energy income between growth and reproduction.
 
 ## Investment into reproduction
 
 Let us look at a plot of the proportion of the available energy that is invested into reproduction as a function of the size. This is the product of the proportion of individuals that are mature (obtained with the function `maturity()` and the proportion of their energy income that a mature fish invests into reproduction (obtained with the function `repro_prop()`.
 
 ```{r}
-psi <- melt(maturity(params) * repro_prop(params))
-ggplot(psi) +
+#first let's get the maturity data (you can look at this proportion yourself)
+mature <- maturity(params)
+#now we get proportion of income used for reproduction 
+reprod <- repro_prop(params)
+#the final amount of energy going to reproduction at a given size will be a product of these two values
+reprod_propotion <- mature * reprod
+#we will convert it for ggplot with melt()
+psi <- melt(reprod_propotion)
+
+p <- ggplot(psi) +
   geom_line(aes(x = w, y = value)) +
-  labs(x = "Weight [g]",
+      labs(x = "Weight [g]",
        y = "Proportion invested into reproduction")
+p
+
 ```
 
 How was this maturity curve specified? You can find the details in the [mizer documentation](https://sizespectrum.org/mizer/reference/setReproduction.html#investment). There are four species parameters involved:
@@ -347,6 +364,19 @@ As you can see, there are a lot of other species parameters, some of which we wi
 
 ```{r}
 select(species_params(params), w_mat, w_mat25, w_inf, m)
+```
+
+And with this knowledge of parameter we can improve the plot for clarity and add a vertical line at 25% and 50% maturation weight
+
+```{r}
+
+maturation_weight50 <- params@species_params$w_mat
+maturation_weight25 <- params@species_params$w_mat25
+
+p + 
+  geom_vline(xintercept = maturation_weight50, lty = 2) +
+  geom_vline(xintercept = maturation_weight25, lty = 2, col = "grey")
+
 ```
 
 ## Change in maturity curve
@@ -370,8 +400,11 @@ Now the maturity curve has changed, which we can verify by plotting it
 ```{r}
 psi_changed_maturity <- melt(maturity(params_changed_maturity) * 
                                repro_prop(params_changed_maturity))
+
 ggplot(psi_changed_maturity) +
   geom_line(aes(x = w, y = value)) +
+  geom_vline(xintercept = params_changed_maturity@species_params$w_mat, lty = 2) +
+  geom_vline(xintercept = params_changed_maturity@species_params$w_mat25, lty = 2, col = "grey") + 
   labs(x = "Weight [g]",
        y = "Proportion invested into reproduction")
 ```
@@ -410,7 +443,7 @@ Make a plot showing the growth rates of the original model and of the model with
 
 ### Effect of changed maturity
 
-Next let us look at how the steady state spectrum has changed. We first need to calculate the new steady state with
+Next let us look at how our model, and more specifically its equilibrium conditions have changed. Now that maturity parameters have changed, the numbers at different sizes will also changes. So the steady state spectrum will also change. This means we first need to calculate the new steady state using the function singleSpeciesSteady(). This function will update numbers at size and other parameters, and we save it to the new params file
 
 ```{r}
 params_changed_maturity <- singleSpeciesSteady(params_changed_maturity)
@@ -419,8 +452,13 @@ params_changed_maturity <- singleSpeciesSteady(params_changed_maturity)
 Then we can use the same technique as above to plot the steady-state spectra of both models on top of each other.
 
 ```{r}
+
+## ASTA - need to explain w(params)^2
+#first we do .... THIS AND THAT (modify this)
 nf <- melt(initialN(params) * w(params)^2)
 nf_changed_maturity <- melt(initialN(params_changed_maturity) * w(params)^2)
+
+#then we will ... 
 nf$type <- "original"
 nf_changed_maturity$type <- "changed"
 nf_combined <- rbind(nf, nf_changed_maturity)
@@ -432,8 +470,13 @@ ggplot(nf_combined) +
        y = "Biomass density [g]")
 ```
 
-As expected, the bump happens later due to the larger maturity size and it is less pronounced, because the maturity curve is less steep.
+As expected, the bump happens later due to the larger maturity size and it is less pronounced, because the maturity curve is less steep. This means that fish do not suddenly start investing most of their energy into reproduction, but still keep growing while they are maturity. Since they are still growing they will be moving from one size class to another and fewer individuals will accumulate in one size class.
 
 This was our first investigation of how the shape of a species size spectrum changes as model parameters are changed. We will do much more in this direction in the next tutorial in which we discuss how growth and mortality are determined through predation.
 
-TODO: Write summary points
+## Summary and recap
+
+1.  For a single species with a fixed resource and equilibrium (steady state) numbers at size will be determined by growth, mortality and investment into reproduction.
+2.  Mizer stores and deals with number densities in size classes. To get the actual numbers at size we need to remember to multiple the number density (n array) by the width of the size class (dw). To get total biomass in each size class we further multiple this value by the weight of this size class (w)
+3.  By default mizer assumes that intake **\[ASTA - decide which intake!\]** and metabolic rate scale with body size with the power of \$3/4\$ and death rate \[ASTA - parameter or emergent?\] scales with the power of $-1/4$. So we see that the juvenile size spectrum also scales with the power of $3/4$.
+4.  The shape of the adult size spectrum will depend on the maturation parameters w_mat and w_mat25. By default mizer assumes a fairly steep reproduction allocation curve, which means that at maturation size energy flow rapidly gets diverted from growth to reproduction. But the user can make this curve less steep. Changes in maturation parameters will naturally affect the steady state and equilibrium numbers at size.
