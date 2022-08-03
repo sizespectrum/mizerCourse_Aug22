@@ -3,6 +3,15 @@ title: "Prepare for the mizer course"
 editor: visual
 ---
 
+
+```{r}
+#| echo: false
+vembedr::embed_url("https://youtu.be/MesBEpwkTaQ") |>
+    vembedr::use_align("center") |>
+    vembedr::use_rounded(10)
+```
+
+
 While the course only starts on Monday the 8th of August, if you like you can already start preparations:
 
 1\) You can [introduce yourself](introduce-yourself.qmd) and your interests to your fellow participants.
