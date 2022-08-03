@@ -14,12 +14,14 @@ vembedr::embed_url("https://youtu.be/MesBEpwkTaQ") |>
 
 While the course only starts on Monday the 8th of August, if you like you can already start preparations:
 
-1\) You can [introduce yourself](introduce-yourself.qmd) and your interests to your fellow participants.
+1\) Please review the section on [online meetings](../index.qmd#online-meetings) and register on Remo so that you are ready to attend the meetings.
 
-2\) You can [install the tools](install-tools.qmd) that we will use in the course.
+2\) You can [introduce yourself](introduce-yourself.qmd) and your interests to your fellow participants.
 
-3\) You can familiarise yourself with how we will be [using Git and GitHub](use-git-and-github.qmd) in this course for collaboration and feedback on your coursework.
+3\) You can [install the tools](install-tools.qmd) that we will use in the course.
 
-4\) We assume that you are familiar with the basics of R programming. There are plenty of free resources to learn R. You can look through [R studio resources](https://www.rstudio.com/resources/webinars/), go through [R for Data Science](https://r4ds.had.co.nz/) or explore multiple other tools. You can also share your favourite tutorials or resources in the comments below.
+4\) You can familiarise yourself with how we will be [using Git and GitHub](use-git-and-github.qmd) in this course for collaboration and feedback on your coursework.
+
+5\) We assume that you are familiar with the basics of R programming. There are plenty of free resources to learn R. You can look through [R studio resources](https://www.rstudio.com/resources/webinars/), go through [R for Data Science](https://r4ds.had.co.nz/) or explore multiple other tools. You can also share your favourite tutorials or resources in the comments below.
 
 That will allow for a flying start to the course. You won't believe how much we are looking forward to meeting you all on the 8th of August
