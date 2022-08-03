@@ -30,14 +30,28 @@ The course is organised into several tutorials each week. Each tutorial is assoc
 
 ## On-line meetings
 
-There will be several online meeting scheduled throughout the course, see the list of meetings in the table below. **All times are indicated in UK summer time, GMT+1.** For each day we organise two meetings to accommodate different time zones (7.00 and 15.00 UK time).
+There will be several online meeting scheduled throughout the course, see the list of meetings in the table below. **All times are indicated in UK summer time, GMT+1.** For each day we organise two meetings to accommodate different time zones:
 
-For all meetings go to the course meeting link at [**https://live.remo.co/e/mizer-course-meetings**](https://live.remo.co/e/mizer-course-meetings) **Note!** For security reasons, this link will only be open to the registered participants, based on the email address used for the registration. If you need to use another email address, please send an email from your that email address to [gustav.delius\@gmail.com](mailto:gustav.delius@gmail.com) and he will add you to the safe list.
+-   7am UK summer time (BST) most suitable for Asia and Australasia: \
+    [**https://live.remo.co/e/mizer-course-meetings**](https://live.remo.co/e/mizer-course-meetings)
+
+-   3pm UK summer time (BST) most suitable for Europe and America: \
+    [**https://live.remo.co/e/mizer-course-meetings-2**](https://live.remo.co/e/mizer-course-meetings-2)
+
+Please follow one of these links now. You will be asked to create yourself an account. Please use the email address that you used for registering for this mizer course. If you need to use another email address, please send an email from that email address to [gustav.delius\@gmail.com](mailto:gustav.delius@gmail.com) and he will add that email to the list of accepted emails.
+
+Once you have logged into Remo, you will be introduced to its main features and then Remo will check whether your browser and operating system is on their list of supported configurations.
+
+::: {.callout-important collapse="false"}
+Do not worry if you get the message that your configuration is not supported. It will most likely work anyway.
+:::
+
+When you get to the landings page for the meeting, click on "Register for Event". You will only need to do this once. All future meetings will use the same meeting space.
 
 On Monday **8th of August** we will have an introductory and welcome meeting with all course participants. On Tuesdays and Thursdays of each week course participants are encouraged to join the meetings with other course participants to discuss their progress, challenges and ideas (course tutors will not attend all these meetings). On Fridays we will have meetings with tutors to recap the experience from that week and discuss remaining questions.
 
 | *Date*             | *Time 1* | *Time 2*  | *Notes*                                                               |
-|--------------------|----------|-----------|-----------------------------------------------------------------------|
+|--------------|--------------|--------------|-------------------------------|
 | **Aug 8, Monday**  | **7.00** | **15.00** | Introductory meeting for all course participants and tutors           |
 | Aug 9, Tuesday     | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
 | Aug 11, Thursday   | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
