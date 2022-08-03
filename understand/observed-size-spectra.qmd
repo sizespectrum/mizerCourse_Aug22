@@ -357,7 +357,7 @@ binned_biomass <- data_with_bins |>
 ::: {.callout-caution collapse="false"}
 ### Exercise 3
 
-Make a plot the biomass density similarly to how we plotted the number density above, using logarithmic axes and also plotting the straight-line approximation.
+Make a plot of the biomass density similarly to how we plotted the number density above, using logarithmic axes and also plotting the straight-line approximation.
 :::
 
 Fitting a same linear model to the binned biomass density data now gives
