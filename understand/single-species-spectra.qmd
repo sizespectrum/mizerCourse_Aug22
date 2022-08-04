@@ -18,7 +18,7 @@ library(tidyverse)
 
 Note how for the mizerExperimental package we also call `remotes::install_github()`. This will reinstall the package only if it has changed on GitHub since you last installed it. If nothing has changed, the command will just issue a message to reassure you of that fact. So for packages that improve as frequently as mizerExperimental, it is always a good idea to call `remotes::install_github()` frequently.
 
-If you get error messages saying that the tidyverse package is not available, you will need to install that package as well. This was discussed in the preparatory tutorial on [installing tools](../prepare/install-tools.qmd#r-packages).
+You will be doing your own work for this tutorial in the accompanying worksheet file "worksheet2-single-species-spectra.Rmd". You will find this file in the worksheet repository for this week that you already used during the previous tutorial.
 
 ## Single-species model
 
