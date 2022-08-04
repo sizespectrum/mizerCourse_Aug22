@@ -2,13 +2,11 @@
 title: "Species interactions"
 ---
 
-In the previous tutorials we studied a single species interacting with a fixed background community. In this tutorial we want to acknowledge that there is no such thing as a fixed background community. Instead, all species form part of a dynamical ecosystem in which changes to any species has knock-on effects on other species. Furthermore, the resulting changes in the other species will react back on the first species, which now finds its prey community and its predator community changed. This is where we realise that we need multi-species models, because we cannot calculate or easily predict how will all these changes affect each other.
+In the previous tutorials we studied a single species interacting with a fixed background community. In this tutorial we want to acknowledge that there is no such thing as a fixed background community. Instead, all species form part of a dynamical ecosystem in which changes to any species has knock-on effects on other species. Furthermore, the resulting changes in the other species will react back on the first species, which now finds its prey community and its predator community changed. This is where we realise that we need multi-species models, because without a model we cannot calculate or easily predict how all these changes will affect each other.
 
-## Trait-based model
+You will be doing your own work for this tutorial in the accompanying worksheet file "worksheet4-species-interactions.Rmd". You will find this file in the worksheet repository for this week that you already used in previous tutorials.
 
-In the first week we aim for understanding, not realism. So in this tutorial we investigate the tangled web of interactions in an idealised multi-species system. We choose a trait-based model in which the species making up the community differ from each other only in a single trait: their asymptotic body size (sometimes it is also called maximum body size, although it is not exactly the same).
-
-As always, we start by making sure we have the latest version of the mizerExperimental package and load it as well as the tidyverse.
+As always, we start by making sure we have the latest version of the mizerExperimental package and load it, as well as the tidyverse.
 
 ```{r}
 #| message: false
@@ -17,10 +15,14 @@ library(mizerExperimental)
 library(tidyverse)
 ```
 
-Then we can use the `newTraitParams()` function to create our idealised trait-based multi-species model. The function has many parameters, but we will just keep the defaults. We assign the resulting MizerParams object to the variable `mp`.
+## Trait-based model
+
+In this first week we aim for understanding, not realism. So in this tutorial we investigate the tangled web of interactions in an idealised multi-species system. We choose a trait-based model in which the species making up the community differ from each other only in a single trait: their asymptotic body size (sometimes it is also called maximum body size, although it is not exactly the same).
+
+We use the `newTraitParams()` function to create our idealised trait-based multi-species model. The function has many parameters, but we will just keep the defaults. Unlike the `newSingleSpeciesParams()` function, the `newTraitParams()` function does not set the initial spectra to their steady state values. We thus need to run the result through the `steady()` function (we'll discuss that function more next week). We assign the resulting MizerParams object to the variable `mp`.
 
 ```{r}
-mp <- newTraitParams()
+mp <- newTraitParams() |> steady()
 ```
 
 Let us look at the biomass density in log weight.
@@ -29,7 +31,7 @@ Let us look at the biomass density in log weight.
 plotSpectra(mp, power = 2, total = TRUE)
 ```
 
-We see 11 species spectra. Each species spectrum has a shape of the type we expect, given what we have seen in the tutorial on [single speces spectra](single-species-spectra.qmd). The spectra of the different species all look essentially the same, except for being shifted along the size axis. This is because in this trait-based model the species differ only through their asymptotic size. This regularity will of course not be present in a real-world ecosystem, but it makes it easier for us to build an intuition about the effects of species interactions.
+We see 11 species spectra. Each species spectrum has a shape of the type we expect, given what we have seen in the tutorial on [single species spectra](single-species-spectra.qmd). The spectra of the different species all look essentially the same, except for being shifted along the size axis. This is because in this trait-based model the species differ only through their asymptotic size. This regularity will of course not be present in a real-world ecosystem, but it makes it easier for us to build an intuition about the effects of species interactions.
 
 Note how the community size spectrum, plotted in black, that is obtained by summing together all the individual species and resource spectra, approximately follows a power law (i.e., approximately follows a straight line in the log-log plot).
 
@@ -41,9 +43,9 @@ As in previous tutorials, we want to concentrate on the shapes of the size spect
 mp <- mp |>
     setRateFunction("RDI", "constantEggRDI") |>
     setRateFunction("RDD", "noRDD")
-
-#ASTA - it would be good to add a little comment here explaining what this does, because quite a few participants are already mizer users but may not know this function (I don't)
 ```
+
+The functionality for customising and extending mizer could be the subject of an entire extra week, and we will not have time for it. But during the course you can certainly let us know what kinds of customisation you would like to make and we can give pointers. You can also look at a recent [blog post](https://blog.mizer.sizespectrum.org/posts/2022-07-11-thermizer/) where Phoebe Woodworth-Jefcoats shows how to use custom rate functions to implement temperature-dependent rates in mizer.
 
 ## Mortality from other species
 
@@ -55,11 +57,13 @@ plotlyDeath(mp, species = "8")
 
 The horizontal axis shows the size of the individual whose mortality we are looking at. Towards the left we see the mortality of the small larvae, as we move towards the right we move to larger individuals. So the main important message from this graph is that as an individual grows up, their main predators change.
 
-You might have expected that species 8 would be predated upon by the larger species 9, 10 and 11. And for large individuals of species 8, these do indeed form the dominant source of predation mortality, but the larvae are predominantly predated upon by predators from smaller species. This arises because each predator prefers to feed at a certain fraction of its own size (which is set to 1/100th in this model), so the larger predators loose interest in the larvae and concentrate on the larger prey.
+You might have expected that species 8 would be predated upon by the larger species 9, 10 and 11. And for large individuals of species 8, these three species do indeed form the dominant source of predation mortality, but we see also that smaller individuals of species 8 are predominantly predated upon by predators from smaller species. This arises because each predator prefers to feed at a certain fraction of its own size (which is set to 1/100th in this model), so the larger predators loose interest in the larvae and concentrate on the larger prey.
 
-In the above graph you also see that the smallest individuals and the largest individuals get the majority of their mortality from "external" sources, by which we designate all the mortality that is not from predation by the modelled species. For large individuals this external mortality would include predation from mammals and senescent mortality. For small individuals this external mortality comes from predation by small, possibly planktonic, organisms or bacteria that are not explicitly modelled. **ASTA - it is not clear to me how this external mortality is set and what sort of defaults are used. We probably need to add something**
+This ontogenetic diet shift as an individual grows up is the main reason why standard food-web models, where interaction between predator and prey is entirely determined by their species, are inappropriate for modelling fish communities.
 
-Larval mortality is actually quite high, because we assume that mortality scales with an individual's size to the power of -1/4, so is much higher for very small individuals than for larger individuals. We can see this in the following plot which instead of proportions shows the actual mortality rates:
+In the above graph you also see that the smallest individuals and the largest individuals get the majority of their mortality from "external" sources, by which we designate all the mortality that is not from predation by the modelled species. So it is "external" in the sense that its sources are not represented inside the model. For large individuals this external mortality would include predation from mammals and senescent mortality. For small individuals this external mortality comes from predation by small, possibly planktonic, organisms or bacteria that are not explicitly modelled.
+
+In the absence of other information, our simple trait-based model just assumes that this external mortality is such that the total mortality scales allometrically with an individual's size to the power of -1/4. This is why larval mortality is actually quite high. We can see this in the following plot which instead of proportions shows the actual mortality rates:
 
 ```{r}
 plotDeath(mp, species = "8", proportion = FALSE)
@@ -69,21 +73,47 @@ The plotDeath() function is extremely useful when building your own model, both 
 
 ## Income from other species
 
-Now that we investigated who eats species 8, we also want to know who is eaten by species 8. We can check that by plotting the diet of this species
+Now that we have investigated who eats species 8, we also want to know who is eaten by species 8. We can check that by plotting the diet of this species:
 
 ```{r}
-plotDiet(mp, species = "11")
+plotDiet(mp, species = "8")
 ```
 
-The diet looks quite reasonable. Small individuals of species 8 initially feed entirely on the resource (plankton and other small things). From about the size of 1g (which is roughly 4-5 cm) they start eating larvae of other fish. Now, check how the diets of other species look like. Start from species 1 (smallest one) and all the way to species 11.
+The diet looks quite reasonable. Small individuals of species 8 initially feed entirely on the resource (plankton and other small things). From about the size of 1g (which is roughly 4-5 cm) they start eating larvae of other fish.
 
-Here we need to introduce one very important concept. First, feeding depends on the predation kernel, so that a predator will only eat food that is within the predation kernel size range. But once in this size range the relative proportion of different species or resource consumed will simply depend on their relative biomass. So if, for example, 80% of biomass in a specific prey size class consists of resource, 15% of species 1 and 5% of species 2, then the diet of the predator in that size class will consist of 80% resource, 15% of species 1 and 5% of species 2. In this example resource abundance at small size classes is very high compared to abundance of fish. So when a predator feeds in those size classes, naturally most of the diet will consist of resource. This is what we see in the diet plot. Of course, we have some knowledge about the biology of the species and its food preferences. Perhaps it is actively selecting fish out of the resource, or predating on specific species only? This is where the interaction matrix comes in.
+The diet composition we see in the plot is shaped by two things: the predation kernel (the size preference in the feeding of the predator) and the relative abundances of prey at different sizes. First, a predator will only eat food that is within the predation kernel size range. But once in this size range the relative proportion of different species or resource consumed will simply depend on their relative biomass. So if, for example, 80% of biomass in a specific prey size class consists of resource, 15% of species 1 and 5% of species 2, then the diet of the predator feeding in that size class will consist of 80% resource, 15% of species 1 and 5% of species 2.
 
-Note, that just as with the plotDeath() function it is very important to explore diets of species in your model.
+In our example model resource abundance at small size classes is very high compared to abundance of fish. So when a predator feeds in those size classes, naturally most of the diet will consist of resource. This is what we see in the diet plot. 
+
+Of course, when we build a model for a real-world ecosystem we will have some knowledge about the biology of the species and their food preferences. Perhaps one species is actively selecting fish out of the resource, or predating on specific species only? This is where the interaction matrix comes in that we will discuss in the next section.
+
+Note, that it is very important to explore diets of species in your model, so, like the `plotDeath()` function, the `plotDiet()` function is very useful.
+
+### Exercise 1
+
+Now, check how the diets of other species look like. Start from species 1 (smallest one) and all the way to species 11.
+
+Which of the following statements is true?
+
+1.  
+
+2.  
+
+3.  
+
+4.  
+
+5.  
+
+6.  
+
+TODO: come up with good questions.
+
+You will be prompted for your answer in the worksheet for this tutorial.
 
 ## Interaction matrix
 
-Now we arrive to one of the most interesting and challenging aspects of multi-species modelling - setting up parameters for species and resource interactions. By default mizer assumes that all species in the model can access all other species and resource with the same probability and the amount of different prey consumed will just depend on their relative abundance (in the suitable size range). So the default interaction matrix of the species in our model looks very simple
+Now we arrive to an interesting and challenging aspects of multi-species modelling - setting up parameters for species and resource interactions. By default, mizer assumes that all species in the model can access all other species and resource with the same probability and the amount of different prey consumed just depends on their relative abundance in the predator's feeding size range. So the default interaction matrix of the species in our model looks very simple
 
 ```{r}
 getInteraction(mp)
@@ -91,23 +121,24 @@ getInteraction(mp)
 
 The matrix has all values set at 1 and shows that all predators can access all prey species with the same probability.
 
-In reality we might have some knowledge about predators diet preferences, or prey vulnerability to predation. This knowledge should be incorporated in the interaction matrix. The current value of 1 means that if everything else works in predators favour, in each time step the predator can eat 100% of prey's biomass (in the suitable size range). But perhaps we know that some predators cannot or do not eat certain prey. For example some species in our system might only feed on resource and never ever eat any fish. In this case we will set all values in the row for that predator equal to 0. Alternatively, we might know that some prey is less available to predation due to some anti-predation behaviour or defense mechanisms. In this case we might set all valus in the prey column to something \< 1. Sometimes interaction matrix is used to define spatial overlap of species in a large ecosystem, as in this [application of mizer to the North Sea](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2664.12238). In this case interaction matrix might be estimated from spatial surveys assessing species spatial overlap. The interaction matrix can mean lots of things and it will have a large impact on the model behaviour.
+In reality we might have some knowledge about predators diet preferences, or about prey vulnerability to predation. This knowledge should be incorporated in the interaction matrix. Perhaps we know that some predators cannot or do not eat certain prey. For example some species in our system might only feed on resource and never ever eat any fish. In this case we will set all values in the row for that predator equal to 0. Alternatively, we might know that some prey is less available to predation due to some anti-predation behaviour or defence mechanisms. In this case we would decrease all values in the prey column to something \< 1.
+
+Sometimes the interaction matrix is used to encode spatial overlap of species in a large ecosystem, as in this [application of mizer to the North Sea](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2664.12238). In this case the interaction matrix might be estimated from spatial surveys assessing species spatial overlap. The interaction matrix can encode lots of effects and it will have a large impact on the model behaviour.
 
 So let's go ahead and change one value in the interaction matrix.
 
 ```{r}
-#first we get the interaction matrix and save it in a separate dataframe
+# We get the interaction matrix and assign it to a variable.
 interaction_modified <- getInteraction(mp)
-#now we change row 11 (predator species 11) and column 2 (prey species 2) to a smaller value
+# We change row 11 (predator species 11) and column 2 (prey species 2) to a smaller value
 interaction_modified[11, 2] <- 0.2
-#and save the object with the new interaction matrix in a new object
+# and save the MizerParams object with the new interaction matrix in a new variable
 mp_modified <- setInteraction(mp, interaction_modified)
-#check that it looks correc
+#check that it looks correct
 getInteraction(mp_modified)
-
 ```
 
-Now let's compare the source of death for species 2 in the two models (look at species 11 as a source of death)
+Now let's compare the source of death for species 2 in the two models.
 
 ```{r}
 #| layout-ncol: 2
@@ -116,10 +147,11 @@ Now let's compare the source of death for species 2 in the two models (look at s
 #|   - "Modified"
 plotDeath(mp, species = 2)
 plotDeath(mp_modified, species = 2)
-
 ```
 
-and compare diets of species 11 in the two models (look for proportion of species 2)
+You will see a reduction of the contribution of species 11 to the mortality of species 2.
+
+Next let us compare diets of species 11 in the two models.
 
 ```{r}
 #| layout-ncol: 2
@@ -130,23 +162,30 @@ plotDiet(mp, species = 11)
 plotDiet(mp_modified, species = 11)
 ```
 
-By setting the value of interaction matrix at 0.2 we simply reduced the availability of this species 5 times. The values of interaction matrix simply serve as scalars on the available prey biomass.
+You will see a reduction in the contribution of species 2 to the diet of species 11. By setting the entry in row 11 and column 2 of the interaction matrix to 0.2 we simply reduced the availability of prey species 2 for predator species 11 by a factor of 5. The entries in the interaction matrix simply serve as multipliers on the available prey biomass.
 
-Now we might also want to reduce the availability of resource to some predators. Perhaps we know that certain species are much more likely to feed on other fish rather than on similar sized plankton. **ASTA - is this the best way to do it?**
+### Resource interactions
+
+The interaction coefficients between the fish species as consumers and the resource as food, which one could have expected to find in an additional column in the interaction matrix, is instead saved as a species parameter.
 
 ```{r}
-#first we save the mp object as something different 
-mp_lessRes <- mp
-#now let's look at the interaction of all species with the resource
-mp_lessRes@species_params$interaction_resource 
-#it is all 1. 
-
-#we might want to reduce the availability of resource to the four largest species. Let's reduce it by 20% to a value of 0.8
-mp_lessRes@species_params$interaction_resource <- c(1,1,1,1,1,1,1,0.8, 0.8, 0.8, 0.8)
-
+species_params(mp)$interaction_resource
 ```
 
-Now we can look at the diet of species 9 and compare it with the previous model
+We see that the default value for all these interaction coefficients is also 1.
+
+Now we might want to reduce the availability of resource to some predators. Perhaps we know that certain species are much more likely to feed on other fish rather than on similar sized plankton. Let us look at an example where species 9 has a 50% reduction in its interaction with resource.
+
+```{r}
+# We make a copy of the model
+mp_lessRes <- mp
+# and set the resource interaction to 0.5 for species 9
+species_params(mp_lessRes)$interaction_resource[8:11] <- 0.8
+# We print out the result to check
+species_params(mp_lessRes)$interaction_resource
+```
+
+Now we can look at the diet of for example species 9 and compare it with the previous model
 
 ```{r}
 #| layout-ncol: 2
@@ -157,33 +196,46 @@ plotDiet(mp, species = 9)
 plotDiet(mp_lessRes, species = 9)
 ```
 
-The change seems small enough. However, now that we changed the availability of resource, which is so important for larval stages, we need to find a new equilibrium or steady state of species abundances and size spectra. The easiest way to find the new steady state that the ecosystem will settle into is to simulate the dynamics forward in time. Mizer refers to this simulation to find the future state of the ecosystem as "projecting". We can use the function `projectToSteady()` to project forward in time far enough so the system has settled down again close to the new steady state
+The change seems small enough. However, now that we changed the availability of resources, which is so important for larval stages, these four species will experience a much reduced growth rate during their juvenile stage. We can see that effect by recalculating the single-species spectra with
+
+```{r}
+mp_lessRes_sss <- singleSpeciesSteady(mp_lessRes)
+```
+
+and then ploting the spectra
+
+```{r}
+plotSpectra(mp_lessRes_sss, power = 2)
+```
+
+We can see the drastic reduction in the abundances of species 8 to 11.
+
+::: {.callout-important collapse="false"}
+It is very important to understand that the above picture does not represent what will actually happen in the multi-species model. The above picture represents single-species thinking. We changed something for species 8 to 11 and then calculated the effect that change has on those species assuming they stayed in the same environment with the same prey and predator abundances. But of course the rest of the ecosystem will react, as we will now investigate.
+:::
+
+# Trophic cascades
+
+As we just discussed, the above picture does does not show a steady state of the ecosystem. Species now find themselves with a different abundance of predators and prey and this will change their mortality and their growth and hence their size spectra.  
+
+The easiest way to find the new steady state that the ecosystem will settle into is to simulate the full multi-species dynamics forward in time. Mizer refers to this simulation to find the future state of the ecosystem as "projecting". We can use the function `projectToSteady()` to project forward in time far enough so the system has settled down again close to the new steady state.
 
 ```{r}
 mp_lessRes_steady <- projectToSteady(mp_lessRes)
-
 ```
-
-If we compare the size spectra now we can see that the difference in the relative abundances of species 8-11 is drastic
 
 ```{r}
 plotSpectra2(mp_lessRes_steady, "less resource", mp, "original", 
-            total = TRUE, power = 1, ylim = c(1e-8, NA), wlim = c(1e-3, NA))
-
+            total = TRUE, power = 2, ylim = c(1e-8, NA), wlim = c(1e-3, NA))
 ```
 
-We get big waves in species and resource abundances and the impacts extend to all other species. If we look at the diets of the largest species (11) we can also see that, in addition to relatively smaller resource proportion in the diet, decreased abundance of species 8-11 is reflected in much smaller proportion of these species in the diets.
+There is much to see in this graph. We can see how the reduction in the abundance of large individuals leads to undulations in fish and resource size spectra, compared to the original model.
 
-```{r}
-#| layout-ncol: 2
-#| fig-subcap:
-#|   - "Original"
-#|   - "Modified"
-plotDiet(mp, species = 11)
-plotDiet(mp_lessRes_steady, species = 11)
-```
+TODO: Talk more about the trophic cascades. People won't necessarily know what that term means.
 
-## Trophic cascades
+Perhaps you would prefer to plot the above graph with `power = 1`, which will show the biomass density in weight instead of the Sheldon spectrum. Different people find different options more intuitive. 
+
+## Fishing-induced cascades
 
 Let's investigates these trophic cascades a bit more. This time we can look at how fishing large fish will affect the ecosystem.
 
@@ -207,29 +259,41 @@ mp_fishing <- singleSpeciesSteady(mp_fishing)
 plotSpectra(mp_fishing, power = 2)
 ```
 
-As expected, the largest species have their abundances reduced above 1kg.
+As expected, the largest species have their abundances reduced above 1kg if they are fished, and if they continue to encounter the same amount of prey and are exposed to the same amount of predation mortality.
 
-The important point is that the above picture does does not show a steady state of the ecosystem. Species now find themselves with a different abundance of predators and this will change their mortality and hence their size spectra. As a result of that secondary effect of fishing, species will then find themselves with a different abundance of prey and this will change their growth rates and hence their size spectra. And so on ... So we again need to use "projecting" to find a new steady state:
+Again the important point is that the above picture does does not show a steady state of the ecosystem. 
 
-```{r}
-mp_fishing <- projectToSteady(mp_fishing)
-```
+### Exercise 2
 
-When we plot this new steady state on top of that of the un-fished system, we can observe that also the species that were not directly affected by the fishing have changed their spectra.
+Project the `mp_fishing` model to its steady state and then make a plot comparing it to the steady state of the unfished system. By looking at the resulting graph, determine which of the following statements is true?
 
-```{r}
-plotSpectra2(mp_fishing, "with fishing", mp, "no fishing", 
-            total = TRUE, power = 1, ylim = c(1e-8, NA), wlim = c(1e-3, NA))
+1.  
+
+2.  
+
+3.  
+
+4.  
+
+5.  
+
+6.  
+
+TODO: come up with good questions.
+
+You will be prompted for your answer in the worksheet for this tutorial.
 
 
-```
 
-There is much to see in this graph. You might want to plot it with a power = 2, as different people find different options more intuitive. We can see how the reduction in the abundance of large individuals will lead to undulations in fish and resource size spectra, compared to the original model.
 
-## Summary 
+## Summary
 
-1.  When using mizer models it is very important to investigate who eats whom and where does mortality come from. So we need to use functions plotDeath() and plotsDiet() often.
-2.  It is important to remember that the amount of different species consumed will depend on relative biomasses of these species in the suitable size range. If all values of species interaction matrix are set to 1 then consumption will simply be proportional to the relative abundance of the species.
-3.  Species interaction matrix is important as it defines availability of each species to predation by all other species. By changing the interaction matrix we can make our models more realistic and more complex. But with so many parameters in the matrix we need to have a clear set of rules on how these values should be set.
-4.  Many implementations of mizer models assume that resource availability to all species is always 1. Modelers might want to reduce this availability to a smaller value, but it will have a large impact on the model dynamics.
-5.  Trophic cascades is one of the coolest things in multi-species models and the reason we build these models. We want to understand how changes in one species and its sizes will affect the ecosystem and, in turn, the same species. Mizer has many ways how we can explore such trophic cascades.
+1\) When using mizer models it is very important to investigate who eats whom and where mortality comes from. So we need to use functions plotDeath() and plotsDiet() often.
+
+2\) It is important to remember that the amount of different species consumed will depend on the biomasses of these species in the suitable size range. If all values of the species interaction matrix are set to 1 then consumption will simply be proportional to the relative abundance of the prey species.
+
+3\) The species interaction matrix is important as it defines availability of each species to predation by other species. By changing the interaction matrix we can make our models more realistic and more complex. But with so many parameters in the matrix we need to have a clear set of rules on how these values should be set.
+
+4\) Many implementations of mizer models assume that resource availability to all species is always 1. Modelers might want to reduce this availability to a smaller value, but it will have a large impact on the model dynamics.
+
+5\) Trophic cascades are one of the coolest things in multi-species models and the reason we build these models. We want to understand how changes in one species and its sizes will affect the ecosystem and, in turn, the same species. Mizer has many ways how we can explore such trophic cascades.

@@ -28,3 +28,7 @@ Each tutorial comes with exercises and a worksheet in which to complete the exer
 To get your worksheet repository for this week, follow this link:
 
 <https://classroom.github.com/a/5cnr1H7R>
+
+While reading through a tutorials in your web browser, you may want to have the accompanying worksheet open in RStudio and occasionally copy and paste code from the tutorial there and possibly modify it to see for yourself what happens. Copying code from the tutorial is made easy because when you hover over a chunk of R code in the tutorial you will see a copy icon appearing that you can click to copy the entire content of that R chunk to your clipboard. You can then create a new R chunk in your worksheet and paste the code into it.  
+
+Do save the worksheet frequently and commit all those experiments of yours to your repository. You never know whether you may not want to revisit some of them later.
