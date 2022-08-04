@@ -489,16 +489,16 @@ We will discuss species size spectra more in the next tutorial, where we will lo
 
 ## Summary and recap
 
-1.  It is very useful to know how many organisms of different sizes there are. This is what size spectra show.
+1\)  It is very useful to know how many organisms of different sizes there are. This is what size spectra show.
 
-2.  We can represent size spectra in different ways. One is to bin the data and plot histograms. The drawback is that the height of the bars in a histogram depend on our choice of bins. A bin from 1 to 2g will have fewer individuals than a bin from 1 to 10g.
+2\)  We can represent size spectra in different ways. One is to bin the data and plot histograms. The drawback is that the height of the bars in a histogram depend on our choice of bins. A bin from 1 to 2g will have fewer individuals than a bin from 1 to 10g.
 
-3.  To avoid the dependence on bin sizes, we use densities, where the total number of individuals or the total biomass of individuals in each bin are divided by the width of the bin. We refer to these as the number density or the biomass density respectively.
+3\)  To avoid the dependence on bin sizes, we use densities, where the total number of individuals or the total biomass of individuals in each bin are divided by the width of the bin. We refer to these as the number density or the biomass density respectively.
 
-3.  The number density looks very different from the biomass density. There will be a lot of very small individuals, so the number density at small sizes will be large, but each individual weighs little, so their total biomass will not be large. 
+3\)  The number density looks very different from the biomass density. There will be a lot of very small individuals, so the number density at small sizes will be large, but each individual weighs little, so their total biomass will not be large. 
 
-5.  When we work with a logarithmic weight axis, then it is natural to use densities in log weight, where the numbers of individuals in each bin are divided by the width of the bin on the log axis. We refer to these as the number density in log weight or the biomass density in log weight respectively.
+5\)  When we work with a logarithmic weight axis, then it is natural to use densities in log weight, where the numbers of individuals in each bin are divided by the width of the bin on the log axis. We refer to these as the number density in log weight or the biomass density in log weight respectively.
 
-6.  Community size spectra are approximately power laws. When displayed on log-log axes, they look like straight lines. The slope of the number density is approximately -2, the slope of the biomass density and the number density in log weight is approximately -1, and the slope of the biomass density in log weight is approximately 0, i.e., the biomass density in log weight is approximately constant. The latter is called the Sheldon spectrum.
+6\)  Community size spectra are approximately power laws. When displayed on log-log axes, they look like straight lines. The slope of the number density is approximately -2, the slope of the biomass density and the number density in log weight is approximately -1, and the slope of the biomass density in log weight is approximately 0, i.e., the biomass density in log weight is approximately constant. The latter is called the Sheldon spectrum.
 
-7.  The individual species size spectra are not approximately power laws and thus do not look like straight lines on log-log axes. The approximate power law only emerges when we add all the species spectra together.
+7\)  The individual species size spectra are not approximately power laws and thus do not look like straight lines on log-log axes. The approximate power law only emerges when we add all the species spectra together.

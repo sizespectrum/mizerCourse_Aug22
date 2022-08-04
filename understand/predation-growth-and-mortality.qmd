@@ -16,9 +16,9 @@ params <- newSingleSpeciesParams(lambda = 2.05)
 
 You will be doing your own work for this tutorial in the accompanying worksheet file "worksheet3-predation-growth-and-mortality.Rmd". You will find this file in the worksheet repository for this week that you already used in previous tutorials.
 
-# Feeding
+## Feeding
 
-## Effect of prey availability
+### Effect of prey availability
 
 The energy income for a fish comes from predation on its prey. If there is less prey, the fish consumes less and its growth rate will decrease. Let us investigate this by artificially removing some prey. Because in our simple single-species model we work with a fixed community spectrum that is under our control, we can do that.
 
@@ -132,7 +132,7 @@ For a more active hunter the situation will be similar. The rate at which it pre
 
 Of these four factors, we have already been discussing the density of prey. In the next section we will discuss the ability to filter out or catch prey of particular sizes, which we model via the predation kernel. In the section after that we will discuss the search volume and then in the following section the maximum consumption rate.
 
-## The predation kernel
+### The predation kernel
 
 Fish will be particularly good at catching prey in a specific range of sizes, smaller than themselves. This is encoded in the size-spectrum model by the predation kernel. Let us take a look at the predation kernel in our model. We can obtain it with the function `getPredKernel()`.
 
@@ -218,7 +218,7 @@ Change the parameters of the predation kernel to `beta = 50` and `sigma = 2` and
 Next, plot the steady state arising with this feeding kernel when the prey abundance is artificially reduced by a factor of 10 in the size range between 1mg and 10mg as in previous examples. What do you observe? Are you surprised?
 :::
 
-## Search volume
+### Search volume
 
 Next we consider the factor that models the volume of water a filter feeder is able to filter in a certain amount of time, or the volume of water a forage fish is able to patrol in a certain amount of time. This is difficult to model from first principles, although people have tried to argue in terms of swimming speeds of fish. We assume that this search volume rate is also an allometric rate. Let $\gamma(w)$, also called gamma, denote this rate for a predator of size $w$. Thus we assume that $$\gamma(w) = \gamma_0\ w^q$$ for some exponent $q$. We know that a fish needs to consume prey at a rate that scales with its body size to the power $n$, with $n$ about $3/4$. We also know that the prey density will be approximately described by a power law, i.e., that $N(w) \approx N_0\ w^{-\lambda}$. A bit of maths then says that $$q = 2 - \lambda + n.$$ This explains the message you got when you created the params object with a certain choice of $\lambda$: mizer chose the search volume exponent automatically according to this formula. The formula is based on observations about size distributions and the fact that in the real world, evolution had made sure that the fish have developed a feeding strategy that allows it to cover its metabolic costs. Together this would have led to that search volume exponent of approximately $q=2-\lambda+n$ but of course in reality there is quite a bit of variability.
 
@@ -259,7 +259,7 @@ As expected, the smaller search volume leads to a slower growth due to slower fe
 What effect will this change in growth rate have on the slope of the juvenile spectrum? Will it be steeper or shallower? Make the plot of the spectrum to see.
 :::
 
-## Feeding level
+### Feeding level
 
 In mizer we assume that feeding rate follows a [Holling type II feeding curve](https://en.wikipedia.org/wiki/Functional_response). This means that feeding rate is increasing fast at low prey densities, but then reaches a maximum or satiation level. So a predator will not be able to utilise food at a faster rate than its maximum intake rate. Of course in practice it will not feed at the maximum intake rate because of limited availability of prey. We describe this by the *feeding level* which is the proportion of its maximum intake rate at which the predator is actually taking in prey.
 
@@ -285,21 +285,21 @@ species_params(params)$h
 
 and is measured in g of food per g\^-n of predator weight per year (remember, maximum consumption scales with fish weight with the power of $n$).
 
-# Mortality
+## Mortality
 
-## Predation mortality
+### Predation mortality
 
 Of course feeding of the predator is only one aspect of predation. The other is the death of the prey. Feeding and mortality are coupled. Increased feeding and growth of one class of individuals will necessitate increased death of another. There is no free lunch.
 
 Once we have specified the predation parameters, these parameters determine both the growth of predators but also the mortality rate of prey. So we don't have to introduce new parameters for death from predation. Of course with a one species model we cannot easily demonstrate this predation. We will explore predation more thoroughly in future tutorials.
 
-## Background and external mortality
+### Background and external mortality
 
 In more realistic multi-species models mortality component also includes a baseline, size-independent mortality. This is also often called background mortality and it accounts for processes that are not related to predation, for example disease. This background mortality in mizer is assumed to depend on the maximum body size of a species, as you will see later.
 
 In addition, mizer allows you to include other sources of [external mortality](https://sizespectrum.org/mizer/reference/setExtMort.html). This could be predation from animals that we have not included in our model, like sea birds or mammals, death from old age (senescent death) and so on. 
 
-## Fishing mortality
+### Fishing mortality
 
 The cause of mortality that is most under our control is mortality from fishing. We discuss more how fishing is set up in mizer in week 3 of this course when we study the consequences of changes in fishing rates. Here we only look at a simple example: we introduce fishing on our species only for fish above 30 grams. All fish greater than 30 grams will be exposed to the same fishing mortality. We call this kind of fishing selectivity "knife_edge" selectivity. Mizer can of course also deal with more general selectivity curves, like sigmoidal or doubly sigmoidal.
 
@@ -329,7 +329,7 @@ plotSpectra2(params, "No Fishing", params_fishing, "Knife-edge",
 
 The difference may not seem to be very big, but note that we are using a logarithmic scale on the y axis. At large sizes the biomass densities differ almost by a factor of 10. 
 
-# Summary
+## Summary and recap
 
 1\)  In a mizer model the growth curve is not fixed but instead the growth rate of an individual changes as the prey abundance changes. This makes it important to understand how fish choose their prey.
 

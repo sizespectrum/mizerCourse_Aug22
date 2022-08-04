@@ -214,7 +214,7 @@ We can see the drastic reduction in the abundances of species 8 to 11.
 It is very important to understand that the above picture does not represent what will actually happen in the multi-species model. The above picture represents single-species thinking. We changed something for species 8 to 11 and then calculated the effect that change has on those species assuming they stayed in the same environment with the same prey and predator abundances. But of course the rest of the ecosystem will react, as we will now investigate.
 :::
 
-# Trophic cascades
+## Trophic cascades
 
 As we just discussed, the above picture does does not show a steady state of the ecosystem. Species now find themselves with a different abundance of predators and prey and this will change their mortality and their growth and hence their size spectra.  
 
@@ -235,7 +235,7 @@ TODO: Talk more about the trophic cascades. People won't necessarily know what t
 
 Perhaps you would prefer to plot the above graph with `power = 1`, which will show the biomass density in weight instead of the Sheldon spectrum. Different people find different options more intuitive. 
 
-## Fishing-induced cascades
+### Fishing-induced cascades
 
 Let's investigates these trophic cascades a bit more. This time we can look at how fishing large fish will affect the ecosystem.
 
@@ -265,7 +265,7 @@ Again the important point is that the above picture does does not show a steady 
 
 ### Exercise 2
 
-Project the `mp_fishing` model to its steady state and then make a plot comparing it to the steady state of the unfished system. By looking at the resulting graph, determine which of the following statements is true?
+Project the `mp_fishing` model to its steady state and then make a plot comparing it to the steady state of the un-fished system. By looking at the resulting graph, determine which of the following statements is true?
 
 1.  
 
@@ -284,9 +284,7 @@ TODO: come up with good questions.
 You will be prompted for your answer in the worksheet for this tutorial.
 
 
-
-
-## Summary
+## Summary and recap
 
 1\) When using mizer models it is very important to investigate who eats whom and where mortality comes from. So we need to use functions plotDeath() and plotsDiet() often.
 
