@@ -6,7 +6,6 @@ Now that we have a good understanding of the basic principles behind sized based
 
 You are welcome to use your own model system during this week, assuming you have the data. Alternatively, we will focus on a Curonian lagoon ecosystem. It is a productive brackishwater lagoon in the Baltic Sea. It has a relatively simple species composition and it is also a shallow water system where both plankton and benthos energy pathways are important. For those participants who will focus on the Curonian lagoon model, our goal at the end of the week is for each participant to develop their own model parameterisation. We will then collect these alternative parameter sets and use them as a model ensamble. 
 
-
 The material is split into 4 tutorials:
 
 1.  [**Finding species parameters**](find-species-parameters.qmd)\
@@ -21,7 +20,6 @@ The material is split into 4 tutorials:
 4.  [**Refine your model**](refine-model.qmd)\
     In this section we will use an R shiny application to explore how changes in parameters will affect model behaviour and to refine the model given our observations and knowledge about the species. 
     
-To get your worksheet repository for this week, follow this link:
-
-<https://classroom.github.com/xxx>
+#To get your worksheet repository for this week, follow this link:
+#<https://classroom.github.com/xxx>
 
