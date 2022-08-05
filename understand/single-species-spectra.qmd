@@ -167,7 +167,9 @@ cumulative_biomass[] <- cumsum(biomass)
 cdf <- cumulative_biomass / cumulative_biomass[1, 101] * 100
 # Melt the array to a data frame and then plot
 ggplot(melt(cdf), aes(x = w, y = value)) +
-    geom_line() + xlab("weight [g]") + ylab("% of total biomass")
+    geom_line() + 
+    scale_x_continuous(name = "Weight [g]") + 
+    scale_y_continuous(name = "% of total biomass")
 ```
 
 This plot shows us for example that 50% of the individuals are smaller than 12.5g and only a very small percentage is larger than 75g.
@@ -176,8 +178,9 @@ The biomass density is the slope of this graph. We can also plot the cumulative 
 
 ```{r}
 ggplot(melt(cdf), aes(x = w, y = value)) +
-    geom_line() + xlab("weight [g]") + ylab("% of total biomass") +
-    scale_x_log10()
+    geom_line() +
+    scale_x_log10(name = "Weight [g]") +
+    scale_y_continuous(name = "% of total biomass")
 ```
 
 This graph contains exactly the same information as the previous graph, just showing more detail at smaller sizes and less detail at larger sizes. We can see for example that about 20% of individuals are less than 1g, which was difficult to see in the previous graph. The slope of this graph is the biomass density in log weight.
@@ -229,10 +232,9 @@ They are the species `sp`, the size `w`, and the `value` which contains the grow
 ```{r}
 p <- ggplot(growth_rate_frame) +
     geom_line(aes(x = w, y = value)) +
-    scale_x_log10() +
-    scale_y_log10() +
-    labs(x = "Weight [g]",
-         y = "Growth rate [g/year]")
+    scale_x_log10(name = "Weight [g]") +
+    scale_y_log10(name = "Growth rate [g/year]")
+
 p
 ```
 
@@ -287,10 +289,9 @@ nf <- melt(n) %>%
 
 ggplot(nf) +
   geom_line(aes(x = w, y = value)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  labs(x = "Weight [g]",
-       y = "Number density [1/g]")
+  scale_x_log10(name = "Weight [g]") +
+  scale_y_log10(name = "Number density [1/g]")
+
 ```
 
 That confirms what we had seen earlier, that for fish less than 10 grams the number density is a power law. To determine the exponent of the power law we need the slope of that straight line in the log-log plot, and the easiest way to do that is to fit a linear model to the log variables:
@@ -333,8 +334,9 @@ psi <- melt(reprod_proportion)
 
 p <- ggplot(psi) +
     geom_line(aes(x = w, y = value)) +
-    labs(x = "Weight [g]",
-         y = "Proportion invested into reproduction")
+    scale_x_continuous(name = "Weight [g]") +
+    scale_y_continuous(name = "Proportion invested into reproduction")
+
 p
 ```
 
@@ -388,14 +390,14 @@ Now the maturity curve has changed, which we can verify by plotting it
 
 ```{r}
 psi_changed_maturity <- melt(maturity(params_changed_maturity) * 
-                               repro_prop(params_changed_maturity))
+                                 repro_prop(params_changed_maturity))
 
 ggplot(psi_changed_maturity) +
-  geom_line(aes(x = w, y = value)) +
-  geom_vline(xintercept = params_changed_maturity@species_params$w_mat, lty = 2) +
-  geom_vline(xintercept = params_changed_maturity@species_params$w_mat25, lty = 2, col = "grey") + 
-  labs(x = "Weight [g]",
-       y = "Proportion invested into reproduction")
+    geom_line(aes(x = w, y = value)) +
+    geom_vline(xintercept = params_changed_maturity@species_params$w_mat, lty = 2) +
+    geom_vline(xintercept = params_changed_maturity@species_params$w_mat25, lty = 2, col = "grey") + 
+    scale_x_continuous(name = "Weight [g]") +
+    scale_y_continuous(name = "Proportion invested into reproduction")
 ```
 
 ### Two curves in one plot
@@ -417,9 +419,9 @@ and send that combined data frame to `ggplot()`
 
 ```{r}
 ggplot(psi_combined) +
-  geom_line(aes(x = w, y = value, colour = type)) +
-  labs(x = "Weight [g]",
-       y = "Proportion invested into reproduction")
+    geom_line(aes(x = w, y = value, colour = type)) +
+    scale_x_continuous(name = "Weight [g]") +
+    scale_y_continuous(name = "Proportion invested into reproduction")
 ```
 
 This change in the maturity curve of course implies a change in the growth rates.

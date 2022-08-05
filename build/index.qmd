@@ -2,4 +2,26 @@
 title: "Week 2: Build mizer models"
 ---
 
-## In preparation
+Now that we have a good understanding of the basic principles behind sized based models, during this week we will start developing our own multi-species models. Our goal at the end of this week is to have a basic set of steady state parameters for our own model. In this week we will only focus on model properties at steady state or equilibrium conditions and will not yet explore temporal dynamics. We will first develop a simple model with a single resource and then will adapt it to include two different background resources - plankton and benthos. 
+
+You are welcome to use your own model system during this week, assuming you have the data. Alternatively, we will focus on a Curonian lagoon ecosystem. It is a productive brackishwater lagoon in the Baltic Sea. It has a relatively simple species composition and it is also a shallow water system where both plankton and benthos energy pathways are important. For those participants who will focus on the Curonian lagoon model, our goal at the end of the week is for each participant to develop their own model parameterisation. We will then collect these alternative parameter sets and use them as a model ensamble. 
+
+
+The material is split into 4 tutorials:
+
+1.  [**Finding species parameters**](find-species-parameters.qmd)\
+    Here we will explore main species parameters that must be provided by the user to start building a multi-species model. We will also look at assumptions and defaults that mizer uses to fill non-essential parameter values. Your task will be to collect essential parameters from FishBase or other sources. 
+
+2.  [**Create your model with one resource**](create-first-model.qmd)\
+    Now that we have species parameters we can build the first model. In this part we will focus on achieving reasonable species abundances and growth rates. 
+
+3.  [**Add multiple resources to your model**](set-multiple-resources.qmd)\
+    In this tutorial we will use mizerMR extension to add benthic resource spectrum to the model. We will explore how to adjust resource availability to achieve realistic ontogenetic changes in diets. 
+
+4.  [**Refine your model**](refine-model.qmd)\
+    In this section we will use an R shiny application to explore how changes in parameters will affect model behaviour and to refine the model given our observations and knowledge about the species. 
+    
+To get your worksheet repository for this week, follow this link:
+
+<https://classroom.github.com/xxx>
+

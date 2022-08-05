@@ -72,8 +72,9 @@ To get an impression of the size distribution of the fish, we plot a histogram o
 ```{r message=FALSE}
 p <- ggplot(data) +
     geom_histogram(aes(weight), fill = "blue", colour = "black") +
-    labs(x = "Weight [g]",
-         y = "Number of fish")
+    scale_x_continuous(name = "Weight [g]") +
+    scale_y_continuous(name = "Number of fish")
+
 p
 ```
 
@@ -131,9 +132,8 @@ Now we can use these logarithmically spaced bins in the histogram while also kee
 p2 <- ggplot(data) +
     geom_histogram(aes(weight), fill = "blue", colour = "black",
                    breaks = binbreaks) +
-    labs(x = "Weight [g]",
-         y = "Number of fish") +
-    scale_y_log10()
+    scale_x_continuous(name = "Weight [g]") +
+    scale_y_log10(name = "Number of fish")
 p2
 ```
 
@@ -250,8 +250,9 @@ binned_numbers$bin_midpoint = bin_midpoints
 
 ggplot(binned_numbers) +
     geom_line(aes(x = bin_midpoint, y = Number_dens)) +
-    labs(x = "Weight [g]",
-         y = "Number density")
+    scale_x_continuous(name = "Weight [g]") +
+    scale_y_continuous(name = "Number density")
+
 ```
 
 ::: {.callout-note collapse="true"}
@@ -265,10 +266,8 @@ Again the graph tells us that most of the individuals are very small, but we can
 ```{r warning=FALSE}
 ggplot(binned_numbers) +
     geom_line(aes(x = bin_midpoint, y = Number_dens)) + 
-    scale_x_log10() + 
-    scale_y_log10() +
-    labs(x = "Weight [g]",
-         y = "Number density")
+    scale_x_log10(name = "Weight [g]") + 
+    scale_y_log10(name = "Number density")
 ```
 
 It is time for your second exercise of the course. Go back to your week 1 exercise project in RStudio, and do Exercise 2 in worksheet 1:
@@ -294,10 +293,8 @@ This tells us that the straight-line approximation has a slope of about `r signi
 ```{r warning=FALSE}
 ggplot(binned_numbers, aes(x = bin_midpoint, y = Number_dens)) +
     geom_line() + 
-    scale_x_log10() + 
-    scale_y_log10() +
-    labs(x = "Weight [g]",
-         y = "Number density") + 
+    scale_x_log10(name = "Weight [g]") + 
+    scale_y_log10(name = "Number density") +
     geom_smooth(method = 'lm')
 ```
 
@@ -415,10 +412,8 @@ ggplot(binned) +
               colour = "black", linetype = "dashed") +
     geom_line(aes(x = bin_midpoint, y = Biomass_dens_log_w),
               colour = "blue", linetype = "dashed") +
-    scale_x_log10() +
-    scale_y_log10() +
-    labs(x = "Weight [g]",
-         y = "Density")
+    scale_x_log10(name = "Weight [g]") +
+    scale_y_log10(name = "Density")
 ```
 
 
@@ -457,10 +452,9 @@ So far we have looked at the community spectrum, where we ignored the species id
 p <- ggplot(data) +
     geom_density(aes(weight, stat(count), colour = species), adjust = 4) +
     geom_density(aes(weight, stat(count)), colour = "black", lwd = 1.2, adjust = 4) +
-    scale_x_continuous(trans = "log10") +
-    scale_y_continuous(trans = "log10", limits = c(1, NA)) +
-    labs(x = "Weight [g]",
-         y = "Number density in log w")
+    scale_x_continuous(trans = "log10", name = "Weight [g]") +
+    scale_y_continuous(trans = "log10", limits = c(1, NA), name = "Number density in log w")
+
 plotly::ggplotly(p)
 ```
 

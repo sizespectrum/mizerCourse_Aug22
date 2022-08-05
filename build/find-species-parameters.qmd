@@ -1,12 +1,67 @@
 ---
 title: "Finding species parameters"
 ---
-  Here you will learn how to find appropriate values for the species parameters
-  needed to set up your own mizer model.
 
-## In preparation
+Here you will learn how to find appropriate values for the species parameters needed to set up your own mizer model.
 
+## Selecting model species
 
+How do we decide which species to include in the model? There are many ways to approach it and no clearly set rules. Of course you want to include species that you are interested in, but then also perhaps some other important species in the ecosystem. Mizer actually has a powerful framework that allows you to explicitly model only your focus species and represent the rest of the ecosystem with some 'background' species. The sizes and abundances of these 'background' species are assumed to follow the power law, so that the total community biomass approximately represents the Sheldon spectrum. This is only mentioned here for your information, as we will not go into these details during this week.
 
+If you have your own ecosystem that you want to model during this week, then you also have your own list of species. Ideally you may want to have somewhere around 4 to 20 species, as this allows for interesting and tractable dynamics (although with 20 species this might be quite challenging). For the Curonian Lagoon model we selected key ecosystem fish species that are commonly observed in scientific monitoring surveys, and which live and reproduce in the ecosystem (as compared to several migratory species, which can be abundant briefly but do not have a big role in the ecosystem). The list of species and their general feeding habits or trophic group are listed below. We include scientific and model name, the latter representing a short name that we can conveniently use and display in plots.
 
+| Scientific name                        | Model name | Trophic group |
+|----------------------------------------|------------|---------------|
+| Pungitius pungitius, Alburnus alburnus | smallfish  | planktivore   |
+| Gymnocephalus cernua                   | ruffe      | benthivore    |
+| Abramis brama, Blicca bjoerkna         | breams     | benthivore    |
+| Rutillus rutillus                      | roach      | benthivore    |
+| Vimba vimba                            | vimba      | benthivore    |
+| Carassius carassius                    | carassius  | benthivore    |
+| Perca fluviatilis                      | perch      | omnivore      |
+| Sander lucioperca                      | pikeperch  | predator      |
+| Lota lota                              | burbot     | predator      |
+| Esox lucius, Aspius aspius             | predators  | predator      |
 
+## Essential parameters
+
+For many parameters, if values are not supplied by the user, mizer can fill them using default equations. However, there are several parameters that the user must provide for the model species:
+
+1.  Asymptotic body size `w_inf`
+2.  Von-Bertalanffy growth rate `k_vb`
+3.  Predator-prey mass ratio `beta`
+4.  Parameter defining the width of the predation kernel `sigma`
+
+The Von-Bertanalffy growth rate parameter `k_vb` is not essential if the user supplies maximum intake rate values, but it is useful for plotting modelled versus expected growth rates.
+
+Another parameter or, more specifically, a set of observations that will greatly help in building your model is species' `biomass_observed`. This vector represents average species biomasses in your model system. The units of the area or volume over which these biomasses were observed depend on your choice, mizer does not care about it (see section[Units in mizer](https://sizespectrum.org/mizer/reference/setParams.html#setting-search-volume) in this reference page). These are not time series of observations but average values. These values could be derived from scientific surveys, catches, underwater surveys or similar sources. Basically you want to get relative species biomases in the right order.
+
+## Other species parameters
+
+There are many other parameters that are used to describe species properties, but mizer has default ways to calculate them based on the size theory expectations. You can read about the theory in various publications or in the excellent Ken H Andersen book ["Fish Ecology, Evolution, and Exploitation" (2019)](https://ken.haste.dk/home/publications).
+
+The parameter with default values are:
+
+6.  Maturation body size `w_mat` Usually you would want to set them up yoruself
+
+7.  Species feeding or satiation level at larval stage `f0` If no value is provided mizer assumes 0.6.
+
+8.  Species critical feeding level, or feeding level at which energy intake is equal to meatoblic (maintenance) expenditure `fc`. If no value is provided mizer assumes 0.2.
+
+9.  Species search volume constant `gamma` and its body size scaling exponent `q` If no values are provided the `gamma` and `q` are set so that when prey abundance is described by the power law with the exponent `lambda`, food search rate will lead to the feeding level `f0`.
+
+10. Species maximum intake rate constant `h` and its body size scaling exponent `n` If no value is provided the coefficient `h` is set so as to achieve Von-Bertalanffy growth rates (given the feeding level `f0`). The exponent `n` is by default set to 2/3.
+
+11. Species metabolic rate constants `ks` and its body size scaling exponent `p` If no values are provided the coefficient `ks` is set so that at maturation size metabolic expenditure requires `fc` (critical feeding) level of maximum intake.
+
+12. Species food assimilation efficiency `alpha` If no value is provided mizer assumes 0.6
+
+13. Species minimum body size in the model `w_min` If no value is provided mizer assumes 0.001
+
+14. Species baseline size-independent mortality rate constant `z0` This parameter determines the baseline mortality rate that affects all species size classes in the same way (it is a flat rate across sizes). If no value is set mizer assumes that species with small maximum body sizes have higher basline mortality rate.
+
+15. Species reproduction parameters `R_max` and `erepro`. They are derived based on a steady state and observed biomases, but their adjustment is an important part of model parameterisation. We will talk about them in later tutorials.
+
+    All of these default values can be changed by the user. If you feel you need more advanced reading you can explore it [here](https://sizespectrum.org/mizer/reference/setParams.html)
+
+## Going to FishBase
