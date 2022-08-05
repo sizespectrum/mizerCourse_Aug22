@@ -102,7 +102,7 @@ The next thing we will need to provide to mizer is species interaction matrix. T
     ```{r}
     library(mizerExperimental)
 
-    Gustav - how do I access North Sea interaction matrix and display it here??
+    NS_interaction
 
 
     ```
@@ -113,10 +113,10 @@ The next thing we will need to provide to mizer is species interaction matrix. T
 
     For our Curonian lagoon example we used existing ecological knowledge and set up species interaction matrix as follows:
 
-    ```{r}
+TODO:
 
     load csv
     display interaction matrix in some nice way
-    ```
+
 
 TODO: brief explanation why this interaction matrix is set in this way
