@@ -61,7 +61,7 @@ You might have expected that species 8 would be predated upon by the larger spec
 
 This ontogenetic diet shift as an individual grows up is the main reason why standard food-web models, where interaction between predator and prey is entirely determined by their species, are inappropriate for modelling fish communities.
 
-In the above graph you also see that the smallest individuals and the largest individuals get the majority of their mortality from "external" sources, by which we designate all the mortality that is not from predation by the modelled species. So it is "external" in the sense that its sources are not represented inside the model. For large individuals this external mortality would include predation from mammals and senescent mortality. For small individuals this external mortality comes from predation by small, possibly planktonic, organisms or bacteria that are not explicitly modelled.
+In the above graph you also see that the smallest individuals and the largest individuals get the majority of their mortality from "external" sources, by which we designate all the mortality that is not from predation by the modelled species. So it is "external" in the sense that its sources are not represented inside the model. For large individuals this external mortality would include predation from mammals and senescence mortality. For small individuals this external mortality comes from predation by small, possibly planktonic, organisms that are not explicitly modelled.
 
 In the absence of other information, our simple trait-based model just assumes that this external mortality is such that the total mortality scales allometrically with an individual's size to the power of -1/4. This is why larval mortality is actually quite high. We can see this in the following plot which instead of proportions shows the actual mortality rates:
 
@@ -76,14 +76,14 @@ The plotDeath() function is extremely useful when building your own model, both 
 Now that we have investigated who eats species 8, we also want to know who is eaten by species 8. We can check that by plotting the diet of this species:
 
 ```{r}
-plotDiet(mp, species = "8")
+plotDiet(mp, species = "10")
 ```
 
 The diet looks quite reasonable. Small individuals of species 8 initially feed entirely on the resource (plankton and other small things). From about the size of 1g (which is roughly 4-5 cm) they start eating larvae of other fish.
 
 The diet composition we see in the plot is shaped by two things: the predation kernel (the size preference in the feeding of the predator) and the relative abundances of prey at different sizes. First, a predator will only eat food that is within the predation kernel size range. But once in this size range the relative proportion of different species or resource consumed will simply depend on their relative biomass. So if, for example, 80% of biomass in a specific prey size class consists of resource, 15% of species 1 and 5% of species 2, then the diet of the predator feeding in that size class will consist of 80% resource, 15% of species 1 and 5% of species 2.
 
-In our example model resource abundance at small size classes is very high compared to abundance of fish. So when a predator feeds in those size classes, naturally most of the diet will consist of resource. This is what we see in the diet plot. 
+In our example model resource abundance at small size classes is very high compared to abundance of fish. So when a predator feeds in those size classes, naturally most of the diet will consist of resource. This is what we see in the diet plot.
 
 Of course, when we build a model for a real-world ecosystem we will have some knowledge about the biology of the species and their food preferences. Perhaps one species is actively selecting fish out of the resource, or predating on specific species only? This is where the interaction matrix comes in that we will discuss in the next section.
 
@@ -92,23 +92,35 @@ Note, that it is very important to explore diets of species in your model, so, l
 ::: {.callout-caution collapse="false"}
 ### Exercise 1
 
-Now, check how the diets of other species look like. Start from species 1 (smallest one) and all the way to species 11.
+Now, check how the diets of other species look like. Start from species 1 (smallest one) and all the way to species 11. By looking at the resulting graph, determine which of the following statements is true. Note that in the statements below we refer to the species as "lower" or "higher" based on their number, i.e., species "3" we say is lower than species "4"
 
-Which of the following statements is true?
+1.  All species each all other species.
 
-1.  
+    FALSE. There are no higher species in diets of lower species **ASTA: these answers and comments should be moved into the worksheet I suppose.**
 
-2.  
+2.  The reason that the x-axis covers a larger range of sizes in the diet plots for higher species is because higher species have a larger asymptotic size.
 
-3.  
+    TRUE
 
-4.  
+3.  Proportion of different species in the diets of higher species increases and then decreases. This is because as predators grow larger they prefer to eat larger prey.
 
-5.  
+    TRUE
 
-6.  
+4.  Proportion of different species in diets of higher species increases and then decreases. This is because as predators grow larger they start eating species that are the most abundant.
 
-TODO: come up with good questions.
+    FALSE
+
+5.  Throughout its lifetime even the higher species (species 8-10) feed almost entirely on the resource.
+
+    FALSE (most small size classes feed on the resource, but a species spends majority of time in the larger size classes, even if we don't have a lot of them in the model)
+
+6.  All species are cannibalistic.
+
+    TRUE
+
+7.  Lower species can eat higher species.
+
+    TRUE. Large individuals of small species can and will eat small individuals of large species. So what is prey and what is predator in marine ecosystems very much depends on size.
 
 You will be prompted for your answer in the worksheet for this tutorial.
 :::
@@ -218,7 +230,7 @@ It is very important to understand that the above picture does not represent wha
 
 ## Trophic cascades
 
-As we just discussed, the above picture does does not show a steady state of the ecosystem. Species now find themselves with a different abundance of predators and prey and this will change their mortality and their growth and hence their size spectra.  
+As we just discussed, the above picture does does not show a steady state of the ecosystem. Species now find themselves with a different abundance of predators and prey and this will change their mortality and their growth and hence their size spectra.
 
 The easiest way to find the new steady state that the ecosystem will settle into is to simulate the full multi-species dynamics forward in time. Mizer refers to this simulation to find the future state of the ecosystem as "projecting". We can use the function `projectToSteady()` to project forward in time far enough so the system has settled down again close to the new steady state.
 
@@ -228,14 +240,19 @@ mp_lessRes_steady <- projectToSteady(mp_lessRes)
 
 ```{r}
 plotSpectra2(mp_lessRes_steady, "less resource", mp, "original", 
-            total = TRUE, power = 2, ylim = c(1e-8, NA), wlim = c(1e-3, NA))
+            total = TRUE, power = 1, ylim = c(1e-8, NA), wlim = c(1e-3, NA))
 ```
 
 There is much to see in this graph. We can see how the reduction in the abundance of large individuals leads to undulations in fish and resource size spectra, compared to the original model.
 
-TODO: Talk more about the trophic cascades. People won't necessarily know what that term means.
+TODO: Talk more about the trophic cascades. People won't necessarily know what that term means. **ASTA - not sure we need to talk much here, as Ken also introduced this concept in this talk. Perhaps just refer to his lecture**
 
-Perhaps you would prefer to plot the above graph with `power = 1`, which will show the biomass density in weight instead of the Sheldon spectrum. Different people find different options more intuitive. 
+Perhaps you would prefer to plot the above graph with `power = 1`, which will show the biomass density in weight instead of the Sheldon spectrum. Different people find different options more intuitive.
+
+```{r}
+plotSpectra2(mp_lessRes_steady, "less resource", mp, "original", 
+            total = TRUE, power = 1, ylim = c(1e-8, NA), wlim = c(1e-3, NA))
+```
 
 ### Fishing-induced cascades
 
@@ -259,30 +276,47 @@ This is not a realistic gear and mizer can do much better, as we will see in wee
 ```{r}
 mp_fishing_sss <- singleSpeciesSteady(mp_fishing)
 plotSpectra(mp_fishing_sss, power = 2)
+
+mp_fishing_sss_steady <- projectToSteady(mp_fishing_sss)
+
+plotSpectra2(mp_fishing_sss_steady, "less resource", mp, "original", 
+            total = TRUE, power = 1, ylim = c(1e-8, NA), wlim = c(1e-3, NA))
 ```
 
 As expected, the largest species have their abundances reduced above 1kg if they are fished, and if they continue to encounter the same amount of prey and are exposed to the same amount of predation mortality.
 
-Again the important point is that the above picture does does not show a steady state of the ecosystem. 
+Again the important point is that the above picture does does not show a steady state of the ecosystem.
 
 ::: {.callout-caution collapse="false"}
 ### Exercise 2
 
 Project the `mp_fishing` model to its steady state and then make a plot comparing it to the steady state of the un-fished system. By looking at the resulting graph, determine which of the following statements is true. In the statements we refer to the species as "lower" or "higher" based on their number, i.e., species "3" we say is lower than species "4".
 
-1.  The reason that the w-axis covers a larger range of sizes in the diet plot for higher species is because higher species have a larger asymptotic size.
+**ASTA - I seem to be using abundance and biomasses interchangeably. We might need to check and correct perhaps? Or are we happy with that**
 
-2.  Below 1g the co
+1.  Fishing strongly reduces abundances of fish above 1 kg of weight.
 
-3.  
+    TRUE
 
-4.  
+2.  Adult (after maturation size) abundance of intermediate fish (species 5-8) increases due to fishing.
 
-5.  
+    TRUE
 
-6.  
+3.  In fact, adult abundances of all fish lower than 9 increases due to fishing.
 
-TODO: come up with good questions.
+    FALSE
+
+4.  Entire community size spectrum is severely truncated above 1kg fish size - all due to fishing.
+
+    TRUE
+
+5.  If adult biomasses for some species increase due to fishing, then for the same species larval biomasses (below the size of 1 g) will decrease.
+
+    FALSE
+
+6.  Fishing does not only create undulations and trophic cascades in the fish spectra, but also in the resource spectrum.
+
+    TRUE
 
 You will be prompted for your answer in the worksheet for this tutorial.
 :::
