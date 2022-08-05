@@ -1,0 +1,11 @@
+latinName,funcgr,species,w_inf,w_mat,L_inf,L_mat,a,b,k_vb,h,beta,sigma
+pungitius_alburnus,planktivore,smallfish,,,,,,,,,,
+Gymnocephalus_cernua,benthivore,ruffe,,,,,,,,,,
+Abramis_Blicca,benthivore,breams,,,,,,,,,,
+Rutillus_rutillus,benthivore,roach,,,,,,,,,,
+Vimba_vimba,benthivore,vimba,,,,,,,,,,
+Carassius_carassius,benthivore,carassius,,,,,,,,,,
+Perca_fluviatilis,omnivore,perch,,,,,,,,,,
+Sander_lucioperca,predator,pikeperch,,,,,,,,,,
+Lota_lota,predator,burbot,,,,,,,,,,
+Esox_Aspius,predator,predator_fish,,,,,,,,,,
