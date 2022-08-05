@@ -89,6 +89,7 @@ Of course, when we build a model for a real-world ecosystem we will have some kn
 
 Note, that it is very important to explore diets of species in your model, so, like the `plotDeath()` function, the `plotDiet()` function is very useful.
 
+::: {.callout-caution collapse="false"}
 ### Exercise 1
 
 Now, check how the diets of other species look like. Start from species 1 (smallest one) and all the way to species 11.
@@ -110,6 +111,7 @@ Which of the following statements is true?
 TODO: come up with good questions.
 
 You will be prompted for your answer in the worksheet for this tutorial.
+:::
 
 ## Interaction matrix
 
@@ -138,7 +140,7 @@ mp_modified <- setInteraction(mp, interaction_modified)
 getInteraction(mp_modified)
 ```
 
-Now let's compare the source of death for species 2 in the two models.
+Now let's compare the source of mortality for species 2 in the two models.
 
 ```{r}
 #| layout-ncol: 2
@@ -255,21 +257,22 @@ plotFMort(mp_fishing)
 This is not a realistic gear and mizer can do much better, as we will see in week 3. But it serves our current purpose, because it will impose a fishing mortality that only impacts the larger species that actually grow to sizes above 1kg. As we did in the section on [fishing mortality](predation-growth-and-mortality.html#fishing-mortality) in the previous tutorial, we can visualise the direct effect that this fishing mortality has on individual species:
 
 ```{r}
-mp_fishing <- singleSpeciesSteady(mp_fishing)
-plotSpectra(mp_fishing, power = 2)
+mp_fishing_sss <- singleSpeciesSteady(mp_fishing)
+plotSpectra(mp_fishing_sss, power = 2)
 ```
 
 As expected, the largest species have their abundances reduced above 1kg if they are fished, and if they continue to encounter the same amount of prey and are exposed to the same amount of predation mortality.
 
 Again the important point is that the above picture does does not show a steady state of the ecosystem. 
 
+::: {.callout-caution collapse="false"}
 ### Exercise 2
 
-Project the `mp_fishing` model to its steady state and then make a plot comparing it to the steady state of the un-fished system. By looking at the resulting graph, determine which of the following statements is true?
+Project the `mp_fishing` model to its steady state and then make a plot comparing it to the steady state of the un-fished system. By looking at the resulting graph, determine which of the following statements is true. In the statements we refer to the species as "lower" or "higher" based on their number, i.e., species "3" we say is lower than species "4".
 
-1.  
+1.  The reason that the w-axis covers a larger range of sizes in the diet plot for higher species is because higher species have a larger asymptotic size.
 
-2.  
+2.  Below 1g the co
 
 3.  
 
@@ -282,7 +285,7 @@ Project the `mp_fishing` model to its steady state and then make a plot comparin
 TODO: come up with good questions.
 
 You will be prompted for your answer in the worksheet for this tutorial.
-
+:::
 
 ## Summary and recap
 
