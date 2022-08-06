@@ -31,7 +31,7 @@ Let us look at the biomass density in log weight.
 plotSpectra(mp, power = 2, total = TRUE)
 ```
 
-We see 11 species spectra. Each species spectrum has a shape of the type we expect, given what we have seen in the tutorial on [single species spectra](single-species-spectra.qmd). The spectra of the different species all look essentially the same, except for being shifted along the size axis. This is because in this trait-based model the species differ only through their asymptotic size. This regularity will of course not be present in a real-world ecosystem, but it makes it easier for us to build an intuition about the effects of species interactions.
+We see 11 species spectra and a resource spectrum. The resource spectrum starts at a smaller size than the fish spectra, in order to provide food also for the smallest individuals (larvae) of the fish spectra. Each species spectrum has a shape of the type we expect, given what we have seen in the tutorial on [single species spectra](single-species-spectra.qmd). The spectra of the different species all look essentially the same, except for being shifted along the size axis. This is because in this trait-based model the species differ only through their asymptotic size. This regularity will of course not be present in a real-world ecosystem, but it makes it easier for us to build an intuition about the effects of species interactions.
 
 Note how the community size spectrum, plotted in black, that is obtained by summing together all the individual species and resource spectra, approximately follows a power law (i.e., approximately follows a straight line in the log-log plot).
 
