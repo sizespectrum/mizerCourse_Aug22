@@ -16,7 +16,7 @@ params <- newSingleSpeciesParams(lambda = 2.05)
 
 You will be doing your own work for this tutorial in the accompanying worksheet file "worksheet3-predation-growth-and-mortality.Rmd". You will find this file in the worksheet repository for this week that you already used in previous tutorials.
 
-## Feeding
+## Growth
 
 ### Effect of prey availability
 
@@ -53,10 +53,11 @@ gf_original$Model <- "Original"
 gf_starved <- melt(getEGrowth(params_starved))
 gf_starved$Model <- "Reduced prey"
 gf <- rbind(gf_original, gf_starved)
-ggplot(gf, aes(x = w, y = value, colour = Model)) +
+growth_rates_plot <- ggplot(gf, aes(x = w, y = value, colour = Model)) +
     geom_line() +
     scale_x_log10("Weight [g]") +
     scale_y_log10("Growth rate [g/year]")
+growth_rates_plot
 ```
 
 The slow-down occurs at a size that is about a factor of 100 larger than the size at which food is reduced. Why this is we will discuss in the next section.
@@ -78,8 +79,10 @@ It would again be nice to put this onto the same plot as the original model. So 
 We first get the data frames behind the plots by specifying the `return_data = TRUE` argument.
 
 ```{r}
-bf_original <- plotSpectra(params, power = 2, return_data = TRUE)
-bf_starved <- plotSpectra(params_starved, power = 2, return_data = TRUE)
+bf_original <- plotSpectra(params, power = 2, wlim = c(1e-3, NA),
+                           return_data = TRUE)
+bf_starved <- plotSpectra(params_starved, power = 2, wlim = c(1e-3, NA),
+                          return_data = TRUE)
 ```
 
 We add an extra column `Model` to each dataframe describing it and then bind the two data frames together:
@@ -94,17 +97,36 @@ bf <- rbind(bf_original, bf_starved)
 We send the combined dataframe to ggplot, specifying that the linetype should be determined by the variable `Model`:
 
 ```{r}
-ggplot(bf, aes(x = w, y = value, colour = Legend, linetype = Model)) +
+spectra_plot <- ggplot(bf, aes(x = w, y = value, colour = Legend, 
+                               linetype = Model)) +
     geom_line() +
     scale_x_log10("Weight [g]") +
     scale_y_log10("Biomass density [g]") + 
     # The following uses the same colours as the built-in plot functions
     scale_colour_manual(values = getColours(params), limits = force)
+spectra_plot
 ```
 
 The lack of food and the resulting slow-down in growth leads to a traffic jam: a peak in the biomass density and then low density on the other side of the traffic jam. Because fish do not get enough food and do not grow into the next size class, they are stuck in smaller size classes for a long time and are affected by mortality, which is higher for small size classes.
 
-We can see that the lack of prey has led to a significant reduction in the overall abundance of the species. This is in spite of the fact that we have kept the abundance constant at the lowest size, i.e. we assumed that recruitment of new fish is not affected by what happens in larger size classes. In reality, the drastic reduction of spawning stock biomass will lead to a reduction in the number of eggs as well, so the effect will be even more dramatic.
+One may think that the drop in abundance is at sizes where the predator encounters fewer prey than before and thus has lower growth rate. This is what classic predator-prey thinking would suggest: low prey abundance leads to low predator abundance. Size spectrum dynamics is different. To drive this point home we will display the growth rate plots and the spectrum plots directly above each other
+
+::: {layout-nrow=2}
+```{r}
+#| fig-show: hold
+#| fig-height: 2
+growth_rates_plot
+spectra_plot
+```
+:::
+
+We see that where the growth starts slowing down, the abundance actually increases. This is because a decrease in the growth rate leads to a pile-up of individuals. You know this phenomenon from traffic jams. Where the speed of the cars decreases on a motorway, their density increases. Then when the speed increases again on the other side of the traffic jam, the density of cars drops and you wonder what caused the traffic jam in the first place. We see the same phenomenon in size spectrum dynamics. We see from the graphs above: it is where the growth rate starts growing faster again that the density goes down.
+
+::: {.callout-important collapse="false"}
+The above shows that size spectrum dynamics is very different from predator-prey dynamics.
+:::
+
+The reduction of prey has led to a significant reduction in the overall abundance of the species. This is in spite of the fact that we have kept the abundance constant at the lowest size, i.e. we assumed that recruitment of new fish is not affected by what happens in larger size classes. In reality, the drastic reduction of spawning stock biomass will lead to a reduction in the number of eggs as well, so the effect will be even more dramatic.
 
 Here we hand over to you to investigate what happens when the prey abundance is increased instead of decreased. Please open the worksheet named "worksheet3-predation-growth-and-mortality.Rmd" in your worksheet repository, where you will find the following exercise:
 
@@ -333,10 +355,12 @@ The difference may not seem to be very big, but note that we are using a logarit
 
 1\)  In a mizer model the growth curve is not fixed but instead the growth rate of an individual changes as the prey abundance changes. This makes it important to understand how fish choose their prey.
 
-2\) A fish is assumed to have a feeding preference for prey in a range of sizes at a certain fraction of its own size. So as the fish grows up, its preference shifts to larger sizes, so that the preferred predator prey mass ratio $\beta$ (beta) stays the same.
+2\) A size spectrum model reacts differently to low prey abundance than a predator-prey model. In a size spectrum model when the growth rate of a predator slows down due to lack of prey, the abundance of predators of that size increases.
 
-3\)  The search rate of a species determines the rate at which it can find food and thus influences its growth rate. In mizer this search rate is an allometric rate with exponent $q$  which by default is set as $q=2-\lambda+n$ so that at least in the larval stage the growth rate scales with exponent $n = 3/4$.
+3\) A fish is assumed to have a feeding preference for prey in a range of sizes at a certain fraction of its own size. So as the fish grows up, its preference shifts to larger sizes, so that the preferred predator prey mass ratio $\beta$ (beta) stays the same.
 
-4\)  Fish have a maximum intake rate that scales with body size with exponent $n = 3/4$. Due to scarcity of prey they will only feed at a proportion of their maximum intake rate. This proportion is called the feeding level.
+4\)  The search rate of a species determines the rate at which it can find food and thus influences its growth rate. In mizer this search rate is an allometric rate with exponent $q$  which by default is set as $q=2-\lambda+n$ so that at least in the larval stage the growth rate scales with exponent $n = 3/4$.
 
-5\)  Species size spectra depend strongly on mortality rates and in a realistic model this mortality rate will depend on the abundance of predators. We will explore this in greater detail in the next tutorials. Here we just looked at the effect of fishing mortality on the size spectrum.
+5\)  Fish have a maximum intake rate that scales with body size with exponent $n = 3/4$. Due to scarcity of prey they will only feed at a proportion of their maximum intake rate. This proportion is called the feeding level.
+
+6\)  Species size spectra depend strongly on mortality rates and in a realistic model this mortality rate will depend on the abundance of predators. We will explore this in greater detail in the next tutorials. Here we just looked at the effect of fishing mortality on the size spectrum.
