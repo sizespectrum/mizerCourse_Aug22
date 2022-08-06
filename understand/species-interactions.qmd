@@ -76,14 +76,14 @@ The plotDeath() function is extremely useful when building your own model, both 
 Now that we have investigated who eats species 8, we also want to know who is eaten by species 8. We can check that by plotting the diet of this species:
 
 ```{r}
-plotDiet(mp, species = "10")
+plotDiet(mp, species = "8")
 ```
 
 The diet looks quite reasonable. Small individuals of species 8 initially feed entirely on the resource (plankton and other small things). From about the size of 1g (which is roughly 4-5 cm) they start eating larvae of other fish.
 
 The diet composition we see in the plot is shaped by two things: the predation kernel (the size preference in the feeding of the predator) and the relative abundances of prey at different sizes. First, a predator will only eat food that is within the predation kernel size range. But once in this size range the relative proportion of different species or resource consumed will simply depend on their relative biomass. So if, for example, 80% of biomass in a specific prey size class consists of resource, 15% of species 1 and 5% of species 2, then the diet of the predator feeding in that size class will consist of 80% resource, 15% of species 1 and 5% of species 2.
 
-In our example model resource abundance at small size classes is very high compared to abundance of fish. So when a predator feeds in those size classes, naturally most of the diet will consist of resource. This is what we see in the diet plot.
+In our example model, resource abundance at small size classes is very high compared to abundance of fish. So when a predator feeds in those size classes, naturally most of the diet will consist of resource. This is what we see in the diet plot.
 
 Of course, when we build a model for a real-world ecosystem we will have some knowledge about the biology of the species and their food preferences. Perhaps one species is actively selecting fish out of the resource, or predating on specific species only? This is where the interaction matrix comes in that we will discuss in the next section.
 
@@ -92,15 +92,17 @@ Note, that it is very important to explore diets of species in your model, so, l
 ::: {.callout-caution collapse="false"}
 ### Exercise 1
 
-Now, check how the diets of other species look like. Start from species 1 (smallest one) and all the way to species 11. By looking at the resulting graph, determine which of the following statements is true. Note that in the statements below we refer to the species as "lower" or "higher" based on their number, i.e., species "3" we say is lower than species "4"
+Now, check how the diets of other species look like. Start from species 1 (smallest one) and all the way to species 11.
+
+Which of the following statements is true?
 
 1.  All species eat all other species.
 
 2.  The reason that the x-axis covers a larger range of sizes in the diet plots for higher species is because higher species have a larger asymptotic size.
 
-3.  Proportion of different species in the diets of higher species increases and then decreases. This is because as predators grow larger they prefer to eat larger prey.
+3.  The proportion of different species in the diets of higher species increases and then decreases. This is because as predators grow larger they prefer to eat larger prey.
 
-4.  Proportion of different species in diets of higher species increases and then decreases. This is because as predators grow larger they start eating species that are the most abundant.
+4.  The proportion of different species in the diets of higher species increases and then decreases. This is because as predators grow larger they start eating species that are the most abundant.
 
 5.  Throughout its lifetime even the higher species (species 8-10) feed almost entirely on the resource.
 
@@ -108,13 +110,12 @@ Now, check how the diets of other species look like. Start from species 1 (small
 
 7.  Lower species can eat higher species.
 
-
 You will be prompted for your answer in the worksheet for this tutorial.
 :::
 
 ## Interaction matrix
 
-Now we arrive to an interesting and challenging aspects of multi-species modelling - setting up parameters for species and resource interactions. By default, mizer assumes that all species in the model can access all other species and resource with the same probability and the amount of different prey consumed just depends on their relative abundance in the predator's feeding size range. So the default interaction matrix of the species in our model looks very simple
+Now we arrive to an interesting and challenging aspects of multi-species modelling - setting up parameters for species and resource interactions. By default, mizer assumes that all species in the model can access all other species and resource equally and the amount of different prey consumed just depends on their relative abundance in the predator's feeding size range. So the default interaction matrix of the species in our model looks very simple
 
 ```{r}
 getInteraction(mp)
@@ -122,7 +123,11 @@ getInteraction(mp)
 
 The matrix has all values set at 1 and shows that all predators can access all prey species with the same probability.
 
-In reality we might have some knowledge about predators diet preferences, or about prey vulnerability to predation. This knowledge should be incorporated in the interaction matrix. Perhaps we know that some predators cannot or do not eat certain prey. For example some species in our system might only feed on resource and never ever eat any fish. In this case we will set all values in the row for that predator equal to 0. Alternatively, we might know that some prey is less available to predation due to some anti-predation behaviour or defence mechanisms. In this case we would decrease all values in the prey column to something \< 1.
+In reality we might have some knowledge about predators' diet preferences, or about prey vulnerability to predation. This knowledge should be incorporated in the interaction matrix. Perhaps we know that some predators cannot or do not eat certain prey. For example some species in our system might only feed on resource and never ever eat any fish. In this case we will set all values in the row for that predator equal to 0. Alternatively, we might know that some prey is less available to predation due to some anti-predation behaviour or defence mechanisms. In this case we would decrease all values in the prey column to something \< 1.
+
+::: {.callout-important collapse="false"}
+It is important to note that you should not set an entry in the interaction matrix to 0 just because a particular prey is never recorded in the stomach of a predator. It may well be that the predator species consumes the larvae of the prey species at some stage of their life and these larvae are simply not recorded in the stomach content.
+:::
 
 Sometimes the interaction matrix is used to encode spatial overlap of species in a large ecosystem, as in this [application of mizer to the North Sea](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2664.12238). In this case the interaction matrix might be estimated from spatial surveys assessing species spatial overlap. The interaction matrix can encode lots of effects and it will have a large impact on the model behaviour.
 
@@ -175,12 +180,12 @@ species_params(mp)$interaction_resource
 
 We see that the default value for all these interaction coefficients is also 1.
 
-Now we might want to reduce the availability of resource to some predators. Perhaps we know that certain species are much more likely to feed on other fish rather than on similar sized plankton. Let us look at an example where species 9 has a 50% reduction in its interaction with resource.
+Now we might want to reduce the availability of resource to some predators. Perhaps we know that certain species much prefer to feed on other fish rather than on similar sized plankton. Let us look at an example where species 8 through 11 have a 20% reduction in their interaction with resource.
 
 ```{r}
 # We make a copy of the model
 mp_lessRes <- mp
-# and set the resource interaction to 0.5 for species 9
+# and set the resource interaction to 0.8 for species 8 to 11
 species_params(mp_lessRes)$interaction_resource[8:11] <- 0.8
 # We print out the result to check
 species_params(mp_lessRes)$interaction_resource
@@ -227,12 +232,10 @@ mp_lessRes_steady <- projectToSteady(mp_lessRes)
 
 ```{r}
 plotSpectra2(mp_lessRes_steady, "less resource", mp, "original", 
-            total = TRUE, power = 1, ylim = c(1e-8, NA), wlim = c(1e-3, NA))
+            total = TRUE, power = 2, ylim = c(1e-8, NA), wlim = c(1e-3, NA))
 ```
 
 There is much to see in this graph. We can see how the reduction in the abundance of large individuals leads to undulations in fish and resource size spectra, compared to the original model.
-
-TODO: Talk more about the trophic cascades. People won't necessarily know what that term means. **ASTA - not sure we need to talk much here, as Ken also introduced this concept in this talk. Perhaps just refer to his lecture**
 
 Perhaps you would prefer to plot the above graph with `power = 1`, which will show the biomass density in weight instead of the Sheldon spectrum. Different people find different options more intuitive.
 
@@ -263,11 +266,6 @@ This is not a realistic gear and mizer can do much better, as we will see in wee
 ```{r}
 mp_fishing_sss <- singleSpeciesSteady(mp_fishing)
 plotSpectra(mp_fishing_sss, power = 2)
-
-mp_fishing_sss_steady <- projectToSteady(mp_fishing_sss)
-
-plotSpectra2(mp_fishing_sss_steady, "less resource", mp, "original", 
-            total = TRUE, power = 1, ylim = c(1e-8, NA), wlim = c(1e-3, NA))
 ```
 
 As expected, the largest species have their abundances reduced above 1kg if they are fished, and if they continue to encounter the same amount of prey and are exposed to the same amount of predation mortality.
@@ -279,8 +277,6 @@ Again the important point is that the above picture does does not show a steady 
 
 Project the `mp_fishing` model to its steady state and then make a plot comparing it to the steady state of the un-fished system. By looking at the resulting graph, determine which of the following statements is true. In the statements we refer to the species as "lower" or "higher" based on their number, i.e., species "3" we say is lower than species "4".
 
-**ASTA - I seem to be using abundance and biomasses interchangeably. We might need to check and correct perhaps? Or are we happy with that**
-
 1.  Fishing strongly reduces abundances of fish above 1 kg of weight.
 
 2.  Adult (after maturation size) abundance of intermediate fish (species 5-8) increases due to fishing.
@@ -291,7 +287,7 @@ Project the `mp_fishing` model to its steady state and then make a plot comparin
 
 5.  If adult biomasses for some species increase due to fishing, then for the same species larval biomasses (below the size of 1 g) will decrease.
 
-6.  Fishing does not only create undulations and trophic cascades in the fish spectra, but also in the resource spectrum.
+6.  Fishing does not only create undulations and trophic cascades in the individual fish spectra, but also in the total community spectrum.
 
 You will be prompted for your answer in the worksheet for this tutorial.
 :::
