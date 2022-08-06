@@ -34,7 +34,7 @@ remotes::install_github("sizespectrum/mizerExperimental")
 library(mizerExperimental)
 library(tidyverse)
 ```
-### Animations
+### Projections
 
 In the previous tutorial, in the section on [trophic cascades](species-interactions.qmd#trophic-cascades), we already simulated the size-spectrum dynamics to find the new steady state. But we only looked at the final outcome once the dynamics had settled down to the new steady state. We reproduce the code here:
 
@@ -57,7 +57,8 @@ mp_lessRes_steady <- projectToSteady(mp_lessRes)
 
 # We compare the steady states
 plotSpectra2(mp_lessRes_steady, "less resource", mp, "original", 
-            total = TRUE, power = 2, ylim = c(1e-8, NA), wlim = c(1e-3, NA))
+            total = TRUE, power = 2, 
+            ylim = c(1e-8, NA), wlim = c(1e-3, NA))
 ```
 
 But we can also save and then display the spectra of all the species at intermediate times. This is what the `project()` function does. It projects the current state forward in time and saves the result of that simulation in a larger object, a MizerSim object, which contains the resulting time series of size spectra. Let's use it to project forward by 24 years.
@@ -74,10 +75,33 @@ animateSpectra(sim_lessRes, total = TRUE, power = 2,
 
 Go ahead, press the Play button.
 
-::: {.callout-caution collapse="false"}
-### Exercise 1
-Go back to the example with fishing on individuals above 1kg from the section on [fishing-induced cascades](species-interactions.html#fishing-induced-cascades). Impose the same fishing, but now on the trait-based model with reproduction dynamics left turned on. Project the model for 30 years and look at the animation of the spectra. Then answer the question in the worksheet.
-:::
+Of course we can also get at the numeric values of the spectra at different times. First of all the function `getTimes()` gives the times at which simulation results are available in the MizerSim object:
+
+```{r}
+getTimes(sim_lessRes)
+```
+
+The function `N()` returns a three-dimensional array (time x species x size) with the number density of consumers. To get for example the number density for the 2nd species after 5 years in the 1st size class we do
+
+```{r}
+N(sim_lessRes)[6, 2, 1]
+```
+
+If the function `getBiomass()` is supplied with a MizerSim object then it returns an array (time x species) containing the biomass in grams at each time step for all species. So for example the biomass in grams of the 2nd species after 5 years is
+
+```{r}
+getBiomass(sim_lessRes)[6, 2]
+```
+
+The biomass time series can be plotted with `plotBiomass()`:
+
+```{r}
+plotBiomass(sim_lessRes)
+```
+
+
+Mizer provides many more functions to analyse the results of a simulation, some of which you will meet later in this course.
+
 
 ## Reproduction dynamics
 
@@ -216,22 +240,45 @@ plotSpectra2(mp, "reproduction_level = 0.25", mp9, "reproduction_level = 0.9",
             total = TRUE, power = 2, ylim = c(1e-8, NA), wlim = c(1e-3, NA))
 ```
 
-So now let us look at the dynamics that is triggered by the reduction in interaction with the resource by species 8 through 11.
+However the reproduction level has an effect on how sensitive the system is to changes. As an example, let us look at the dynamics that is triggered by the reduction in interaction with the resource by species 8 through 11.
 
 ```{r}
 # We make a copy of the model
-mp_lessRes <- mp
+mp_lessRes9 <- mp9
 # and set the resource interaction to 0.5 for species 9
-species_params(mp_lessRes)$interaction_resource[8:11] <- 0.8
+species_params(mp_lessRes9)$interaction_resource[8:11] <- 0.8
 
-sim_lessRes <- project(mp_lessRes, t_max = 30, t_save = 2)
+sim_lessRes9 <- project(mp_lessRes9, t_max = 30, t_save = 2)
 
-animateSpectra(sim_lessRes, total = TRUE, power = 2, 
+animateSpectra(sim_lessRes9, total = TRUE, power = 2, 
                ylim = c(1e-8, NA), wlim = c(1e-3, NA))
 ```
 
+Notice how the species have settled down to a new steady state after 30 years without any extinctions. The problem of course is that in practice the reproduction level is hardly ever known. Instead one will need to use any information one has about the sensitivity of the system from observed past perturbations to calibrate the reproduction levels. We'll discuss this again in week 3.
 
+::: {.callout-caution collapse="false"}
+### Exercise 1
+Go back to the example with fishing on individuals above 1kg from the section on [fishing-induced cascades](species-interactions.html#fishing-induced-cascades). Impose the same fishing, but now on the trait-based model with reproduction dynamics left turned on and with a reproduction level of 0.5 for all species. Project the model for 20 years. What is the total biomass of species 1 after 20 years?
+:::
+
+## Resource dynamics
+
+The resource spectrum is not described by size spectrum dynamics, because it is typically not made up of individuals that grow over a large size range during their life time. Instead, the resource number density in each size class is describe by semichemostat dynamics: the resource number density increases at a rate that diminishes as it gets close to a carrying capacity. If you want the mathematical details, you can find them in the [mizer model description](https://sizespectrum.org/mizer/articles/model_description.html) in the section on [resource density](https://sizespectrum.org/mizer/articles/model_description.html#resource-density).
+
+The effect of these dynamics is that as the number of fish consuming the resource in a size range increases, the resource abundance will decrease. So there is competition for the resource, which provides a stabilising influence on the fish abundances. We will be discussing this more in week 3.
 
 ## Summary and recap
 
+1\) Size spectrum dynamics is very intuitive: the rate at which the number of individuals in a size class changes is the difference between the rate at which individuals grow into (or are born into) the size class and the rate at which individuals grow out of or the size class or die in the size class.
 
+2\) The `project()` function simulates the dynamics and creates a MizerSim object that contains the resulting time series of size spectra.
+
+3\) Mizer provides many functions for extracting, analysing and plotting the results of a simulation, some of which we will be using in week 3.
+
+4\) Instead of a stock-recruitment relationship as used in other fisheries models, a mizer model relates the energy invested into reproduction to the number of eggs produced. The growth and mortality that the larvae experience until they are recruited to the fishery lead to density-dependence in the recruitment.
+
+5\) The relation between energy invested in reproduction and the actual birth rate is described by two parameters: the density independent reproduction efficiency `erepro` and the maximum birth rate `R_max`.
+
+6\) In practice a more useful way to parametrise the reproduction is by two other parameters: the birth rate $R_{dd}$ at steady state (which determines the total abundance of a species) and the _reproduction level_ (which determines the amount of additional density dependence).
+
+7\) A change in the reproduction level does not change the steady state but it changes the sensitivity of the system to changes.
