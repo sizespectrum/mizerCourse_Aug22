@@ -96,31 +96,18 @@ Now, check how the diets of other species look like. Start from species 1 (small
 
 1.  All species eat all other species.
 
-    FALSE. There are no higher species in diets of lower species **ASTA: these answers and comments should be moved into the worksheet I suppose.**
-
 2.  The reason that the x-axis covers a larger range of sizes in the diet plots for higher species is because higher species have a larger asymptotic size.
-
-    TRUE
 
 3.  Proportion of different species in the diets of higher species increases and then decreases. This is because as predators grow larger they prefer to eat larger prey.
 
-    TRUE
-
 4.  Proportion of different species in diets of higher species increases and then decreases. This is because as predators grow larger they start eating species that are the most abundant.
-
-    FALSE
 
 5.  Throughout its lifetime even the higher species (species 8-10) feed almost entirely on the resource.
 
-    FALSE (most small size classes feed on the resource, but a species spends majority of time in the larger size classes, even if we don't have a lot of them in the model)
-
 6.  All species are cannibalistic.
-
-    TRUE
 
 7.  Lower species can eat higher species.
 
-    TRUE. Large individuals of small species can and will eat small individuals of large species. So what is prey and what is predator in marine ecosystems very much depends on size.
 
 You will be prompted for your answer in the worksheet for this tutorial.
 :::
@@ -296,27 +283,15 @@ Project the `mp_fishing` model to its steady state and then make a plot comparin
 
 1.  Fishing strongly reduces abundances of fish above 1 kg of weight.
 
-    TRUE
-
 2.  Adult (after maturation size) abundance of intermediate fish (species 5-8) increases due to fishing.
-
-    TRUE
 
 3.  In fact, adult abundances of all fish lower than 9 increases due to fishing.
 
-    FALSE
-
 4.  Entire community size spectrum is severely truncated above 1kg fish size - all due to fishing.
-
-    TRUE
 
 5.  If adult biomasses for some species increase due to fishing, then for the same species larval biomasses (below the size of 1 g) will decrease.
 
-    FALSE
-
 6.  Fishing does not only create undulations and trophic cascades in the fish spectra, but also in the resource spectrum.
-
-    TRUE
 
 You will be prompted for your answer in the worksheet for this tutorial.
 :::
