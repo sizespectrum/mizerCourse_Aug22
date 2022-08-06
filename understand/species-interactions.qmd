@@ -94,7 +94,7 @@ Note, that it is very important to explore diets of species in your model, so, l
 
 Now, check how the diets of other species look like. Start from species 1 (smallest one) and all the way to species 11. By looking at the resulting graph, determine which of the following statements is true. Note that in the statements below we refer to the species as "lower" or "higher" based on their number, i.e., species "3" we say is lower than species "4"
 
-1.  All species each all other species.
+1.  All species eat all other species.
 
     FALSE. There are no higher species in diets of lower species **ASTA: these answers and comments should be moved into the worksheet I suppose.**
 
