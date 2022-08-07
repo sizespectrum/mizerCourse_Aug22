@@ -147,8 +147,6 @@ $$
 R_{di} = \frac{\rm{erepro}}{2 w_{min}} E_R.
 $$
 
-Once the reproduction efficiency factor is applied we get the rate of potential egg production which directly or linearly depends on the biomass of reproducing fish. Even though we scale the reproduction down by some factor, it is always the same scalar. So more reproducing fish will lead to more eggs. This means that production of smallest size individuals linearly depends on the energy invested by the entire fish populations and is not limited by their total amount or total biomass. In other words this is density-independent reproduction (RDI) (even though it is still dependent on density indirectly, see below). In mizer it is calculated with a function `getRDI()`. You will learn more about reproduction scaling in the future tutorials.
-
 This is calculated in mizer with `getRDI()`:
 
 ```{r}
@@ -285,9 +283,9 @@ The effect of these dynamics is that if the number of fish consuming the resourc
 
 3\) Mizer provides many functions for extracting, analysing and plotting the results of a simulation, some of which we will be using in week 3.
 
-4\) Instead of a stock-recruitment relationship as used in other fisheries models, a mizer model relates the energy invested into reproduction to the number of eggs produced. The growth and mortality that the larvae experience until they are recruited to the fishery lead to density-dependence in the recruitment. Yet, some or a lot density dependence also applies to the egg production.
+4\) Instead of a stock-recruitment relationship as used in other fisheries models, a mizer model relates the energy invested into reproduction to the number of eggs produced. The growth and mortality that the larvae experience until they are recruited to the fishery lead to density-dependence in the recruitment. Additional density dependence is applied to the egg production.
 
-5\) The relation between energy invested in reproduction and the actual birth rate is described by two parameters: the density independent reproduction efficiency `erepro` and the maximum birth rate `R_max` which sets the maximum number of eggs that can recruit, independent of the total energy invested into reproduction.
+5\) The relation between energy invested in reproduction and the actual birth rate is described by two parameters: the density independent reproduction efficiency `erepro` and the maximum birth rate `R_max`.
 
 6\) In practice a more useful way to parametrise the reproduction is by two other parameters: the birth rate $R_{dd}$ at steady state (which determines the total abundance of a species) and the *reproduction level* (which determines the amount the amount of density dependence that applies to egg production).
 
