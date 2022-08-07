@@ -14,3 +14,4 @@ You can help out by editing this page when you come across an issue and its solu
 
 -   For some users, Github asks for username and password (or personal access token) every time you want to push your commits to Github. This can happen if your Git version is too old.\
     **Solution**: install the latest version of Git.
+
