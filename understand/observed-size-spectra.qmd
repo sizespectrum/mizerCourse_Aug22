@@ -26,15 +26,30 @@ K.H. Andersen (2019): Fish Ecology, Evolution, and Exploitation - a New Theoreti
 
 And in many other references listed in the sizespectrum.org [publications](https://sizespectrum.org/mizer/articles/publications.html) page
 
-## The data
+## Example code
 
-So let's see if we can find this pattern ourselves. To analyse and plot the data we will be making use of the [tidyverse](https://www.tidyverse.org/) package, in particular [dplyr](https://dplyr.tidyverse.org/) and [ggplot2](https://ggplot2.tidyverse.org/). If you are not familiar with these, you can learn what is needed just by studying the example code in this tutorial. You will find explanations of the code if you expand the "R details" sections located below many of the code chunks. To expand an explanation section, just click on the "Expand for R details".
+These tutorials contain a lot of working R code, because learning R coding for mizer is best done by looking at example code. We envisage that you may want to copy and paste the code from this tutorial into your tutorial worksheet to try it out and possibly modify it to see what happens.
+
+```{r}
+#| echo: false
+vembedr::embed_url("https://youtu.be/bkWde39r2Pk") |>
+    vembedr::use_align("center") |>
+    vembedr::use_rounded(10)
+```
+
+To analyse and plot the data we will be making use of the [tidyverse](https://www.tidyverse.org/) package, in particular [dplyr](https://dplyr.tidyverse.org/) and [ggplot2](https://ggplot2.tidyverse.org/). If you are not familiar with these, you can learn what is needed just by studying the example code in this tutorial. Before we can use a package we need to load it in from the package library with the `library()` function:
 
 ```{r message=FALSE}
 library(tidyverse)
 ```
 
-First we load the data.
+When you hover over any function name in the R code in these tutorials, you will notice that they are links. If you click on them this will open the function's help page in a new browser window. Thus you can always easily read more information about the functions we are using.
+
+You will find explanations of the code if you expand the "R details" sections located below many of the code chunks. To expand an explanation section, just click on the "Expand for R details".
+
+## The data
+
+So let's see if we can find Sheldon's pattern ourselves. First we load the data.
 
 ```{r }
 data <- readRDS("size-data.rds")
@@ -45,8 +60,6 @@ str(data)
 ### Expand for R details
 
 The `readRDS()` function loads the file "size-data.rds" which contains the data frame with the size data. We assign this data frame to the variable `data` for use below and then, to get an impression of what is in the data frame we use the `str()` function.
-
-When you hover over any function name in the R code in these tutorials, you will notice that they are links. If you click on them this will open the function's help page in a new browser window. Thus you can always easily read more information about the functions we are using.
 :::
 
 The data consists of measurements of the length in centimetres of `r nrow(data)` fish of various species. The species included are
