@@ -338,7 +338,7 @@ initial_effort(params_fishing) <- 1
 plotFMort(params_fishing)
 ```
 
-We can now see how fishing affects the adult size spectrum **ASTA - not sure why you plot biomass density? I think number density is more intuitive, so I changed to that, but happy either way if there is a good reason**
+We can now see how fishing affects the adult size spectrum.
 
 ```{r}
 # We find the new steady state with fishing mortality imposed 
