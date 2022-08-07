@@ -2,21 +2,16 @@
 title: "Dynamics of size spectra"
 ---
 
-
 ## Size spectrum dynamics
 
 In previous tutorials we have concentrated on the steady state of the mizer model, where for each size class and each species, the rate at which individuals grow into the size class balances the rate at which individuals grow out of the size class or die, thus keeping the size spectrum constant. In this tutorial we explore the dynamic that takes place when this balance is changed.
 
-Size-spectrum dynamics is described by the beautiful partial differential equation
-$$
+Size-spectrum dynamics is described by the beautiful partial differential equation $$
 \frac{\partial N(w)}{\partial t} + \frac{\partial g(w) N(w)}{\partial w} 
   = -\mu(w) N(w)
-$$
-together with the boundary condition
-$$
+$$ together with the boundary condition $$
 N(w_{min}) = \frac{R_{dd}}{g(w_{min})},
-$$
-where $N(w)$ is the number density at size $w$, $g(w)$ is the growth rate and $\mu(w)$ is the death rate of individuals of size $w$, $w_{min}$ is the egg size and $R_{dd}$ is the birth rate. Luckily it is easy to describe in words what these equations are saying.
+$$ where $N(w)$ is the number density at size $w$, $g(w)$ is the growth rate and $\mu(w)$ is the death rate of individuals of size $w$, $w_{min}$ is the egg size and $R_{dd}$ is the birth rate. Luckily it is easy to describe in words what these equations are saying.
 
 ::: {.callout-important collapse="false"}
 Size spectrum dynamics is very intuitive: The rate at which the number of individuals in a size class changes is the difference between the rate at which individuals are entering the size class and the rate at which they are leaving the size class. Individuals can enter a size class by growing in or, in the case of the smallest size class, by being born into it. They can leave by growing out or by dying.
@@ -34,6 +29,7 @@ remotes::install_github("sizespectrum/mizerExperimental")
 library(mizerExperimental)
 library(tidyverse)
 ```
+
 ### Projections
 
 In the previous tutorial, in the section on [trophic cascades](species-interactions.qmd#trophic-cascades), we already simulated the size-spectrum dynamics to find the new steady state. But we only looked at the final outcome once the dynamics had settled down to the new steady state. We reproduce the code here:
@@ -49,7 +45,7 @@ mp <- newTraitParams() |>
 
 # We make a copy of the model
 mp_lessRes <- mp
-# and set the resource interaction to 0.5 for species 9
+# and set the resource interaction to 0.8 for species 8 to 11
 species_params(mp_lessRes)$interaction_resource[8:11] <- 0.8
 
 # We run the dynamics until we reach steady state
@@ -62,11 +58,12 @@ plotSpectra2(mp_lessRes_steady, "less resource", mp, "original",
 ```
 
 But we can also save and then display the spectra of all the species at intermediate times. This is what the `project()` function does. It projects the current state forward in time and saves the result of that simulation in a larger object, a MizerSim object, which contains the resulting time series of size spectra. Let's use it to project forward by 24 years.
+
 ```{r}
 sim_lessRes <- project(mp_lessRes, t_max = 24)
 ```
 
-We can now use this MizerSim object in the  `animateSpectra()` function to create an animation showing the change in the size spectra over time.
+We can now use this MizerSim object in the `animateSpectra()` function to create an animation showing the change in the size spectra over time.
 
 ```{r}
 animateSpectra(sim_lessRes, total = TRUE, power = 2, 
@@ -74,6 +71,8 @@ animateSpectra(sim_lessRes, total = TRUE, power = 2,
 ```
 
 Go ahead, press the Play button.
+
+**Note**, for some species size spectra at the largest size class drop all the way to very small values (e.g. 10\^-7) and for others they stop higher. This is just a discretisation artifact and is not important. Try to ignore it.
 
 Of course we can also get at the numeric values of the spectra at different times. First of all the function `getTimes()` gives the times at which simulation results are available in the MizerSim object:
 
@@ -99,9 +98,7 @@ The biomass time series can be plotted with `plotBiomass()`:
 plotBiomass(sim_lessRes)
 ```
 
-
-Mizer provides many more functions to analyse the results of a simulation, some of which you will meet later in this course.
-
+Mizer provides many more functions to analyse the results of a simulation, some of which you will learn later in this course.
 
 ## Reproduction dynamics
 
@@ -117,7 +114,7 @@ mp <- newTraitParams() |>
 
 # We make a copy of the model
 mp_lessRes <- mp
-# and set the resource interaction to 0.5 for species 9
+# and set the resource interaction to 0.8 for species 8 to 11
 species_params(mp_lessRes)$interaction_resource[8:11] <- 0.8
 
 # We simulate the dynamics for 30 years, saving only every 2nd year
@@ -136,49 +133,41 @@ What is going on with species 1?
 
 ### Energy invested into reproduction
 
-We already discussed the [investment into reproduction](single-species-spectra.html#investment-into-reproduction) in an earlier tutorial. Mature individual invest a growing proportion of their income into reproduction and at their asymptotic size they would be investing all income into reproduction. Summing up all these investments from mature individuals of a particular species gives the total rate $E_R$ at which that species invests energy into reproduction. This total rate of investment is multiplied by an efficiency factor `erepro`, divided by a factor of 2 to take into account that only females reproduce, and then divided by the egg weight `w_min` to convert it into the rate at which eggs are produced. In formulas:
-$$
+We already discussed the [investment into reproduction](single-species-spectra.html#investment-into-reproduction) in an earlier tutorial. As mature individuals move from one size class to another they invest an increasing proportion of their income into reproduction and at their asymptotic size they would be investing all income into reproduction. Summing up all these investments from mature individuals of a particular species gives the total rate $E_R$ at which that species invests energy into reproduction. This total rate of investment is multiplied by a reproduction efficiency factor `erepro`, divided by a factor of 2 to take into account that only females reproduce, and then divided by the egg weight `w_min` to convert it into the rate at which eggs are produced. The `erepro` parameter or reproduction efficiency can vary between 0 and 1 (although 0 would be bad) and reflects the fact that only a fraction of energy invested into reproduction makes into viable eggs or larvae. The equation is: $$
 R_{di} = \frac{\rm{erepro}}{2 w_{min}} E_R.
-$$
-This rate of potential egg production is calculated in mizer with `getRDI()`.
+$$Once the reproduction efficiency factor is applied we get the rate of potential egg production which directly or linearly depends on the biomass of reproducing fish. Even though we scale the reproduction down by some factor, it is always the same scalar. So more reproducing fish will lead to more eggs. So it is the amount of reproduction which is independent of total biomass, or in other words, density-independent reproduction (RDI) (even though it is still dependent on density indirectly, see below). In mizer it is calculated with a function `getRDI()`. You will learn more about reproduction scaling in the future tutorials.
 
 ```{r}
 getRDI(mp)
 ```
 
-
-
-
 ### Density-dependence in reproduction
 
-Note that what mizer models is not the rate of recruitment but the rate of egg production. The size spectrum dynamics then determine how many of those larvae grow up and survive to be recruited to the fishery. 
+Note that what mizer models is not the rate of recruitment but the rate of egg production. The size spectrum dynamics then determine how many of those larvae grow up and survive to be recruited to the fishery.
 
 ::: {.callout-important collapse="false"}
 The stock-recruitment relationship is an emergent phenomenon in mizer, with several sources of density dependence. Firstly, the amount of energy invested into reproduction depends on the energy income of the spawners, which is density-dependent due to competition for prey. Secondly, the proportion of larvae that grow up to recruitment size depends on the larval mortality, which depends on the density of predators, and on larval growth rate, which depends on density of prey.
 :::
 
-However there are other sources of density dependence that are not explicitly
-modelled mechanistically in mizer. An example would be a limited carrying capacity of suitable
-spawning grounds and other spatial effects. So mizer has another species parameter $R_{max}$ that gives the maximum possible rate of recruitment. Imposing a finite maximum reproduction rate leads to a non-linear relationship between energy invested and eggs hatched. This density-dependent reproduction rate \eqn{R_{dd}}{R_dd} is given by a Beverton-Holt type function:
-$$
-  R_{dd} = R_{di} \frac{R_{max}}{R_{di} + R_{max}}.
-$$
+However there are other sources of density dependence that are not explicitly modelled mechanistically in mizer. An example would be a limited carrying capacity of suitable spawning grounds and other spatial effects. So mizer has another species parameter $R_{max}$ that gives the maximum possible rate of recruitment. Imposing a finite maximum reproduction rate leads to a non-linear relationship between energy invested and eggs hatched. This density-dependent reproduction rate \eqn{R_{dd}}{R_dd} is given by a Beverton-Holt type function: $$ R_{dd} = R_{di} \frac{R_{max}}{R_{di} + R_{max}}$$
 
 Rather than looking at the formula, let's look at a figure:
 
 ```{r}
 #| echo: false
-erepro <- 4
-R_max <- 1
-E_R <- seq(0, 2, by = 0.05)
+#One species with high reproduction efficiency (erepro) and low carrying capacity (R_max)
+erepro <- 0.7
+R_max <- 0.4
+E_R <- seq(0, 5, by = 0.05)
 R_di = erepro * E_R
 R_dd <- R_di * R_max / (R_di + R_max)
 df <- melt(data.frame(E_R, R_dd, R_di, R_max), id.vars = "E_R")
 df <- df[df$value < 1.6, ]
 df$dd <- "Low"
 
-erepro <- 1.5
-R_max <- 3/2
+#Another species with lower reproduction efficiency and higher carrying capacity
+erepro <- 0.3
+R_max <- 0.7
 R_di = erepro * E_R
 R_dd <- R_di * R_max / (R_di + R_max)
 df2 <- melt(data.frame(E_R, R_dd, R_di, R_max), id.vars = "E_R")
@@ -192,14 +181,14 @@ ggplot(rbind(df, df2)) +
     labs(linetype = "", size = "R_max", colour = "R_max") +
     scale_y_continuous(name = "Reproduction rate [eggs/year]",
                        breaks = c(5/6), labels = c("R_dd")) +
-    scale_x_continuous(name = "Energy invested [g/year]",
+    scale_x_continuous(name = "Species biomass and energy invested [g/year]",
                        breaks = c(5/4), labels = c("E_R")) +
     scale_size_manual(values = c(1, 0.5)) +
     scale_colour_manual(values = c("black", "blue")) +
     scale_linetype_manual(values = c("solid", "dashed", "dotted"))
 ```
 
-This figure shows two graphs of $R_{dd}$ (solid lines), one for higher $R_{max}$ (black) and one for lower $R_{max}$ (blue). The values of $R_{max}$ are indicated by the dotted lines. The dashed lines show the density-independent rate $R_{di}$. It is clear that the graph for $R_{dd}$ becomes more non-linear as $R_{max}$ gets smaller.
+This figure shows two graphs of $R_{dd}$ (solid lines), one for higher $R_{max}$ (black) and one for lower $R_{max}$ (blue). The values of $R_{max}$ are indicated by the dotted lines. The dashed lines show the density-independent rate $R_{di}$. It is clear that the graph for $R_{dd}$ becomes more non-linear as $R_{max}$ gets smaller. The reproduction rate for the black solid line can still increase a lot if species biomass and total energy invested into reproduction keeps increasing. Instead the blue species is close to it maximum reproduction level and it reaches it quickly because it's `erepro` value is high. Such a species will recover quickly from depletion by fishing, for example.
 
 This final rate of reproduction is calculated in mizer with `getRDD()`:
 
@@ -209,14 +198,13 @@ getRDD(mp)
 
 This is the rate at which new individuals are entering the smallest size class. The actual number density in the smallest size class is then determined by the usual size-spectrum dynamics.
 
-
 ## Reproduction level
 
 We have seen the two species parameters that determine how the energy invested into reproduction is converted to the number of eggs produced: `erepro` and `R_max`. For neither of these is it obvious what value they should have. The choice of values influences two important properties of a model: the steady state abundances of the species and the density-dependence in reproduction. It is therefore useful to change to a new set of two parameters that reflect these two properties better. These are:
 
-* The birth rate $R_{dd}$ at steady state. This determines the abundance of a species.
+-   The birth rate $R_{dd}$ at steady state. This determines the abundance of a species.
 
-* The ratio between $R_{max}$ and $R_{dd}$ at steady state. This determines the degree of density dependence.
+-   The ratio between $R_{max}$ and $R_{dd}$ at steady state. This determines the degree of density dependence.
 
 The ratio $R_{max} / R_{dd}$ we denote as the **reproduction level**. This name may remind you of the feeding level, which was the ratio between the maximum feeding rate and the actual feeding rate and described the level of density dependence coming from satiation.
 
@@ -233,6 +221,7 @@ mp9 <- setBevertonHolt(mp, reproduction_level = 0.9)
 ```
 
 Changing the reproduction level has no effect on the steady state, because that only depends on the rate of egg production $R_dd$ and that is kept fixed when changing the reproduction level. We can check that by running our new model to steady state and plotting that steady state together with the original steady state. They overlap perfectly.
+
 ```{r}
 mp9 <- projectToSteady(mp9)
 
@@ -245,7 +234,7 @@ However the reproduction level has an effect on how sensitive the system is to c
 ```{r}
 # We make a copy of the model
 mp_lessRes9 <- mp9
-# and set the resource interaction to 0.5 for species 9
+# and set the resource interaction to 0.8 for species 8 to 11
 species_params(mp_lessRes9)$interaction_resource[8:11] <- 0.8
 
 sim_lessRes9 <- project(mp_lessRes9, t_max = 30, t_save = 2)
@@ -254,18 +243,21 @@ animateSpectra(sim_lessRes9, total = TRUE, power = 2,
                ylim = c(1e-8, NA), wlim = c(1e-3, NA))
 ```
 
-Notice how the species have settled down to a new steady state after 30 years without any extinctions. The problem of course is that in practice the reproduction level is hardly ever known. Instead one will need to use any information one has about the sensitivity of the system from observed past perturbations to calibrate the reproduction levels. We'll discuss this again in week 3.
+Notice how the species have settled down to a new steady state after 30 years without any extinctions and the impact on species 1 is almost negligible. With higher reproduction level species are much more resilient to perturbations, because even a small number of fish can produce a maximum recruitment level. So the abundance of new larvae is quite stable, which also stabilises the model dynamics.
+
+The problem of course is that in practice the reproduction level is hardly ever known. Instead one will need to use any information one has about the sensitivity of the system from observed past perturbations to calibrate the reproduction levels. We'll discuss this again in week 3.
 
 ::: {.callout-caution collapse="false"}
 ### Exercise 1
+
 Go back to the example with fishing on individuals above 1kg from the section on [fishing-induced cascades](species-interactions.html#fishing-induced-cascades). Impose the same fishing, but now on the trait-based model with reproduction dynamics left turned on and with a reproduction level of 0.5 for all species. Project the model for 20 years. What is the total biomass of species 1 after 20 years?
 :::
 
 ## Resource dynamics
 
-The resource spectrum is not described by size spectrum dynamics, because it is typically not made up of individuals that grow over a large size range during their life time. Instead, the resource number density in each size class is describe by semichemostat dynamics: the resource number density increases at a rate that diminishes as it gets close to a carrying capacity. If you want the mathematical details, you can find them in the [mizer model description](https://sizespectrum.org/mizer/articles/model_description.html) in the section on [resource density](https://sizespectrum.org/mizer/articles/model_description.html#resource-density).
+The resource spectrum is not described by size spectrum dynamics, because in reality it is typically not made up of individuals that grow over a large size range during their life time. In mizer, the resource number density in each size class is describe by semichemostat dynamics: the resource number density in each size class increases recovers after depletion, and this biomass growth or recovery rate will slow down as gets close to a carrying capacity. If you want the mathematical details, you can find them in the [mizer model description](https://sizespectrum.org/mizer/articles/model_description.html) in the section on [resource density](https://sizespectrum.org/mizer/articles/model_description.html#resource-density).
 
-The effect of these dynamics is that as the number of fish consuming the resource in a size range increases, the resource abundance will decrease. So there is competition for the resource, which provides a stabilising influence on the fish abundances. We will be discussing this more in week 3.
+The effect of these dynamics is that if the number of fish consuming the resource in a certain size range increases, the resource abundance will at size range will decrease, if it cannot recover quickly enough (regeneration rate of the resource is set by the user). So there is competition for the resource, which provides a stabilising influence on the fish abundances. We will be discussing this more in week 3.
 
 ## Summary and recap
 
@@ -279,6 +271,6 @@ The effect of these dynamics is that as the number of fish consuming the resourc
 
 5\) The relation between energy invested in reproduction and the actual birth rate is described by two parameters: the density independent reproduction efficiency `erepro` and the maximum birth rate `R_max`.
 
-6\) In practice a more useful way to parametrise the reproduction is by two other parameters: the birth rate $R_{dd}$ at steady state (which determines the total abundance of a species) and the _reproduction level_ (which determines the amount of additional density dependence).
+6\) In practice a more useful way to parametrise the reproduction is by two other parameters: the birth rate $R_{dd}$ at steady state (which determines the total abundance of a species) and the *reproduction level* (which determines the amount of additional density dependence).
 
-7\) A change in the reproduction level does not change the steady state but it changes the sensitivity of the system to changes.
+7\) A change in the reproduction level does not change the steady state but it changes the sensitivity of a species and the system to changes.
