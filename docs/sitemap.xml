@@ -1,43 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://course.mizer.sizespectrum.org/multi-species-size-spectrum-dynamics.html</loc>
-    <lastmod>2022-07-05T06:22:13.329Z</lastmod>
+    <loc>https://course.mizer.sizespectrum.org/troubleshooting.html</loc>
+    <lastmod>2022-08-07T20:41:51.150Z</lastmod>
   </url>
   <url>
-    <loc>https://course.mizer.sizespectrum.org/running-scenarios.html</loc>
-    <lastmod>2022-07-05T06:22:13.649Z</lastmod>
+    <loc>https://course.mizer.sizespectrum.org/understand/dynamics-of-spectra.html</loc>
+    <lastmod>2022-08-07T20:41:56.558Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/understand/index.html</loc>
+    <lastmod>2022-08-07T20:41:57.558Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/understand/species-interactions.html</loc>
+    <lastmod>2022-08-07T20:42:01.558Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/understand/single-species-spectra.html</loc>
+    <lastmod>2022-08-07T20:42:07.558Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/understand/predation-growth-and-mortality.html</loc>
+    <lastmod>2022-08-07T20:42:12.210Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/understand/observed-size-spectra.html</loc>
+    <lastmod>2022-08-07T20:42:17.630Z</lastmod>
   </url>
   <url>
     <loc>https://course.mizer.sizespectrum.org/index.html</loc>
-    <lastmod>2022-07-05T06:22:13.973Z</lastmod>
+    <lastmod>2022-08-07T20:42:18.094Z</lastmod>
   </url>
   <url>
-    <loc>https://course.mizer.sizespectrum.org/observational-size-spectra.html</loc>
-    <lastmod>2022-07-05T06:22:14.253Z</lastmod>
+    <loc>https://course.mizer.sizespectrum.org/prepare/use-git-and-github.html</loc>
+    <lastmod>2022-08-07T20:42:20.926Z</lastmod>
   </url>
   <url>
-    <loc>https://course.mizer.sizespectrum.org/build-model.html</loc>
-    <lastmod>2022-07-05T06:22:14.545Z</lastmod>
+    <loc>https://course.mizer.sizespectrum.org/prepare/index.html</loc>
+    <lastmod>2022-08-07T20:42:22.394Z</lastmod>
   </url>
   <url>
-    <loc>https://course.mizer.sizespectrum.org/species-parameters.html</loc>
-    <lastmod>2022-07-05T06:22:15.981Z</lastmod>
+    <loc>https://course.mizer.sizespectrum.org/prepare/install-tools.html</loc>
+    <lastmod>2022-08-07T20:42:24.618Z</lastmod>
   </url>
   <url>
-    <loc>https://course.mizer.sizespectrum.org/single-species-size-spectrum-dynamics.html</loc>
-    <lastmod>2022-07-05T06:22:27.777Z</lastmod>
+    <loc>https://course.mizer.sizespectrum.org/prepare/introduce-yourself.html</loc>
+    <lastmod>2022-08-07T20:42:24.938Z</lastmod>
   </url>
   <url>
-    <loc>https://course.mizer.sizespectrum.org/introduction-to-mizer.html</loc>
-    <lastmod>2022-07-05T06:22:28.045Z</lastmod>
-  </url>
-  <url>
-    <loc>https://course.mizer.sizespectrum.org/introduction-to-course.html</loc>
-    <lastmod>2022-07-05T06:22:28.293Z</lastmod>
-  </url>
-  <url>
-    <loc>https://course.mizer.sizespectrum.org/multiple-resources.html</loc>
-    <lastmod>2022-07-05T06:22:28.553Z</lastmod>
+    <loc>https://course.mizer.sizespectrum.org/prepare/watch-introduction.html</loc>
+    <lastmod>2022-08-07T20:42:25.270Z</lastmod>
   </url>
 </urlset>

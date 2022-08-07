@@ -65,27 +65,11 @@ website:
           - text: Dynamics of size spectra
             href: understand/dynamics-of-spectra.qmd
       - section: "Week 2: Build"
-        href: build/index.qmd
         contents:
-          - text: Find species parameters
-            href: build/find-species-parameters.qmd
-          - text: Create your first model
-            href: build/create-first-model.qmd
-          - text: Set up multiple resources
-            href: build/set-multiple-resources.qmd
-          - text: Refine your model
-            href: build/refine-model.qmd
+          - text: Released on 15 August
       - section: "Week 3: Use"
-        href: use/index.qmd
         contents:
-          - text: Tune reproduction sensitivity
-            href: use/simulate-change.qmd
-          - text: Simulate fishing scenarios
-            href: use/tune-sensitivity.qmd
-          - text: Tune resource sensitivity
-            href: use/change-resources.qmd
-          - text: Simulate resource scenarios
-            href: use/run-your-own-scenarios.qmd
+          - text: Released on 22 August
       - section: "Info"
         contents:
           - text: Troubleshooting

@@ -1,6 +1,0 @@
----
-title: "Week 3: Use mizer models"
----
-
-## In preparation
-
