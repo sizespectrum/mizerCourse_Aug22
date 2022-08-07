@@ -40,6 +40,13 @@ The material is split into 5 tutorials:
 
 Each tutorial comes with exercises and a worksheet in which to complete the exercises. These worksheets are contained in a dedicated repository on GitHub to which you will push your work to get feedback. This will work the same way as we discussed in the tutorial [Use Git and GitHub](../prepare/use-git-and-github.qmd). If you did not yet get a chance to work through that tutorial, please do so now before continuing with this week's tutorials.
 
+```{r}
+#| echo: false
+vembedr::embed_url("https://youtu.be/igE1mk1DQ6w") |>
+    vembedr::use_align("center") |>
+    vembedr::use_rounded(10)
+```
+
 To get your worksheet repository for this week, follow this link:
 
 <https://classroom.github.com/a/5cnr1H7R>
