@@ -145,8 +145,9 @@ Now we can use these logarithmically spaced bins in the histogram while also kee
 p2 <- ggplot(data) +
     geom_histogram(aes(weight), fill = "blue", colour = "black",
                    breaks = binbreaks) +
-    scale_x_continuous(name = "Weight [g]") +
-    scale_y_log10(name = "Number of fish")
+    labs(x = "Weight [g]",
+         y = "Number of fish") +
+    scale_y_log10()
 p2
 ```
 
