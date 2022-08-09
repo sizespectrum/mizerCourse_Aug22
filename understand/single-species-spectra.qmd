@@ -168,8 +168,8 @@ cdf <- cumulative_biomass / cumulative_biomass[1, 101] * 100
 # Melt the array to a data frame and then plot
 ggplot(melt(cdf), aes(x = w, y = value)) +
     geom_line() + 
-    scale_x_continuous(name = "Weight [g]") + 
-    scale_y_continuous(name = "% of total biomass")
+    labs(x = "Weight [g]",
+         y = "% of total biomass")
 ```
 
 This plot shows us for example that 50% of the individuals are smaller than 12.5g and only a very small percentage is larger than 75g.
@@ -179,8 +179,9 @@ The biomass density is the slope of this graph. We can also plot the cumulative 
 ```{r}
 ggplot(melt(cdf), aes(x = w, y = value)) +
     geom_line() +
-    scale_x_log10(name = "Weight [g]") +
-    scale_y_continuous(name = "% of total biomass")
+    labs(x = "Weight [g]",
+         y = "% of total biomass") +
+    scale_x_log10()
 ```
 
 This graph contains exactly the same information as the previous graph, just showing more detail at smaller sizes and less detail at larger sizes. We can see for example that about 20% of individuals are less than 1g, which was difficult to see in the previous graph. The slope of this graph is the biomass density in log weight.
@@ -334,8 +335,8 @@ psi <- melt(reprod_proportion)
 
 p <- ggplot(psi) +
     geom_line(aes(x = w, y = value)) +
-    scale_x_continuous(name = "Weight [g]") +
-    scale_y_continuous(name = "Proportion invested into reproduction")
+    labs(x = "Weight [g]",
+         y = "Proportion invested into reproduction")
 
 p
 ```
@@ -398,8 +399,8 @@ ggplot(psi_changed_maturity) +
                lty = 2) +
     geom_vline(xintercept = species_params(params_changed_maturity)$w_mat25, 
                lty = 2, col = "grey") + 
-    scale_x_continuous(name = "Weight [g]") +
-    scale_y_continuous(name = "Proportion invested into reproduction")
+    labs(x = "Weight [g]",
+         y = "Proportion invested into reproduction")
 ```
 
 ### Two curves in one plot
@@ -422,8 +423,8 @@ and send that combined data frame to `ggplot()`
 ```{r}
 ggplot(psi_combined) +
     geom_line(aes(x = w, y = value, colour = type)) +
-    scale_x_continuous(name = "Weight [g]") +
-    scale_y_continuous(name = "Proportion invested into reproduction")
+    labs(x = "Weight [g]",
+         y = "Proportion invested into reproduction")
 ```
 
 This change in the maturity curve of course implies a change in the growth rates.
