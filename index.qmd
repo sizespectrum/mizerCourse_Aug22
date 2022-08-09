@@ -51,7 +51,7 @@ When you get to the landings page for the meeting, click on "Register for Event"
 On Monday **8th of August** we will have an introductory and welcome meeting with all course participants. On Tuesdays and Thursdays of each week course participants are encouraged to join the meetings with other course participants to discuss their progress, challenges and ideas (course tutors will not attend all these meetings). On Fridays we will have meetings with tutors to recap the experience from that week and discuss remaining questions.
 
 | *Date*             | *Time 1*                                                 | *Time 2*                                                    | *Notes*                                                               |
-|----------------|----------------|----------------|------------------------|
+|--------------------|----------------------------------------------------------|-------------------------------------------------------------|-----------------------------------------------------------------------|
 | **Aug 8, Monday**  | [**7.00**](https://live.remo.co/e/mizer-course-meetings) | [**15.00**](https://live.remo.co/e/mizer-course-meetings-2) | Introductory meeting for all course participants and tutors           |
 | Aug 9, Tuesday     | [7.00](https://live.remo.co/e/mizer-course-meetings)     | [15.00](https://live.remo.co/e/mizer-course-meetings-2)     | Course participants are encouraged to join and form group discussions |
 | Aug 11, Thursday   | [7.00](https://live.remo.co/e/mizer-course-meetings)     | [15.00](https://live.remo.co/e/mizer-course-meetings-2)     | Course participants are encouraged to join and form group discussions |
