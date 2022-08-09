@@ -363,8 +363,8 @@ select(species_params(params), w_mat, w_mat25, w_inf, m)
 And with this knowledge of parameter we can improve the plot for clarity and add a vertical line at 25% and 50% maturation weight
 
 ```{r}
-maturation_weight50 <- params@species_params$w_mat
-maturation_weight25 <- params@species_params$w_mat25
+maturation_weight50 <- species_params(params)$w_mat
+maturation_weight25 <- species_params(params)$w_mat25
 
 p + geom_vline(xintercept = maturation_weight50, lty = 2) +
     geom_vline(xintercept = maturation_weight25, lty = 2, col = "grey")
@@ -383,7 +383,7 @@ In this copy we now change the species parameters
 ```{r}
 species_params(params_changed_maturity)$w_mat <- 40
 species_params(params_changed_maturity)$w_mat25 <- 30
-select(params_changed_maturity@species_params, w_mat, w_mat25, w_inf, m)
+select(species_params(params_changed_maturity), w_mat, w_mat25, w_inf, m)
 ```
 
 Now the maturity curve has changed, which we can verify by plotting it
@@ -394,8 +394,10 @@ psi_changed_maturity <- melt(maturity(params_changed_maturity) *
 
 ggplot(psi_changed_maturity) +
     geom_line(aes(x = w, y = value)) +
-    geom_vline(xintercept = params_changed_maturity@species_params$w_mat, lty = 2) +
-    geom_vline(xintercept = params_changed_maturity@species_params$w_mat25, lty = 2, col = "grey") + 
+    geom_vline(xintercept = species_params(params_changed_maturity)$w_mat, 
+               lty = 2) +
+    geom_vline(xintercept = species_params(params_changed_maturity)$w_mat25, 
+               lty = 2, col = "grey") + 
     scale_x_continuous(name = "Weight [g]") +
     scale_y_continuous(name = "Proportion invested into reproduction")
 ```
