@@ -32,10 +32,10 @@ The course is organised into several tutorials each week. Each tutorial is assoc
 
 There will be several optional online meeting scheduled throughout the course, see the list of meetings in the table below. The purpose of the meetings is to add a social dimension to the course. You only have to join when you can. For each day we organise two meetings to accommodate different time zones:
 
--   7am UK summer time (BST) most suitable for Asia and Australasia: \
+-   7am UK summer time (BST) most suitable for Asia and Australasia:\
     [**https://live.remo.co/e/mizer-course-meetings**](https://live.remo.co/e/mizer-course-meetings)
 
--   3pm UK summer time (BST) most suitable for Europe and America: \
+-   3pm UK summer time (BST) most suitable for Europe and America:\
     [**https://live.remo.co/e/mizer-course-meetings-2**](https://live.remo.co/e/mizer-course-meetings-2)
 
 Please follow one of these links now. You will be asked to create yourself an account. Please use the email address that you used for registering for this mizer course. If you need to use another email address, please send an email from that email address to [gustav.delius\@gmail.com](mailto:gustav.delius@gmail.com) and he will add that email to the list of accepted emails.
@@ -50,18 +50,18 @@ When you get to the landings page for the meeting, click on "Register for Event"
 
 On Monday **8th of August** we will have an introductory and welcome meeting with all course participants. On Tuesdays and Thursdays of each week course participants are encouraged to join the meetings with other course participants to discuss their progress, challenges and ideas (course tutors will not attend all these meetings). On Fridays we will have meetings with tutors to recap the experience from that week and discuss remaining questions.
 
-| *Date*             | *Time 1* | *Time 2*  | *Notes*                                                               |
-|--------------|--------------|--------------|-------------------------------|
-| **Aug 8, Monday**  | **7.00** | **15.00** | Introductory meeting for all course participants and tutors           |
-| Aug 9, Tuesday     | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
-| Aug 11, Thursday   | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
-| **Aug 12, Friday** | **7.00** | **15.00** | Meetings with course participants and tutors                          |
-| Aug 16, Tuesday    | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
-| Aug 18, Thursday   | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
-| **Aug 19, Friday** | **7.00** | **15.00** | Meetings with course participants and tutors                          |
-| Aug 23, Tuesday    | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
-| Aug 25, Thursday   | 7.00     | 15.00     | Course participants are encouraged to join and form group discussions |
-| **Aug 26, Friday** | **7.00** | **15.00** | Final days of meetings with course participants and tutors            |
+| *Date*             | *Time 1*                                                 | *Time 2*                                                    | *Notes*                                                               |
+|----------------|----------------|----------------|------------------------|
+| **Aug 8, Monday**  | [**7.00**](https://live.remo.co/e/mizer-course-meetings) | [**15.00**](https://live.remo.co/e/mizer-course-meetings-2) | Introductory meeting for all course participants and tutors           |
+| Aug 9, Tuesday     | [7.00](https://live.remo.co/e/mizer-course-meetings)     | [15.00](https://live.remo.co/e/mizer-course-meetings-2)     | Course participants are encouraged to join and form group discussions |
+| Aug 11, Thursday   | [7.00](https://live.remo.co/e/mizer-course-meetings)     | [15.00](https://live.remo.co/e/mizer-course-meetings-2)     | Course participants are encouraged to join and form group discussions |
+| **Aug 12, Friday** | [**7.00**](https://live.remo.co/e/mizer-course-meetings) | [**15.00**](https://live.remo.co/e/mizer-course-meetings-2) | Meetings with course participants and tutors                          |
+| Aug 16, Tuesday    | [7.00](https://live.remo.co/e/mizer-course-meetings)     | [15.00](https://live.remo.co/e/mizer-course-meetings-2)     | Course participants are encouraged to join and form group discussions |
+| Aug 18, Thursday   | [7.00](https://live.remo.co/e/mizer-course-meetings)     | [15.00](https://live.remo.co/e/mizer-course-meetings-2)     | Course participants are encouraged to join and form group discussions |
+| **Aug 19, Friday** | [**7.00**](https://live.remo.co/e/mizer-course-meetings) | [**15.00**](https://live.remo.co/e/mizer-course-meetings-2) | Meetings with course participants and tutors                          |
+| Aug 23, Tuesday    | [7.00](https://live.remo.co/e/mizer-course-meetings)     | [15.00](https://live.remo.co/e/mizer-course-meetings-2)     | Course participants are encouraged to join and form group discussions |
+| Aug 25, Thursday   | [7.00](https://live.remo.co/e/mizer-course-meetings)     | [15.00](https://live.remo.co/e/mizer-course-meetings-2)     | Course participants are encouraged to join and form group discussions |
+| **Aug 26, Friday** | [**7.00**](https://live.remo.co/e/mizer-course-meetings) | [**15.00**](https://live.remo.co/e/mizer-course-meetings-2) | Final days of meetings with course participants and tutors            |
 
 ![](images/paste-3ABCF373.png){width="734"}
 
