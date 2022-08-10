@@ -66,18 +66,6 @@ Finally mizer has set a constant background mortality `z0` that scales with the 
 species_params(cur_model) |> select(h, ks, z0)
 ```
 
-We now switch off resource and reproduction dynamics to concentrate on tuning the size spectrum dynamics first to get a steady state consistent with observations. We will then switch them back on next week when we study the impact of changes. In the next version of mizer you will not have to do the following by hand any more. Instead there will be a new `defaults_edition()` function that allows you to choose which set of default choices you want mizer to implement. Calling `defaults_edition(2)` will instruct mizer to switch to using the new defaults that are more appropriate for the new method of tuning mizer models. But for now you just have to execute the following code to switch off the resource and reproduction dynamics:
-
-```{r}
-cur_model <- cur_model |>
-    # turn of reproduction and instead keep egg abundance constant
-    setRateFunction("RDI", "constantEggRDI") |>
-    setRateFunction("RDD", "noRDD") |>
-    # turn off resource dynamics
-    setResource(resource_dynamics = "resource_constant")
-```
-
-
 ## Improve initial spectra
 
 The `newMultispeciesParams()` function is not very good at choosing a good initial configuration. Let's have a look at what is has set up:
