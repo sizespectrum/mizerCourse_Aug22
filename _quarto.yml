@@ -17,6 +17,7 @@ format:
     code-block-border-left: "#31BAE9"
     anchor-sections: true
     link-external-newwindow: true
+    df-print: paged
 
 execute:
   cache: true
