@@ -2,10 +2,170 @@
 title: "Building a new multi-species model"
 ---
 
-Here you will learn how to set up a multi-species mizer model, starting from a given set of species parameters.
-
-
 ## In preparation
 
+## Introduction
 
+Setting up a mizer model that agrees with observations used to be difficult. That is not a surprise, because we have seen how all the species influence each other, as well as the resource, and how the reproduction rates of all species depend on the size spectra of all species and vice versa. So if you make changes at one end of the model to make it agree with some observation, things change at the other end to mess things up again.
+
+There are three dynamic processes in action in a mizer model at the same time: size-spectrum dynamics, reproduction dynamics and resource dynamics. These are fully interacting with each other, with feedback loops. So for example the resource spectrum depends on the consumption by fish, which depends on the fish size spectra, which depend on the fish growth rates, which depends on the resource spectrum. Similarly the reproduction rate depends on the number of mature fish and on their energy income, which depends among other things on the rate at which new individuals are recruited, which depends among other things on the reproduction rate. And all of these processes depend on the model parameters that we are supposed to choose in a way that reproduces observed behaviour. It seems hopeless!
+
+The way we have arrived at a simple process for the creation of a viable mizer model is to decouple the tuning of the size spectrum dynamics from the tuning of the reproduction dynamics and resource dynamics. So, as we have done last week, initially we turn off reproduction dynamics and resource dynamics. We set the constant reproduction rate to a level that produces the observed biomasses and we set the constant resource spectrum according to observations or, in the absence of observations, we set it to a Sheldon power law. We then use that size spectrum dynamics on its own quickly settles down to its steady state, so that we can interactively tune parameters to get the steady state to agree with observations.
+
+Once we are happy with the steady state of the model, we turn the reproduction and resource dynamics back on, but with parameter choices that do not modify the steady state of the coupled system. We then have to tune the remaining parameters of the reproduction dynamics and resource dynamics to achieve the correct sensitivity of the system to perturbations away from its steady state. But by separating this tuning of the dynamics from the tuning of the steady state, the whole process becomes much more manageable.
+
+We will concentrate on building models with the correct steady state this week and then tune the behaviour away from steady state next week.
+
+In this tutorial we will take the species parameters that we assembled in the previous tutorial for the Curonian lagoon and use the `newMultispeciesParams()` function to build a mizer model with them. We will let mizer choose most of the defaults and then adjust a few things so that the model has a steady state that has the observed species biomasses and growth curves. We will not do any fine-tuning of the steady state because the first big improvement that we will make in the next tutorial will be to add multiple resource spectra, as is appropriate for this shallow coastal ecosystem.
+
+
+As always, we start by loading packages.
+```{r message=FALSE}
+remotes::install_github("sizespectrum/mizerExperimental")
+library(mizerExperimental)
+library(tidyverse)
+```
+
+## Create MizerParams object
+
+we collected the species parameters and the interaction matrix for our model in the previous tutorial and saved them as .csv files. So here we only need to read in those files.
+```{r}
+curonian_species_params <- read.csv("curonian_species_params.csv")
+curonian_interaction <- read.csv("curonian_interaction.csv", row.names = 1)
+```
+
+We use `rownames = 1` to let `read.csv` know that the first column in the spreadsheet, which contains the predator names, should be used as the names of the rows of the interaction matrix.
+
+If you want to check that the data was read in correctly, you can click on `curonian_species_params` and `curonian_interaction` in the "Environment" tab. That will open the data frames in your editor window.
+
+We will now set up a multi-species mizer model using the function `newMultispeciesParams()`. Besides the species parameters and the interaction matrix, the other information that flows into a multi-species model are the resource parameters, the gear parameters and the fishing effort. 
+
+We let mizer choose defaults for the resource parameters and gear parameters. By default, the resource carrying capacity will be set to a power law $N_R(w) = \kappa w^{-\lambda}$ with $\lambda = 2.05$, as we are already familiar with from week 1. 
+
+The default fishing gear selects all individuals above maturity size of all species with a catchability of 1. So if we set the fishing effort to 0.3 that imposes a fishing mortality of 0.3 per year on those fish.
+
+Last week we discussed that natural choice for the allometric exponents $n$ (growth exponent) and $p$ (metabolic exponent) is to take them both equal to $3/4$. That is the choice we will use.
+
+With this information we call the function `newMultispeciesParams()` which returns a MizerParams object that we save in the variable `cur_model` (lazy shorthand for "Curonian model"):
+```{r}
+cur_model <- newMultispeciesParams(species_params = curonian_species_params, 
+                                   interaction = curonian_interaction, 
+                                   initial_effort = 0.3,
+                                   n = 3/4, p = 3/4)
+```
+
+As you see from the messages it has printed, the `newMultispeciesParams()` function has made choices for some model parameters based on the information we supplied. 
+
+So for example it chose the coefficient `h` of the maximum intake rate for each species to produce growth curves that are roughly in agreement with the von Bertalannfy growth parameters `k_vb` that we supplied and with a larval feeding level `f0` (which we did not supply but which mizer chose as `f0 = 0.6`).
+
+Mizer chose the coefficient `ks` of the metabolic rate for each species so that a proportion `fc` of the maximum intake rate would be enough to cover the metabolic expenses. We did not specifiy this critical feeding level `fc` so mizer chose `fc = 0.2`.
+
+Finally mizer has set a constant background mortality `z0` that scales with the species' asymptotic size. Let's look at the result:
+
+```{r}
+species_params(cur_model) |> select(h, ks, z0)
+```
+
+We now switch off resource and reproduction dynamics to concentrate on tuning the size spectrum dynamics first to get a steady state consistent with observations. We will then switch them back on next week when we study the impact of changes. In the next version of mizer you will not have to do the following by hand any more. Instead there will be a new `defaults_edition()` function that allows you to choose which set of default choices you want mizer to implement. Calling `defaults_edition(2)` will instruct mizer to switch to using the new defaults that are more appropriate for the new method of tuning mizer models. But for now you just have to execute the following code to switch off the resource and reproduction dynamics:
+
+```{r}
+cur_model <- cur_model |>
+    # turn of reproduction and instead keep egg abundance constant
+    setRateFunction("RDI", "constantEggRDI") |>
+    setRateFunction("RDD", "noRDD") |>
+    # turn off resource dynamics
+    setResource(resource_dynamics = "resource_constant")
+```
+
+
+## Improve initial spectra
+
+The `newMultispeciesParams()` function is not very good at choosing a good initial configuration. Let's have a look at what is has set up:
+```{r}
+plotSpectra(cur_model, power = 2)
+```
+
+There is a lot wrong here. The species spectra lack the characteristic bulge at adult sizes. Also the species spectra do not line up nicely with the abundance of the resource. Furthermore, the abundances of the species do not match the observed biomass values. We can see this with the `plotBiomassVsSpecies()` function:
+
+```{r}
+plotBiomassVsSpecies(cur_model)
+```
+
+This shows for each species the model biomass (open circle) and the observed biomass (filled square) on a logarithmic y-axis. The line connecting model value and observed value is for visual purposes only. We see that model values and observed values are many orders of magnitude apart.
+
+### Rescale species spectra
+
+To fix the discrepancy between the model biomasses and the observed biomasses we simply need to rescale the abundance of each species by the appropriate factor. The `matchBiomasses()` function does this for us. 
+```{r}
+cur_model <- matchBiomasses(cur_model)
+plotBiomassVsSpecies(cur_model)
+```
+
+Now the circles and squares lie on top of each other.
+
+### Rescale resource spectrum
+
+Also the resource abundance is far too high as we can see by looking at the spectra plot:
+```{r}
+plotSpectra(cur_model, power = 2)
+```
+
+We want to rescale the resource abundance down so that it is in line with the species abundances. The `alignResource()` function does this, while at the same time also increasing the search volumes of the species so that the larvae still get to feed on resource at the same rate.
+
+```{r}
+cur_model <- alignResource(cur_model)
+plotSpectra(cur_model, power = 2)
+```
+
+## Project to steady state
+
+We will now project to the steady state, which will finally give us realistic species spectra.
+
+```{r}
+cur_model <- steady(cur_model)
+plotSpectra(cur_model, power = 2)
+```
+
+## Match biomasses
+
+Unfortunately the changes that took place while projecting to steady state have messed up the species biomasses a bit again.
+
+```{r}
+plotBiomassVsSpecies(cur_model)
+```
+
+The discrepancies are not nearly as big as previously, but still bigger than we like. So we match the biomasses again with `matchBiomasses()`. But the result is not a steady state, so we project to steady state with `steady()`. Then we compare the model and observed biomasses again:
+
+```{r}
+cur_model <- cur_model |> matchBiomasses() |> steady()
+plotBiomassVsSpecies(cur_model)
+```
+
+This is better, but not perfect. So let's do it again. We can simply run the above code again and again until we are happy with the match. After running the above code 10 more times we get this picture:
+
+```{r}
+#| echo: false
+cur_model <- cur_model |> 
+    matchBiomasses() |> steady() |> matchBiomasses() |> steady() |> 
+    matchBiomasses() |> steady() |> matchBiomasses() |> steady() |>
+    matchBiomasses() |> steady() |> matchBiomasses() |> steady() |>
+    matchBiomasses() |> steady() |> matchBiomasses() |> steady() |>
+    matchBiomasses() |> steady() |> matchBiomasses() |> steady()
+plotBiomassVsSpecies(cur_model)
+```
+
+```{r}
+plotSpectra(cur_model, power = 2)
+```
+
+## Match growth curves
+
+We had also given 
+```{r}
+plotGrowthCurves(cur_model, species_panel = TRUE)
+```
+
+```{r}
+#cur_model <- tuneGrowth(cur_model)
+```
 
