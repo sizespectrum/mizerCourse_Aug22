@@ -2,8 +2,6 @@
 title: "Building a new multi-species model"
 ---
 
-## In preparation
-
 ## Introduction
 
 Setting up a mizer model that agrees with observations used to be difficult. That is not a surprise, because we have seen how all the species influence each other, as well as the resource, and how the reproduction rates of all species depend on the size spectra of all species and vice versa. So if you make changes at one end of the model to make it agree with some observation, things change at the other end to mess things up again.
@@ -51,7 +49,7 @@ With this information we call the function `newMultispeciesParams()` which retur
 cur_model <- newMultispeciesParams(species_params = curonian_species_params, 
                                    interaction = curonian_interaction, 
                                    initial_effort = 0.3,
-                                   n = 3/4, p = 3/4)
+                                   lambda = 2.05, n = 3/4, p = 3/4)
 ```
 
 As you see from the messages it has printed, the `newMultispeciesParams()` function has made choices for some model parameters based on the information we supplied. 
@@ -91,6 +89,8 @@ plotBiomassVsSpecies(cur_model)
 
 Now the circles and squares lie on top of each other.
 
+There are similar functions `matchNumbers()` and `matchYields()` that you would use in case either total numbers of individuals or fisheries yields are known instead of total biomasses.
+
 ### Rescale resource spectrum
 
 Also the resource abundance is far too high as we can see by looking at the spectra plot:
@@ -107,7 +107,7 @@ plotSpectra(cur_model, power = 2)
 
 ## Project to steady state
 
-We will now project to the steady state, which will finally give us realistic species spectra.
+We will now project to the steady state, which will finally give us realistic species spectra. To do this we use the special function `steady()` which implements our trick of keeping the reproduction rate and the resource spectrum constant.
 
 ```{r}
 cur_model <- steady(cur_model)
@@ -126,6 +126,13 @@ The discrepancies are not nearly as big as previously, but still bigger than we 
 
 ```{r}
 cur_model <- cur_model |> matchBiomasses() |> steady()
+```
+
+We can ignore the warning from the `setBevertonHolt()` function about unrealistic reproductive efficiencies. Those warnings are an artefact of how the reproduction level is set by default by the `matchBiomasses()` function. We could fix those defaults, but we are not yet concerned with the reproduction dynamics so we don't have to do that and just ignore the warnings.
+
+We now plot the biomasses again:
+
+```{r}
 plotBiomassVsSpecies(cur_model)
 ```
 
@@ -133,6 +140,7 @@ This is better, but not perfect. So let's do it again. We can simply run the abo
 
 ```{r}
 #| echo: false
+#| message: false
 cur_model <- cur_model |> 
     matchBiomasses() |> steady() |> matchBiomasses() |> steady() |> 
     matchBiomasses() |> steady() |> matchBiomasses() |> steady() |>
@@ -142,18 +150,24 @@ cur_model <- cur_model |>
 plotBiomassVsSpecies(cur_model)
 ```
 
+And here is how the spectra look with the correct observed biomasses:
+
 ```{r}
 plotSpectra(cur_model, power = 2)
 ```
 
 ## Match growth curves
 
-We had also given 
+We had included von Bertalanffy growth parameters in our species parameter data frame. We can use them to plot von Bertalanffy growth curves and compare them to the growth curves in the mizer model: 
 ```{r}
 plotGrowthCurves(cur_model, species_panel = TRUE)
 ```
 
-```{r}
-#cur_model <- tuneGrowth(cur_model)
-```
+This is not too bad and we could leave things here, but we want to show what you would do if the growth curves in the model were not realistic enough.
 
+TODO: video about `tuneGrowth()` gadget.
+
+::: {.callout-caution collapse="false"}
+### Exercise 1
+Go through the same steps that we went through for creating a model from the Curonian species parameters and interaction matrix, but start with slightly different choices for the allometric exponents `lambda`, `n` and `p`. You should only vary these parameters very little. Choose your value of `lambda` somewhere between 2 and 2.2, your value for `n` between 0.7 and 0.8 and `p` between `n` and 0.8.
+:::
