@@ -24,9 +24,9 @@ library(mizerExperimental)
 library(tidyverse)
 ```
 
-## Create MizerParams object
+## Step 1: Create MizerParams object
 
-we collected the species parameters and the interaction matrix for our model in the previous tutorial and saved them as .csv files. So here we only need to read in those files.
+We collected the species parameters and the interaction matrix for our model in the previous tutorial and saved them as .csv files. So here we only need to read in those files.
 ```{r}
 curonian_species_params <- read.csv("curonian_species_params.csv")
 curonian_interaction <- read.csv("curonian_interaction.csv", row.names = 1)
@@ -64,22 +64,87 @@ Finally mizer has set a constant background mortality `z0` that scales with the 
 species_params(cur_model) |> select(h, ks, z0)
 ```
 
-## Improve initial spectra
 
-The `newMultispeciesParams()` function is not very good at choosing a good initial configuration. Let's have a look at what is has set up:
+## Step 2: Project to steady state
+
+The `newMultispeciesParams()` function is not very good at choosing a good initial community configuration. Let's have a look at what is has set up:
+
 ```{r}
 plotSpectra(cur_model, power = 2)
 ```
 
-There is a lot wrong here. The species spectra lack the characteristic bulge at adult sizes. Also the species spectra do not line up nicely with the abundance of the resource. Furthermore, the abundances of the species do not match the observed biomass values. We can see this with the `plotBiomassVsSpecies()` function:
+There is a lot wrong here. The species spectra lack the characteristic bulge at adult sizes. Also the species spectra do not line up nicely with the abundance of the resource. But most importantly, these spectra are not close to their steady state values.
+
+We will now project to the steady state, which will finally give us realistic species spectra. To do this we use the special function `steady()` which implements our trick of keeping the reproduction rate and the resource spectrum constant.
+
+```{r}
+cur_model <- steady(cur_model)
+```
+
+We can ignore the warning from the `setBevertonHolt()` function about unrealistic reproductive efficiencies. Those warnings are an artefact of how the reproduction level is set by default by the `matchBiomasses()` function. We could fix those defaults, but we are not yet concerned with the reproduction dynamics so we don't have to do that and just ignore the warnings.
+
+Now let us look at the spectra in the steady state:
+```{r}
+plotlySpectra(cur_model, power = 2)
+```
+
+::: {.callout-caution collapse="true"}
+### If step 2 fails
+
+The `steady()` function is not guaranteed to find the steady state. It may be that the steady state is actually unstable. In that case the system evolves towards an oscillating state instead. This is luckily rare for realistic parameters, but may well happen while you are still trying to find the correct parameters. Let us illustrate this in a modified model. We decrease the width of the feeding kernel for all species to `sigma = 1` and increase the slope of the resource spectrum to `lambda = 2.2`. We know from mathematical studies that both of these changes have a destabilising effect.
+
+```{r}
+modified_species_params <- curonian_species_params
+modified_species_params$sigma <- 1
+
+modified_model <- 
+    newMultispeciesParams(species_params = modified_species_params,
+                          interaction = curonian_interaction,
+                          initial_effort = 0.3,
+                          lambda = 2.2, n = 3/4, p = 3/4)
+```
+
+Now let us see what happens when we try to run this system to steady state:
+
+```{r}
+modified_model <- steady(modified_model)
+```
+
+
+
+```{r}
+sim <- steady(modified_model, return_sim = TRUE)
+```
+
+```{r}
+plotBiomass(sim)
+```
+:::
+
+
+## Step 3: Calibrate the scale
+
+Mizer is agnostic of whether you want to measure biomass per square meter, or per square kilometer, or for the entire area of the fishery or whatever. So initially it had set things up on an arbitrarily chosen scale. We can see this if we compare the biomasses of the species in the model with the observed biomasses from your species parameter file with the `plotBiomassVsSpecies()` function:
 
 ```{r}
 plotBiomassVsSpecies(cur_model)
 ```
 
-This shows for each species the model biomass (open circle) and the observed biomass (filled square) on a logarithmic y-axis. The line connecting model value and observed value is for visual purposes only. We see that model values and observed values are many orders of magnitude apart.
+This shows for each species the model biomass (open circle) and the observed biomass (filled square) on a logarithmic y-axis. The line connecting model value and observed value is for visual purposes only. We see that model values and observed values are many orders of magnitude apart. 
 
-### Rescale species spectra
+Using your supplied biomass observations, mizer can now calibrate its scale so that the total biomass in the model coincides with the total observed biomass, summed over all species. 
+
+```{r}
+cur_model <- calibrateBiomass(cur_model)
+```
+
+Of course for the individual species the model biomasses will still disagree with the observed biomasses, with some being too high while others are too low. Just the total summed over all species agrees between model and observation.
+
+```{r}
+plotBiomassVsSpecies(cur_model)
+```
+
+## Step 4: Rescale species spectra
 
 To fix the discrepancy between the model biomasses and the observed biomasses we simply need to rescale the abundance of each species by the appropriate factor. The `matchBiomasses()` function does this for us. 
 ```{r}
@@ -91,58 +156,35 @@ Now the circles and squares lie on top of each other.
 
 There are similar functions `matchNumbers()` and `matchYields()` that you would use in case either total numbers of individuals or fisheries yields are known instead of total biomasses.
 
-### Rescale resource spectrum
+## Step 5: Rinse and repeat
 
-Also the resource abundance is far too high as we can see by looking at the spectra plot:
-```{r}
-plotSpectra(cur_model, power = 2)
-```
-
-We want to rescale the resource abundance down so that it is in line with the species abundances. The `alignResource()` function does this, while at the same time also increasing the search volumes of the species so that the larvae still get to feed on resource at the same rate.
-
-```{r}
-cur_model <- alignResource(cur_model)
-plotSpectra(cur_model, power = 2)
-```
-
-## Project to steady state
-
-We will now project to the steady state, which will finally give us realistic species spectra. To do this we use the special function `steady()` which implements our trick of keeping the reproduction rate and the resource spectrum constant.
+Rescaling the spectra of the individual species has not created another steady state. All species now experience a new prey distribution and a new predator distribution and so their growth and death rates have changed, which requires us to run the dynamics again to find the new steady state. So we essentially go back to step 2 and project to steady state:
 
 ```{r}
 cur_model <- steady(cur_model)
-plotSpectra(cur_model, power = 2)
 ```
 
-## Match biomasses
+The function tell us that running the dynamics for 99 years was not enough to converge sufficiently close to the steady state. In other words, the state was still changing after 99 years. There are now two possibilities: 1) the dynamics will never converge to a steady state but instead continue to oscillate for ever or 2) we simply need to be a bit more patient. Let's hope for the second option and call `steady()` again. 
 
-Unfortunately the changes that took place while projecting to steady state have messed up the species biomasses a bit again.
+```{r}
+cur_model <- steady(cur_model)
+```
+
+We were lucky and only had to wait for another 13.5 years. We'll discuss what to do when we are not lucky in the [When things don't go smoothly](#when-things-dont-go-smoothly) section.
+
+But while the system settled down to the new steady state, the species biomasses have changed, so they now no longer agree with observation. 
 
 ```{r}
 plotBiomassVsSpecies(cur_model)
 ```
 
-The discrepancies are not nearly as big as previously, but still bigger than we like. So we match the biomasses again with `matchBiomasses()`. But the result is not a steady state, so we project to steady state with `steady()`. Then we compare the model and observed biomasses again:
+We appear to be in a bind: If we match the biomasses we are no longer at steady state, if we run to steady state we no longer match the biomasses. But notice that the discrepancies are not as big as previously. So we don't give up but simply keep iterating.
+
+After repeating the cycle of matching biomasses and running to steady state 10 more times we get this picture:
 
 ```{r}
-cur_model <- cur_model |> matchBiomasses() |> steady()
-```
-
-We can ignore the warning from the `setBevertonHolt()` function about unrealistic reproductive efficiencies. Those warnings are an artefact of how the reproduction level is set by default by the `matchBiomasses()` function. We could fix those defaults, but we are not yet concerned with the reproduction dynamics so we don't have to do that and just ignore the warnings.
-
-We now plot the biomasses again:
-
-```{r}
-plotBiomassVsSpecies(cur_model)
-```
-
-This is better, but not perfect. So let's do it again. We can simply run the above code again and again until we are happy with the match. After running the above code 10 more times we get this picture:
-
-```{r}
-#| echo: false
-#| message: false
-cur_model <- cur_model |> 
-    matchBiomasses() |> steady() |> matchBiomasses() |> steady() |> 
+cur_model <- cur_model |>
+    matchBiomasses() |> steady() |> matchBiomasses() |> steady() |>
     matchBiomasses() |> steady() |> matchBiomasses() |> steady() |>
     matchBiomasses() |> steady() |> matchBiomasses() |> steady() |>
     matchBiomasses() |> steady() |> matchBiomasses() |> steady() |>
@@ -156,18 +198,17 @@ And here is how the spectra look with the correct observed biomasses:
 plotSpectra(cur_model, power = 2)
 ```
 
-## Match growth curves
+::: {.callout-caution collapse="true"}
+### If step 5 fails
 
-We had included von Bertalanffy growth parameters in our species parameter data frame. We can use them to plot von Bertalanffy growth curves and compare them to the growth curves in the mizer model: 
-```{r}
-plotGrowthCurves(cur_model, species_panel = TRUE)
-```
+could diverge
 
-This is not too bad and we could leave things here, but we want to show what you would do if the growth curves in the model were not realistic enough.
-
-TODO: video about `tuneGrowth()` gadget.
+:::
 
 ::: {.callout-caution collapse="false"}
 ### Exercise 1
-Go through the same steps that we went through for creating a model from the Curonian species parameters and interaction matrix, but start with slightly different choices for the allometric exponents `lambda`, `n` and `p`. You should only vary these parameters very little. Choose your value of `lambda` somewhere between 2 and 2.2, your value for `n` between 0.7 and 0.8 and `p` between `n` and 0.8.
+Now use your species parameter data frame that you assembled in the exercise in the previous tutorial. Go through the 5 steps that we went through above to build your own mizer model based on your species parameters.
+
+Use the worksheet for this tutorial to submit your result.
 :::
+
