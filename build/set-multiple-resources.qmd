@@ -76,7 +76,9 @@ We will save all resource parameters in separate variables, so we can use them l
 #get plankton regeneration rate
 (r_pp = resource_params(cur_model)$r_pp)
 #get smallest plankton size
-(min_w_pp <- w_full(cur_model)[1])
+#(min_w_pp <- w_full(cur_model)[1])
+#actually this is quite enough! because nothing eats plankton below 1e-07 so we are just wasting size bins
+min_w_pp <- 1e-8
 
 #set benthos kappa same as plankton kappa 
 (kappa_ben = kappa)
@@ -95,6 +97,7 @@ We will save all resource parameters in separate variables, so we can use them l
 Now we use an updated mizerMR function to setup plankton resource (called 'pp') and benthos resource (called 'bb'). Because we are only working with a steady state now, we will set resource dynamics to fixed constant spectrum, rather than a dynamic semichemostat. When working with one resource steady() does that automatically, but with two resources we will set it by hand.
 
 ```{r}
+
 resource_params(cur_model) <- data.frame(
     resource = c("pl", "bb"),
     lambda = c(lambda, lambda_ben),
@@ -107,7 +110,6 @@ resource_params(cur_model) <- data.frame(
 
 #let's check our new resource values
 resource_params(cur_model)
-
 
 #TODO - tuneParams gives an error message if using existing min_w_pp
 #min_w_pp <- min_w_pp*10
@@ -160,9 +162,9 @@ cur_model <- calibrateBiomass(cur_model)
 # repeat a few more times (in case your parameters take longer to converge)
 cur_model <- cur_model |> calibrateBiomass() |> matchBiomasses() |> steady()
 
-#look at spectra again
+#look at spectra and biomases again
 plotSpectra(cur_model)
-
+plotBiomassVsSpecies(cur_model)
 
 ```
 
@@ -177,7 +179,7 @@ plotDiet(cur_model)
 
 This is looking reasonably good. Benthivores, such as ruffe, breams, roach, vimba and carrasius start in the plankton spectrum and then transition to feeding on benthos. They don't transition fully, which we need to work on. Adults benthivores should really only eat benthos and no plankton. We can probably fix that by increasing abundance `kappa` for the benthic resource or making its slope `lambda` even more shallow. Predators nicely start on plankton, transition to benthos and then to fish. For the largest predators, such as predator_fish and pikeperch we want adult diets to consist almost entirely of fish. So we might need to reduce benthic resource availability to these species. You can do that now and explore the outcomes, or we will do it in the next tutorial.
 
-Next, let's have a look at the sources of death
+Next, let's have a look at the sources of death - **the second one looks BAD**
 
 ```{r}
 plotDeath(cur_model, proportion = T)
@@ -185,21 +187,38 @@ plotDeath(cur_model, proportion = F)
 
 ```
 
-We also need to make sure that fish are growing properly, given that resource availabilities to them have now been changed. We might want to explore how predation on different resources vary across species
+We also want to know about the predation on both resources, so we will plot that too
 
 ```{r}
 
-plotDiet(p)
-plotDeath(p)
-plotResourcePred(p)
-plotGrowthCurves(p, species_panel = T)
+plotResourcePred(cur_model, proportion = T)
+plotResourcePred(cur_model, proportion = F)
 
 ```
 
-## Step 7: save your parameter file
+It is interesting to see how the highest absolute mortality (plots with proportion = F) is at resource size of about 0.1g (1e-1) and this applies to both benthos and plankton. Smallest sizes of plankton are not eaten at all, as no fish feed in that size range. Also the absolute mortality is higher on benthos (up to 0.8/year) than on plankton (0.5/year). Still this mortality is low and we should probably decrease the overall resource abundance, to achieve more realistic values.
 
-Do the steps above with your parameter file and commit it
+**ASTA - what should be realistic? One imagines that plankton resource would be eaten over and over again multiple times per year from mortality would be very high 5-10?** Plankton mortality in particular should be higher
+
+Finally, let's check whether species are growing properly, given that resource availabilities to them have now been changed. We will also look at the feeding level of all species
 
 ```{r}
-saveRDS(p, "build/cur_model_2res.rds")
+
+plotGrowthCurves(cur_model, species_panel = T)
+plotFeedingLevel(cur_model)
+
+```
+
+We can see that smallest fish (smallfish and ruffe) and benthivores are growing pretty well, although predators should probably be growing a little faster. Feeding levels look reasonable and surprisingly close to the default larval value of `f0` = 0.6. This means that slow growth rates of predators are likely not due to the lack of food, but insufficient intake rates.
+
+You can play with the resource_interaction() vectors and resource parameters (`kappa` and `lambda`), but this will be our main goal in the next tutorial on refining our models.
+
+## Step 7 and Exercise 1: save your parameter file
+
+The last step is to save our new set of parameters with a new name and commit the .rds file to your repository. This completes your exercise for this tutorial.
+
+```{r}
+cur_model_ben <- cur_model
+saveRDS(cur_model_ben, "build/cur_model_ben.rds")
+
 ```
