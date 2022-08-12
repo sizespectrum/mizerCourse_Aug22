@@ -2,6 +2,7 @@ species,w_inf,w_mat,k_vb,beta,sigma,biomass_cutoff,biomass_observed,a,b,mat_age,
 smallfish,35,3,1,5000,2,2,0.0019,0.008,3.1,1,6,high,pungitius_alburnus,planktivore
 ruffe,148,18,0.3,600,2,2,0.0232,0.015,3.07,1.5,10,medium,Gymnocephalus_cernua,benthivore
 breams,6927,198,0.1,10000,2,2,1,0.015,3.07,4,15,medium,Abramis_Blicca,benthivore
+roach,1340,74,0.12,8000,2,2,0.6182,0.008,3.16,3.5,14,medium,Rutillus_rutillus,benthivore
 vimba,1663,38,0.2,10000,2,2,0.0879,0.008,3.13,4,12,medium,Vimba_vimba,benthivore
 carassius,1420,14,0.13,8000,2,2,0.0351,0.013,3.05,2,10,medium,Carassius_carassius,benthivore
 perch,2331,51,0.13,100,2,2,0.2236,0.01,3.09,3,20,low,Perca_fluviatilis,omnivore
