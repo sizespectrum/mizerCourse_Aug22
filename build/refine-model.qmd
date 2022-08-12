@@ -3,3 +3,18 @@ title: "Refine model"
 ---
 
 ## In preparation
+
+This part is now moved from tutorial 3, because we are not using tuneParams in it at the moment
+
+We will also install a different branch of mizerExperimental, which will include an updated tuneParams() R shiny application that incorporates multiple resources. This is still work in progress, so please be patient if you find bugs or some other annoying features (please report them, so we can keep improving the tools). To install a specific branch (in our case tuneMR branch) of a package located on GitHub we need to indicate it in the `ref=` command. You might need to restart your R session for this to work. Also, remember that next time, if you want to use the main branch of mizerExperimental (without multiple resources) you will need to reinstall it, but without the `ref=` parameter (which is automatically install the main branch).
+
+```{r}
+
+remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
+remotes::install_github("sizespectrum/mizerMR")
+library(mizerExperimental)
+library(mizerMR)
+source("experiment/helpers.R")
+
+```
+
