@@ -84,7 +84,7 @@ There are many other parameters that are used to describe species properties, bu
 For the Curonian lagoon model we set the following `beta` values: we assume 100 for predatory fish, 10000 for large benthivores, 8000 and 600 for smaller benthivores and 5000 for planktivorous fish. Similarly we assume large `sigma` for planktivores and benthivores, and smaller values for predators.
 
 ```{r}
-curonian_params <-  read_csv("build/curonian_params_noRoach.csv")
+curonian_params <-  read_csv("curonian_params_noRoach.csv")
 curonian_params[,c(1:6)]
 ```
 
@@ -105,7 +105,7 @@ For the Curonian lagoon model we will let mizer set default values of size based
 Let's have a look at how mizer will set them up. For that we will need to call newMultispeciesParams() function and provide species parameter and species interaction dataframes. We will talk about about the interaction data late, so ignore it for now.
 
 ```{r}
-curonian_interaction <- read.csv("build/curonian_interaction_noRoach.csv")
+curonian_interaction <- read.csv("curonian_interaction_noRoach.csv")
 curon <- newMultispeciesParams(curonian_params, curonian_interaction)
 
 species_params(curon) |> select(species, w_inf, funcgr, k_vb, ks, h, gamma, p, q, n, z0) 
@@ -143,7 +143,7 @@ species_params(curon) |> select(species, w_inf, w_mat, w_min, m, R_max, erepro)
 16. Species length-weight conversion coefficients `a` and `b` These coefficients are needed if maximum or maturation body size are provided in length or if we estimate `h` from Von Bertalanffy `v_bk`. If no values are provided mizer will assume 0.01 and 3, but for the Curonian lagoon model we collect these data from FishBase.
 
 ```{r}
-species_params(curon) |> select(species, w_inf, a, b, f0, alpha) 
+species_params(curon) |> select(species, w_inf, a, b, alpha) 
 
 ```
 
@@ -215,7 +215,7 @@ The next thing we will need to provide to mizer is species interaction matrix. T
     For our Curonian lagoon example model we used existing ecological knowledge and set up species interaction matrix as follows:
 
 ```{r}
-curon_interaction <-  read_csv("build/curonian_interaction.csv")
+curon_interaction <-  read_csv("curonian_interaction.csv")
 curon_interaction
 
 ```
