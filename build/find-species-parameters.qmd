@@ -84,8 +84,8 @@ There are many other parameters that are used to describe species properties, bu
 For the Curonian lagoon model we set the following `beta` values: we assume 100 for predatory fish, 10000 for large benthivores, 8000 and 600 for smaller benthivores and 5000 for planktivorous fish. Similarly we assume large `sigma` for planktivores and benthivores, and smaller values for predators.
 
 ```{r}
-curonian_params <-  read_csv("curonian_params_noRoach.csv")
-curonian_params[,c(1:6)]
+curonian_species_params <-  read_csv("curonian_species_params_noRoach.csv")
+curonian_species_params[,c(1:6)]
 ```
 
 More advanced users may also want to change [the shape of predation kernel](https://sizespectrum.org/mizer/reference/setPredKernel.html)
@@ -106,7 +106,7 @@ Let's have a look at how mizer will set them up. For that we will need to call n
 
 ```{r}
 curonian_interaction <- read.csv("curonian_interaction_noRoach.csv")
-curon <- newMultispeciesParams(curonian_params, curonian_interaction)
+curon <- newMultispeciesParams(curonian_species_params, curonian_interaction)
 
 species_params(curon) |> select(species, w_inf, funcgr, k_vb, ks, h, gamma, p, q, n, z0) 
 ## ASTA - why is there no f0 in the species params file? 
@@ -184,7 +184,7 @@ You might have noticed that our species parameter file is missing one species th
 
 You goal in this exercise is to find parameter for roach. We will use FishBase, where many modellers get their species parameters.
 
-In this exercise please open the **species_params_exercise.csv** file, go to FishBase, use the knowledge you gained so far and:
+In this exercise please open the **curonian_species_params_exercise.csv** file, go to FishBase, use the knowledge you gained so far and:
 
 1\) Fill the NA values for roach
 
@@ -197,7 +197,7 @@ Please commit this .csv file and push it to GitHub (just select the file as you 
 
 ## Species interaction matrix
 
-The next thing we will need to provide to mizer is species interaction matrix. This matrix can include three different aspects (or a combination of all of them):
+The next thing we will need to provide to mizer is a species interaction matrix. This matrix can include three different aspects (or a combination of all of them):
 
 1.  **Spatial and temporal overlap of species in a large ecosystem**. This way the interaction matrix is set based on e.g. species occurrences in various fisheries surveys or observations and reflect the frequency of how often same species are found in same surveys. This is how species interactions are set up in the example [North Sea model](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2664.12238), which comes with mizer installation. Let's check it (we will round the values to two decimal points). The North Sea interaction matrix file is called NS_interaction and comes with mizer installation.
 
