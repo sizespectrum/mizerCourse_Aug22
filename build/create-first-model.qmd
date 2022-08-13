@@ -192,7 +192,7 @@ But while the system settled down to the new steady state, the species biomasses
 plotBiomassVsSpecies(cur_model)
 ```
 
-We appear to be in a bind: If we match the biomasses we are no longer at steady state, if we run to steady state we no longer match the biomasses. But notice that the discrepancies are not as big as previously. So we don't give up but simply keep iterating.
+We appear to be in a bind: If we match the biomasses we are no longer at steady state, if we run to steady state we no longer match the biomasses. But notice that the discrepancies are not as big as previously. So we don't give up but simply keep iterating, by repeatedly matching biomasses and running to steady state.
 
 After repeating the cycle of matching biomasses and running to steady state 10 more times we get this picture:
 
@@ -213,19 +213,44 @@ And here is how the spectra look with the correct observed biomasses:
 plotSpectra(cur_model, power = 2)
 ```
 
+Note that above we only repeated `matchBiomasses()` and `steady()`. We did not repeat `calibrateBiomasses()`. We could have done that, i.e., we could have run
+
+```{r}
+#| eval: false
+cur_model <- cur_model |>
+    calibrateBiomass() |> matchBiomasses() |> steady() |>
+    calibrateBiomass() |> matchBiomasses() |> steady() |>
+    calibrateBiomass() |> matchBiomasses() |> steady() |>
+    calibrateBiomass() |> matchBiomasses() |> steady()
+```
+
+This is what we proposed in [this blog post](https://blog.mizer.sizespectrum.org/posts/2021-08-20-a-5-step-recipe-for-tuning-the-model-steady-state/). Either method works.
+
+We can now save the resulting model to disk for future use.
+
 ```{r}
 saveParams(cur_model, "cur_model.rds")
 ```
-
-
-## If the method fails
-
-There are ways how the above method can fail. If that happens, there are various ways to rescue the situation. But rather than discussing such eventualities in the abstract, we will wait for course participants to run into concrete difficulties and to share their example with us. We will then use those examples to discuss the solutions.
-
 
 ## Exercise
 
 Now use your species parameter data frame that you assembled in the exercise in the previous tutorial. Go through the 5 steps that we went through above to build your own mizer model based on your species parameters.
 
 Use the worksheet for this tutorial to submit your result.
+
+There are ways how the above method can fail. If that happens, there are various ways to rescue the situation. But rather than discussing such eventualities in the abstract, we will wait to see if you run into concrete difficulties. If you do, please save your code and email gustav.delius@gmail.com. We will then use your example to discuss the solutions.
+
+## Summary
+
+We have gone through the 5-step process of building a mizer model from your species parameters and your interaction matrix. The 5 steps were:
+
+1. Create a MizerParams object with `newMultispeciesParams()`.
+
+2. Find a coexistence steady state with `steady()`.
+
+3. Set the scale of the model to agree with the observed total biomass with `calibrateBiomass()`. This does not spoil the steady state.
+
+4. Use `matchBiomass()` to move the size spectra of the species up or down to match the observed biomasses. This will spoil the steady state.
+
+5. Iterate steps 2 and 4 as often as you like to get the steady-state biomasses to agree as precisely with your observations as you like.
 
