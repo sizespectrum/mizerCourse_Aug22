@@ -35,7 +35,7 @@ There are really only four parameters that the user should provide:
 
 3.  Von Bertalanffy growth rate `k_vb` or species maximum intake rate coefficient `h` You learned about it in the introductory lecture by Ken Andersen. Even if you provide `h` values, you might still want to include `k_vb` in your species parameter file, because it can be used to plot modelled versus expected growth rates.
 
-4.  A vector of species biomasses to be provided in the `biomass_observed` column. This data are not essential and mizer will run without it, but you won't be able to calibrate your model to a realistic system without some information on relative species abundances and biomasses. Note, the `biomass_observed` reflects the average species biomasses in your model system for the period that you want to calibrate your system to.
+4.  A vector of species biomasses to be provided in the `biomass_observed` column. This data are not essential and mizer will run without it, but you won't be able to calibrate your model to a realistic system without some information on relative species abundances and biomasses. Note, the `biomass_observed` reflects the average species biomasses in your model system for the period that you want to calibrate your system to. Usually we do not have data on observed biomasses of all fish sizes combined, since we usually do not observe larvae. This we can specify in the `biomass_cutoff` parameter, where we tell mizer the smallest size of fish to use for comparing model and observed biomasses. In our case we give the value of 2g for all species (about 6cm long), because observed data comes from scientific monitoring surveys.
 
 ::: {.callout-caution collapse="true"}
 **Von Bertalanffy growth function**

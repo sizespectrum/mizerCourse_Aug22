@@ -60,7 +60,7 @@ As you see from the messages it has printed, the `newMultispeciesParams()` funct
 
 So for example it chose the coefficient `h` of the maximum intake rate for each species to produce growth curves that are roughly in agreement with the von Bertalannfy growth parameters `k_vb` that we supplied and with a larval feeding level `f0` (which we did not supply but which mizer chose as `f0 = 0.6`).
 
-Mizer chose the coefficient `ks` of the metabolic rate for each species so that a proportion `fc` of the maximum intake rate would be enough to cover the metabolic expenses. We did not specifiy this critical feeding level `fc` so mizer chose `fc = 0.2`.
+Mizer chose the coefficient `ks` of the metabolic rate for each species so that a proportion `fc` of the maximum intake rate would be enough to cover the metabolic expenses. We did not specify this critical feeding level `fc` so mizer chose `fc = 0.2`.
 
 Finally mizer has set a constant background mortality `z0` that scales with the species' asymptotic size. Let's look at the result:
 
@@ -86,6 +86,10 @@ cur_model <- steady(cur_model)
 ```
 
 We can ignore the warning from the `setBevertonHolt()` function about unrealistic reproductive efficiencies. Those warnings are an artefact of how the reproduction level is set by default by the `matchBiomasses()` function. We could fix those defaults, but we are not yet concerned with the reproduction dynamics so we don't have to do that and just ignore the warnings.
+
+::: {.callout-important collapse="false"}
+Remember, the steady() function does not yet calibrate your model to any observed biomasses or catches. It simply runs the model to find a state where species biomasses stop changing. If you start a simulation from initial biomasses that the set of current species and resource parameters cannot support, species biomasses will change drastically at the start. Perhaps there are too many predators at the start, or too many fish for the resource to support it. After a while these fluctuations will settle down (hopefully) and species biomasses will be stable for a given set of parameters. But remember we are keeping reproduction and resource levels constant, so this is not yet a final model.
+:::
 
 Now let us look at the spectra in the steady state:
 
@@ -115,7 +119,7 @@ Now let us see what happens when we try to run this system to steady state:
 modified_model <- steady(modified_model)
 ```
 
-The simulation has not yet converged to a steady state after running the simulation for 99 years. There are now two possibilities: 1) we just need to be a  bit more patient and run the simulations for longer or 2) the system will continue to oscillate for ever. To diagnose this, we want to see the time evolution. We tell the `steady()` function that we want it to return a MizerSim object with the time series of spectra from the simulation.
+The simulation has not yet converged to a steady state after running the simulation for 99 years. There are now two possibilities: 1) we just need to be a bit more patient and run the simulations for longer or 2) the system will continue to oscillate for ever. To diagnose this, we want to see the time evolution. We tell the `steady()` function that we want it to return a MizerSim object with the time series of spectra from the simulation.
 
 ```{r}
 sim <- steady(modified_model, return_sim = TRUE)
@@ -126,7 +130,8 @@ We can now plot the time series of the species biomasses:
 ```{r}
 plotBiomass(sim)
 ```
-We see that the system has indeed settled into a periodic state. 
+
+We see that the system has indeed settled into a periodic state.
 
 We will not go into a discussion of whether the oscillating state reflects the true state of the system. We know that we can stabilise the steady state by moving the power-law exponent closer to 2 and/or by increasing the widths of the feeding kernels `sigma`, so unless we have good information about these parameters, it is probably easiest to just change them to stabilise the steady state, at least while tuning the model. Investigation of possible oscillatory behaviour can always happen at a later stage of model development.
 :::
@@ -141,7 +146,7 @@ plotBiomassVsSpecies(cur_model)
 
 This shows for each species the model biomass (open circle) and the observed biomass (filled square) on a logarithmic y-axis. The line connecting model value and observed value is for visual purposes only. We see that model values and observed values are many orders of magnitude apart.
 
-Using your supplied biomass observations, mizer can now calibrate its scale so that the total biomass in the model coincides with the total observed biomass, summed over all species.
+Using your supplied biomass observations, mizer can now change the scale of our model so that the total biomass in the model coincides with the total observed biomass, summed over all species.
 
 ```{r}
 cur_model <- calibrateBiomass(cur_model)
@@ -155,14 +160,14 @@ plotBiomassVsSpecies(cur_model)
 
 ## Step 4: Rescale species spectra
 
-To fix the discrepancy between the model biomasses and the observed biomasses we simply need to rescale the abundance of each species by the appropriate factor. The `matchBiomasses()` function does this for us.
+To fix the discrepancy between the model biomasses and the observed biomasses we simply need to rescale the model abundance of each species by the appropriate factor. The `matchBiomasses()` function does this for us.
 
 ```{r}
 cur_model <- matchBiomasses(cur_model)
 plotBiomassVsSpecies(cur_model)
 ```
 
-Now the circles and squares lie on top of each other.
+Now the circles and squares lie exactly on top of each other. This is expected, because we simply changed the relative biomasses of species in the model.
 
 There are similar functions `matchNumbers()` and `matchYields()` that you would use in case either total numbers of individuals or fisheries yields are known instead of total biomasses.
 
@@ -238,19 +243,18 @@ Now use your species parameter data frame that you assembled in the exercise in 
 
 Use the worksheet for this tutorial to submit your result.
 
-There are ways how the above method can fail. If that happens, there are various ways to rescue the situation. But rather than discussing such eventualities in the abstract, we will wait to see if you run into concrete difficulties. If you do, please save your code and email gustav.delius@gmail.com. We will then use your example to discuss the solutions.
+There are ways how the above method can fail. If that happens, there are various ways to rescue the situation. But rather than discussing such eventualities in the abstract, we will wait to see if you run into concrete difficulties. If you do, please save your code and email gustav.delius\@gmail.com. We will then use your example to discuss the solutions.
 
 ## Summary
 
 We have gone through the 5-step process of building a mizer model from your species parameters and your interaction matrix. The 5 steps were:
 
-1. Create a MizerParams object with `newMultispeciesParams()`.
+1.  Create a MizerParams object with `newMultispeciesParams()`.
 
-2. Find a coexistence steady state with `steady()`.
+2.  Find a coexistence steady state with `steady()`.
 
-3. Set the scale of the model to agree with the observed total biomass with `calibrateBiomass()`. This does not spoil the steady state.
+3.  Set the scale of the model to agree with the observed total biomass with `calibrateBiomass()`. This does not spoil the steady state.
 
-4. Use `matchBiomass()` to move the size spectra of the species up or down to match the observed biomasses. This will spoil the steady state.
+4.  Use `matchBiomass()` to move the size spectra of the species up or down to match the observed biomasses. This will spoil the steady state.
 
-5. Iterate steps 2 and 4 as often as you like to get the steady-state biomasses to agree as precisely with your observations as you like.
-
+5.  Iterate steps 2 and 4 as often as you like to get the steady-state biomasses to agree as precisely with your observations as you like.
