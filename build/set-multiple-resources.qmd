@@ -18,7 +18,7 @@ In this tutorial we will explore how we might modify our basic mizer model to ad
 
 [mizerMR](https://github.com/sizespectrum/mizerMR) is an extension to the mizer package and it demonstrates a flexible way of adding new features, contributed by the mizer modeller community. If you modify mizer to add new features, please consider making an extension package and making it available for all mizer users.
 
-First, we will install mizerMR from GitHub. **ASTA - do we need helpers.R?**
+First, we will install mizerMR from GitHub.
 
 ```{r}
 
@@ -26,7 +26,6 @@ remotes::install_github("sizespectrum/mizerExperimental")
 remotes::install_github("sizespectrum/mizerMR")
 library(mizerExperimental)
 library(mizerMR)
-source("experiment/helpers.R")
 
 ```
 
@@ -34,7 +33,7 @@ Now we load the model parameter file that we saved in the previous tutorial (you
 
 ```{r}
 #start with existing single species params
-cur_model <- readRDS("build/cur_model.rds")
+cur_model <- readRDS("cur_model.rds")
 ```
 
 ## Step 2: setup new resource parameters
@@ -219,6 +218,6 @@ The last step is to save our new set of parameters with a new name and commit th
 
 ```{r}
 cur_model_ben <- cur_model
-saveRDS(cur_model_ben, "build/cur_model_ben.rds")
+saveRDS(cur_model_ben, "cur_model_ben.rds")
 
 ```
