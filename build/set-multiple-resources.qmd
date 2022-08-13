@@ -4,11 +4,11 @@ title: "Setting up multiple resources"
 
 ## Introduction
 
-Most mizer models simulate multiple size structured species and one background resource. However, quite a few researchers attempted to incorporate different types of 'resources' and account for their different dynamics. The most obvious case is the explicit separation of pelagic and benthic resource. Benthic resource may not be important for offshore or pelagic ecosystems, but if you want to model coastal or freshwater ecosystems this may become essential.
+Most mizer models simulate multiple size structured species and one background resource. But what if you want to account for different types of 'resources' with different dynamics? The most obvious case is the separation of pelagic and benthic resource. Benthic resource may not be important for offshore or pelagic ecosystems, but if you want to model coastal or freshwater ecosystems this may become essential.
 
 Adding benthic resource into multi-species and size based models is not new. Some researchers incorporate benthic food sources by explicitly modelling key benthic species as size-structured groups. This is fine if you have data on their biomases for calibration and if you are interested in their dynamics, but modelling many benthic species separately might be overwhelming. Instead, just like with plankton species, we might want to model all benthic organisms as a separate resource spectrum. That is what the mizerMR extension does.
 
-The origin of mizerMR is a [model for Tasmanian coastal rocky reef ecosystem](https://doi.org/10.1101/2022.06.20.496925), where most large fish are not predators (like in a classical size based marine ecosystem), but feed on benthic invertebrates. In such reefs, the benthic production pathway is likely to be a major source of energy. The mizerMR framework has now been used in a [Baltic Sea mizer model](https://onlinelibrary.wiley.com/doi/full/10.1111/gcb.16341) and a [south-east Australian mizer model](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2664.14086). However, there are other ways to incorporate benthic resources, as you can see [here](https://onlinelibrary.wiley.com/doi/epdf/10.1111/geb.13348), [here](https://link.springer.com/article/10.1007/s12080-010-0078-9) and [here](https://onlinelibrary.wiley.com/doi/abs/10.1111/oik.05630) (but none of these approaches are currently implemented in the main mizer code).
+The origin of mizerMR is a [model for Tasmanian coastal rocky reef ecosystem](https://doi.org/10.1101/2022.06.20.496925), where most large fish are not predators (like in a classical size based marine ecosystem), but feed on benthic invertebrates. In such reefs, benthic production pathway is likely to be a major source of energy. The mizerMR framework has also been used in a [Baltic Sea mizer model](https://onlinelibrary.wiley.com/doi/full/10.1111/gcb.16341) and a [south-east Australian mizer model](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2664.14086). There are other ways to incorporate benthic resources, and you can find some examples [here](https://onlinelibrary.wiley.com/doi/epdf/10.1111/geb.13348), [here](https://link.springer.com/article/10.1007/s12080-010-0078-9) and [here](https://onlinelibrary.wiley.com/doi/abs/10.1111/oik.05630), but none of these approaches are currently implemented in the main mizer code.
 
 The Curonian lagoon is a shallow water productive ecosystem, where benthic production constitutes an important source of energy. Like in many other coastal ecosystems, the most common species are benthivores.
 
@@ -26,9 +26,9 @@ remotes::install_github("sizespectrum/mizerExperimental")
 remotes::install_github("sizespectrum/mizerMR")
 library(mizerExperimental)
 library(mizerMR)
+library(tidyverse)
 
 ```
-
 
 ## Step 2: Set new resource parameters
 
@@ -62,7 +62,7 @@ kappa <-  resource_params(cur_model)$kappa
 lambda <- resource_params(cur_model)$lambda
 ```
 
-We will reduce the maximum size of the plankton spectrum from the current value of 10 grams (which corresponds to about 10cm long fish!) to 1 gram. 
+We will reduce the maximum size of the plankton spectrum from the current value of 10 grams (which corresponds to about 10cm long fish!) to 1 gram.
 
 ```{r}
 w_max <- 1 
@@ -80,8 +80,9 @@ We round this to $10^{-12}$. (There is currently a problem if you try to use exa
 w_min <- 1e-12
 ```
 
-# Benthic parameters
-Now we need to make decisions about the parameters for the benthic spectrum. We are aiming to reproduce ontogenetic diet shifts, where species start feeding on plankton and then may transition into the benthic spectrum. This means that, as plankton abundance decreases, benthos abundance should become relatively higher. To achieve that, we will start the benthos spectrum from a larger minimum size, extend it to much larger size than plankton spectrum, and have shallower slope for the benthos spectrum. 
+### Benthic parameters
+
+Now we need to make decisions about the parameters for the benthic spectrum. We are aiming to reproduce ontogenetic diet shifts, where species start feeding on plankton and then may transition into the benthic spectrum. This means that, as plankton abundance decreases, benthos abundance should become relatively higher. To achieve that, we will start the benthos spectrum from a larger minimum size, extend it to much larger size than plankton spectrum, and have shallower slope for the benthos spectrum.
 
 Ideally, you would have size based benthos abundance or biomass data and fit a linear model to get the slope. This was done for the Tasmanian model (see supplementary materials in this [preprint](https://doi.org/10.1101/2022.06.20.496925)). For the Curonian lagoon we do not have such data, so we will just assume a slope of 1.9 instead of 2.05, but keep `kappa` equal for now. The benthic spectrum will extend to 10 grams to represent largest benthic invertebrates and some cryptic small benthic fish not explicitly included in the model.
 
@@ -118,8 +119,6 @@ We can now update our Curonian model to use these resource parameters with
 resource_params(cur_model) <- curonian_resource_params
 ```
 
-
-
 ## Step 4: Set resource interactions
 
 The next and most interesting step is to define availability of each resource to our model species. This is where our biological and ecological knowledge comes in, but we may need to adjust these values to ensure we get the expected ontogenetic diet shifts.
@@ -148,7 +147,7 @@ Again, like with the species interaction matrix, you could also have set up the 
 
 ## Step 5: find new steady state
 
-We have now changed resource availability quite a bit, so we need to retune the model and find a new steady state. We will use the same set of functions as in the single resource model in the previous tutorial. Note that by adding mizerMR() the plots will now display both resources
+We have now changed resource availability quite a bit, so we need to retune the model and find a new steady state. We will use the same set of functions as in the single resource model in the previous tutorial. Note that after installing mizerMR() the plots will now display both resources
 
 ```{r}
 
@@ -181,7 +180,7 @@ plotDiet(cur_model)
 
 ```
 
-This is looking reasonably good. Benthivores, such as ruffe, breams, roach, vimba and carrasius start in the plankton spectrum and then transition to feeding on benthos. They don't transition fully, which we need to work on. Adults benthivores should really only eat benthos and no plankton. We can probably fix that by increasing abundance `kappa` for the benthic resource or making its slope `lambda` even more shallow. Predators nicely start on plankton, transition to benthos and then to fish. For the largest predators, such as predator_fish and pikeperch we want adult diets to consist almost entirely of fish. So we might need to reduce benthic resource availability to these species. You can do that now and explore the outcomes, or we will do it in the next tutorial.
+This is looking reasonably good. Benthivores, such as ruffe, breams, roach, vimba and carrasius start in the plankton spectrum and then transition to feeding on benthos. They don't transition fully, which we need to work on. Adult benthivores should really only eat benthos and no plankton. We can probably fix that by increasing abundance `kappa` for the benthic resource or making its slope `lambda` even more shallow. Predators nicely start on plankton, transition to benthos and then to fish. For the largest predators, such as predator_fish and pikeperch we want adult diets to consist almost entirely of fish. So we might need to reduce benthic resource availability to these species. You can do that now and explore the outcomes, or we will do it in the next tutorial.
 
 Next, let's have a look at the sources of death - **the second one looks BAD**
 
@@ -226,11 +225,10 @@ saveParams(cur_model, "cur_model_ben.rds")
 
 ```
 
-
 ::: {.callout-caution collapse="false"}
 ### Exercise
 
-Now use your own single-resource model that you created in the exercise in the previous tutorial. Go through the 7 steps that we went through above to build your own multi-resource mizer model..
+Now use your own single-resource model that you created in the exercise in the previous tutorial. Go through the 7 steps that we went through above to build your own multi-resource mizer model.
 
 Use the worksheet for this tutorial to submit your result.
 :::

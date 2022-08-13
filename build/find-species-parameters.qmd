@@ -35,6 +35,8 @@ There are really only four parameters that the user should provide:
 
 3.  Von Bertalanffy growth rate `k_vb` or species maximum intake rate coefficient `h` You learned about it in the introductory lecture by Ken Andersen. Even if you provide `h` values, you might still want to include `k_vb` in your species parameter file, because it can be used to plot modelled versus expected growth rates.
 
+4.  A vector of species biomasses to be provided in the `biomass_observed` column. This data are not essential and mizer will run without it, but you won't be able to calibrate your model to a realistic system without some information on relative species abundances and biomasses. Note, the `biomass_observed` reflects the average species biomasses in your model system for the period that you want to calibrate your system to.
+
 ::: {.callout-caution collapse="true"}
 **Von Bertalanffy growth function**
 
@@ -50,8 +52,6 @@ The parameter $h$ represents the maximum consumption rate of a fish, scaled by s
 
 Von Bertalanffy growth function is widely used in fisheries and ecology. However, it should be treated with some caution. To estimate the growth function coefficients reliably we need sufficient amounts of data from young and old individuals. The latter is often not the case for intensively fished species, because old fish are simply not present in the ecosystem. If we do not have old fish in the sample the asymptotic length $L_\infty$ cannot be properly estimated. As a result, estimates of $K$ will also vary extensively across samples. You can see that for yourself in our exercise below.
 :::
-
-4.  A vector of species biomasses to be provided in the `biomass_observed` column. This data are not essential and mizer will run without it, but you won't be able to calibrate your model to a realistic system without some information on relative species abundances and biomasses. Note, the `biomass_observed` reflects the average species biomasses in your model system for the period that you want to calibrate your system to.
 
 ::: {.callout-important collapse="false"}
 **How to get observed biomasses?**
@@ -194,6 +194,44 @@ In this exercise please open the **curonian_species_params_exercise.csv** file, 
 
 Please commit this .csv file and push it to GitHub (just select the file as you selected other modified files). You will use the parameters that you found in the next tutorial.
 :::
+
+### Plotting Von-Bertalanffy parameters
+
+Once we collect species parameters from FishBase we might want to know how well these parameters reflect the actual growth data, or at least knowledge about maximum and maturation size. Of course if we have size-age data we can estimate the Von Bertalanffy growth curve ourselves. But for now we will just plot the parameters in our dataframe and explore the growth curves.
+
+```{r}
+load(file = "build/size_age.RData")
+
+# Load species parameters
+sp <- read.csv("build/curonian_species_params_noRoach.csv")
+# If the von Bertalanffy t0 parameter is missing, set to 0
+if (!hasName(sp, "t0")) {
+    sp$t0 <- 0
+}
+# convert weights to lengths
+sp <- sp |>
+    mutate(l_mat = (w_mat / a) ^ (1/b),
+           l_inf = (w_inf / a) ^ (1/b)) |>
+    select(species, l_mat, l_inf, mat_age, max_age, k_vb, t0) 
+
+# create data frame with von Bertalanffy curves
+vb <- expand.grid(species = sp$species, age = 0:20) |>
+    left_join(sp, by = "species") |>
+    mutate(length = l_inf * (1 - exp(-k_vb * (age - t0))))
+
+ggplot() +
+    geom_point(aes(x = age, y = length), data = size_at_age,
+               position = "jitter", alpha = 0.2) +
+    geom_line(aes(x = age, y = length), data = vb, lwd = 1.2, col = 'blue') +
+    geom_hline(aes(yintercept = l_inf), data = sp) +
+    geom_hline(aes(yintercept = l_mat), data = sp, lty = 2) +
+    geom_vline(aes(xintercept = max_age), data = sp) +
+    geom_vline(aes(xintercept = mat_age), data = sp, lty = 2) +
+    facet_wrap(vars(species), scales = "free_y") + 
+    theme_bw()
+```
+
+In this plot we can see the representation of parameters we collected from FishBase or other sources: Von Bertalanffy growth curve (blue line), maturation weight (horizontal dashed line), maturation age (vertical dashed line), asymptotic weight (horizontal solid line) and maximum age (vertical solid line). The available data on size at age is shows with dotpoints. When we plot such data we want to make sure that Von Bertalanffy curves reflect the growht data (if available) sufficiently well, and that Von Bertlanffy curve also approximately crosses the intersection of maturation weight and age.
 
 ## Species interaction matrix
 
