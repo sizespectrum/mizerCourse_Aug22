@@ -4,9 +4,9 @@ title: "Building a new multi-species model"
 
 ## Introduction
 
-Setting up a mizer model that agrees with observations used to be difficult. That is not a surprise, because we have seen how all the species influence each other, as well as the resource, and how the reproduction rates of all species depend on the size spectra of all species and vice versa. So if you make changes at one end of the model to make it agree with some observation, things change at the other end to mess things up again.
+Setting up a mizer model that agrees with observations used to be difficult. That is not a surprise, because we have seen how all the species influence each other, as well as the resource, and how the reproduction rates of all species depend on the size spectra of all species and vice versa. So if you make changes in one corner of the model to make it agree with some observation, things change at another corner to mess things up again.
 
-There are three dynamic processes in action in a mizer model at the same time: size-spectrum dynamics, reproduction dynamics and resource dynamics. These are fully interacting with each other, with feedback loops. So for example the resource spectrum depends on the consumption by fish, which depends on the fish size spectra, which depend on the fish growth rates, which depends on the resource spectrum. Similarly the reproduction rate depends on the number of mature fish and on their energy income, which depends among other things on the rate at which new individuals are recruited, which depends among other things on the reproduction rate. And all of these processes depend on the model parameters that we are supposed to choose in a way that reproduces observed behaviour. It seems hopeless!
+There are three dynamic processes in action in a mizer model at the same time: size-spectrum dynamics, reproduction dynamics and resource dynamics. These are fully interacting with each other, with feedback loops. So for example the resource spectrum depends on the consumption by fish, which depends on the fish size spectra, which depend on the fish growth rates, which depends on the resource spectrum. Similarly the reproduction rate depends on the number of mature fish and on their energy income, which depends among other things on the rate at which new individuals are recruited, which depends among other things on the reproduction rate. And all of these feedbacks depend on the model parameters that we are supposed to choose in a way that reproduces observed behaviour. It seems hopeless!
 
 The way we have arrived at a simple process for the creation of a viable mizer model is to decouple the tuning of the size spectrum dynamics from the tuning of the reproduction dynamics and resource dynamics. So, as we have done last week, initially we turn off reproduction dynamics and resource dynamics. We set the constant reproduction rate to a level that produces the observed biomasses and we set the constant resource spectrum according to observations or, in the absence of observations, we set it to a Sheldon power law. We then use that size spectrum dynamics on its own. The size spectrum quickly settles down to its steady state, so that we can interactively tune parameters to get the steady state to agree with observations.
 
@@ -24,6 +24,8 @@ library(mizerExperimental)
 library(tidyverse)
 ```
 
+Now the creation of the mizer model is a 5-step process.
+
 ## Step 1: Create MizerParams object
 
 We collected the species parameters and the interaction matrix for our model in the previous tutorial and saved them as .csv files. So here we only need to read in those files.
@@ -35,13 +37,13 @@ curonian_interaction <- read.csv("curonian_interaction.csv", row.names = 1)
 
 We use `rownames = 1` to let `read.csv` know that the first column in the spreadsheet, which contains the predator names, should be used as the names of the rows of the interaction matrix.
 
-If you want to check that the data was read in correctly, you can click on `curonian_species_params` and `curonian_interaction` in the "Environment" tab. That will open the data frames in your editor window.
+When you repeat this work in your worksheet, you can check that the data was read in correctly by clicking on `curonian_species_params` and `curonian_interaction` in the "Environment" tab. That will open the data frames in your editor window for you to inspect.
 
 We will now set up a multi-species mizer model using the function `newMultispeciesParams()`. Besides the species parameters and the interaction matrix, the other information that flows into a multi-species model are the resource parameters, the gear parameters and the fishing effort.
 
 We let mizer choose defaults for the resource parameters and gear parameters. By default, the resource carrying capacity will be set to a power law $N_R(w) = \kappa w^{-\lambda}$ with $\lambda = 2.05$, as we are already familiar with from week 1.
 
-The default fishing gear selects all individuals above maturity size of all species with a catchability of 1. So if we set the fishing effort to 0.3 and we have modified catchability of species in the previous tutorial to reflect final fishing mortality more accurately.
+The default fishing gear selects all individuals above maturity size. The fishing mortality that these selected individuals experience is the product of the catchability of their species with the fishing effort. We set the fishing effort to 0.3 and we have set the catchability of the species in the previous tutorial to reflect final fishing mortality more accurately.
 
 Last week we discussed that natural choice for the allometric exponents $n$ (growth exponent) and $p$ (metabolic exponent) is to take them both equal to $3/4$. That is the choice we will use. By default these exponents in multi-species models are set to different values, so we will overwrite the defaults in our `newMultispeciesParams()` command.
 
@@ -56,8 +58,6 @@ cur_model <- newMultispeciesParams(species_params = curonian_species_params,
 
 As you see from the messages it has printed, the `newMultispeciesParams()` function has made choices for some model parameters based on the information we supplied.
 
-**ASTA: I mentioned this in the previous tutorial, so we could remove this part. Or we can repeat, since people don't read everything thoroughly anyway**
-
 So for example it chose the coefficient `h` of the maximum intake rate for each species to produce growth curves that are roughly in agreement with the von Bertalannfy growth parameters `k_vb` that we supplied and with a larval feeding level `f0` (which we did not supply but which mizer chose as `f0 = 0.6`).
 
 Mizer chose the coefficient `ks` of the metabolic rate for each species so that a proportion `fc` of the maximum intake rate would be enough to cover the metabolic expenses. We did not specifiy this critical feeding level `fc` so mizer chose `fc = 0.2`.
@@ -71,7 +71,7 @@ species_params(cur_model) |> select(h, ks, z0)
 
 ## Step 2: Project to steady state
 
-The `newMultispeciesParams()` function is not very good at choosing a good initial community configuration. Let's have a look at what is has set up:
+The `newMultispeciesParams()` function is not very good at choosing a good initial community configuration. Let's have a look at what it has set up:
 
 ```{r}
 plotSpectra(cur_model, power = 2)
@@ -100,8 +100,6 @@ The `steady()` function is not guaranteed to find the steady state. It may be th
 
 ```{r}
 modified_species_params <- curonian_species_params
-
-#ASTA - you mentioned that you don't want people to modify or view parameters using this approach, but instead use species_params function. Would be good to be consisten 
 modified_species_params$sigma <- 1
 
 modified_model <- 
@@ -117,13 +115,20 @@ Now let us see what happens when we try to run this system to steady state:
 modified_model <- steady(modified_model)
 ```
 
+The simulation has not yet converged to a steady state after running the simulation for 99 years. There are now two possibilities: 1) we just need to be a  bit more patient and run the simulations for longer or 2) the system will continue to oscillate for ever. To diagnose this, we want to see the time evolution. We tell the `steady()` function that we want it to return a MizerSim object with the time series of spectra from the simulation.
+
 ```{r}
 sim <- steady(modified_model, return_sim = TRUE)
 ```
 
+We can now plot the time series of the species biomasses:
+
 ```{r}
 plotBiomass(sim)
 ```
+We see that the system has indeed settled into a periodic state. 
+
+We will not go into a discussion of whether the oscillating state reflects the true state of the system. We know that we can stabilise the steady state by moving the power-law exponent closer to 2 and/or by increasing the widths of the feeding kernels `sigma`, so unless we have good information about these parameters, it is probably easiest to just change them to stabilise the steady state, at least while tuning the model. Investigation of possible oscillatory behaviour can always happen at a later stage of model development.
 :::
 
 ## Step 3: Calibrate the scale
@@ -163,19 +168,23 @@ There are similar functions `matchNumbers()` and `matchYields()` that you would 
 
 ## Step 5: Rinse and repeat
 
-Rescaling the spectra of the individual species has not **ASTA: did you mean 'now created'?** created another steady state. All species now experience a new prey distribution and a new predator distribution and so their growth and death rates have changed, which requires us to run the dynamics again to find the new steady state. So we essentially go back to step 2 and project to steady state:
+After we have rescaled the spectra of the individual species, the system is no longer in a steady state. All species now experience a new prey distribution and a new predator distribution and so their growth and death rates have changed, which requires us to run the dynamics again to find the new steady state. So we essentially go back to step 2 and project to steady state:
 
 ```{r}
 cur_model <- steady(cur_model)
 ```
 
-The function tell us that running the dynamics for 99 years was not enough to converge sufficiently close to the steady state. In other words, the state was still changing after 99 years. There are now two possibilities: 1) the dynamics will never converge to a steady state but instead continue to oscillate for ever or 2) we simply need to be a bit more patient. Let's hope for the second option and call `steady()` again.
+The function tell us that running the dynamics for 99 years was not enough to converge sufficiently close to the steady state. In other words, the state was still changing after 99 years. There are now two possibilities: 1) we simply need to be a bit more patient or 2) the dynamics will never converge to a steady state but instead continue to oscillate for ever. Let's hope for the first option and call `steady()` repeatedly in the hope to eventually converge to a steady state.
 
 ```{r}
 cur_model <- steady(cur_model)
 ```
 
-We were lucky and only had to wait for another 13.5 years. **ASTA - not for me! Second round also didn't converg for 99 years. Third time it converged after 58 years.** We'll discuss what to do when we are not lucky in the [When things don't go smoothly](#when-things-dont-go-smoothly) section.
+```{r}
+cur_model <- steady(cur_model)
+```
+
+We were lucky and it worked eventually.
 
 But while the system settled down to the new steady state, the species biomasses have changed, so they now no longer agree with observation.
 
@@ -188,6 +197,7 @@ We appear to be in a bind: If we match the biomasses we are no longer at steady 
 After repeating the cycle of matching biomasses and running to steady state 10 more times we get this picture:
 
 ```{r}
+#| warning: false
 cur_model <- cur_model |>
     matchBiomasses() |> steady() |> matchBiomasses() |> steady() |>
     matchBiomasses() |> steady() |> matchBiomasses() |> steady() |>
@@ -203,16 +213,19 @@ And here is how the spectra look with the correct observed biomasses:
 plotSpectra(cur_model, power = 2)
 ```
 
-::: {.callout-caution collapse="true"}
-### If step 5 fails
+```{r}
+saveParams(cur_model, "cur_model.rds")
+```
 
-could diverge
-:::
 
-::: {.callout-caution collapse="false"}
-### Exercise 1
+## If the method fails
+
+There are ways how the above method can fail. If that happens, there are various ways to rescue the situation. But rather than discussing such eventualities in the abstract, we will wait for course participants to run into concrete difficulties and to share their example with us. We will then use those examples to discuss the solutions.
+
+
+## Exercise
 
 Now use your species parameter data frame that you assembled in the exercise in the previous tutorial. Go through the 5 steps that we went through above to build your own mizer model based on your species parameters.
 
 Use the worksheet for this tutorial to submit your result.
-:::
+
