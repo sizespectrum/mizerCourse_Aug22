@@ -119,7 +119,7 @@ We can now update our Curonian model to use these resource parameters with
 resource_params(cur_model) <- curonian_resource_params
 ```
 
-## Step 4: Set resource interactions
+## Step 3: Set resource interactions
 
 The next and most interesting step is to define availability of each resource to our model species. This is where our biological and ecological knowledge comes in, but we may need to adjust these values to ensure we get the expected ontogenetic diet shifts.
 
@@ -145,7 +145,7 @@ resource_interaction(cur_model)[, 2] <- benthos_avail
 
 Again, like with the species interaction matrix, you could also have set up the resource interaction matrix in an external spreadsheet program and then imported it from a .csv file.
 
-## Step 5: find new steady state
+## Step 4: find new steady state
 
 We have now changed resource availability quite a bit, so we need to retune the model and find a new steady state. We will use the same set of functions as in the single resource model in the previous tutorial. Note that after installing mizerMR() the plots will now display both resources
 
@@ -171,7 +171,7 @@ plotBiomassVsSpecies(cur_model)
 
 ```
 
-## Step 6: explore model properties
+## Step 5: explore model properties
 
 Let's check the diets and see if we can now observed ontogenetic diet shifts.
 
@@ -182,13 +182,15 @@ plotDiet(cur_model)
 
 This is looking reasonably good. Benthivores, such as ruffe, breams, roach, vimba and carrasius start in the plankton spectrum and then transition to feeding on benthos. They don't transition fully, which we need to work on. Adult benthivores should really only eat benthos and no plankton. We can probably fix that by increasing abundance `kappa` for the benthic resource or making its slope `lambda` even more shallow. Predators nicely start on plankton, transition to benthos and then to fish. For the largest predators, such as predator_fish and pikeperch we want adult diets to consist almost entirely of fish. So we might need to reduce benthic resource availability to these species. You can do that now and explore the outcomes, or we will do it in the next tutorial.
 
-Next, let's have a look at the sources of death - **the second one looks BAD**
+Next, let's have a look at the sources of death. We will plot them as proportional and as absolute rates.
 
 ```{r}
 plotDeath(cur_model, proportion = T)
 plotDeath(cur_model, proportion = F)
 
 ```
+
+Note that unlike the trait based model, where mortality was decreasing with powerlaw, the absolute mortality rate curves now look like bellshaped curves. Mortality rate on smallest fish is actually very small. This is for three reasons. First, at these sizes we have A LOT of resource, so predators to not eat small fish which are relatively less abundant. Second, we do not have all that many predators in this ecosystem, so they don't exert extensive mortality. Third, in real ecosystems resource (plankton and small organisms) would be feeding on fish eggs and larvae, but our resource does not feed. Such belled shaped natural mortality curves seem to be common in many multi-species models, and we don't yet have a good solution to address them. We could, like in trait-based models impose external mortality to make sure that mortality scales with a power law. However, unlike in the idealised trait-based models we do not know how much natural mortality will actually occur in a multi-species model. So deciding the extra mortality level to add is difficult. During the week 3 we will be refining this model and mortality curves might change. But this aspect illustrates the fact that multi-species modelling is a rapidly developing field, and we don't yet know how best to represent complex ecosystems in a simplified model.
 
 We also want to know about the predation on both resources, so we will plot that too
 
@@ -199,9 +201,7 @@ plotResourcePred(cur_model, proportion = F)
 
 ```
 
-It is interesting to see how the highest absolute mortality (plots with proportion = F) is at resource size of about 0.1g (1e-1) and this applies to both benthos and plankton. Smallest sizes of plankton are not eaten at all, as no fish feed in that size range. Also the absolute mortality is higher on benthos (up to 0.8/year) than on plankton (0.5/year). Still this mortality is low and we should probably decrease the overall resource abundance, to achieve more realistic values.
-
-**ASTA - what should be realistic? One imagines that plankton resource would be eaten over and over again multiple times per year from mortality would be very high 5-10?** Plankton mortality in particular should be higher
+It is interesting to see how the highest absolute mortality (plots with proportion = F) is at resource size of about 0.1g (1e-1) and this applies to both benthos and plankton. Smallest sizes of plankton are not eaten at all, as no fish feed in that size range. Also the absolute mortality is higher on benthos (up to 0.8/year) than on plankton (0.5/year). Still this mortality is low and we should probably decrease the overall resource abundance, to achieve more realistic values. Let's see if we can address this in week 3.
 
 Finally, let's check whether species are growing properly, given that resource availabilities to them have now been changed. We will also look at the feeding level of all species
 
@@ -216,7 +216,7 @@ We can see that smallest fish (smallfish and ruffe) and benthivores are growing 
 
 You can play with the resource_interaction() vectors and resource parameters (`kappa` and `lambda`), but this will be our main goal in the next tutorial on refining our models.
 
-## Step 7 and Exercise 1: save your parameter file
+## Step 6 and Exercise 1: save your parameter file
 
 The last step is to save our new set of parameters to a file with a new name and with the .rds extension.
 
@@ -226,9 +226,9 @@ saveParams(cur_model, "cur_model_ben.rds")
 ```
 
 ::: {.callout-caution collapse="false"}
-### Exercise
+### Exercise 1
 
-Now use your own single-resource model that you created in the exercise in the previous tutorial. Go through the 7 steps that we went through above to build your own multi-resource mizer model.
+Now use your own single-resource model that you created in the exercise in the previous tutorial. Go through the steps above to build your own multi-resource mizer model.
 
 Use the worksheet for this tutorial to submit your result.
 :::
