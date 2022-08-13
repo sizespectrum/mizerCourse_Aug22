@@ -1,9 +1,223 @@
 ---
 title: "Using a model to explore the consequences of change"
 ---
-  Here you will learn how to explore the effects of changing parameters on
-  an existing mizer model. This will include a guest lecture by 
-  Julia Blanchard
 
-## In preparation
+## Introduction
 
+Mizer is a tool that can be used to simulate a dynamic size spectrum in an marine ecosystem, subject to changes through time, such as fishing pressure. Multiple interacting species and fishing gears can be defined allowing for a range of fisheries management strategy scenarios, and their ecosystem impacts, to be tested.
+
+Below we explore some examples of what can be done using a previously calibrated Mizer model. We will use the mizerHowTo package which contains some handy functions for this example.
+
+```{r set-up, echo = F,message=F, warning=F}
+remotes::install_github("sizespectrum/mizerHowTo")
+library(mizerHowTo) 
+# upgrade params
+sim <- upgradeSim(HTM0_sim2)
+params <- getParams(sim)
+effort <- getEffort(sim)
+```
+
+## Species Collapse and Recovery in a Heavily Fished Multispecies System
+
+In this example we will read in the North Sea model, which consists of 12 interacting species and a background resource. All species are predators and prey since they feed according to size-based rules and they encounter each other. Fishing is assumed to be size-selective, targeting sizes above the maturity length $l_{50}$ of each species.
+
+First let's take a look at what the model has used in the historical period. These are fishing mortality rates derived from ICES stock assessments.
+
+```{r, echo = F, warning= F}
+plot_dat <- melt(getEffort(sim))  %>% filter(time >= 1980)
+colnames(plot_dat)[2] <- "Species"
+legend_levels <- intersect(names(sim@params@linecolour), plot_dat$Species)
+ggplot(plot_dat) + 
+geom_line(aes(x = time, y = value, colour = Species), size = 1) + 
+  scale_x_continuous(name = "Year") +
+  scale_y_continuous(name = "Effort") +
+  scale_color_manual(values = sim@params@linecolour[legend_levels]) +
+  theme(legend.key = element_rect(fill = "white"))
+```
+
+The species' maximum fishing mortality rates (which we call for convenience effort) for Cod and Saithe have declined but are not as low as what would be in line with single-species "Fmsy" (a reference level of fishing deemed sustainable from single-species stock assessments, commonly assumed to be around 0.2) and the fishing mortality rate for Sprat and Dab is very high.
+
+Then you can take a look at how the modelled species biomasses change through time by running the following:
+
+```{r}
+plotlyBiomass(sim, start_time = 1950, end_time = 2018)
+# size spectra averaged for the final 5 years
+plotlySpectra(sim,time_range = c(2015:2018),power=2)
+```
+
+## Examining changes in the community relative to an unfished state
+
+To be able to examine any changes in the community relative to an unfished state we can re-set effort = 0 and calculate the steady state.
+
+```{r, eval = T, warning=F, message=F}
+sim0 <- projectToSteady(params, effort = 0, return_sim = TRUE, t_max = 200)
+```
+
+```{r, warning=F}
+plotlyBiomass(sim0)
+```
+
+We can compare the current size spectra (averaged over 2015-2019) to the unfished size spectra to assess whether there is any evidence of a size-structured trophic cascade due to fishing.
+
+```{r , code_folding=TRUE, eval = T, echo = T, warning=F}
+plot_relative_biomass(sim0, sim)
+```
+
+Here we can see the effect of the reduction in large sized individuals of heavily fished species on the other sizes and species in the model, relative to the unfished steady state.
+
+The abundance of some (but not all) of the smaller to medium sizes of prey are a lot higher when their larger predators are removed (note the logarithmic scale). Sprat looks to be much lower.
+
+We can do the same with Biomass to see when, if any, of the species collapse. For simplicity, we use \< 0.1 of B/B_unfished as a proxy for a reference point for population collapse. We can add other reference points to this kind of plot, for example a simple rule of thumb for B_msy could be 0.5\*B_unfished.
+
+```{r,code_folding=TRUE, eval = T, echo = F, warning=F}
+# collect the biomasses from unfish and calcualte the relative change
+B0 <- getBiomass(sim0)[idxFinalT(sim0), ]
+Brel <- melt(sweep(getBiomass(sim), 2, B0, "/"))
+plot_Brel_all<-ggplot(filter(Brel, time >= 1950))+ 
+  geom_line(aes(x=time,y=value), size = 1) + 
+  ggpubr::theme_pubr() + 
+  geom_hline(yintercept = 0.1, linetype=1, colour="red", size=0.75) +
+  geom_hline(yintercept = 0.5, linetype=1, colour="steel blue", size=0.75) +
+  facet_wrap(.~sp,scales = "free") +
+  scale_y_continuous(name = "Relative Biomass") +
+  scale_x_continuous(breaks = seq(1960,2020, length.out = 3), name = "Time")+
+  annotate("text", x = 1959, y = 0.1+0.15, label = "Blim", color = "red") +
+  annotate("text", x = 1957, y = 0.5+0.15, label = "Bmsy", color = "steel blue")
+plot_Brel_all
+Brel_select <- Brel %>%
+    filter(sp == "Sprat" & time >= 1950) %>%
+    mutate(collapsed = value < 0.1)
+ggplot(Brel_select, aes(x = time, y = value, fill = collapsed)) +
+    geom_col(position = "identity") +
+    geom_hline(yintercept = 0.1, colour = "dark grey", size = 0.75) +
+    scale_fill_manual(values = alpha(c("blue", "red"), .3)) +
+    ggpubr::theme_pubr() +
+  scale_y_continuous(name = "Relative biomass") +
+  scale_x_continuous(name = "Time") +
+  annotate("text", x = 2015, y = max(Brel_select$value), 
+             label = "Sprat", color = "black")
+```
+
+## Projecting future recovery scenarios
+
+We may now wish to explore the potential recovery of the larger species and sizes in the system. To do this we set up another scenario, where the model starts with the last time step of the fished scenario.
+
+The effort values in 2018 were
+
+```{r, echo= FALSE}
+current_effort <- getEffort(sim)["2018", ]
+knitr::kable(t(current_effort), caption = "Current effort",)
+```
+
+Let's start a new simulation that begins with the effort from 2018 and projects forward for 50 years. We will apply a linear reduction in effort for a selected species to a target value (here assumed for simplicity to be 0.2 with effort expressed in terms of the species' fishing mortality rate for fully selected sizes).
+
+To do this we need to work with the effort array (time x gear) to enable changes in effort through time, for this scenario. Here we have a 'gear' for each species, since effort in this case were annual single-species fishing mortality estimates.
+
+```{r, echo = FALSE}
+sim_status_quo<-project(params,initial_n = sim@n["2018",,], initial_n_pp = sim@n_pp["2018",],effort=current_effort,t_max = 50)
+proj_effort <- matrix(current_effort, nrow = 51, ncol = 12, byrow = TRUE)
+dimnames(proj_effort) <- list(time = 2019:2069,
+                              gear = unique(gear_params(params)$gear))
+target<-0.2
+select_species="Sprat"
+# reach target by 10 years
+proj_effort[1:10, select_species] <- 
+    seq(from = proj_effort[1, select_species], to = target, length = 10)
+# then hold at target
+proj_effort[11:51, select_species] <- target
+# check it
+proj_effortDf <- data.frame("Time" = rownames(proj_effort), "Effort" = proj_effort[,select_species])
+proj_effortDf_short <- proj_effortDf[c(1:13,49:51),] # looks nicer but keeping long version
+flextable::regulartable(proj_effortDf_short) %>% flextable::set_caption("Projected effort on Sprat")
+# run the simulation forward, using the 2018 abundances as initial values
+params_status_quo <- setInitialValues(params, sim)
+sim_scen <- project(params_status_quo, effort = proj_effort, t_max = 50)
+# plot change in biomass relative to 2018 values
+B_current <- getBiomass(sim_scen)[1, ]
+Brel_scen <- melt(sweep(getBiomass(sim_scen), 2, B_current, "/"))
+colnames(Brel_scen)[2] <- "Species"
+legend_levels <- intersect(names(sim_scen@params@linecolour), Brel_scen$Species)
+ggplot(Brel_scen) + 
+  geom_line(aes(x = time,y = value,color = Species), size = 1) + 
+  geom_hline(yintercept = 1, linetype = 1, colour = "grey", size = 0.75) +
+  scale_y_continuous(name = "Relative biomass") +
+  scale_color_manual(values = sim@params@linecolour[legend_levels]) +
+  theme(legend.key = element_rect(fill = "white"))
+```
+
+We can see that when we reduce fishing on Sprat it increases the biomass of this species but also affects the biomass of other species in the community.
+
+Are any species collapsed still?
+
+```{r, echo = FALSE}
+Brel_ref <- Brel_scen  %>% mutate(collapsed = value < 0.1)
+plot_Brel_all<-ggplot(Brel_ref)+ 
+  geom_line(aes(x=time,y=value), size = 1) + 
+  ggpubr::theme_pubr() + 
+  geom_hline(yintercept = 0.1, linetype=1, colour="red", size=0.75) +
+  geom_hline(yintercept = 0.5, linetype=1, colour="steel blue", size=0.75) +
+  facet_wrap(.~Species,scales = "free") +
+  scale_y_continuous(name = "Relative Biomass") +
+  scale_x_continuous(breaks = seq(2020,2060, length.out = 3), name = "Time")+
+  annotate("text", x = 2027, y = 0.1+0.15, label = "Blim", color = "red") +
+  annotate("text", x = 2025, y = 0.5+0.15, label = "Bmsy", color = "steel blue")
+plot_Brel_all
+```
+
+## Example 2: Set up your own fishing scenario
+
+Rather than an entire time-series, we can also simply examine differences between two time-averaged states under different fishing regimes.
+
+We can alter the fishing parameters using a function called *gear_params()* and by changing the *effort* input.
+
+Let's take a look at the fishing parameters. Note that the gears in the above model were already setup to be species-specific.
+
+```{r, echo = FALSE}
+knitr::kable(gear_params(params), caption = "gear parameters",row.names = F)
+```
+
+We can group these species together according to the gears they are caught by. Let's imagine a big super trawler.
+
+```{r}
+# allocate species to gear types
+gear_params(params)$gear <- c("super_trawler")
+```
+
+Note that catchability is set to 1. This is because the fishing "effort" was here assumed to be the fishing mortality rate of fully selected sizes (see here [setFishing](https://sizespectrum.org/mizer/reference/setFishing.html?q=set%20fishing)).
+
+The previous effort won't work with these new gears, as it is gear x time. We only have a single gear now, so this is easier to set up.
+
+```{r}
+params <- setFishing(params, initial_effort = 1)
+```
+
+Now let's run two simulations, one with light fishing effort (effort = 0.5) and one heavely fished (effort = 1.5).
+
+```{r}
+sim_light <- project(params, effort = .5, t_max = 100)
+sim_heavy <- project(params, effort = 1.5, t_max = 100)
+```
+
+```{r, warning=F}
+plot_relative_biomass(sim_light,sim_heavy)
+```
+
+As we saw before large individuals are the most affected by the high fishing effort. This create a trophic cascade where smaller individuals, even if they are affected by the same fishing effort, will increase in abundance due to the release in predation from larger individuals.
+
+We can also extract the species biomasses:
+
+```{r}
+biomass<-rbind(getBiomass(sim_light)[100,],getBiomass(sim_heavy)[100,])
+row.names(biomass)<-c("light","heavy")
+```
+
+As well as yields:
+
+```{r, warning=F}
+yield<-rbind(getYield(sim_light)[100,],getYield(sim_heavy)[100,])
+row.names(yield)<-c("light","heavy") 
+```
+
+**Exercise: Now try to edit the above code to create your own fishing scenario.**
+
+## 

@@ -4,3 +4,10 @@ title: "Change resources"
 
 ## In preparation
 
+-could add example showing changes through time - e.g. thermizer example with climate change forcing.
+
+-or an example with seasonal / stochastic resource dynamics
+
+-or simpler example showing effect of two different states - e.g. change in resource slopes and intercepts on steady states?
+
+
