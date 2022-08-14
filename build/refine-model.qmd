@@ -9,11 +9,56 @@ This part is now moved from tutorial 3, because we are not using tuneParams in i
 We will also install a different branch of mizerExperimental, which will include an updated tuneParams() R shiny application that incorporates multiple resources. This is still work in progress, so please be patient if you find bugs or some other annoying features (please report them, so we can keep improving the tools). To install a specific branch (in our case tuneMR branch) of a package located on GitHub we need to indicate it in the `ref=` command. You might need to restart your R session for this to work. Also, remember that next time, if you want to use the main branch of mizerExperimental (without multiple resources) you will need to reinstall it, but without the `ref=` parameter (which is automatically install the main branch).
 
 ```{r}
-
 remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
 remotes::install_github("sizespectrum/mizerMR")
 library(mizerExperimental)
 library(mizerMR)
+```
 
+```{r}
+cur_model_ben <- readParams("cur_model_ben.rds")
+catch <- readRDS("catch.rds")
+```
+
+The yields dont match observations
+```{r}
+#| warning: false
+plotYieldVsSpecies(cur_model_ben)
+```
+
+We fix the total yield
+```{r}
+calibrated_model <- calibrateYield(cur_model_ben)
+plotYieldVsSpecies(calibrated_model)
+```
+This rescaled the abundances, so biomasses
+```{r}
+plotBiomassVsSpecies(calibrated_model)
+```
+
+
+```{r}
+scaling_factor <- initialN(calibrated_model)[1, 1] / initialN(cur_model_ben)[1, 1]
+species_params(calibrated_model)$biomass_observed <- 
+    species_params(calibrated_model)$biomass_observed * scaling_factor
+
+plotBiomassVsSpecies(calibrated_model)
+```
+
+```{r}
+plotYieldVsSize(calibrated_model, species = "breams", catch = catch, 
+                x_var = "Length")
+```
+
+```{r}
+gear_params(calibrated_model)$l50 <- 35
+gear_params(calibrated_model)$l25 <- 32
+plotYieldVsSize(calibrated_model, species = "breams", catch = catch, 
+                x_var = "Length")
+```
+
+
+```{r}
+calibrated_model <- tuneParams(calibrated_model, catch = catch)
 ```
 
