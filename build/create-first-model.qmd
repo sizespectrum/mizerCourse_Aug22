@@ -1,5 +1,5 @@
 ---
-title: "Building a new multi-species model"
+title: "Create your first model"
 ---
 
 ## Introduction
@@ -16,12 +16,10 @@ We will concentrate on building models with the correct steady state this week a
 
 In this tutorial we will take the species parameters that we assembled in the previous tutorial for the Curonian Lagoon and use the `newMultispeciesParams()` function to build a mizer model with them. We will let mizer choose most of the defaults and then adjust a few things so that the model has a steady state that has the observed species biomasses and growth curves. We will not do any fine-tuning of the steady state because the first big improvement that we will make in the next tutorial will be to add multiple resource spectra, as is appropriate for this shallow coastal ecosystem.
 
-As always, we start by loading packages.
-
-**ASTA - in a later tutorial I explained what ref= means so perhaps we don't use this ref here ?**
+As always, we start by updating and loading packages.
 
 ```{r message=FALSE}
-remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
+remotes::install_github("sizespectrum/mizerExperimental")
 library(mizerExperimental)
 library(tidyverse)
 ```
@@ -68,7 +66,6 @@ Finally mizer has set a constant background mortality `z0` that scales with the 
 
 ```{r}
 species_params(cur_model) |> select(h, ks, z0)
-
 ```
 
 ## Step 2: Project to steady state
@@ -90,7 +87,7 @@ cur_model <- steady(cur_model)
 We can ignore the warning from the `setBevertonHolt()` function about unrealistic reproductive efficiencies. Those warnings are an artefact of how the reproduction level is set by default by the `matchBiomasses()` function. We could fix those defaults, but we are not yet concerned with the reproduction dynamics so we don't have to do that and just ignore the warnings.
 
 ::: {.callout-important collapse="false"}
-Remember, the steady() function does not yet calibrate your model to any observed biomasses or catches. It simply runs the model to find a state where species biomasses stop changing. If you start a simulation from initial biomasses that the set of current species and resource parameters cannot support, species biomasses will change drastically at the start. Perhaps there are too many predators at the start, or too many fish for the resource to support it. After a while these fluctuations will settle down (hopefully) and species biomasses will be stable for a given set of parameters. Of course, since we are keeping reproduction and resource levels constant, this is not yet a final model.
+Remember, the steady() function does not yet calibrate your model to any observed biomasses or catches. It simply runs the model to find a state where species spectra stop changing. If you start a simulation from initial biomasses that the set of current species and resource parameters cannot support, species biomasses will change drastically at the start. Perhaps there are too many predators at the start, or too many fish for the resource to support it. After a while these fluctuations will settle down (hopefully) and species biomasses will be stable for a given set of parameters. Of course, since we are keeping reproduction and resource levels constant, this is not yet a final model.
 :::
 
 Now let us look at the spectra in the steady state:
@@ -102,7 +99,7 @@ plotlySpectra(cur_model, power = 2)
 ::: {.callout-caution collapse="true"}
 ### If step 2 fails
 
-The `steady()` function is not guaranteed to find the steady state. It may be that the steady state is actually unstable. In that case the system evolves towards an oscillating state instead. This is luckily rare for realistic parameters, but may well happen while you are still trying to find the correct parameters. Let us illustrate this in a modified model. We decrease the width of the feeding kernel for all species to `sigma = 1` and increase the slope of the resource spectrum to `lambda = 2.2`. We know from mathematical studies that both of these changes have a destabilising effect.
+The `steady()` function is not guaranteed to find the steady state. It may be that the steady state is actually unstable. In that case the system evolves towards an oscillating state instead. Luckily, this is rare for realistic parameters, but may well happen while you are still trying to find the correct parameters. Let us illustrate this in a modified model. We decrease the width of the feeding kernel for all species to `sigma = 1` and increase the slope of the resource spectrum to `lambda = 2.2`. We know from mathematical studies that both of these changes have a destabilising effect.
 
 ```{r}
 modified_species_params <- curonian_species_params
@@ -237,9 +234,8 @@ saveParams(cur_model, "cur_model.rds")
 
 ## Exercise
 
-Now use your species parameter data frame that you assembled in the exercise in the previous tutorial. Go through the 5 steps that we went through above to build your own mizer model based on your species parameters.
+Now use your species parameter data frame that you assembled in the exercise in the previous tutorial. Use the worksheet for this tutorial "worksheet-2-create-first-model" to go through the 5 steps that we went through above to build your own mizer model based on your species parameters.
 
-Use the worksheet for this tutorial to submit your result.
 
 There are ways how the above method can fail. If that happens, there are various ways to rescue the situation. But rather than discussing such eventualities in the abstract, we will wait to see if you run into concrete difficulties. If you do, please save your code and email gustav.delius\@gmail.com. We will then use your example to discuss the solutions.
 
