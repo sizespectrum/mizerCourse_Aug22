@@ -245,7 +245,7 @@ $$F = catchability\cdot selectivity \cdot effort$$
 
 In complicated models we can have different gears, each with its own effort, fishing different species with different selectivity and catchability. Gear selectivity curve can have different shapes (logistic, knife-edge and others). You can read more about this [here](https://sizespectrum.org/mizer/reference/setFishing.html).
 
-For the simple Curonian Lagoon model we will assume only one gear, fishing with sigmoidal selectivity centered at maturation size for each species **ASTA - is this correct? I thought we set at maturation size and then adjusted later?**. We will use one effort value because we only have one gear, and we set this to 0.3. By adjusting species-specific `catchability` we can adjust fishing mortality for each species. For example, *smallfish* in our model are not fished, so we will set its `catchability` to 0. Some species live close to the shore or are otherwise less vulnerable to commercial fishing, so we will set their `cathability` to 0.5.
+For the simple Curonian Lagoon model we will assume only one gear, fishing with sigmoidal selectivity centered at 30 cm for each species. We will use one effort value because we only have one gear, and we set this to 0.3. By adjusting species-specific `catchability` we can adjust fishing mortality for each species. For example, *smallfish* in our model are not fished, so we will set its `catchability` to 0. Some species live close to the shore or are otherwise less vulnerable to commercial fishing, so we will set their `cathability` to 0.5.
 
 ## Summary
 
