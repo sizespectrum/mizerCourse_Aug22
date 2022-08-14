@@ -4,9 +4,9 @@ title: "Finding species parameters"
 
 ## Selecting model species
 
-How do we decide which species to include in the model? There are many ways to approach it and no clearly set rules. Of course you want to include species that you are interested in, but then also perhaps some other important species in the ecosystem. Mizer actually has a powerful framework that allows you to explicitly model only your focus species and represent the rest of the ecosystem with some 'background' species. The sizes and abundances of these 'background' species are assumed to follow the power law, so that the total community biomass approximately represents the Sheldon spectrum. This is only mentioned here for your information, as we will not go into these details during this week.
+How do we decide which species to include in the model? There are many ways to approach it and no clearly set rules. Of course you want to include species that you are interested in, but then also perhaps some other important species in the ecosystem. Mizer actually has a powerful framework that allows you to explicitly model only your focus species and represent the rest of the ecosystem with 'background' species. The sizes and abundances of these 'background' species are assumed to follow the power law, so that the total community biomass approximately represents the Sheldon spectrum. This is only mentioned here for your information, as we will not go into these details during this week.
 
-If you have your own ecosystem that you want to model during this week, then you also have your own list of species. Ideally you may want to have somewhere around 4 to 20 species, as this allows for interesting but also tractable dynamics (although tracking processes in all 20 species might be quite challenging). For the Curonian Lagoon model we selected key ecosystem fish species that are commonly observed in scientific monitoring surveys, and which live and reproduce in the ecosystem (as compared to several migratory species, which can be abundant briefly don't have a big role in the ecosystem in the long term).
+If you have your own ecosystem that you want to model during this week, then you also have your own list of species. Ideally you may want to have somewhere around 4 to 20 species, as this allows for interesting but also tractable dynamics (although tracking processes in 20 species might be quite challenging). For the Curonian Lagoon model we selected key ecosystem fish species that are commonly observed in scientific monitoring surveys, and which live and reproduce in the ecosystem (as compared to several migratory species, which can be abundant briefly but don't have a big role in the ecosystem in the long term).
 
 The list of species and their general feeding habits or trophic group are listed below. We include scientific and model name, the latter representing a short name that we can conveniently use and display in plots.
 
@@ -23,10 +23,9 @@ The list of species and their general feeding habits or trophic group are listed
 | Lota lota                              | burbot     | predator      |
 | Esox lucius, Aspius aspius             | predators  | predator      |
 
-
 ## Summary of species parameters
 
-At this point it might be useful to go back and rewatch the second half of Ken Andersen's introductory lecture, which explains species parameters used in mizer. It is great how mizer can start building a model with only very few species parameters! For most other parameters, if values are not supplied by the user, mizer will fill them with default values using size-based theory or species averages. 
+At this point it might be useful to go back and rewatch the second half of Ken Andersen's introductory lecture, which explains species parameters used in mizer. It is great how mizer can start building a model with only very few species parameters! For most other parameters, if values are not supplied by the user, mizer will fill them with default values using size-based theory or species averages.
 
 However, if you don't like defaults you can change them all. Advanced users can even overwrite mizer functions that calculate parameters. If you feel you need more advanced reading you can explore it [here](https://sizespectrum.org/mizer/reference/setParams.html)
 
@@ -37,11 +36,12 @@ You can find the complete list of species parameters used in mizer in the help p
 ## Parameters we provide
 
 For each of the species that we include in our model we have some information that we have put into a species parameter table and saved it as a .csv file. The table has one row for each species and one column for each species parameter. We can read this into a data frame with
+
 ```{r}
 curonian_species_params <- read.csv("curonian_species_params.csv")
 ```
 
-We will not show you all or our parameters for all species, because we want you to look up some parameters yourself. So we overwrite some of our parameters with `NA`.
+We will not show you all of our parameters for all species, because we want you to look up some parameters yourself. So we overwrite some of our parameters with `NA`.
 
 ```{r}
 curonian_species_params[4, c("w_inf", "w_mat", "k_vb", 
@@ -51,38 +51,39 @@ curonian_species_params
 
 We will now explain these species parameters. Because there is so much information that would be worth discussing, we have put some material into collapsed sections. You can click on these to expand them if you want to learn about those additional details.
 
-1. As Ken stressed in his video, a name `species` and the **asymptotic size** `w_inf` are the only species parameter for which mizer does not suggest a default value. We also include the scientific species name in `latinName` and the trophic group in `funcgr`, both of which mizer ignores.
+1.  As Ken stressed in his video, a name `species` and the **asymptotic size** `w_inf` are the only species parameter for which mizer does not suggest a default value. We also include the scientific species name in `latinName` and the trophic group in `funcgr`, both of which mizer ignores.
 
 We find it sensible to provide some additional parameters:
 
-2. The species **maturation body size** `w_mat`. Usually you would want to set them up yourself from life-history data, but if no data is available mizer will use `0.25 * w_inf`. For the Curonian lagoon model we selected maturation size from available biological data. 
+2.  The species **maturation body size** `w_mat`. Usually you would want to set them up yourself from life-history data, but if no data is available mizer will use `0.25 * w_inf`. For the Curonian Lagoon model we selected maturation size from available biological data.
 
-3.  Von Bertalanffy **growth rate** parameters `k_vb`. In mizer the growth rate is not fixed but depends on the abundance of prey. So mizer does not actually use the von Bertalanffy growth curves. However, it can use the information you give to choose its predation parameters in such a way that the emergent growth curves will be close to von Bertalanffy curves. Specifying `k_vb` is an alternative to specifying the coefficient `h` in the maximum intake rate, as was discussed by Ken Andersen in his introductory video. The von Bertalanffy K parameter can often easily be looked up on FishBase. 
+3.  Von Bertalanffy **growth rate** parameters `k_vb`. In mizer the growth rate is not fixed but depends on the abundance of prey. So mizer does not actually use the von Bertalanffy growth curves. However, it can use the information you give to choose its predation parameters in such a way that the emergent growth curves will be close to von Bertalanffy curves. Specifying `k_vb` is an alternative to specifying the coefficient `h` in the maximum intake rate, as was discussed by Ken Andersen in his introductory video. The von Bertalanffy K parameter can often be looked up on FishBase or estimated from parameters in the same family.
 
 ::: {.callout-note collapse="true"}
 ### Details on Von Bertalanffy growth rate
 
-The growth curve of a fish is commonly reported as a von Bertalanffy growth curve. The von Bertalanffy curve describes the length of a fish as a function of two parameters; the asymptotic length $L_\infty$ and the von Bertalanffy growth coefficient $K$ (`k_vb` in mizer):
+The growth curve of a fish is commonly reported as a von Bertalanffy growth curve. The simplest version of von Bertalanffy curve describes the length of a fish as a function of two parameters; the asymptotic length $L_\infty$ and the von Bertalanffy growth coefficient $K$ (`k_vb` in mizer):
 
 $L_{(t)} = L_\infty (1-e^{-Kt})$
 
-where $t$ is the age. $L_\infty$ represents the asymptotic length and $K$ is an intantaneous annual growth rate. This value shows how quickly a species will approach its asymptotic length. In many species $1/K$ gives an approximat age at maturation, although this can vary.
+where $t$ is the age. $L_\infty$ represents the asymptotic length and $K$ is an instantaneous annual growth rate. This value shows how quickly a species will approach its asymptotic length. In many species $1/K$ gives an approximate age at maturation, although this can vary.
 
 Mizer, however, uses two other parameters, $W_\infty$ (`w_inf` in Mizer) and $h$, where $W_\infty$ represents the asymptotic weight and $h$ the size-scaled maximum consumption rate. Ken Andersen discusses $K$ and $h$ in his introductory lecture. Fortunately, the two sets of parameters are related, and one can derive $h$ and $W_\infty$ from von Bertalanffy $K$ and $L_\infty$.
 
 The parameter $h$ represents the maximum consumption rate of a fish, scaled by size. The value of $h$ varies between 4 -- 400, with a geometric mean around 22 g$^{-0.25}$/year across all fish species (Andersen 2019, chap. 2 and 11). If we have reliable von Bertalanffy growth curve values, we can derive a more precise estimate of $h$ as: $h \approx 4.75 K\cdot L_\infty^{0.75}$ (with $K$ given in 1/years and $L_\infty$ in cm).
 
-Von Bertalanffy growth function is widely used in fisheries and ecology. However, it should be treated with some caution. To estimate the growth function coefficients reliably we need sufficient amounts of data from young and old individuals. The latter is often not the case for intensively fished species, because old fish are simply not present in the ecosystem. If we do not have old fish in the sample the asymptotic length $L_\infty$ cannot be properly estimated. As a result, estimates of $K$ will also vary extensively across samples. You can see that for yourself in our exercise below.
+Von Bertalanffy growth function is widely used in fisheries and ecology. However, it should be treated with some caution. To estimate the growth function coefficients reliably we need sufficient amounts of data from young and old individuals. The latter is often not the case for intensively fished species, because old fish are simply not present in the ecosystem. Young individuals are also often not observed, especially if data comes from fisheries rather than scientific surveys. If we do not have old fish in the sample the asymptotic length $L_\infty$ cannot be properly estimated. As a result, estimates of $K$ will also vary extensively across samples. You can see that for yourself in our exercise below.
 :::
 
-    We have also included some parameters that mizer ignores, namely the age at maturity `mat_age` and the maximum age `max_age`. We find these useful as a sanity check on our choices for `w_mat` and `k_vb`. Expand the following section if you want to learn more.
+We have also included some parameters that mizer ignores, namely the age at maturity `mat_age` and the maximum age `max_age`. We find these useful as a sanity check on our choices for `w_mat` and `k_vb`. Expand the following section if you want to learn more.
 
 ::: {.callout-note collapse="true"}
 ### Plotting Von-Bertalanffy parameters
 
-Once we collect species parameters from FishBase we might want to know how well these parameters reflect the actual growth data, or at least knowledge about maximum and maturation size. Of course if we have size-age data we can estimate the Von Bertalanffy growth curve ourselves. But for now we will just plot the parameters in our dataframe and explore the growth curves.
+Once we collect species parameters from FishBase we might want to know how well these parameters reflect the actual growth data, or at least knowledge about maximum and maturation size. Of course if we have size-age data we can estimate the Von Bertalanffy growth curve parameters ourselves. But for now we will just plot the parameters in our dataframe and explore the growth curves.
 
 ```{r}
+#let's load an example data on length at age 
 load(file = "size_age.RData")
 
 # Load species parameters
@@ -115,25 +116,27 @@ ggplot() +
 ```
 
 In this plot we can see the representation of parameters we collected from FishBase or other sources: Von Bertalanffy growth curve (blue line), maturation weight (horizontal dashed line), maturation age (vertical dashed line), asymptotic weight (horizontal solid line) and maximum age (vertical solid line). The available data on size at age is shows with dotpoints. When we plot such data we want to make sure that Von Bertalanffy curves reflect the growht data (if available) sufficiently well, and that Von Bertlanffy curve also approximately crosses the intersection of maturation weight and age.
+
+You probably noticed that there is no curve for roach. Well, this is what Exercise 1 is about.
 :::
 
-4.  The **referred predator-prey mass ratio** `beta`. The default values in mizer is `beta = 30`. However, higher `beta` values are appropriate for fish that feed on plankton or benthic invertebrates. We need to keep in mind that `beta` represents a __preferred__ predator prey size ratio, not the __realised__ one. Most species prefer to eat larger prey, but their diets are dominated by small prey, since smaller individuals are more common.
+4.  The **preferred predator-prey mass ratio** `beta`. The default values in mizer is `beta = 30`. However, higher `beta` values are appropriate for fish that feed on plankton or benthic invertebrates. We need to keep in mind that `beta` represents a **preferred** predator prey size ratio, not the **realised** one. Most species prefer to eat larger prey, but their diets are dominated by small prey, since smaller individuals are more common.
 
-    For the Curonian lagoon model we set the following beta values: we assume 100 for predatory fish, 10000 for large benthivores, 8000 and 600 for smaller benthivores and 5000 for planktivorous fish. We leave the `sigma` values at their default of 2, although planktivores and benthivores would normally feed over a larger range of sizes and thus larger `sigma` values might be appropriate for them and smaller ones for predatory species.  We will revisit our preliminary choices in the [Refine your model](refine-model.qmd) tutorial when we can visualise what the resulting diets will look like.
+    For the Curonian lagoon model we set the following beta values: we assume 100 for for predatory fish, 10000 for large benthivores, 8000 and 600 for smaller benthivores and 5000 for planktivorous fish. We leave the `sigma` values at their default of 2, although planktivores and benthivores would normally feed over a larger range of sizes and thus larger `sigma` values might be appropriate for them and smaller ones for predatory species. `sigma` is a standard deviation of the predation kernel on a natural log scale, but it is easier to understand it when looking at the predation kernel plots, which we will do in the last tutorial. We will revisit our preliminary choices in the [Refine your model](refine-model.qmd) tutorial when we can visualise what the resulting diets will look like.
 
 5.  The **observed biomass** for each species in grams, `biomass_observed`. You will not be able to calibrate your model to a realistic system without some information on relative species abundances. Note, the `biomass_observed` reflects the average species biomasses in your model system for the period that you want to calibrate your system to. Usually we do not have data on observed biomasses of all fish sizes combined, since we usually do not observe larvae. This we can specify in the `biomass_cutoff` parameter, where we tell mizer the smallest size of fish to use for comparing model and observed biomasses. In our case we give the value of 2g for all species (about 6cm long), because observed data comes from scientific monitoring surveys.
 
 ::: {.callout-note collapse="true"}
 ### How to get observed biomasses
 
-To calibrate the rate of reproduction (the rate at which eggs are entering the first size class in each species), mizer needs some information about species abundance or biomasses. Multi-species models are often calibrated using average **observed biomases** or average **spawning stock biomasses** of species. The units of the area or volume over which these biomasses were observed depend on your choice, mizer does not care about it (see section [Units in mizer](https://sizespectrum.org/mizer/reference/setParams.html#setting-search-volume) in this reference page). Sometimes we can use relative biomasses, which scale the relative abundances of species in the model. Remember, these are just average values, not time series of observations.
+To calibrate the rate of reproduction (the rate at which eggs are entering the first size class in each species), mizer needs some information about species abundance or biomasses. Multi-species models are often calibrated using average **observed biomases** or average **spawning stock biomasses**. The units of the area or volume over which these biomasses were observed depend on your choice, mizer does not care about it (see section [Units in mizer](https://sizespectrum.org/mizer/reference/setParams.html#setting-search-volume) in this reference page). Sometimes we can use relative biomasses, which scale the relative abundances of species in the model. Remember, these are just average values, not time series of observations.
 
 Observed biomasses could be derived from **scientific surveys**, **underwater surveys** or other observations or knowledge about relative biomasses of species. In well studied systems you might have data about biomass estimates, **catches** and **fishing mortality** from stock assessments. These type of data are often used to calibrate mizer models, although we need to be aware of the fact that stock assessment estimates are also model estimates and come with their own assumptions (e.g. they are single species estimates).
 :::
 
-6. Fisheries **yields** in terms of total yearly catches for each species in grams in `yield_observed`. While these are not used directly by mizer to set up the model, mizer can display this information in graphs that you can use to calibrate the model manually. We will discuss this in the [Refine your model](refine-model.qmd) tutorial.
+6.  Fisheries **yields** in terms of total average yearly catches for each species in grams in `yield_observed`. While these are not used directly by mizer to set up the model, mizer can display this information in graphs that you can use to calibrate the model manually. We will discuss this in the [Refine your model](refine-model.qmd) tutorial.
 
-7. Species **length-weight conversion** coefficients `a` and `b` These coefficients are needed if maximum or maturation body size are provided in length or if we estimate `h` from Von Bertalanffy `v_bk`. If no values are provided mizer will assume 0.01 and 3, but for the Curonian lagoon model we collect these data from FishBase.
+7.  Species **length-weight conversion** coefficients `a` and `b`. These coefficients are needed if maximum or maturation body size are provided in length or if we estimate `h` from Von Bertalanffy `v_bk`. If no values are provided mizer will assume 0.01 and 3, but for the Curonian Lagoon model we collect these data from FishBase.
 
 ::: {.callout-note collapse="true"}
 ### Length-weight regression
@@ -147,28 +150,25 @@ We have included another column in our species parameter frame that mizer ignore
 
 There are many other parameters that are used to describe species properties, but which we have not provided in our species parameter data frame because mizer has default ways to calculate them based on the size theory expectations. You can read about the theory in various publications or in the excellent Ken H Andersen book ["Fish Ecology, Evolution, and Exploitation" (2019)](https://ken.haste.dk/home/publications). So you don't **need** to provide them, but you do need to understand the defaults and think whether you are happy with them. Mizer help pages provide [a good summary of species parameters](https://sizespectrum.org/mizer/reference/species_params.html) and links to functions that use these parameters.
 
-
 8.  The species **search volume** is set from the search rate constant `gamma` and its body size scaling exponent `q`. If no values are provided `gamma` and `q` are set so that when prey abundance is described by the power law with the exponent `lambda`, food search rate will lead to the juvenile feeding level `f0 = 0.6`.
 
 9.  The species **maximum intake** rate is set using the constant `h` and the body size scaling exponent `n`. If no value is provided, the coefficient `h` is set so as to achieve Von-Bertalanffy growth rate based estimate of maturity size at a given maturity age (given the feeding level `f0 = 0.6`). In multi-species models the exponent `n` is by default set to 2/3 but we choose `n = 3/4`.
 
-10.  Species metabolic rate is set from the constants `ks` and body size scaling exponent `p`. If no values are provided the coefficient `ks` is set so that at maturation size metabolic expenditure requires a critical feeding level of `fc = 0.2`. In multi-species models the exponent `p` is by default set to 0.7 but we choose `p = n = 3/4`. Maintenance expenditure can also include activity related energetic costs, using species activity coefficient `k` which scales linearly with body size (exponent of 1). By default this value is set to 0 and most mizer models do not include it.
+10. Species **metabolic rate** is set from the constants `ks` and body size scaling exponent `p`. If no values are provided the coefficient `ks` is set so that at maturation size metabolic expenditure requires a critical feeding level of `fc = 0.2`. In multi-species models the exponent `p` is by default set to 0.7 but we choose `p = n = 3/4`. Maintenance expenditure can also include activity related energetic costs, using species activity coefficient `k` which scales linearly with body size (exponent of 1). By default this value is set to 0 and most mizer models do not include it.
 
 ::: {.callout-important collapse="false"}
 **Body size scaling exponents**
 
-We just said that we choose the allometric exponents `n` and `p` to be both equal to 3/4. There is a lot of debate about the correct values for these exponents. Some schools of thought argue that energy intake should scale with individual's surface area (exponent of $2/3$) whereas energy expenditure should scale with body volume (exponent of $1$). Others suggest that food intake and metabolism exponents should both scale with $3/4$. There are no clear rules and these exponents in reality are likely to vary across species. 
+We just said that we choose the allometric exponents `n` and `p` to be both equal to 3/4. There is a lot of debate about the correct values for these exponents. Some schools of thought argue that energy intake should scale with individual's surface area (exponent of $2/3$) whereas energy expenditure should scale with body volume (exponent of $1$). Others suggest that food intake and metabolism exponents should both scale with $3/4$. There are no clear rules and these exponents in reality are likely to vary across species.
 :::
 
-11.  Species external (also called background or baseline) size-independent mortality rate constant `z0` This parameter determines the background mortality that affects all species size classes in the same way (it is a flat rate across sizes). If no values are provided mizer assumes that species with small maximum body sizes have much higher baseline mortality rate. For example, a species with `w_inf` = 35 g will have `z0` = 0.18, a species with `w_inf` = 150g will have `z0` = 0.11 and a species with `w_inf` = 14kg will have `z0` = 0.025.
-
+11. Species external (also called background or baseline) size-independent mortality rate constant `z0` This parameter determines the background mortality that affects all species size classes in the same way (it is a flat rate across sizes). If no values are provided mizer assumes that species with small maximum body sizes have much higher baseline mortality rate. For example, a species with `w_inf` = 35 g will have `z0` = 0.18, a species with `w_inf` = 150g will have `z0` = 0.11 and a species with `w_inf` = 14kg will have `z0` = 0.025.
 
 12. We already discussed the parameters involved in setting the [investment into reproduction](..understand/single-species-spectra.hqmd#investment-into-reproduction) last week. The reproduction investment parameter `m` determines the scaling of the investment into reproduction for mature individuals. By default `m` = 1 which means that after maturation the rate at which individual fish invests energy into reproduction scales linearly with size (if you want more information, you can find it [here](https://sizespectrum.org/mizer/reference/setReproduction.html#investment-into-reproduction)). This default can be changed to another value if different scaling is preferred (e.g. in case you might want to explore [hyper-allometric reproduction investment options](https://www.pnas.org/doi/abs/10.1073/pnas.2100695118)). The steepness of population level energy allocation to reproduction is determined by `w_mat25`, the size at which 25% of individuals are mature.
 
-13. The species **minimum body size** in the model `w_min` is by default set to 0.001 in grams.
+13. The species minimum body size in the model `w_min` is by default set to 0.001 in grams.
 
-14. We discussed the parameters `R_max` and `erepro` last week in the section on [How reproduction is modelled](../understand/dynamics-of-spectra.qmd#how-reproduction-is-modelled). 
-
+14. We discussed the parameters `R_max` and `erepro` last week in the section on [How reproduction is modelled](../understand/dynamics-of-spectra.qmd#how-reproduction-is-modelled).
 
 15. You can also modify availability of the resource to each of your species, as we have learned [during week 1](https://course.mizer.sizespectrum.org/understand/species-interactions.html#resource-interactions). This is set by the parameter `interaction_resource` and this value is set to 1 by default. We will however change this when we set up multiple resources in the next tutorial.
 
@@ -176,31 +176,34 @@ We just said that we choose the allometric exponents `n` and `p` to be both equa
 
 If you want to change the default values for any of these parameters for any of the species, you just need to add a corresponding column to your species parameter data frame. You can put `NA` into those columns for the species where you want mizer to keep the default.
 
-TO DO : Two minute video on how to use FishBase
-
 ## Exercise: collecting species parameters from FishBase
 
-You might have noticed that our species parameter file is missing one species that was listed in the initial table - roach (Rutillus rutillus). This is actually the most abundant species in the ecosystem. But we are missing its parameter values.
+Our species parameter file is missing one species that was listed in the initial table - roach (*Rutillus rutillus*). This is actually the most abundant species in the ecosystem. But we are missing its parameter values.
 
-You goal in this exercise is to find parameter for roach. We will use FishBase, where many modellers get their species parameters.
+Your goal in this exercise is to find parameter for roach. We will use FishBase, where many modellers get their species parameters.
 
 In this exercise please open the **curonian_species_params_exercise.csv** file, go to FishBase, use the knowledge you gained so far and:
 
 1\) Fill the NA values for roach
 
-2\) Look up values for breams and see if you agree with our selection of parameter values.
+2\) Look up values for breams and see if you agree with our selection of parameter values. You can overwrite our values with your values. This will be your species parameter file.
 
 **Important!** Make sure you check all the different sources of information that FishBase has. Scroll all the way down to "More information" section and explore Length-weight, Fecundity, Age/size, Food items, Diet and especially Growth sections.
 
 Please commit this .csv file and push it to GitHub (just select the file as you selected other modified files). You will use the parameters that you found in the next tutorial.
-:::
 
+Here is a short video on exploring species parameters on FishBase
 
+```{r}
+#| echo: false
+vembedr::embed_url("https://youtu.be/nVhPmTVyb_Q") |>
+    vembedr::use_align("center") |>
+    vembedr::use_rounded(10)
+```
 
 ## Species interaction matrix
 
-By default, mizer assumes that all species can interact with each other equally and that predation is determined solely by size. To change this assumption we need
-to provide a species interaction matrix. This matrix can include three different aspects (or a combination of all of them):
+By default, mizer assumes that all species can interact with each other equally and that predation is determined solely by size. To change this assumption we need to provide a species interaction matrix. This matrix can include three different aspects (or a combination of all of them):
 
 1.  **Spatial and temporal overlap of species in a large ecosystem**. This way the interaction matrix is set based on e.g. species occurrences in various fisheries surveys or observations and reflect the frequency of how often same species are found in same surveys. This is how species interactions are set up in the example [North Sea model](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2664.12238), which comes with mizer installation. Let's check it (we will round the values to two decimal points). The North Sea interaction matrix file is called NS_interaction and comes with mizer installation.
 
@@ -212,7 +215,7 @@ round(NS_interaction, 2)
 
 3.  **Species predator avoidance behaviour or vulnerability**. Some species may be less available to other species because they are good at hiding, have spikes, or live in large schools which reduces their vulnerability to predation compared to solitary species. This could also be included in the species interaction matrix, but in the prey column.
 
-    For our Curonian lagoon example model we used existing ecological knowledge and set up species interaction matrix as follows:
+    For our Curonian Lagoon example model we used existing ecological knowledge and set up species interaction matrix as follows:
 
 ```{r}
 curonian_interaction <-  read.csv("curonian_interaction.csv")
@@ -225,7 +228,6 @@ In our simple case the interaction matrix encodes two assumptions:
 
 2.  We assume that all other fish can interact with all prey, hence the interaction matrix entries are set to 1 in the corresponding rows.
 
-
 ## Gear parameters
 
 Because most ecosystems are fished and we are calibrating to biomasses observed under some fishing level, we usually also need to include information on fishing intensity and fishing gear.
@@ -237,25 +239,21 @@ curonian_gear_params <- read.csv("curonian_gear_params.csv")
 curonian_gear_params
 ```
 
-
-
 In mizer, fishing mortality rates at size for each gear are calculated as
 
 $$F = catchability\cdot selectivity \cdot effort$$
 
-In complicated models we can have different gears, each with its own effort, fishing different species with different selectivity and catchability. Gear selectivity curve can have different shapes (logistic, knife-edge and others). You can read more about this [here](https://sizespectrum.org/mizer/reference/setFishing.html). 
+In complicated models we can have different gears, each with its own effort, fishing different species with different selectivity and catchability. Gear selectivity curve can have different shapes (logistic, knife-edge and others). You can read more about this [here](https://sizespectrum.org/mizer/reference/setFishing.html).
 
-For the simple Curonian lagoon model we will assume only one gear fishing with sigmoidal selectivity centered at 30cm. We will use one effort value because we only have one gear, and we set this to 0.3. By adjusting species-specific `catchability` we can adjust fishing mortality for each species. For example, *smallfish* and *ruffe* in our model are not fished, so we will set their `catchability` to 0. Some species live close to the shore or are otherwise less vulnerable to commercial fishing, so we will set their `cathability` to 0.5. 
-
-
+For the simple Curonian Lagoon model we will assume only one gear, fishing with sigmoidal selectivity centered at maturation size for each species **ASTA - is this correct? I thought we set at maturation size and then adjusted later?**. We will use one effort value because we only have one gear, and we set this to 0.3. By adjusting species-specific `catchability` we can adjust fishing mortality for each species. For example, *smallfish* in our model are not fished, so we will set its `catchability` to 0. Some species live close to the shore or are otherwise less vulnerable to commercial fishing, so we will set their `cathability` to 0.5.
 
 ## Summary
 
-1\) Mizer can choose defaults for most species parameters. Only a species name and the asymptotic size of each species is required.
+1\) Mizer can choose defaults for most species parameters. Only a species name and the asymptotic size of each species is required. **ASTA - is this correct? What about h or k_vb?**
 
 2\) Other species parameters that we like to provide include the maturity size `w_mat`, the von Bertalanffy K parameter `k_vb`, the preferred predator prey mass ratio `beta` and the observed biomasses `biomass_observed`.
 
-3\) The species parameters are specified in a data frame with one row for each species and one column for each species parameter. The required columns are `species` for the species name and `w_inf` for the asymptotic size.
+3\) The species parameters are specified in a data frame with one row for each species and one column for each species parameter.
 
 4\) We briefly explained how mizer chooses defaults for many other parameters, often using allometric scaling assumptions.
 
