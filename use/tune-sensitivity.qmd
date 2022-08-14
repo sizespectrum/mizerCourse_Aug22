@@ -2,5 +2,18 @@
 title: "Tune sensitivity"
 ---
 
-## In preparation
+## Introduction
+
+The goal of this tutorial is to explore how the species in your steady state respond to fishing, to ensure that the reproduction parameters are working when you incorporate fishing dynamics into your model.
+
+
+First, we will install the regular packages. Additionally, we will use the mizerHowTo package which contains some handy functions for this week's workshops.
+
+```{r}
+#remotes::install_github("sizespectrum/mizerExperimental")
+library(mizerExperimental)
+#remotes::install_github("sizespectrum/mizerHowTo")
+library(mizerHowTo)
+```
+
 
