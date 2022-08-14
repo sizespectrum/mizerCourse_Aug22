@@ -85,10 +85,37 @@ gear_params(cur_model_ben_calib)$l25 <- 32
 #check the match between model and observed catch size distributions
 plotYieldVsSize(cur_model_ben_calib, species = "breams", catch = catch_lengths, 
                 x_var = "Length")
+
+
 ```
 
-This looks much better. Now look at other species. Of course, size distributions of catches will depends on fishing mortality, on correct representation of species growth and their interactions. We will explore it further using the R Shiny gadget, which we call with tuneParams() function. If you have catch length data, make sure to pass it into the tuneParams() function.
+This looks much better. Now look at other species.
+
+But now that we have changed fishing selectivity we need to find a new steady state. It is important to run steady() frequently, while making small changes to the model parameters. If we accumulate too many changes, finding a new steady state might be harder
 
 ```{r}
-calibrated_model <- tuneParams(calibrated_model, catch = catch_lengths)
+cur_model_ben_calib <- steady(cur_model_ben_calib)
+
+#and we look at the same few plots
+plotSpectra(cur_model_ben_calib, power = 2)
+plotBiomassVsSpecies(cur_model_ben_calib)
+plotYieldVsSpecies(cur_model_ben_calib)
+
+```
+
+Of course, size distributions of catches will depends on fishing mortality, on correct representation of species growth and their interactions. We can see that setting same selectivity for ruffe was not correct, because it is a small bodied species and it would not be caught with the same gear. This and many other aspects we can explore further using the R Shiny gadget, which we call with tuneParams() function. If you have catch length data, make sure to pass it into the tuneParams() function.
+
+```{r}
+calibrated_model <- tuneParams(cur_model_ben_calib, catch = catch_lengths)
+```
+
+The tuneParams() gadget has a lot of useful panels and allows you to play with the parameters interactively. But most of these plots are also available as separate functions in mizerExperimental (ref = tuneMR, if you are using multiple resources). So here are a few examples, if you prefer to work with the code.
+
+```{r}
+
+
+plotResourcePred(cur_model_ben_calib, proportion = T)
+plotResourcePred(cur_model_ben_calib, proportion = F)
+
+
 ```
