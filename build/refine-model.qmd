@@ -2,11 +2,11 @@
 title: "Refine model"
 ---
 
-## In preparation
+## Introduction
 
-This part is now moved from tutorial 3, because we are not using tuneParams in it at the moment
+We have a basic model with two background resources. This model produces somewhat reasonable diets, reasonable growth and we also managed to fit the model to the observed average biomasses. But there are more things we want to tune and match, while still staying in a steady state, with constant reproduction and resource levels. We have average catch data and size distributions of catches. We also want predators to eat more fish. So let's explore how we can tune our model further.
 
-We will also install a different branch of mizerExperimental, which will include an updated tuneParams() R shiny application that incorporates multiple resources. This is still work in progress, so please be patient if you find bugs or some other annoying features (please report them, so we can keep improving the tools). To install a specific branch (in our case tuneMR branch) of a package located on GitHub we need to indicate it in the `ref=` command. You might need to restart your R session for this to work. Also, remember that next time, if you want to use the main branch of mizerExperimental (without multiple resources) you will need to reinstall it, but without the `ref=` parameter (which is automatically install the main branch).
+A large fraction of tuning can be done using a tuneParams() R Shiny gadget that is integrated into mizerExperimental(). But because we are using a multiple resource add-on, we will need to install a different branch of mizerExperimental, which will include an updated tuneParams() R Shiny application that incorporates multiple resources. This is still work in progress, so please be patient if you find bugs or some other annoying features (please report them, so we can keep improving the tools). To install a specific branch (in our case tuneMR branch) of a package located on GitHub we need to indicate it in the `ref=` command. You might need to restart your R session for this to work. Also, remember that next time, if you want to use the main branch of mizerExperimental (without multiple resources) you will need to reinstall it, but without the `ref=` parameter (which is automatically install the main branch).
 
 ```{r}
 remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
@@ -15,50 +15,80 @@ library(mizerExperimental)
 library(mizerMR)
 ```
 
+Now let's load our latest model with two background resources. If you found your own species parameters for roach (and perhaps for breams) and used those parameters in tutorial 2 and 3, you will load your own model version.
+
+We will also load data on size distribution of catches. Such data is often collected in data-poor fisheries, so it would be useful to see how we could use such data for model calibration. This specific dataset is not really from commercial fisheries in Curonian lagoon, but from some years of scientific surveys, where only commercial mesh sizes were used. Also please note that species parameter file has a column of `yield_observed`, which provides average commercial catches over a certain time period. These are only used for illustration purposes and they are not precise, but it does not matter here.
+
 ```{r}
-cur_model_ben <- readParams("cur_model_ben.rds")
-catch <- readRDS("catch.rds")
+cur_model_ben <- readParams("build/cur_model_ben.rds")
+catch_lengths <- readRDS("build/catch.rds")
+species_params(cur_model_ben)
+
 ```
 
-The yields dont match observations
+## Calibrating total yield
+
+Let's first check whether the model yield matches the observed yield.
+
 ```{r}
 #| warning: false
 plotYieldVsSpecies(cur_model_ben)
 ```
 
-We fix the total yield
-```{r}
-calibrated_model <- calibrateYield(cur_model_ben)
-plotYieldVsSpecies(calibrated_model)
-```
-This rescaled the abundances, so biomasses
-```{r}
-plotBiomassVsSpecies(calibrated_model)
-```
+The observed yield is some orders of magnitude larger than model yield. This is because our yield and biomasses are in different units or scales. The biomasses we used for calibration are relative biomasses from scientific surveys. It is hard to know how exactly to scale them to area, so we just used the relative values. The yield, on the other hand, is the reported commercial yield for the entire model area. So naturally they are on very different scales. What we need to do now is to rescale our biomasses or yields, so they are in approximately the same units.
 
+Let's calibrate the yield, like we calibrated biomasses. If you didn't have the biomasses for your system, but know the yield and fishing mortalities, this is how you would calibrate your model.
 
 ```{r}
-scaling_factor <- initialN(calibrated_model)[1, 1] / initialN(cur_model_ben)[1, 1]
-species_params(calibrated_model)$biomass_observed <- 
-    species_params(calibrated_model)$biomass_observed * scaling_factor
-
-plotBiomassVsSpecies(calibrated_model)
+cur_model_ben_calib <- calibrateYield(cur_model_ben)
+plotYieldVsSpecies(cur_model_ben_calib)
 ```
 
+Now the yields are in a similar scale, and this rescaled abundances of all species by the same factor (like one would calibrate a device). But of course the biomasses will now be on a completely wrong scale
+
 ```{r}
-plotYieldVsSize(calibrated_model, species = "breams", catch = catch, 
+plotBiomassVsSpecies(cur_model_ben_calib)
+```
+
+Yep. We will extract the scaling factor by which the function multiplied model species biomasses in order to calibrate yields. We will then just multiply the biomasses by the same scaling factor. This should bring biomasses and yields to approximately the same units.
+
+```{r}
+#find the scaling factor by dividing abundances of calibrated and initial model (for just one species and one size, because they all were scaled by the same factor)
+scaling_factor <- initialN(cur_model_ben_calib)[1, 1] / initialN(cur_model_ben)[1, 1]
+scaling_factor
+#used that for biomass_observed
+species_params(cur_model_ben_calib)$biomass_observed <- 
+    species_params(cur_model_ben_calib)$biomass_observed * scaling_factor
+
+#now the biomasses look good 
+plotBiomassVsSpecies(cur_model_ben_calib)
+```
+
+## Exploring catch size distributions
+
+Now we want to know whether our modelled and observed catch size distributions correspond. If you check the catch dataset you can see that for each species we have numbers of individuals observed in 2cm wide length bins, *dl* indicating the width of each bin. Let's see how well they match
+
+```{r}
+plotYieldVsSize(cur_model_ben_calib, species = "breams", catch = catch_lengths, 
                 x_var = "Length")
 ```
 
+They don't match very well at all. The modelled catch has a peak earlier than the observed catch. At this stage the main reason for this mismatch is our unrealistic gear selectivity. We assumed that for each species 50% selectivity at length corresponds to the maturation length, but in our case commercial nets use mesh sizes above 40mm, so the gear selectivity parameters should be adjusted. There are R tools to estimate selectivity curves, but we will just assume that 50% selectivity is at 35cm (inflection point of the logistic selectivity curve) and 25% selectivity is at 32 cm (value, defining steepness of the curve). We will adjust these values using gear_params() function.
+
 ```{r}
-gear_params(calibrated_model)$l50 <- 35
-gear_params(calibrated_model)$l25 <- 32
-plotYieldVsSize(calibrated_model, species = "breams", catch = catch, 
+#let's look at our gear params first 
+gear_params(cur_model_ben_calib)
+#modify the l50 and l25
+gear_params(cur_model_ben_calib)$l50 <- 35
+gear_params(cur_model_ben_calib)$l25 <- 32
+
+#check the match between model and observed catch size distributions
+plotYieldVsSize(cur_model_ben_calib, species = "breams", catch = catch_lengths, 
                 x_var = "Length")
 ```
 
+This looks much better. Now look at other species. Of course, size distributions of catches will depends on fishing mortality, on correct representation of species growth and their interactions. We will explore it further using the R Shiny gadget, which we call with tuneParams() function. If you have catch length data, make sure to pass it into the tuneParams() function.
 
 ```{r}
-calibrated_model <- tuneParams(calibrated_model, catch = catch)
+calibrated_model <- tuneParams(calibrated_model, catch = catch_lengths)
 ```
-
