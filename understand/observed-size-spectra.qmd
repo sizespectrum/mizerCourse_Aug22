@@ -183,7 +183,6 @@ p2 + scale_x_log10()
 
 Note how on the logarithmic axis the logarithmically-sized bins all have the same width.
 
-This is the way in which Sheldon plotted the data and observed that size spectrum is approximately flat.
 
 ### Densities
 
