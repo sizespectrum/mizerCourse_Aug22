@@ -182,17 +182,17 @@ If you want to change the default values for any of these parameters for any of 
 
 Our species parameter file is missing some parameters for roach (*Rutillus rutillus*). This is actually the most abundant species in the ecosystem. Your goal in this exercise is to find good values for the missing parameters for roach. We suggest that you use FishBase, where many modellers get their species parameters.
 
-In this exercise please open the **curonian_species_params_exercise.csv** file, go to FishBase, use the knowledge you gained so far and:
+In your worksheet repository for this week you will find the spreadsheet file **curonian_species_params.csv** file. Open this in your favourite spreadsheet programme or editor. Then go to FishBase, use the knowledge you gained so far and:
 
-1\) Fill the NA values for roach
+1\) Fill the NA values for roach.
 
 2\) Look up values for breams and see if you agree with our selection of parameter values. You can overwrite our values with your values. This will be your species parameter file.
 
 **Important!** Make sure you check all the different sources of information that FishBase has. Scroll all the way down to "More information" section and explore Length-weight, Fecundity, Age/size, Food items, Diet and especially Growth sections.
 
-Please commit this .csv file and push it to GitHub (just select the file as you selected other modified files). You will use the parameters that you found in the next tutorial.
+Please commit the completed curonian_species_params.csv file to your worksheet repository and push it to GitHub (just select the file as you selected other modified files). You will be using that file again in the exercise in the next tutorial.
 
-Here is a short video on exploring species parameters on FishBase
+Here is a short video on exploring species parameters on FishBase:
 
 ```{r}
 #| echo: false
