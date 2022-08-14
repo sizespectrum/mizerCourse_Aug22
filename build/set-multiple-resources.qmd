@@ -10,7 +10,7 @@ Adding benthic resource into multi-species and size based models is not new. Som
 
 The origin of mizerMR is a [model for Tasmanian coastal rocky reef ecosystem](https://doi.org/10.1101/2022.06.20.496925), where most large fish are not predators (like in a classical size based marine ecosystem), but feed on benthic invertebrates. In such reefs, benthic production pathway is likely to be a major source of energy. The mizerMR framework has also been used in a [Baltic Sea mizer model](https://onlinelibrary.wiley.com/doi/full/10.1111/gcb.16341) and a [south-east Australian mizer model](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2664.14086). There are other ways to incorporate benthic resources, and you can find some examples [here](https://onlinelibrary.wiley.com/doi/epdf/10.1111/geb.13348), [here](https://link.springer.com/article/10.1007/s12080-010-0078-9) and [here](https://onlinelibrary.wiley.com/doi/abs/10.1111/oik.05630), but none of these approaches are currently implemented in the main mizer code.
 
-The Curonian lagoon is a shallow water productive ecosystem, where benthic production constitutes an important source of energy. Like in many other coastal ecosystems, the most common species are benthivores.
+The Curonian Lagoon is a shallow water productive ecosystem, where benthic production constitutes an important source of energy. Like in many other coastal ecosystems, the most common species are benthivores.
 
 In this tutorial we will modify our basic mizer model by adding an explicit benthic size structured resource.
 
@@ -190,7 +190,7 @@ plotDeath(cur_model, proportion = F)
 
 ```
 
-Note that unlike the trait based model, where mortality was decreasing with powerlaw, the absolute mortality rate curves now look like bellshaped curves. Mortality rate on smallest fish is actually very small. This is for three reasons. First, at these sizes we have A LOT of resource, so predators to not eat small fish which are relatively less abundant. Second, we do not have all that many predators in this ecosystem, so they don't exert extensive mortality. Third, in real ecosystems resource (plankton and small organisms) would be feeding on fish eggs and larvae, but our resource does not feed. Such belled shaped natural mortality curves seem to be common in many multi-species models, and we don't yet have a good solution to address them. We could, like in trait-based models impose external mortality to make sure that mortality scales with a power law. However, unlike in the idealised trait-based models we do not know how much natural mortality will actually occur in a multi-species model. So deciding the extra mortality level to add is difficult. During the week 3 we will be refining this model and mortality curves might change. But this aspect illustrates the fact that multi-species modelling is a rapidly developing field, and we don't yet know how best to represent complex ecosystems in a simplified model.
+Note that unlike the trait based model, where mortality was decreasing with power law, the absolute mortality rate curves now look like bell-shaped curves. Mortality rate on smallest fish is actually very small. This is for three reasons. First, at these sizes we have A LOT of resource, so predators in the model do not eat small fish which are relatively less abundant. Second, we do not have all that many predators in this ecosystem, so they don't exert extensive mortality (although mortality at about 1 g size is pretty high). Third, in real ecosystems, resource (plankton and small organisms) would be feeding on fish eggs and larvae, but our resources do not feed. Such belled shaped natural mortality curves seem to be common in multi-species models, and we don't yet have a good solution to address them. We could, like in trait-based models impose external mortality to make sure that mortality scales with a power law. However, unlike in the idealised trait-based models we do not know how much natural mortality will actually occur in a multi-species model. So deciding the extra mortality level to add is difficult. During the week 3 we will be refining this model and mortality curves might change. But this aspect illustrates the fact that multi-species modelling is a rapidly developing field, and we don't yet know how best to represent complex ecosystems in a simplified model.
 
 We also want to know about the predation on both resources, so we will plot that too
 
@@ -201,7 +201,7 @@ plotResourcePred(cur_model, proportion = F)
 
 ```
 
-It is interesting to see how the highest absolute mortality (plots with proportion = F) is at resource size of about 0.1g (1e-1) and this applies to both benthos and plankton. Smallest sizes of plankton are not eaten at all, as no fish feed in that size range. Also the absolute mortality is higher on benthos (up to 0.8/year) than on plankton (0.5/year). Still this mortality is low and we should probably decrease the overall resource abundance, to achieve more realistic values. Let's see if we can address this in week 3.
+It is interesting to see how the highest absolute mortality (plots with proportion = F) is at resource size of about 0.1g (1e-1) and this applies to both benthos and plankton. Smallest sizes of plankton are not eaten at all, as no fish feed in that size range. Also the absolute mortality is higher on benthos (\> 0.8/year) than on plankton (0.5/year). Still this mortality is low and we should probably decrease the overall resource abundance, to achieve more realistic values. Let's see if we can address this in week 3.
 
 Finally, let's check whether species are growing properly, given that resource availabilities to them have now been changed. We will also look at the feeding level of all species
 
@@ -218,17 +218,11 @@ You can play with the resource_interaction() vectors and resource parameters (`k
 
 ## Step 6 and Exercise 1: save your parameter file
 
-The last step is to save our new set of parameters to a file with a new name and with the .rds extension.
+Step 6 is simply to save our model. In this exercise please follow all these steps and modify the model you built in the last tutorial to include a benthic resourse. Now save your new model and commit it. Use the worksheet for this tutorial to submit your result.
 
 ```{r}
 saveParams(cur_model, "cur_model_ben.rds")
 
 ```
 
-::: {.callout-caution collapse="false"}
-### Exercise 1
 
-Now use your own single-resource model that you created in the exercise in the previous tutorial. Go through the steps above to build your own multi-resource mizer model.
-
-Use the worksheet for this tutorial to submit your result.
-:::
