@@ -19,7 +19,7 @@ In this tutorial we will take the species parameters that we assembled in the pr
 As always, we start by loading packages.
 
 ```{r message=FALSE}
-remotes::install_github("sizespectrum/mizerExperimental")
+remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
 library(mizerExperimental)
 library(tidyverse)
 ```
@@ -28,29 +28,29 @@ Now the creation of the mizer model is a 5-step process.
 
 ## Step 1: Create MizerParams object
 
-We collected the species parameters and the interaction matrix for our model in the previous tutorial and saved them as .csv files. So here we only need to read in those files.
+We have the species parameters, the gear parameters and the interaction matrix for our model saved as .csv files and we discussed these in the previous tutorial. So here we only need to read in those files.
 
 ```{r}
 curonian_species_params <- read.csv("curonian_species_params.csv")
+curonian_gear_params <- read.csv("curonian_gear_params.csv")
 curonian_interaction <- read.csv("curonian_interaction.csv", row.names = 1)
 ```
 
 We use `rownames = 1` to let `read.csv` know that the first column in the spreadsheet, which contains the predator names, should be used as the names of the rows of the interaction matrix.
 
-When you repeat this work in your worksheet, you can check that the data was read in correctly by clicking on `curonian_species_params` and `curonian_interaction` in the "Environment" tab. That will open the data frames in your editor window for you to inspect.
+When you repeat this work in your worksheet, you can check that the data was read in correctly by clicking on `curonian_species_params`, `curonian_species_params` and `curonian_interaction` in the "Environment" tab. That will open the data frames in your editor window for you to inspect.
 
-We will now set up a multi-species mizer model using the function `newMultispeciesParams()`. Besides the species parameters and the interaction matrix, the other information that flows into a multi-species model are the resource parameters, the gear parameters and the fishing effort.
+We will now set up a multi-species mizer model using the function `newMultispeciesParams()`. Besides the species parameters, the gear parameters and the interaction matrix, the other information that flows into a multi-species model are the resource parameters, the allometric exponents `n` and `p` and the fishing effort.
 
-We let mizer choose defaults for the resource parameters and gear parameters. By default, the resource carrying capacity will be set to a power law $N_R(w) = \kappa w^{-\lambda}$ with $\lambda = 2.05$, as we are already familiar with from week 1.
+We let mizer choose defaults for the resource parameters. By default, the resource carrying capacity will be set to a power law $N_R(w) = \kappa w^{-\lambda}$ with $\lambda = 2.05$, as we are already familiar with from week 1.
 
-The default fishing gear selects all individuals above maturity size. The fishing mortality that these selected individuals experience is the product of the catchability of their species with the fishing effort. We set the fishing effort to 0.3 and we have set the catchability of the species in the previous tutorial to reflect final fishing mortality more accurately.
-
-Last week we discussed that natural choice for the allometric exponents $n$ (growth exponent) and $p$ (metabolic exponent) is to take them both equal to $3/4$. That is the choice we will use. By default these exponents in multi-species models are set to different values, so we will overwrite the defaults in our `newMultispeciesParams()` command.
+Last week we discussed that our choice for the allometric exponents $n$ (growth exponent) and $p$ (metabolic exponent) is to take them both equal to $3/4$. By default these exponents in multi-species models are set to different values, so we will overwrite the defaults in our `newMultispeciesParams()` command.
 
 With this information we call the function `newMultispeciesParams()` which returns a MizerParams object that we save in the variable `cur_model` (lazy shorthand for "Curonian model"):
 
 ```{r}
-cur_model <- newMultispeciesParams(species_params = curonian_species_params, 
+cur_model <- newMultispeciesParams(species_params = curonian_species_params,
+                                   gear_params = curonian_gear_params,
                                    interaction = curonian_interaction, 
                                    initial_effort = 0.3,
                                    lambda = 2.05, n = 3/4, p = 3/4)
@@ -180,10 +180,6 @@ cur_model <- steady(cur_model)
 ```
 
 The function tell us that running the dynamics for 99 years was not enough to converge sufficiently close to the steady state. In other words, the state was still changing after 99 years. There are now two possibilities: 1) we simply need to be a bit more patient or 2) the dynamics will never converge to a steady state but instead continue to oscillate for ever. Let's hope for the first option and call `steady()` repeatedly in the hope to eventually converge to a steady state.
-
-```{r}
-cur_model <- steady(cur_model)
-```
 
 ```{r}
 cur_model <- steady(cur_model)

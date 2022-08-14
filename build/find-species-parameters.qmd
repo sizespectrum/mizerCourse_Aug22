@@ -121,7 +121,7 @@ In this plot we can see the representation of parameters we collected from FishB
 
     For the Curonian lagoon model we set the following beta values: we assume 100 for predatory fish, 10000 for large benthivores, 8000 and 600 for smaller benthivores and 5000 for planktivorous fish. We leave the `sigma` values at their default of 2, although planktivores and benthivores would normally feed over a larger range of sizes and thus larger `sigma` values might be appropriate for them and smaller ones for predatory species.  We will revisit our preliminary choices in the [Refine your model](refine-model.qmd) tutorial when we can visualise what the resulting diets will look like.
 
-5.  The **observed biomass** for each species, `biomass_observed`. You will not be able to calibrate your model to a realistic system without some information on relative species abundances. Note, the `biomass_observed` reflects the average species biomasses in your model system for the period that you want to calibrate your system to. Usually we do not have data on observed biomasses of all fish sizes combined, since we usually do not observe larvae. This we can specify in the `biomass_cutoff` parameter, where we tell mizer the smallest size of fish to use for comparing model and observed biomasses. In our case we give the value of 2g for all species (about 6cm long), because observed data comes from scientific monitoring surveys.
+5.  The **observed biomass** for each species in grams, `biomass_observed`. You will not be able to calibrate your model to a realistic system without some information on relative species abundances. Note, the `biomass_observed` reflects the average species biomasses in your model system for the period that you want to calibrate your system to. Usually we do not have data on observed biomasses of all fish sizes combined, since we usually do not observe larvae. This we can specify in the `biomass_cutoff` parameter, where we tell mizer the smallest size of fish to use for comparing model and observed biomasses. In our case we give the value of 2g for all species (about 6cm long), because observed data comes from scientific monitoring surveys.
 
 ::: {.callout-note collapse="true"}
 ### How to get observed biomasses
@@ -131,7 +131,7 @@ To calibrate the rate of reproduction (the rate at which eggs are entering the f
 Observed biomasses could be derived from **scientific surveys**, **underwater surveys** or other observations or knowledge about relative biomasses of species. In well studied systems you might have data about biomass estimates, **catches** and **fishing mortality** from stock assessments. These type of data are often used to calibrate mizer models, although we need to be aware of the fact that stock assessment estimates are also model estimates and come with their own assumptions (e.g. they are single species estimates).
 :::
 
-6. Fisheries **yields** in terms of total yearly catches for each species in `catch_observed`. While these are not used directly by mizer to set up the model, mizer can display this information in graphs that you can use to calibrate the model manually. We will discuss this in the [Refine your model](refine-model.qmd) tutorial.
+6. Fisheries **yields** in terms of total yearly catches for each species in grams in `yield_observed`. While these are not used directly by mizer to set up the model, mizer can display this information in graphs that you can use to calibrate the model manually. We will discuss this in the [Refine your model](refine-model.qmd) tutorial.
 
 7. Species **length-weight conversion** coefficients `a` and `b` These coefficients are needed if maximum or maturation body size are provided in length or if we estimate `h` from Von Bertalanffy `v_bk`. If no values are provided mizer will assume 0.01 and 3, but for the Curonian lagoon model we collect these data from FishBase.
 
@@ -230,11 +230,22 @@ In our simple case the interaction matrix encodes two assumptions:
 
 Because most ecosystems are fished and we are calibrating to biomasses observed under some fishing level, we usually also need to include information on fishing intensity and fishing gear.
 
+TODO: write this section
+
+```{r}
+curonian_gear_params <- read.csv("curonian_gear_params.csv")
+curonian_gear_params
+```
+
+
+
 In mizer, fishing mortality rates at size for each gear are calculated as
 
 $$F = catchability\cdot selectivity \cdot effort$$
 
-In complicated models we can have different gears, each with its own effort, fishing different species with different selectivity and catchability. Gear selectivity curve can have different shapes (logistic, knife-edge and others). You can read more about this [here](https://sizespectrum.org/mizer/reference/setFishing.html). For the simple Curonian lagoon model we will assume only one gear fishing with knife-edge selectivity at maturation size and average fishing mortality rate of 0.3. We will use one effort value because we only have one gear, but by adjusting species-specific `catchability` we can adjust fishing mortality for each species. For example, *smallfish* and *ruffe* in our model are not fished, so we will set their `catchability` to 0. Some species live close to the shore or are otherwise less vulnerable to commercial fishing, so we will set their `cathability` to 0.5. So the final list of
+In complicated models we can have different gears, each with its own effort, fishing different species with different selectivity and catchability. Gear selectivity curve can have different shapes (logistic, knife-edge and others). You can read more about this [here](https://sizespectrum.org/mizer/reference/setFishing.html). 
+
+For the simple Curonian lagoon model we will assume only one gear fishing with sigmoidal selectivity centered at 30cm. We will use one effort value because we only have one gear, and we set this to 0.3. By adjusting species-specific `catchability` we can adjust fishing mortality for each species. For example, *smallfish* and *ruffe* in our model are not fished, so we will set their `catchability` to 0. Some species live close to the shore or are otherwise less vulnerable to commercial fishing, so we will set their `cathability` to 0.5. 
 
 
 

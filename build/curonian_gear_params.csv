@@ -1,0 +1,11 @@
+"gear","species","sel_func","l50","l25","catchability"
+"Main","smallfish","sigmoid_length",30,26,0
+"Main","ruffe","sigmoid_length",30,26,0.2
+"Main","breams","sigmoid_length",30,26,1
+"Main","roach","sigmoid_length",30,26,1
+"Main","vimba","sigmoid_length",30,26,1
+"Main","carassius","sigmoid_length",30,26,0.5
+"Main","perch","sigmoid_length",30,26,1
+"Main","pikeperch","sigmoid_length",30,26,1
+"Main","burbot","sigmoid_length",30,26,0.5
+"Main","predator_fish","sigmoid_length",30,26,0.5
