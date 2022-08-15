@@ -39,6 +39,9 @@ ggplot(plot_dat, aes(x = Year, y = value)) +
   geom_point() +
   facet_wrap(~variable, nrow = 2, scales = "free")
 
+dat$Effort_km2<-dat$Effort/dat$area_km
+dat$CatchT_km2<-dat$CatchT/dat$area_km
+
 ```
 
 We can see from the data that there have been big changes in effort and catches through time. The three plots show effort in units of number of hooks, catches are in tonnes, and th efinal plot shows how the area of the fishing activity has expanded through time.
@@ -51,9 +54,13 @@ How do we incorporate the effort data into the model?  First, we can express the
 
 ```{r}
 species_params(params)
+params <- setBevertonHolt(params, reproduction_level = 0.85)
 relative_effort<-dat$Effort/mean(dat$Effort)
-effort_time <-array(relative_effort, dim = c(length(relative_effort),1), 
-                 dimnames = list("time" = dat$Year, "gear" = params@gear_params$gear[1]))
+
+effort_time <-array(c(rep(0,53),dat$Effort_km2), dim = c(length(1950:2020),1),dimnames = list("time" = 1950:2020, "gear" = params@gear_params$gear[1]))
+
+
+
 
 ```
 
@@ -64,53 +71,50 @@ sim0 <- projectToSteady(params, effort = 0, return_sim = TRUE, t_max = 200)
 params<-setInitialValues(params,sim0)
 
 
-sim <- project(params, effort = effort_time)
-plotYieldGear(sim)
-plotBiomass(sim)
+simf <- project(params, effort = effort_time*100)
+plotYieldGear(simf)
+plotBiomass(simf)
 
 
 obsYield<-getYield(sim)[,]
 obsYield[,1]<-dat$CatchT
 obsY <-reshape2::melt(obsYield[,])
 names(obsY)<-c("time","sp","value")
-plotFittedTime(sim,obsY,plotSpecies = "D.ele",startyr = 2003,endyr = 2020)
+plotFittedTime(sim,obsY,plotSpecies = "D.ele",startyr = 1950,endyr = 2020)
 
 
 
 ```
 
 
-Incorporate fishing into model using effort and catch data 
-- baseline model 
-- Time avg Effort 
-- Time avg Catch 
+Exercise to examine how catch time series changes if erepro /Rmax change or other parameters -is this consistent with what you expected from the yield curves in the previous tutorial? What makes toothfish collapse?
 
-Or initial guesses :
-
-At Max selectivity =1
-F= E*Q
-
-E=F
-
-F/E=Q
-
-Where say F = 0.2 and E is 500 (Whatever units), Q = 0.0004
-
-
-The use effort time series (fastCalibration) to estimate catchability model with dynamic fishing turned on. Recalibrate...
-Or just tune the catchability ...
-
-Exercise examine how catch time series changes if erepro /Rmax change or other parameters -is this consistent with what you expected from the yield curves above?
+#### Catch only exploration
 
 
 What if there was no effort data only catch ? 
 
-Try a logistic fishing with an initial value of F_init =0 and the year at which Max Catch achieved set F to Fmsy
+Many fisheries develop through time according to a logistic function , followed by a decline in effort if stocks drop below sustainable levels and management kicks in. Try a logistic fishing with an initial value of F_init =0 and the year at which Max Catch achieved set F to Fmsy
+
+# f(y) ~ F/(1+ exp(-y0(y-y1))) * F/(1 + exp(-y2(y-y3))
+# where:
+# y1, the year value of the sigmoid's midpoint;
+# F, the curve's maximum value;
+# k, the logistic growth rate or steepness of the curve
+
+effort_time2<-effort_time
+yr<-1950:2020
+effort_time2[,1]<-(1.5/(1+ exp(-0.5*(yr-1990))))
+plot(effort_time2,typ="l")
+
+
+Exercise: what does the F and Q need to be to match the data?
+
 
 
 Optional :
-Exercise- set up a bycatch on on other the other species - follow same effort but with a lower catchability 
-Change 
+Exercise- set up another gear or a bycatch on on other the other species - follow same effort but with a lower catchability 
+
 
 ——————
 
