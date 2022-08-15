@@ -4,16 +4,85 @@ title: "Tune sensitivity"
 
 ## Introduction
 
-The goal of this tutorial is to explore how the species in your steady state respond to fishing, to ensure that the reproduction parameters are working when you incorporate fishing dynamics into your model.
+You might remember from week 1 that the reproduction parameters can influence how species react to dynamical changes in mortality in the system. The goal of this tutorial is to explore how the species in your steady state respond to fishing, to ensure that the reproduction parameters are reasonable when you incorporate fishing dynamics into your model.
 
+First, we will install the same packages we used last week. Additionally, we will use the mizerHowTo package which contains some handy functions for this week's workshops.
 
-First, we will install the regular packages. Additionally, we will use the mizerHowTo package which contains some handy functions for this week's workshops.
+```{r,echo=FALSE}
+remotes::install_github("sizespectrum/mizerExperimental")
+library(mizerExperimental)
+remotes::install_github("sizespectrum/mizerMR")
+library(mizerMR)
+remotes::install_github("sizespectrum/mizerHowTo")
+library(mizerHowTo)
+library(tidyverse)
+```
+
+We will start with a new example model, a preliminary model for the Heard and McDonald Islands Patagonian toothfish longline fishery. While this is not a coastal or inland fishery, it is relatively data poor.
+
+The model has been calibrated using time-averaged data to achieve coexistence and a steady state. This followed a similar approach as the one you used last week. You may wish to use this model, the Curonian Lagoon model, or your own model in the scenarios you develop later on.
+
+\[***Julia: OR JUST USE CURONIAN LAGOON??not sure I can do the fishing as quickly as we would need!!*** \]
+
+First, let's read in the param object for this model, which contains the steady state information. The file is called *params10.rmd*, showing there was already a an iterative process involved with checking, refining , re-calibrating and re-checking the model, using time-averaged biomass data and the diagnostic plots below. \*\*\* THESE NOT THE MOST RECENT PARAMS
 
 ```{r}
-#remotes::install_github("sizespectrum/mizerExperimental")
-library(mizerExperimental)
-#remotes::install_github("sizespectrum/mizerHowTo")
-library(mizerHowTo)
+sim <- readRDS("toothfish/params10.RDS")
+params <- sim@params
+plotBiomassObservedVsModel(sim,ratio = T)
+plotGrowthCurves(sim,species_panel = T)
+plotlySpectra(sim, power = 2, total = TRUE)
+plotDiet2(sim)
+```
+
+This model is focussed on Patagonian toothfish and key prey species in the longline fishery.
+
+For this model, we had the following main criteria for our project:
+
+-   Modelled biomasses were within +/- 10-20% of the observed biomasses.
+
+-   Unfished normalised biomass size spectrum slope that is negative and close to -1
+
+-   Growth curves approximated the von Bertalanffy growth curves for each species.
+
+-   Toothfish diet captured dietary changes with body size and became more piscivorous at larger sizes.
+
+-   Recruitment parameters ensured single-species yield curves were dome-shaped, as expected by theory.
+
+-   The modeled catches through time captured teh trends in the reported catches trhough time.
+
+We can see from these plots the params for this model we still have more work to do! The size at age for some species seem much higher than the empirical parameters, feeding level of near satiation for all species and the biomass of some species is much higher than the data. Let's set some of those issues aside for now. 
+
+The last two of the criteria above require examining how the system reacts to changes in fishing. In the next  tutorial we will look at changes though time. Here, we will examine how the reproduction parameters produce reasonable yield curves. How do we do this?
+
+First, let's take a look at how fishing is set up in this model.
+
+```{r}
+gear_params(params)
+```
+
+Currently we can see there is one gear - *longline* - which has a knife_edge selectivity function that starts fishing at very large sizes of toothfish only (*knife_edge_size*=2722 g). The size selectivity was derived from the length distribution of catches from the long-line fisheries data. If your model does not yet include fishing, you can set up your own fishing gear using the *gear_params()* function and by following the example [here](https://sizespectrum.org/mizer/reference/setFishing.html).
+
+We can see that the *initial_effort* has been set to 1 and the *catchability* has been set to a very low number: 7e-07.
+
+### Tuning fishing
+
+As mentioned before the calibrated reproduction parameters affect how species respond to fishing intensity. To get an idea on how the model has been calibrated in terms f reproduction, let's check the reproduction level.
+
+```{r}
+reproduction_level <- getReproductionLevel(params)
+reproduction_level
+
+species_params(params)[, c("erepro", "R_max")]
+
 ```
 
 
+We can see that the erepro and R_max values have been estimated. Let's take a look at how this combionation of parameters influences how toothfish respond to different levels of fishing. These are not temporal dynamics with fishing changing through time yet, each level run at steady state.
+
+```{r}
+plotYieldVsF(params,species="D.ele",no_steps=50,F_max=2)
+# Fmsy around 0.4 for toothfish
+```
+
+Next let's see what happens if we adjust the reproduction parameters.
