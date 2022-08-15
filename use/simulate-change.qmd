@@ -9,17 +9,77 @@ Mizer is a tool that can be used to simulate a dynamic size spectrum in an marin
 Below we explore some examples of what can be done using a previously calibrated Mizer model. We will use the mizerHowTo package which contains some handy functions for this example.
 
 ```{r set-up, echo = F,message=F, warning=F}
+remotes::install_github("sizespectrum/mizerExperimental")
+library(mizerExperimental)
+remotes::install_github("sizespectrum/mizerMR")
+library(mizerMR)
 remotes::install_github("sizespectrum/mizerHowTo")
-library(mizerHowTo) 
-# upgrade params
-sim <- upgradeSim(HTM0_sim2)
-params <- getParams(sim)
-effort <- getEffort(sim)
+library(mizerHowTo)
+library(tidyverse)
+source("helper_functions.R")
+
 ```
 
-#### JULIA: REPLACING EXAMPLE BELOW WITH SIMPLER tootfish one.
+In the previous tutorials we have been focussed on the steady state. Now we are ready to make changes through time by forcing the model away from its steady state. For this example, will start with the toothfish model but as always you can you your own model or the curonian lagoon for the exercises.
 
-2.
+In the previous tutorial, we examined a simple longline fishery that consists of targeting a single species (toothfish, otherwise known as D.ele). However, all of the parameters for fishing were fixed through time. Mizer can also be used to carry out projections with changes in fishing effort. 
+
+We will start by reading in a time series of catch and effort.
+
+```{r}
+# read in model sim object
+sim <- readRDS("toothfish/params10.RDS")
+params <- sim@params
+
+# read in data    
+dat<-readRDS("toothfish/catch_effort.rds")
+plot_dat <- reshape2::melt(dat, "Year")
+
+ggplot(plot_dat, aes(x = Year, y = value)) +
+  geom_point() +
+  facet_wrap(~variable, nrow = 2, scales = "free")
+
+```
+
+We can see from the data that there have been big changes in effort and catches through time. The three plots show effort in units of number of hooks, catches are in tonnes, and th efinal plot shows how the area of the fishing activity has expanded through time.
+
+Previously we assumed effort was 1 and we worked with catchability as the variable.  Real effort data come in all sorts of differennt units (hours or days fished, Kilowatt days, number of vessels all per unit time). The key to using this in our model is that the catchability  is the fraction of the available (that is also selected by the gear) stock caught per unit of any effort that is included.
+
+Often, we have used fishing mortality rates from stock assessment to drive changes in effort through time, assuming Q*E = F at maximally selected sizes. But in many cases this information is not available. It also could be misleading as fishing mortality rates are estimated using single-species models (but sometimes that is the best we have to work with).
+
+How do we incorporate the effort data into the model?  First, we can express the effort as relative to the time-averaged values, that were used to set up the steady state. Then we have to re-arrange the data so it can be read into the *param* object.
+
+```{r}
+species_params(params)
+relative_effort<-dat$Effort/mean(dat$Effort)
+effort_time <-array(relative_effort, dim = c(length(relative_effort),1), 
+                 dimnames = list("time" = dat$Year, "gear" = params@gear_params$gear[1]))
+
+```
+
+Next we use the effort data to project the model forwards from it's steady state. But wait - we did not set up the model for the first year of the data, when fishing only just began.   It may make more sense to use the steady state without any fishing as initial values.
+
+```{r}
+sim0 <- projectToSteady(params, effort = 0, return_sim = TRUE, t_max = 200)
+params<-setInitialValues(params,sim0)
+
+
+sim <- project(params, effort = effort_time)
+plotYieldGear(sim)
+plotBiomass(sim)
+
+
+obsYield<-getYield(sim)[,]
+obsYield[,1]<-dat$CatchT
+obsY <-reshape2::melt(obsYield[,])
+names(obsY)<-c("time","sp","value")
+plotFittedTime(sim,obsY,plotSpecies = "D.ele",startyr = 2003,endyr = 2020)
+
+
+
+```
+
+
 Incorporate fishing into model using effort and catch data 
 - baseline model 
 - Time avg Effort 

@@ -4,7 +4,7 @@ title: "Tune sensitivity"
 
 ## Introduction
 
-You might remember from week 1 that the reproduction parameters can influence how species react to dynamical changes in mortality in the system. The goal of this tutorial is to explore how the species in your steady state respond to fishing, to ensure that the reproduction parameters are reasonable when you incorporate fishing dynamics into your model.
+You might remember from week 1 that the reproduction parameters can influence how species react to dynamical changes in mortality in the system. The goal of this tutorial is to explore how the species in your model respond to fishing, to ensure that the reproduction parameters are reasonable when you incorporate fishing dynamics into your model.
 
 First, we will install the same packages we used last week. Additionally, we will use the mizerHowTo package which contains some handy functions for this week's workshops.
 
@@ -21,7 +21,7 @@ source("helper_functions.R")
 
 We will start with a new example model, a preliminary model for the Heard and McDonald Islands Patagonian toothfish longline fishery. While this is not a coastal or inland fishery, it is relatively data poor.
 
-The model has been calibrated using time-averaged data to achieve coexistence and a steady state. This followed a similar approach as the one you used last week. You may wish to use this model, the Curonian Lagoon model, or your own model in the scenarios you develop later on.
+The model has been calibrated using time-averaged data to achieve coexistence and a steady state. This followed a similar approach as the one you used last week. Feel free to use this model, the Curonian Lagoon model, or your own model in the scenarios you develop later on.
 
 \[***Julia: OR JUST USE CURONIAN LAGOON??not sure I can do the fishing as quickly as we would need!!*** \]
 
@@ -30,7 +30,7 @@ First, let's read in the param object for this model, which contains the steady 
 ```{r}
 sim <- readRDS("toothfish/params10.RDS")
 params <- sim@params
-plotBiomassObservedVsModel(sim,ratio = T)
+plotBiomassObservedVsModel(params,ratio = T)
 plotGrowthCurves(sim,species_panel = T)
 plotlySpectra(sim, power = 2, total = TRUE)
 plotDiet2(sim)
@@ -52,7 +52,7 @@ For this model, we had the following main criteria for our project:
 
 -   The modeled catches through time captured teh trends in the reported catches trhough time.
 
-We can see from these plots the params for this model we still have more work to do! The size at age for some species seem much higher than the empirical parameters, feeding level of near satiation for all species and the biomass of some species is much higher than the data. Let's set some of those issues aside for now.
+We can see from these plots that we still have a lot more work to do with refining the model! The size at age for some species seem much higher than the empirical parameters, feeding level of near satiation for all species and the biomass of some species is much higher than the data. Let's set some of those issues aside for now.
 
 The last two of the criteria above require examining how the system reacts to changes in fishing. In the next tutorial we will look at changes though time. Here, we will examine how the reproduction parameters produce reasonable yield curves. How do we do this?
 
@@ -99,40 +99,6 @@ Next let's see what happens if we adjust the reproduction parameters. If you wou
 ```{r}
 params2 <- setBevertonHolt(params, reproduction_level = 0.85)
 
-plotBevertonHolt2 <- function(params, params2, species) {
-  select <- species_params(params)$species == species
-  erepro <- species_params(params)$erepro[select]
-  w0 <- params@w[params@w_min_idx[select]]
-  E_R_ss <- getRDI(params)[select] / erepro * 2 * w0
-  R_dd_ss <- getRDD(params)[select]
-  E_R <- seq(0, 2 * E_R_ss, length.out = 50)
-  
-  R_max  <- species_params(params)$R_max[select]
-  R_di = erepro * E_R / 2 / w0
-  R_dd <- R_di / (1 + R_di / R_max)
-  df <- melt(data.frame(E_R, R_dd, R_di, R_max), id.vars = "E_R")
-  df$Model <- "Model 1"
-  
-  erepro <- species_params(params2)$erepro[select]
-  R_max  <- species_params(params2)$R_max[select]
-  R_di = erepro * E_R / 2 / w0
-  R_dd <- R_di / (1 + R_di / R_max)
-  df2 <- melt(data.frame(E_R, R_dd, R_di, R_max), id.vars = "E_R")
-  df2$Model <- "Model 2"
-  
-  ggplot(rbind(df, df2)) +
-    geom_line(aes(x = E_R, y = value, linetype = variable,
-                  colour = Model, size = Model)) +
-    geom_point(aes(x = E_R_ss, y = R_dd_ss), size = 3, color = "red") +
-    ylim(NA, 1.1 * R_max) +
-    ylab("Reproduction rate [eggs/year]") +
-    xlab("Energy invested [g/year]") +
-    labs(linetype = "", size = "R_max", colour = "R_max") +
-    scale_size_manual(values = c(0.5, 1)) +
-    scale_colour_manual(values = c("blue", "black")) +
-    scale_linetype_manual(values = c("solid", "dashed", "dotted"))
-}
-
 plotBevertonHolt2(params, params2, "D.ele")
 
 sim2 <- project(params2, t_max = 20)
@@ -141,25 +107,12 @@ plotBiomass(sim2)
 
 plotYieldVsF(params,species="D.ele",no_steps=50,F_max=2)
 plotYieldVsF(params2,species="D.ele",no_steps=50,F_max=2)
+
+
 ```
 
-This shows that altering the level of density-dependence in recruitment affects how sensitive toothfish (D.ele for short) are to fishing. The first model would enable toothfish to sustain (at equlbrium) much higher levels of fihsing before it collapses.
+This shows that altering the level of density-dependence in recruitment affects how sensitive toothfish (D.ele for short) are to fishing. The first model would enable toothfish to sustain (at equilbrium) much higher levels of fishing before it collapses.
 
 ### Exercise
 
-Explore changes in reproduction level in your model. How does changing reproduction level affect biomass and catches oin comparison with the observations?
-
-
-NOTES:
-
-Incorporate fishing into model using effort and catch data - baseline model - Time avg Effort - Time avg Catch
-
-Or initial guesses :
-
-At Max selectivity =1 F= E\*Q
-
-E=F
-
-F/E=Q
-
-Where say F = 0.2 and E is 500 (Whatever units), Q = 0.0004
+Explore changes in reproduction level using your model (or the curonian lagoon model). How does changing the reproduction level affect how closely your modeled biomasses and catches match the observations?
