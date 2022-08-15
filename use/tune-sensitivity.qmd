@@ -16,6 +16,7 @@ library(mizerMR)
 remotes::install_github("sizespectrum/mizerHowTo")
 library(mizerHowTo)
 library(tidyverse)
+source("helper_functions.R")
 ```
 
 We will start with a new example model, a preliminary model for the Heard and McDonald Islands Patagonian toothfish longline fishery. While this is not a coastal or inland fishery, it is relatively data poor.
@@ -51,9 +52,9 @@ For this model, we had the following main criteria for our project:
 
 -   The modeled catches through time captured teh trends in the reported catches trhough time.
 
-We can see from these plots the params for this model we still have more work to do! The size at age for some species seem much higher than the empirical parameters, feeding level of near satiation for all species and the biomass of some species is much higher than the data. Let's set some of those issues aside for now. 
+We can see from these plots the params for this model we still have more work to do! The size at age for some species seem much higher than the empirical parameters, feeding level of near satiation for all species and the biomass of some species is much higher than the data. Let's set some of those issues aside for now.
 
-The last two of the criteria above require examining how the system reacts to changes in fishing. In the next  tutorial we will look at changes though time. Here, we will examine how the reproduction parameters produce reasonable yield curves. How do we do this?
+The last two of the criteria above require examining how the system reacts to changes in fishing. In the next tutorial we will look at changes though time. Here, we will examine how the reproduction parameters produce reasonable yield curves. How do we do this?
 
 First, let's take a look at how fishing is set up in this model.
 
@@ -63,11 +64,11 @@ gear_params(params)
 
 Currently we can see there is one gear - *longline* - which has a knife_edge selectivity function that starts fishing at very large sizes of toothfish only (*knife_edge_size*=2722 g). The size selectivity was derived from the length distribution of catches from the long-line fisheries data. If your model does not yet include fishing, you can set up your own fishing gear using the *gear_params()* function and by following the example [here](https://sizespectrum.org/mizer/reference/setFishing.html).
 
-We can see that the *initial_effort* has been set to 1 and the *catchability* has been set to a very low number: 7e-07.
+We can see that the *initial_effort* has been set to 1 and the *catchability* has been set to a very low number: 7e-07. This shows the model has been calibrated with a very low level of fishing mortality.
 
 ### Tuning fishing
 
-As mentioned before the calibrated reproduction parameters affect how species respond to fishing intensity. To get an idea on how the model has been calibrated in terms f reproduction, let's check the reproduction level.
+As mentioned before the calibrated reproduction parameters affect how species respond to fishing intensity. To get an idea on how the model has been calibrated in terms of reproduction, let's check the reproduction level.
 
 ```{r}
 reproduction_level <- getReproductionLevel(params)
@@ -77,46 +78,88 @@ species_params(params)[, c("erepro", "R_max")]
 
 ```
 
+We can see that the erepro and R_max values have been estimated. Let's see how close the model catches are form the observed.
 
-We can see that the erepro and R_max values have been estimated. Let's take a look at how this combionation of parameters influences how toothfish respond to different levels of fishing. These are not temporal dynamics with fishing changing through time yet, each level run at steady state.
+```{r}
+plotYieldObservedVsModel(params, ratio=T)
+```
+
+The modeled yields looks pretty close to the observed.
+
+Now, let's take a look at how this combination of parameters influences how toothfish respond to different levels of fishing. These are not temporal dynamics with fishing changing through time yet, each level run at steady state.
 
 ```{r}
 plotYieldVsF(params,species="D.ele",no_steps=50,F_max=2)
 # Fmsy around 0.4 for toothfish
+
 ```
 
-Next let's see what happens if we adjust the reproduction parameters.
+Next let's see what happens if we adjust the reproduction parameters. If you would like to read further about this step see Gustav's blogpost [here](https://blog.mizer.sizespectrum.org/posts/2021-08-03-density-dependence-in-reproduction/).
 
+```{r}
+params2 <- setBevertonHolt(params, reproduction_level = 0.85)
+
+plotBevertonHolt2 <- function(params, params2, species) {
+  select <- species_params(params)$species == species
+  erepro <- species_params(params)$erepro[select]
+  w0 <- params@w[params@w_min_idx[select]]
+  E_R_ss <- getRDI(params)[select] / erepro * 2 * w0
+  R_dd_ss <- getRDD(params)[select]
+  E_R <- seq(0, 2 * E_R_ss, length.out = 50)
+  
+  R_max  <- species_params(params)$R_max[select]
+  R_di = erepro * E_R / 2 / w0
+  R_dd <- R_di / (1 + R_di / R_max)
+  df <- melt(data.frame(E_R, R_dd, R_di, R_max), id.vars = "E_R")
+  df$Model <- "Model 1"
+  
+  erepro <- species_params(params2)$erepro[select]
+  R_max  <- species_params(params2)$R_max[select]
+  R_di = erepro * E_R / 2 / w0
+  R_dd <- R_di / (1 + R_di / R_max)
+  df2 <- melt(data.frame(E_R, R_dd, R_di, R_max), id.vars = "E_R")
+  df2$Model <- "Model 2"
+  
+  ggplot(rbind(df, df2)) +
+    geom_line(aes(x = E_R, y = value, linetype = variable,
+                  colour = Model, size = Model)) +
+    geom_point(aes(x = E_R_ss, y = R_dd_ss), size = 3, color = "red") +
+    ylim(NA, 1.1 * R_max) +
+    ylab("Reproduction rate [eggs/year]") +
+    xlab("Energy invested [g/year]") +
+    labs(linetype = "", size = "R_max", colour = "R_max") +
+    scale_size_manual(values = c(0.5, 1)) +
+    scale_colour_manual(values = c("blue", "black")) +
+    scale_linetype_manual(values = c("solid", "dashed", "dotted"))
+}
+
+plotBevertonHolt2(params, params2, "D.ele")
+
+sim2 <- project(params2, t_max = 20)
+plotBiomass(sim2)
+
+
+plotYieldVsF(params,species="D.ele",no_steps=50,F_max=2)
+plotYieldVsF(params2,species="D.ele",no_steps=50,F_max=2)
+```
+
+This shows that altering the level of density-dependence in recruitment affects how sensitive toothfish (D.ele for short) are to fishing. The first model would enable toothfish to sustain (at equlbrium) much higher levels of fihsing before it collapses.
 
 ### Exercise
 
-Change erepro ,rmax
-How does this affect yield curves? 
+Explore changes in reproduction level in your model. How does changing reproduction level affect biomass and catches oin comparison with the observations?
 
-Change resources 
- 
-Change selectivity - how does this affect yield  curves ?
-
-Exercise 
-Other parameters?
 
 NOTES:
 
-Incorporate fishing into model using effort and catch data 
-- baseline model 
-- Time avg Effort 
-- Time avg Catch 
+Incorporate fishing into model using effort and catch data - baseline model - Time avg Effort - Time avg Catch
 
 Or initial guesses :
 
-At Max selectivity =1
-F= E*Q
+At Max selectivity =1 F= E\*Q
 
 E=F
 
 F/E=Q
 
 Where say F = 0.2 and E is 500 (Whatever units), Q = 0.0004
-
-
-
