@@ -21,6 +21,7 @@ In this tutorial we will modify our basic mizer model by adding an explicit bent
 First, we will install mizerMR from GitHub.
 
 ```{r}
+#| message: false
 remotes::install_github("sizespectrum/mizerMR")
 library(mizerMR)
 

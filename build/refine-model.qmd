@@ -9,6 +9,7 @@ We have a basic model with two background resources. This model produces somewha
 A large fraction of tuning can be done using a `tuneParams()` R Shiny gadget that is integrated into mizerExperimental. But because we are using a multiple resource add-on, we will need to install a different branch of mizerExperimental, which will include an updated `tuneParams()` R Shiny gadget that incorporates multiple resources. This is still work in progress, so please be patient if you find bugs or some other annoying features (please report them, so we can keep improving the tools). To install a specific branch (in our case tuneMR branch) of a package located on GitHub we need to indicate it in the `ref=` argument. You might need to restart your R session for this to work. Also, remember that next time, if you want to use the main branch of mizerExperimental (without multiple resources) you will need to reinstall it, but without the `ref=` parameter.
 
 ```{r}
+#| message: false
 remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
 remotes::install_github("sizespectrum/mizerMR")
 library(mizerExperimental)
