@@ -1,43 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://course.mizer.sizespectrum.org/multi-species-size-spectrum-dynamics.html</loc>
-    <lastmod>2022-07-05T06:22:13.329Z</lastmod>
+    <loc>https://course.mizer.sizespectrum.org/build/index.html</loc>
+    <lastmod>2022-08-15T02:06:34.553Z</lastmod>
   </url>
   <url>
-    <loc>https://course.mizer.sizespectrum.org/running-scenarios.html</loc>
-    <lastmod>2022-07-05T06:22:13.649Z</lastmod>
+    <loc>https://course.mizer.sizespectrum.org/build/find-species-parameters.html</loc>
+    <lastmod>2022-08-15T02:06:38.209Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/build/set-multiple-resources.html</loc>
+    <lastmod>2022-08-15T02:09:13.941Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/build/refine-model.html</loc>
+    <lastmod>2022-08-15T02:10:36.285Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/build/create-first-model.html</loc>
+    <lastmod>2022-08-15T02:06:50.277Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/troubleshooting.html</loc>
+    <lastmod>2022-08-15T02:06:50.637Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/understand/dynamics-of-spectra.html</loc>
+    <lastmod>2022-08-15T02:06:55.797Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/understand/index.html</loc>
+    <lastmod>2022-08-15T02:06:56.873Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/understand/species-interactions.html</loc>
+    <lastmod>2022-08-15T02:07:01.037Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/understand/single-species-spectra.html</loc>
+    <lastmod>2022-08-15T02:07:06.185Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/understand/predation-growth-and-mortality.html</loc>
+    <lastmod>2022-08-15T02:07:10.765Z</lastmod>
+  </url>
+  <url>
+    <loc>https://course.mizer.sizespectrum.org/understand/observed-size-spectra.html</loc>
+    <lastmod>2022-08-15T02:07:17.273Z</lastmod>
   </url>
   <url>
     <loc>https://course.mizer.sizespectrum.org/index.html</loc>
-    <lastmod>2022-07-05T06:22:13.973Z</lastmod>
+    <lastmod>2022-08-15T02:07:17.773Z</lastmod>
   </url>
   <url>
-    <loc>https://course.mizer.sizespectrum.org/observational-size-spectra.html</loc>
-    <lastmod>2022-07-05T06:22:14.253Z</lastmod>
+    <loc>https://course.mizer.sizespectrum.org/prepare/use-git-and-github.html</loc>
+    <lastmod>2022-08-15T02:07:19.801Z</lastmod>
   </url>
   <url>
-    <loc>https://course.mizer.sizespectrum.org/build-model.html</loc>
-    <lastmod>2022-07-05T06:22:14.545Z</lastmod>
+    <loc>https://course.mizer.sizespectrum.org/prepare/index.html</loc>
+    <lastmod>2022-08-15T02:07:20.673Z</lastmod>
   </url>
   <url>
-    <loc>https://course.mizer.sizespectrum.org/species-parameters.html</loc>
-    <lastmod>2022-07-05T06:22:15.981Z</lastmod>
+    <loc>https://course.mizer.sizespectrum.org/prepare/install-tools.html</loc>
+    <lastmod>2022-08-15T02:07:22.157Z</lastmod>
   </url>
   <url>
-    <loc>https://course.mizer.sizespectrum.org/single-species-size-spectrum-dynamics.html</loc>
-    <lastmod>2022-07-05T06:22:27.777Z</lastmod>
+    <loc>https://course.mizer.sizespectrum.org/prepare/introduce-yourself.html</loc>
+    <lastmod>2022-08-15T02:07:22.533Z</lastmod>
   </url>
   <url>
-    <loc>https://course.mizer.sizespectrum.org/introduction-to-mizer.html</loc>
-    <lastmod>2022-07-05T06:22:28.045Z</lastmod>
-  </url>
-  <url>
-    <loc>https://course.mizer.sizespectrum.org/introduction-to-course.html</loc>
-    <lastmod>2022-07-05T06:22:28.293Z</lastmod>
-  </url>
-  <url>
-    <loc>https://course.mizer.sizespectrum.org/multiple-resources.html</loc>
-    <lastmod>2022-07-05T06:22:28.553Z</lastmod>
+    <loc>https://course.mizer.sizespectrum.org/prepare/watch-introduction.html</loc>
+    <lastmod>2022-08-15T02:07:22.849Z</lastmod>
   </url>
 </urlset>

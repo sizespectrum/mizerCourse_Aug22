@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>mizer course - Finding species parameters</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../build/create-first-model.html" rel="next">
+<link href="../build/index.html" rel="prev">
+<link href="../images/favicon-16x16.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><link href="../site_libs/vembedr-0.1.5/css/vembedr.css" rel="stylesheet">
+<link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script><script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script><script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script><script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="mizer course - Finding species parameters">
+<meta name="twitter:description" content="How do we decide which species to include in the model? There are many ways to approach it and no clearly set rules.">
+<meta name="twitter:creator" content="gustavdelius">
+<meta name="twitter:card" content="summary">
+</head>
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Finding species parameters</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">mizer course</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../prepare/index.html" class="sidebar-item-text sidebar-link">Prepare</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/introduce-yourself.html" class="sidebar-item-text sidebar-link">Introduce yourself</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/install-tools.html" class="sidebar-item-text sidebar-link">Install tools</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/use-git-and-github.html" class="sidebar-item-text sidebar-link">Use Git and GitHub</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../understand/index.html" class="sidebar-item-text sidebar-link">Week 1: Understand</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/observed-size-spectra.html" class="sidebar-item-text sidebar-link">Observed size spectra</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/single-species-spectra.html" class="sidebar-item-text sidebar-link">Single species spectra</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/predation-growth-and-mortality.html" class="sidebar-item-text sidebar-link">Predation, growth and mortality</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/species-interactions.html" class="sidebar-item-text sidebar-link">Species interactions</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/dynamics-of-spectra.html" class="sidebar-item-text sidebar-link">Dynamics of size spectra</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../build/index.html" class="sidebar-item-text sidebar-link">Week 2: Build</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/find-species-parameters.html" class="sidebar-item-text sidebar-link active">Find species parameters</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/create-first-model.html" class="sidebar-item-text sidebar-link">Create your first model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/set-multiple-resources.html" class="sidebar-item-text sidebar-link">Set up multiple resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/refine-model.html" class="sidebar-item-text sidebar-link">Refine your model</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Week 3: Use</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  Released on 22 August
+  </li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">Info</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../troubleshooting.html" class="sidebar-item-text sidebar-link">Troubleshooting</a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#selecting-model-species" id="toc-selecting-model-species" class="nav-link active" data-scroll-target="#selecting-model-species">Selecting model species</a></li>
+  <li><a href="#summary-of-species-parameters" id="toc-summary-of-species-parameters" class="nav-link" data-scroll-target="#summary-of-species-parameters">Summary of species parameters</a></li>
+  <li><a href="#parameters-we-provide" id="toc-parameters-we-provide" class="nav-link" data-scroll-target="#parameters-we-provide">Parameters we provide</a></li>
+  <li><a href="#default-parameters" id="toc-default-parameters" class="nav-link" data-scroll-target="#default-parameters">Default parameters</a></li>
+  <li><a href="#exercise-collecting-species-parameters-from-fishbase" id="toc-exercise-collecting-species-parameters-from-fishbase" class="nav-link" data-scroll-target="#exercise-collecting-species-parameters-from-fishbase">Exercise: collecting species parameters from FishBase</a></li>
+  <li><a href="#species-interaction-matrix" id="toc-species-interaction-matrix" class="nav-link" data-scroll-target="#species-interaction-matrix">Species interaction matrix</a></li>
+  <li><a href="#gear-parameters" id="toc-gear-parameters" class="nav-link" data-scroll-target="#gear-parameters">Gear parameters</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sizespectrum/mizerCourse/edit/week-2/build/find-species-parameters.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sizespectrum/mizerCourse/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title d-none d-lg-block">Finding species parameters</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header><div class="cell" data-hash="find-species-parameters_cache/html/unnamed-chunk-1_118d5dbe68a926724e7da3928eabc0c1">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sizespectrum.org/mizer/">mizer</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="selecting-model-species" class="level2"><h2 class="anchored" data-anchor-id="selecting-model-species">Selecting model species</h2>
+<p>How do we decide which species to include in the model? There are many ways to approach it and no clearly set rules. Of course you want to include species that you are interested in, but then also perhaps some other important species in the ecosystem. Mizer actually has a powerful framework that allows you to explicitly model only your focus species and represent the rest of the ecosystem with ‘background’ species. The sizes and abundances of these ‘background’ species are assumed to follow the power law, so that the total community biomass approximately represents the Sheldon spectrum. This is only mentioned here for your information, as we will not go into these details during this week.</p>
+<p>If you have your own ecosystem that you want to model during this week, then you also have your own list of species. Ideally you may want to have somewhere around 4 to 20 species, as this allows for interesting but also tractable dynamics (although tracking processes in 20 species might be quite challenging). For the Curonian Lagoon model we selected key ecosystem fish species that are commonly observed in scientific monitoring surveys, and which live and reproduce in the ecosystem (as compared to several migratory species, which can be abundant briefly but don’t have a big role in the ecosystem in the long term).</p>
+<p>The list of species and their general feeding habits or trophic group are listed below. We include scientific and model name, the latter representing a short name that we can conveniently use and display in plots.</p>
+<table class="table">
+<thead><tr class="header">
+<th>Scientific name</th>
+<th>Model name</th>
+<th>Trophic group</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Pungitius pungitius, Alburnus alburnus</td>
+<td>smallfish</td>
+<td>planktivore</td>
+</tr>
+<tr class="even">
+<td>Gymnocephalus cernua</td>
+<td>ruffe</td>
+<td>benthivore</td>
+</tr>
+<tr class="odd">
+<td>Abramis brama, Blicca bjoerkna</td>
+<td>breams</td>
+<td>benthivore</td>
+</tr>
+<tr class="even">
+<td>Rutillus rutillus</td>
+<td>roach</td>
+<td>benthivore</td>
+</tr>
+<tr class="odd">
+<td>Vimba vimba</td>
+<td>vimba</td>
+<td>benthivore</td>
+</tr>
+<tr class="even">
+<td>Carassius carassius</td>
+<td>carassius</td>
+<td>benthivore</td>
+</tr>
+<tr class="odd">
+<td>Perca fluviatilis</td>
+<td>perch</td>
+<td>omnivore</td>
+</tr>
+<tr class="even">
+<td>Sander lucioperca</td>
+<td>pikeperch</td>
+<td>predator</td>
+</tr>
+<tr class="odd">
+<td>Lota lota</td>
+<td>burbot</td>
+<td>predator</td>
+</tr>
+<tr class="even">
+<td>Esox lucius, Aspius aspius</td>
+<td>predators</td>
+<td>predator</td>
+</tr>
+</tbody>
+</table></section><section id="summary-of-species-parameters" class="level2"><h2 class="anchored" data-anchor-id="summary-of-species-parameters">Summary of species parameters</h2>
+<p>At this point it might be useful to go back and rewatch the second half of Ken Andersen’s introductory lecture, which explains species parameters used in mizer. It is great how mizer can start building a model with only very few species parameters! For most other parameters, if values are not supplied by the user, mizer will fill them with default values using size-based theory or species averages.</p>
+<p>However, if you don’t like defaults you can change them all. Advanced users can even overwrite mizer functions that calculate parameters. If you feel you need more advanced reading you can explore it <a href="https://sizespectrum.org/mizer/reference/setParams.html">here</a></p>
+<p><img src="../images/parameterSketch.png" class="img-fluid"></p>
+<p>You can find the complete list of species parameters used in mizer in the help page of <code><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params()</a></code>.</p>
+</section><section id="parameters-we-provide" class="level2"><h2 class="anchored" data-anchor-id="parameters-we-provide">Parameters we provide</h2>
+<p>For each of the species that we include in our model we have some information that we have put into a species parameter table and saved it as a .csv file. The table has one row for each species and one column for each species parameter. We can read this into a data frame with</p>
+<div class="cell" data-hash="find-species-parameters_cache/html/unnamed-chunk-2_75233a95d1d7cdfea3904e5573107f53">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">curonian_species_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"curonian_species_params.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We will not show you all of our parameters for all species, because we want you to look up some parameters yourself. So we overwrite some of our parameters with <code>NA</code>.</p>
+<div class="cell" data-hash="find-species-parameters_cache/html/unnamed-chunk-3_b5345f361bdb4bb1e05919d490f5e60b">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">curonian_species_params</span><span class="op">[</span><span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"w_inf"</span>, <span class="st">"w_mat"</span>, <span class="st">"k_vb"</span>, </span>
+<span>                             <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"mat_age"</span>, <span class="st">"max_age"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
+<span><span class="va">curonian_species_params</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["species"],"name":[1],"type":["chr"],"align":["left"]},{"label":["w_inf"],"name":[2],"type":["int"],"align":["right"]},{"label":["w_mat"],"name":[3],"type":["int"],"align":["right"]},{"label":["k_vb"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["beta"],"name":[5],"type":["int"],"align":["right"]},{"label":["biomass_cutoff"],"name":[6],"type":["int"],"align":["right"]},{"label":["biomass_observed"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["yield_observed"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["a"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["b"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["mat_age"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["max_age"],"name":[12],"type":["int"],"align":["right"]},{"label":["resilience"],"name":[13],"type":["chr"],"align":["left"]},{"label":["latinName"],"name":[14],"type":["chr"],"align":["left"]},{"label":["funcgr"],"name":[15],"type":["chr"],"align":["left"]}],"data":[{"1":"smallfish","2":"35","3":"3","4":"1.00","5":"5000","6":"2","7":"0.0019","8":"0.00","9":"0.008","10":"3.10","11":"1.0","12":"6","13":"high","14":"pungitius_alburnus","15":"planktivore"},{"1":"ruffe","2":"148","3":"18","4":"0.30","5":"600","6":"2","7":"0.0232","8":"8.61","9":"0.015","10":"3.07","11":"1.5","12":"10","13":"medium","14":"Gymnocephalus_cernua","15":"benthivore"},{"1":"breams","2":"6927","3":"198","4":"0.10","5":"10000","6":"2","7":"1.0000","8":"423.25","9":"0.015","10":"3.07","11":"4.0","12":"15","13":"medium","14":"Abramis_Blicca","15":"benthivore"},{"1":"roach","2":"NA","3":"NA","4":"NA","5":"8000","6":"2","7":"0.6182","8":"329.99","9":"NA","10":"NA","11":"NA","12":"NA","13":"medium","14":"Rutillus_rutillus","15":"benthivore"},{"1":"vimba","2":"1663","3":"38","4":"0.20","5":"10000","6":"2","7":"0.0879","8":"91.82","9":"0.008","10":"3.13","11":"4.0","12":"12","13":"medium","14":"Vimba_vimba","15":"benthivore"},{"1":"carassius","2":"1420","3":"14","4":"0.13","5":"8000","6":"2","7":"0.0351","8":"13.61","9":"0.013","10":"3.05","11":"2.0","12":"10","13":"medium","14":"Carassius_carassius","15":"benthivore"},{"1":"perch","2":"2331","3":"51","4":"0.13","5":"100","6":"2","7":"0.2236","8":"48.02","9":"0.010","10":"3.09","11":"3.0","12":"20","13":"low","14":"Perca_fluviatilis","15":"omnivore"},{"1":"pikeperch","2":"5245","3":"404","4":"0.18","5":"100","6":"2","7":"0.3717","8":"87.49","9":"0.007","10":"3.10","11":"4.0","12":"15","13":"low","14":"Sander_lucioperca","15":"predator"},{"1":"burbot","2":"6312","3":"259","4":"0.15","5":"100","6":"2","7":"0.0465","8":"15.63","9":"0.005","10":"3.04","11":"5.0","12":"18","13":"low","14":"Lota_lota","15":"predator"},{"1":"predator_fish","2":"13945","3":"463","4":"0.25","5":"100","6":"2","7":"0.0706","8":"NA","9":"0.005","10":"3.10","11":"4.0","12":"20","13":"low","14":"Esox_Aspius","15":"predator"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>We will now explain these species parameters. Because there is so much information that would be worth discussing, we have put some material into collapsed sections. You can click on these to expand them if you want to learn about those additional details.</p>
+<ol type="1">
+<li>As Ken stressed in his video, a name <code>species</code> and the <strong>asymptotic size</strong> <code>w_inf</code> (in grams) are the only species parameter for which mizer does not suggest a default value. We also include the scientific species name in <code>latinName</code> and the trophic group in <code>funcgr</code>, both of which mizer ignores.</li>
+</ol>
+<p>We find it sensible to provide some additional parameters:</p>
+<ol start="2" type="1">
+<li><p>The species <strong>maturation body size</strong> <code>w_mat</code>. Usually you would want to set them up yourself from life-history data, but if no data is available mizer will use <code>0.25 * w_inf</code>. For the Curonian Lagoon model we selected maturation sizes from available biological data.</p></li>
+<li><p>Von Bertalanffy <strong>growth rate</strong> parameter <code>k_vb</code>. In mizer the growth rate is not fixed but depends on the abundance of prey. So mizer does not actually use the von Bertalanffy growth curves. However, it can use the information you give to choose its predation parameters in such a way that the emergent growth curves will be close to von Bertalanffy curves. Specifying <code>k_vb</code> is an alternative to specifying the coefficient <code>h</code> in the maximum intake rate, as was discussed by Ken Andersen in his introductory video. The von Bertalanffy K parameter can often be looked up on FishBase or estimated from parameters in the same family.</p></li>
+</ol>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Details on Von Bertalanffy growth rate
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The growth curve of a fish is commonly reported as a von Bertalanffy growth curve. The simplest version of von Bertalanffy curve describes the length of a fish as a function of two parameters; the asymptotic length <span class="math inline">L_\infty</span> and the von Bertalanffy growth coefficient <span class="math inline">K</span> (<code>k_vb</code> in mizer):</p>
+<p><span class="math inline">L_{(t)} = L_\infty (1-e^{-Kt})</span></p>
+<p>where <span class="math inline">t</span> is the age. <span class="math inline">L_\infty</span> represents the asymptotic length and <span class="math inline">K</span> is an instantaneous annual growth rate. This value shows how quickly a species will approach its asymptotic length. In many species <span class="math inline">1/K</span> gives an approximate age at maturation, although this can vary.</p>
+<p>Mizer, however, uses two other parameters, <span class="math inline">W_\infty</span> (<code>w_inf</code> in Mizer) and <span class="math inline">h</span>, where <span class="math inline">W_\infty</span> represents the asymptotic weight and <span class="math inline">h</span> the size-scaled maximum consumption rate. Ken Andersen discusses <span class="math inline">K</span> and <span class="math inline">h</span> in his introductory lecture. Fortunately, the two sets of parameters are related, and one can derive <span class="math inline">h</span> and <span class="math inline">W_\infty</span> from von Bertalanffy <span class="math inline">K</span> and <span class="math inline">L_\infty</span>.</p>
+<p>The parameter <span class="math inline">h</span> represents the maximum consumption rate of a fish, scaled by size. The value of <span class="math inline">h</span> varies between 4 – 400, with a geometric mean around 22 g<span class="math inline">^{-0.25}</span>/year across all fish species (Andersen 2019, chap.&nbsp;2 and 11). If we have reliable von Bertalanffy growth curve values, we can derive a more precise estimate of <span class="math inline">h</span> as: <span class="math inline">h \approx 4.75 K\cdot L_\infty^{0.75}</span> (with <span class="math inline">K</span> given in 1/years and <span class="math inline">L_\infty</span> in cm).</p>
+<p>The von Bertalanffy growth function is widely used in fisheries and ecology. However, it should be treated with some caution. To estimate the growth function coefficients reliably we need sufficient amounts of data from young and old individuals. The latter is often not the case for intensively fished species, because old fish are simply not present in the ecosystem. Young individuals are also often not observed, especially if data comes from fisheries rather than scientific surveys. If we do not have old fish in the sample the asymptotic length <span class="math inline">L_\infty</span> cannot be properly estimated. As a result, estimates of <span class="math inline">K</span> will also vary extensively across samples. You can see that for yourself in our exercise below.</p>
+</div>
+</div>
+</div>
+<p>We have also included some parameters that mizer ignores, namely the age at maturity <code>mat_age</code> and the maximum age <code>max_age</code>. We find these useful as a sanity check on our choices for <code>w_mat</code> and <code>k_vb</code>. Expand the following section if you want to learn more.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Plotting Von-Bertalanffy parameters
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Once we collect species parameters from FishBase we might want to know how well these parameters reflect the actual growth data, or at least knowledge about maximum and maturation size. Of course if we have size-age data we can estimate the Von Bertalanffy growth curve parameters ourselves. But for now we will just plot some sample size-age observations on top of the von Bertalanffy curves defined by the parameters in our dataframe.</p>
+<div class="cell" data-hash="find-species-parameters_cache/html/unnamed-chunk-4_8e7647b7bc1958768c17d0a1ca50ccea">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Let's load example data on length at age </span></span>
+<span><span class="va">size_at_age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"size_at_age.csv"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load species parameters</span></span>
+<span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="va">curonian_species_params</span></span>
+<span><span class="co"># If the von Bertalanffy t0 parameter is missing, set to 0</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/utils/hasName.html">hasName</a></span><span class="op">(</span><span class="va">sp</span>, <span class="st">"t0"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">sp</span><span class="op">$</span><span class="va">t0</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span><span class="op">}</span></span>
+<span><span class="co"># convert weights to lengths</span></span>
+<span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="va">sp</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>l_mat <span class="op">=</span> <span class="op">(</span><span class="va">w_mat</span> <span class="op">/</span> <span class="va">a</span><span class="op">)</span> <span class="op">^</span> <span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">b</span><span class="op">)</span>,</span>
+<span>           l_inf <span class="op">=</span> <span class="op">(</span><span class="va">w_inf</span> <span class="op">/</span> <span class="va">a</span><span class="op">)</span> <span class="op">^</span> <span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">b</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">l_mat</span>, <span class="va">l_inf</span>, <span class="va">mat_age</span>, <span class="va">max_age</span>, <span class="va">k_vb</span>, <span class="va">t0</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># create data frame with von Bertalanffy curves</span></span>
+<span><span class="va">vb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span><span class="op">(</span>species <span class="op">=</span> <span class="va">sp</span><span class="op">$</span><span class="va">species</span>, age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">sp</span>, by <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>length <span class="op">=</span> <span class="va">l_inf</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">k_vb</span> <span class="op">*</span> <span class="op">(</span><span class="va">age</span> <span class="op">-</span> <span class="va">t0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span>, y <span class="op">=</span> <span class="va">length</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">size_at_age</span>,</span>
+<span>               position <span class="op">=</span> <span class="st">"jitter"</span>, alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span>, y <span class="op">=</span> <span class="va">length</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">vb</span>, lwd <span class="op">=</span> <span class="fl">1.2</span>, col <span class="op">=</span> <span class="st">'blue'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">l_inf</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sp</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">l_mat</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sp</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">max_age</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sp</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">mat_age</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sp</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="find-species-parameters_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In this plot we can see the representation of parameters we collected from FishBase or other sources: Von Bertalanffy growth curve (blue line), maturation weight (horizontal dashed line), maturation age (vertical dashed line), asymptotic weight (horizontal solid line) and maximum age (vertical solid line). The available data on size at age is shows with dotpoints. When we plot such data we want to make sure that Von Bertalanffy curves reflect the growht data (if available) sufficiently well, and that the von Bertlanffy curve also approximately crosses the intersection of maturation weight and age.</p>
+<p>You probably noticed that there is no curve for roach. Well, this is what Exercise 1 is about.</p>
+</div>
+</div>
+</div>
+<ol start="4" type="1">
+<li>
+<p>The <strong>preferred predator-prey mass ratio</strong> <code>beta</code>. We discussed the importance of the <a href="../understand/predation-growth-and-mortality.html#the-predation-kernel">predation kernel</a> last week. The default value for <code>beta</code> in mizer is <code>beta = 30</code>. However, higher <code>beta</code> values are appropriate for fish that feed on plankton or benthic invertebrates. We need to keep in mind that <code>beta</code> represents a <strong>preferred</strong> predator prey size ratio, not the <strong>realised</strong> one. Most species prefer to eat larger prey, but their diets are dominated by small prey, since smaller individuals are more common.</p>
+<p>For the Curonian lagoon model we set the following beta values: we assume 100 for for predatory fish, 10000 for large benthivores, 8000 and 600 for smaller benthivores and 5000 for planktivorous fish. We leave the <code>sigma</code> values at their default of 2, although planktivores and benthivores would normally feed over a larger range of sizes and thus larger <code>sigma</code> values might be appropriate for them and smaller ones for predatory species. <code>sigma</code> is a standard deviation of the predation kernel on a natural log scale, but it is easier to understand it when looking at the predation kernel plots, which we will do in the last tutorial. We will revisit our preliminary choices in the <a href="../build/refine-model.html">Refine your model</a> tutorial when we can visualise what the resulting diets will look like.</p>
+</li>
+<li><p>The <strong>observed biomass</strong> for each species in grams, <code>biomass_observed</code>. You will not be able to calibrate your model to a realistic system without some information on relative species abundances. Note, the <code>biomass_observed</code> reflects the average species biomasses in your model system for the period that you want to calibrate your system to. Usually we do not have data on observed biomasses of all fish sizes combined, since we usually do not observe larvae. This we can specify in the <code>biomass_cutoff</code> parameter, where we tell mizer the smallest size of fish to use for comparing model and observed biomasses. In our case we give the value of 2g for all species (about 6cm long), because observed data comes from scientific monitoring surveys.</p></li>
+</ol>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+How to get observed biomasses
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>To calibrate the rate of reproduction (the rate at which eggs are entering the first size class in each species), mizer needs some information about species abundance or biomasses. Multi-species models are often calibrated using average <strong>observed biomases</strong> or average <strong>spawning stock biomasses</strong>. The units of the area or volume over which these biomasses were observed depend on your choice, mizer does not care about it (see section <a href="https://sizespectrum.org/mizer/reference/setParams.html#setting-search-volume">Units in mizer</a> in this reference page). Sometimes we can use relative biomasses, which scale the relative abundances of species in the model. Remember, these are just average values, not time series of observations.</p>
+<p>Observed biomasses could be derived from <strong>scientific surveys</strong>, <strong>underwater surveys</strong> or other observations or knowledge about relative biomasses of species. In well studied systems you might have data about biomass estimates, <strong>catches</strong> and <strong>fishing mortality</strong> from stock assessments. These type of data are often used to calibrate mizer models, although we need to be aware of the fact that stock assessment estimates are also model estimates and come with their own assumptions (e.g.&nbsp;they are single species estimates).</p>
+</div>
+</div>
+</div>
+<ol start="6" type="1">
+<li><p>Fisheries <strong>yields</strong> in terms of total average yearly catches for each species in grams in <code>yield_observed</code>. While these are not used directly by mizer to set up the model, mizer can display this information in graphs that you can use to calibrate the model manually. We will discuss this in the <a href="../build/refine-model.html">Refine your model</a> tutorial.</p></li>
+<li><p>Species <strong>length-weight conversion</strong> coefficients <code>a</code> and <code>b</code>. The length <code>l</code> in cm and the weight <code>w</code> in grams of an average individual are related as: <span class="math display"> = a \cdot l^b</span> For many species the length-weight conversion coefficients <span class="math inline">a</span> and <span class="math inline">b</span> are available on FishBase. These coefficients are needed if maximum or maturation body size are provided in length or if we estimate <code>h</code> from Von Bertalanffy <code>v_bk</code>. If you do not provide values, mizer will assume <span class="math inline">a = 0.01\ \mathrm{g/cm}^{-3}</span> and <span class="math inline">b = 3</span>. For the Curonian Lagoon model we have taken values from FishBase. :::</p></li>
+</ol>
+<p>We have included another column in our species parameter frame that mizer ignores: <code>resilience</code>. This is just information for ourselves that we will use when we calibrate the sensitivity of species to change in week 3. You can have an arbitrary number of additional columns that contain information meaningful to you but ignored by mizer.</p>
+</section><section id="default-parameters" class="level2"><h2 class="anchored" data-anchor-id="default-parameters">Default parameters</h2>
+<p>There are many other parameters that are used to describe species properties, but which we have not provided in our species parameter data frame because mizer has default ways to calculate them based on the size theory expectations. You can read about the theory in various publications or in the excellent Ken H Andersen book <a href="https://ken.haste.dk/home/publications">“Fish Ecology, Evolution, and Exploitation” (2019)</a>. So you don’t <strong>need</strong> to provide them, but you do need to understand the defaults and think whether you are happy with them. Mizer help pages provide <a href="https://sizespectrum.org/mizer/reference/species_params.html">a good summary of species parameters</a> and links to functions that use these parameters.</p>
+<ol start="8" type="1">
+<li><p>The species <strong>search volume</strong> is set from the search rate constant <code>gamma</code> and its body size scaling exponent <code>q</code>. If no values are provided <code>gamma</code> and <code>q</code> are set so that when prey abundance is described by the power law with the exponent <code>lambda</code>, food search rate will lead to the juvenile feeding level <code>f0 = 0.6</code>.</p></li>
+<li><p>The species <strong>maximum intake</strong> rate is set using the constant <code>h</code> and the body size scaling exponent <code>n</code>. If no value is provided, the coefficient <code>h</code> is set so as to achieve Von-Bertalanffy growth rate based estimate of maturity size at a given maturity age (given the feeding level <code>f0 = 0.6</code>). In multi-species models the exponent <code>n</code> is by default set to 2/3 but we choose <code>n = 3/4</code>.</p></li>
+<li><p>Species <strong>metabolic rate</strong> is set from the constants <code>ks</code> and body size scaling exponent <code>p</code>. If no values are provided the coefficient <code>ks</code> is set so that at maturation size metabolic expenditure requires a critical feeding level of <code>fc = 0.2</code>. In multi-species models the exponent <code>p</code> is by default set to 0.7 but we choose <code>p = n = 3/4</code>. Maintenance expenditure can also include activity related energetic costs, using species activity coefficient <code>k</code> which scales linearly with body size (exponent of 1). By default this value is set to 0 and most mizer models do not include it.</p></li>
+</ol>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p><strong>Body size scaling exponents</strong></p>
+<p>We just said that we choose the allometric exponents <code>n</code> and <code>p</code> to be both equal to 3/4. There is a lot of debate about the correct values for these exponents. Some schools of thought argue that energy intake should scale with individual’s surface area (exponent of <span class="math inline">2/3</span>) whereas energy expenditure should scale with body volume (exponent of <span class="math inline">1</span>). Others suggest that food intake and metabolism exponents should both scale with <span class="math inline">3/4</span>. There are no clear rules and these exponents in reality are likely to vary across species.</p>
+</div>
+</div>
+</div>
+<ol start="11" type="1">
+<li><p>Species external (also called background or baseline) size-independent mortality rate constant <code>z0</code> This parameter determines the background mortality that affects all species size classes in the same way (it is a flat rate across sizes). If no values are provided mizer assumes that species with small maximum body sizes have much higher baseline mortality rate. For example, a species with <code>w_inf</code> = 35 g will have <code>z0</code> = 0.18, a species with <code>w_inf</code> = 150g will have <code>z0</code> = 0.11 and a species with <code>w_inf</code> = 14kg will have <code>z0</code> = 0.025.</p></li>
+<li><p>We already discussed the parameters involved in setting the <a href="..understand/single-species-spectra.hqmd#investment-into-reproduction">investment into reproduction</a> last week. The reproduction investment parameter <code>m</code> determines the scaling of the investment into reproduction for mature individuals. By default <code>m</code> = 1 which means that after maturation the rate at which individual fish invests energy into reproduction scales linearly with size (if you want more information, you can find it <a href="https://sizespectrum.org/mizer/reference/setReproduction.html#investment-into-reproduction">here</a>). This default can be changed to another value if different scaling is preferred (e.g.&nbsp;in case you might want to explore <a href="https://www.pnas.org/doi/abs/10.1073/pnas.2100695118">hyper-allometric reproduction investment options</a>). The steepness of population level energy allocation to reproduction is determined by <code>w_mat25</code>, the size at which 25% of individuals are mature.</p></li>
+<li><p>The species minimum body size in the model <code>w_min</code> is by default set to 0.001 in grams.</p></li>
+<li><p>We discussed the parameters <code>R_max</code> and <code>erepro</code> last week in the section on <a href="../understand/dynamics-of-spectra.html#how-reproduction-is-modelled">How reproduction is modelled</a>.</p></li>
+<li><p>You can also modify availability of the resource to each of your species, as we have learned <a href="https://course.mizer.sizespectrum.org/understand/species-interactions.html#resource-interactions">during week 1</a>. This is set by the parameter <code>interaction_resource</code> and this value is set to 1 by default. We will however change this when we set up multiple resources in the next tutorial.</p></li>
+<li><p>Species food <strong>assimilation efficiency</strong> <code>alpha</code>. If no value is provided mizer assumes 0.6.</p></li>
+</ol>
+<p>If you want to change the default values for any of these parameters for any of the species, you just need to add a corresponding column to your species parameter data frame. You can put <code>NA</code> into those columns for the species where you want mizer to keep the default.</p>
+</section><section id="exercise-collecting-species-parameters-from-fishbase" class="level2"><h2 class="anchored" data-anchor-id="exercise-collecting-species-parameters-from-fishbase">Exercise: collecting species parameters from FishBase</h2>
+<p>Our species parameter file is missing some parameters for roach (<em>Rutillus rutillus</em>). This is actually the most abundant species in the ecosystem. Your goal in this exercise is to find good values for the missing parameters for roach. We suggest that you use FishBase, where many modellers get their species parameters.</p>
+<p>In this exercise please open the <strong>curonian_species_params_exercise.csv</strong> file, go to FishBase, use the knowledge you gained so far and:</p>
+<p>1) Fill the NA values for roach</p>
+<p>2) Look up values for breams and see if you agree with our selection of parameter values. You can overwrite our values with your values. This will be your species parameter file.</p>
+<p><strong>Important!</strong> Make sure you check all the different sources of information that FishBase has. Scroll all the way down to “More information” section and explore Length-weight, Fecundity, Age/size, Food items, Diet and especially Growth sections.</p>
+<p>Please commit this .csv file and push it to GitHub (just select the file as you selected other modified files). You will use the parameters that you found in the next tutorial.</p>
+<p>Here is a short video on exploring species parameters on FishBase</p>
+<div class="cell" data-hash="find-species-parameters_cache/html/unnamed-chunk-5_aaecaa6cd4bbde95661cc56e8d0ba9c3">
+<div class="cell-output-display">
+<div class="vembedr" align="center">
+<div class="vembedr-rounded" style="border-radius: 10px;">
+<iframe src="https://www.youtube.com/embed/nVhPmTVyb_Q" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+</div>
+</div>
+</section><section id="species-interaction-matrix" class="level2"><h2 class="anchored" data-anchor-id="species-interaction-matrix">Species interaction matrix</h2>
+<p>By default, mizer assumes that all species can interact with each other equally and that predation is determined solely by size. To change this assumption we need to provide a species interaction matrix. This matrix can include three different aspects (or a combination of all of them):</p>
+<ol type="1">
+<li>
+<strong>Spatial and temporal overlap of species in a large ecosystem</strong>. This way the interaction matrix is set based on e.g.&nbsp;species occurrences in various fisheries surveys or observations and reflect the frequency of how often same species are found in same surveys. This is how species interactions are set up in the example <a href="https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2664.12238">North Sea model</a>, which comes with mizer installation. Let’s check it (we will round the values to two decimal points). The North Sea interaction matrix file is called NS_interaction and comes with mizer installation.</li>
+</ol>
+<div class="cell" data-hash="find-species-parameters_cache/html/unnamed-chunk-6_b2ba6e8ad883e251fbdcb28fd734309c">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">NS_interaction</span>, <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Sprat Sandeel N.pout Herring  Dab Whiting Sole Gurnard Plaice Haddock
+Sprat    0.73    0.03   0.06    0.27 0.36    0.27 0.30    0.18   0.37    0.08
+Sandeel  0.03    0.68   0.05    0.06 0.10    0.08 0.06    0.06   0.08    0.09
+N.pout   0.06    0.05   0.80    0.30 0.09    0.30 0.02    0.31   0.08    0.55
+Herring  0.27    0.06   0.30    0.66 0.29    0.37 0.20    0.28   0.28    0.35
+Dab      0.36    0.10   0.09    0.29 0.81    0.33 0.38    0.22   0.56    0.13
+Whiting  0.27    0.08   0.30    0.37 0.33    0.71 0.19    0.37   0.30    0.39
+Sole     0.30    0.06   0.02    0.20 0.38    0.19 0.72    0.11   0.39    0.03
+Gurnard  0.18    0.06   0.31    0.28 0.22    0.37 0.11    0.88   0.16    0.36
+Plaice   0.37    0.08   0.08    0.28 0.56    0.30 0.39    0.16   0.72    0.11
+Haddock  0.08    0.09   0.55    0.35 0.13    0.39 0.03    0.36   0.11    0.86
+Cod      0.34    0.10   0.33    0.40 0.42    0.44 0.26    0.35   0.35    0.40
+Saithe   0.02    0.02   0.29    0.13 0.03    0.10 0.01    0.12   0.03    0.26
+         Cod Saithe
+Sprat   0.34   0.02
+Sandeel 0.10   0.02
+N.pout  0.33   0.29
+Herring 0.40   0.13
+Dab     0.42   0.03
+Whiting 0.44   0.10
+Sole    0.26   0.01
+Gurnard 0.35   0.12
+Plaice  0.35   0.03
+Haddock 0.40   0.26
+Cod     0.79   0.21
+Saithe  0.21   0.66</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li><p><strong>Species diet preferences</strong> <strong>or trophic groups</strong>. Sometimes we know that certain species do not eat other species. For example, some species are strictly bentivorous or herbivorous and they never eat any other fish, not even their larvae. In other cases we might have good evidence for specific diet preferences, although ideally such evidence should come from food selection experiments and these are very rare and maybe too specific to certain conditions. It is important to know that diet contents do not necessarily reflect preferences, but realised feeding. A species might prefer to eat bananas, but if nothing else is available it will eat other fish. The species interaction matrix, if reflecting diet preferences, should reflect preferred diets, not realised diets.</p></li>
+<li>
+<p><strong>Species predator avoidance behaviour or vulnerability</strong>. Some species may be less available to other species because they are good at hiding, have spikes, or live in large schools which reduces their vulnerability to predation compared to solitary species. This could also be included in the species interaction matrix, but in the prey column.</p>
+<p>For our Curonian Lagoon example model we used existing ecological knowledge and set up species interaction matrix as follows:</p>
+</li>
+</ol>
+<div class="cell" data-hash="find-species-parameters_cache/html/unnamed-chunk-7_93a2a104cce2772d0e26dbad16943791">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">curonian_interaction</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"curonian_interaction.csv"</span><span class="op">)</span></span>
+<span><span class="va">curonian_interaction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["X"],"name":[1],"type":["chr"],"align":["left"]},{"label":["smallfish"],"name":[2],"type":["int"],"align":["right"]},{"label":["ruffe"],"name":[3],"type":["int"],"align":["right"]},{"label":["breams"],"name":[4],"type":["int"],"align":["right"]},{"label":["roach"],"name":[5],"type":["int"],"align":["right"]},{"label":["vimba"],"name":[6],"type":["int"],"align":["right"]},{"label":["carassius"],"name":[7],"type":["int"],"align":["right"]},{"label":["perch"],"name":[8],"type":["int"],"align":["right"]},{"label":["pikeperch"],"name":[9],"type":["int"],"align":["right"]},{"label":["burbot"],"name":[10],"type":["int"],"align":["right"]},{"label":["predator_fish"],"name":[11],"type":["int"],"align":["right"]}],"data":[{"1":"smallfish","2":"1","3":"1","4":"1","5":"1","6":"1","7":"1","8":"1","9":"1","10":"1","11":"1"},{"1":"ruffe","2":"1","3":"1","4":"1","5":"1","6":"1","7":"1","8":"1","9":"1","10":"1","11":"1"},{"1":"breams","2":"0","3":"0","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0"},{"1":"roach","2":"0","3":"0","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0"},{"1":"vimba","2":"0","3":"0","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0"},{"1":"carassius","2":"0","3":"0","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0"},{"1":"perch","2":"1","3":"1","4":"1","5":"1","6":"1","7":"1","8":"1","9":"1","10":"1","11":"1"},{"1":"pikeperch","2":"1","3":"1","4":"1","5":"1","6":"1","7":"1","8":"1","9":"1","10":"1","11":"1"},{"1":"burbot","2":"1","3":"1","4":"1","5":"1","6":"1","7":"1","8":"1","9":"1","10":"1","11":"1"},{"1":"predator_fish","2":"1","3":"1","4":"1","5":"1","6":"1","7":"1","8":"1","9":"1","10":"1","11":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>In our simple case the interaction matrix encodes two assumptions:</p>
+<ol type="1">
+<li><p>We assume that strictly benthivorous fish species (breams, roach, vimba, carassius) cannot eat any other fish. This is based on the available knowledge about feeding habits. The entries in the rows of the interaction matrix corresponding to these predators are set to 0 for all prey fish species.</p></li>
+<li><p>We assume that all other fish can interact with all prey, hence the interaction matrix entries are set to 1 in the corresponding rows.</p></li>
+</ol></section><section id="gear-parameters" class="level2"><h2 class="anchored" data-anchor-id="gear-parameters">Gear parameters</h2>
+<p>Because most ecosystems are fished and we are calibrating to biomasses observed under some fishing level, we usually also need to include information on fishing intensity and fishing gear.</p>
+<p>In mizer you can implement an arbitrary number of different gears, each with its own fishing effort, fishing different species with different selectivity and catchability. Gear selectivity curves can have different shapes (logistic, knife-edge and others). You can read more about this <a href="https://sizespectrum.org/mizer/reference/setFishing.html">here</a>.</p>
+<p>You provide the information about the gears in a data frame similar to the species parameter data frame. Here is the gear parameter data frame we will use initially for our Curonian Lagoon model:</p>
+<div class="cell" data-hash="find-species-parameters_cache/html/unnamed-chunk-8_1c5825285dc229b774c6d10db39516b7">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">curonian_gear_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"curonian_gear_params.csv"</span><span class="op">)</span></span>
+<span><span class="va">curonian_gear_params</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["gear"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species"],"name":[2],"type":["chr"],"align":["left"]},{"label":["sel_func"],"name":[3],"type":["chr"],"align":["left"]},{"label":["l50"],"name":[4],"type":["int"],"align":["right"]},{"label":["l25"],"name":[5],"type":["int"],"align":["right"]},{"label":["catchability"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"Main","2":"smallfish","3":"sigmoid_length","4":"30","5":"26","6":"0.0"},{"1":"Main","2":"ruffe","3":"sigmoid_length","4":"30","5":"26","6":"0.2"},{"1":"Main","2":"breams","3":"sigmoid_length","4":"30","5":"26","6":"1.0"},{"1":"Main","2":"roach","3":"sigmoid_length","4":"30","5":"26","6":"1.0"},{"1":"Main","2":"vimba","3":"sigmoid_length","4":"30","5":"26","6":"1.0"},{"1":"Main","2":"carassius","3":"sigmoid_length","4":"30","5":"26","6":"0.5"},{"1":"Main","2":"perch","3":"sigmoid_length","4":"30","5":"26","6":"1.0"},{"1":"Main","2":"pikeperch","3":"sigmoid_length","4":"30","5":"26","6":"1.0"},{"1":"Main","2":"burbot","3":"sigmoid_length","4":"30","5":"26","6":"0.5"},{"1":"Main","2":"predator_fish","3":"sigmoid_length","4":"30","5":"26","6":"0.5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>You see that we have set up only a single gear, that we call “Main”. It targets all species in our model except “smallfish”. The value “sigmoid_length” in the <code>sel_func</code> column states that we model the size selectivity of the gear by a sigmoidal curve that is specified by giving the length <code>l50</code> in cm at which 50% of the individuals are selected by the gear and the length <code>l25</code> in cm at which 25% of the individuals are selected by the gear. We have simply set <code>l50</code> to 30 and <code>l25</code> to 26 for all species. That is certainly not quite correct and we will see in a later tutorial how to tune that.</p>
+<p>The <code>catchability</code> column specifies how vulnerable the species are to commercial fishing. Some species live close to the shore or are otherwise less vulnerable to commercial fishing, so we will set their <code>catchability</code> to 0.5 or even to 0.2 for ruffe.</p>
+<p>In mizer, the fishing mortality rates at size for each gear is the product of the size-dependent selectivity, the catchability and the fishing effort. We will use the above gear with a fishing effort of 0.3, which means that the fishing mortality for the fully selected individuals for the species with highest catchability will be 0.3 per year.</p>
+</section><section id="summary" class="level2"><h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>1) Mizer can choose defaults for most species parameters. Only a species name and the asymptotic size of each species is required.</p>
+<p>2) Other important species parameters that we like to provide include the maturity size <code>w_mat</code>, the von Bertalanffy K parameter <code>k_vb</code>, the preferred predator prey mass ratio <code>beta</code> and the observed biomasses <code>biomass_observed</code>.</p>
+<p>3) The species parameters are specified in a data frame with one row for each species and one column for each species parameter. You would usually create this in a spreadsheet and save it as a .csv file, ready to be loaded into R.</p>
+<p>4) We briefly explained how mizer chooses defaults for many other parameters, often using allometric scaling assumptions.</p>
+<p>5) If predation is determined not solely by size but also by species identity, we need to specify this in the interaction matrix.</p>
+<p>6) Fishing can be set up with multiple gears, each possibly targeting multiple species. The parameters for these fishing gears are specified in a data frame with one row for each gear-species pair and one column for each parameter.</p>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp(/https:\/\/course\.mizer\.sizespectrum\.org/);
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script><script src="https://giscus.app/client.js" data-repo="sizespectrum/mizerCourse" data-repo-id="R_kgDOHlJwYg" data-category="Comments" data-category-id="DIC_kwDOHlJwYs4CP_7j" data-mapping="title" data-reactions-enabled="0" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../build/index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 2: Build</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../build/create-first-model.html" class="pagination-link">
+        <span class="nav-page-text">Create your first model</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
