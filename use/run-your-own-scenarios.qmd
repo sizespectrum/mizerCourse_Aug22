@@ -4,3 +4,26 @@ title: "Run your own scenarios"
 
 ## In preparation
 
+NOTES: 
+
+Develop your own scenarios. 
+
+Changes through time
+
+
+- Try different resource / fishing scenarios... 
+- Could talk thorugh temperature
+
+Comparison at steady state 
+
+If you do not have time series you could alternatively design a similar experiment involving scenarios that do not have time series at steady state -  just the % change by some period (drawing from lit). 
+
+For example - baseline , with catchability and Effort equal ( or F = 2 or at Fmsy) if you don’t have catch data 
+
+Increase/decrease resource 1 kappa
+Increase/decrease resource 1 lambda 
+Increase/decrease resource 2 lambda
+Increase/decrease fishing effort and/or size at selectivity 
+
+Experimental Matrix 
+

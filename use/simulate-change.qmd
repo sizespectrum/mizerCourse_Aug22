@@ -17,6 +17,55 @@ params <- getParams(sim)
 effort <- getEffort(sim)
 ```
 
+#### JULIA: REPLACING EXAMPLE BELOW WITH SIMPLER tootfish one.
+
+2.
+Incorporate fishing into model using effort and catch data 
+- baseline model 
+- Time avg Effort 
+- Time avg Catch 
+
+Or initial guesses :
+
+At Max selectivity =1
+F= E*Q
+
+E=F
+
+F/E=Q
+
+Where say F = 0.2 and E is 500 (Whatever units), Q = 0.0004
+
+
+The use effort time series (fastCalibration) to estimate catchability model with dynamic fishing turned on. Recalibrate...
+Or just tune the catchability ...
+
+Exercise examine how catch time series changes if erepro /Rmax change or other parameters -is this consistent with what you expected from the yield curves above?
+
+
+What if there was no effort data only catch ? 
+
+Try a logistic fishing with an initial value of F_init =0 and the year at which Max Catch achieved set F to Fmsy
+
+
+Optional :
+Exercise- set up a bycatch on on other the other species - follow same effort but with a lower catchability 
+Change 
+
+——————
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Species Collapse and Recovery in a Heavily Fished Multispecies System
 
 In this example we will read in the North Sea model, which consists of 12 interacting species and a background resource. All species are predators and prey since they feed according to size-based rules and they encounter each other. Fishing is assumed to be size-selective, targeting sizes above the maturity length $l_{50}$ of each species.

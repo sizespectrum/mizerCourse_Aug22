@@ -4,10 +4,26 @@ title: "Change resources"
 
 ## In preparation
 
--could add example showing changes through time - e.g. thermizer example with climate change forcing.
 
--or an example with seasonal / stochastic resource dynamics
+-simple example showing effect of two different states - e.g. change in resource slopes and intercepts on steady states?
 
--or simpler example showing effect of two different states - e.g. change in resource slopes and intercepts on steady states?
+
+NOTES: 
+3. Change Resources 
+-Plankton over time - resource_dynamics 
+
+Project the above scenario holding effort constant 
+
+Can directly use outputs of earth system models for projections (GFDL inputs - FishMIP), to easily show you what functions to work we will use 2 stylised scenarios that you can adapt and explore for your own model scenarios.
+
+If you wish to participate in FishMIP, we  provide inputs of ocean physical & bc variables to modellers.
+
+trend - X% decline per year, lambda and X% 
+
+(Add noise ?)
+
+Exercise - try creating  running your own scenarios - with and without fishing -how do changes in resource affect the catches abs biomass compared to the baseline (no change in resources scenario) . How does biomass change with & without fishing under the scenarios 
+
+
 
 

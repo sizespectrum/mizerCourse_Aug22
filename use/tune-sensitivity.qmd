@@ -86,3 +86,37 @@ plotYieldVsF(params,species="D.ele",no_steps=50,F_max=2)
 ```
 
 Next let's see what happens if we adjust the reproduction parameters.
+
+
+### Exercise
+
+Change erepro ,rmax
+How does this affect yield curves? 
+
+Change resources 
+ 
+Change selectivity - how does this affect yield  curves ?
+
+Exercise 
+Other parameters?
+
+NOTES:
+
+Incorporate fishing into model using effort and catch data 
+- baseline model 
+- Time avg Effort 
+- Time avg Catch 
+
+Or initial guesses :
+
+At Max selectivity =1
+F= E*Q
+
+E=F
+
+F/E=Q
+
+Where say F = 0.2 and E is 500 (Whatever units), Q = 0.0004
+
+
+
