@@ -51,13 +51,10 @@ Previously we assumed effort was 1 and we worked with catchability as the variab
 
 Often, we have used fishing mortality rates from stock assessment to drive changes in effort through time, assuming Q\*E = F at maximally selected sizes (as in [this](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2664.12238) paper and others). But in many cases this information is not available. It also could be misleading as those fishing mortality rates are estimated using very different single-species models (but sometimes that is the best we have to work with, and as with all of the assumptions we make the limitations just need to be clear).
 
-How do we incorporate the effort data into the model? First, we can express the effort as relative to the time-averaged values, that were used to set up the steady state. Then we have to re-arrange the data so it can be read into the *param* object.
+How do we incorporate the effort data into the model? First, we have to re-arrange the data so it can be read into the *param* object.
 
 ```{r, code_folding=TRUE}
 species_params(params)
-
-relative_effort<-dat$EffortPerArea/mean(dat$EffortPerArea)
-# side note: if time-averaged effort  is used to calibrate to steady state, it should be taken across the stable time period of the fishery
 
 effort_time <-array(c(rep(0,53),dat$EffortPerArea), dim = c(length(1950:2020),1),dimnames = list("time" = 1950:2020, "gear" = params@gear_params$gear[1]))
 
@@ -71,7 +68,9 @@ params<-setInitialValues(params,sim0)
 
 
 simf <- project(params, effort = effort_time)
+
 yieldplot<-plotYieldGear(simf)
+
 yieldcompare<-yieldplot+ geom_point(data = dat, shape = 1, size = 1, mapping = aes(x=Year, y= CatchPerArea))
 yieldcompare
 
@@ -105,13 +104,12 @@ yieldcompare2
 
 ```
 
-How do you interpret this? Remember think about the relationship between the fishing parameters in the model (e.g. F = Q*E). We didn't change these parameters, so they should be the same in both simulations and we can check them below:
+How do you interpret this? Remember think about the relationship between the fishing parameters in the model (e.g. F = Q\*E). We didn't change these parameters, so they should be the same in both simulations and we can check them below:
 
 ```{r}
 plotFMort(simf)
 plotFMort(simf2)
 ```
-
 
 #### Exercise:
 
@@ -124,7 +122,7 @@ What if there was no effort data only catch ?
 Many fisheries develop through time according to phases: an exponential growth period, following either a peak and subsequent decline and a plateau, if stocks drop below sustainable levels and management kicks in (see [here](https://www.pnas.org/doi/abs/10.1073/pnas.1820344116) for example). These different types of development can be represented by a function, *effort_dynamics*(), and can be used to help estimate the fishing parameters given the the model parameters and data you may have. This is the approach used [here](https://www.pnas.org/doi/full/10.1073/pnas.1612722114). Here, we will use this function to explore effort through time.
 
 ```{r,code_folding=TRUE}
-# move to helper_functions
+# should I move to helper_functions or leave it in?
 
 effort_dynamics<-function(effort_array, gear="longline",time=1950:2020,Fmax=1.5,steepness=0.2,midpoint=2005){
 
@@ -145,10 +143,16 @@ plot(year,neweffort,typ="l")
 
 #### Exercise
 
-What level of Fmax causes collapse? Is this consistent with the knowledge form the equilibrium yield curves (sensitivity to fishing tutorial)? What do E and Q need to be to match the data?
+What level of Fmax causes collapse? Is this consistent with the knowledge form the equilibrium yield curves (sensitivity to fishing tutorial)?
 
-Optional : Exercise- set up another gear or a bycatch on on other the other species - follow same effort but with a lower catchability
+#### Exercise
 
-### Going further
+Set up another gear or a bycatch on on other the other species - follow same effort but with a lower catchability.
 
-If you are interested in 
+### Summary
+
+\[in prep\]
+
+If you are interested in how to statistically fit models to time series data the mizerHowTo package discusses this (still in preparation).
+
+Next we will investigate dynamical changes in environment, with a focus on changes in resource abundance and size structure.
