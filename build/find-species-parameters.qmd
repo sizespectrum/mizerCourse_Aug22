@@ -3,6 +3,7 @@ title: "Finding species parameters"
 ---
 
 ```{r}
+#| message: false
 library(mizer)
 library(tidyverse)
 ```
