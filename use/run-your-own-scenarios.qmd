@@ -2,51 +2,6 @@
 title: "Run your own scenarios"
 ---
 
-## Examining changes in the community relative to an unfished state
-
-To be able to assess the wider ecosystem impacts of fishing in the community we need to understand how changes compare to an unfished state. We can use the above model unfished steady state with effort = 0 to do this combined with some functions to calculate ecological indicators.
-
-Let's compare the current size spectra (averaged over 2015-2020) to the unfished size spectra to assess whether there is any evidence of a size-structured trophic cascade due to fishing.
-
-```{r , code_folding=TRUE, eval = T, echo = T, warning=F}
-plot_relative_biomass(sim0, sim)
-```
-
-Here we can see the effect of the reduction in large sized individuals of heavily fished species on the other sizes and species in the model, relative to the unfished steady state.
-
-The abundance of some (but not all) of the smaller to medium sizes of prey are a lot higher when their larger predators are removed (note the logarithmic scale). Sprat looks to be much lower.
-
-We can do the same with Biomass to see when, if any, of the species collapse. For simplicity, we use \< 0.1 of B/B_unfished as a proxy for a reference point for population collapse. We can add other reference points to this kind of plot, for example a simple rule of thumb for B_msy could be 0.5\*B_unfished.
-
-```{r,code_folding=TRUE, eval = T, echo = F, warning=F}
-# collect the biomasses from unfish and calcualte the relative change
-B0 <- getBiomass(sim0)[idxFinalT(sim0), ]
-Brel <- melt(sweep(getBiomass(sim), 2, B0, "/"))
-plot_Brel_all<-ggplot(filter(Brel, time >= 1950))+ 
-  geom_line(aes(x=time,y=value), size = 1) + 
-  ggpubr::theme_pubr() + 
-  geom_hline(yintercept = 0.1, linetype=1, colour="red", size=0.75) +
-  geom_hline(yintercept = 0.5, linetype=1, colour="steel blue", size=0.75) +
-  facet_wrap(.~sp,scales = "free") +
-  scale_y_continuous(name = "Relative Biomass") +
-  scale_x_continuous(breaks = seq(1960,2020, length.out = 3), name = "Time")+
-  annotate("text", x = 1959, y = 0.1+0.15, label = "Blim", color = "red") +
-  annotate("text", x = 1957, y = 0.5+0.15, label = "Bmsy", color = "steel blue")
-plot_Brel_all
-Brel_select <- Brel %>%
-    filter(sp == "Sprat" & time >= 1950) %>%
-    mutate(collapsed = value < 0.1)
-ggplot(Brel_select, aes(x = time, y = value, fill = collapsed)) +
-    geom_col(position = "identity") +
-    geom_hline(yintercept = 0.1, colour = "dark grey", size = 0.75) +
-    scale_fill_manual(values = alpha(c("blue", "red"), .3)) +
-    ggpubr::theme_pubr() +
-  scale_y_continuous(name = "Relative biomass") +
-  scale_x_continuous(name = "Time") +
-  annotate("text", x = 2015, y = max(Brel_select$value), 
-             label = "Sprat", color = "black")
-```
-
 ## Projecting future recovery scenarios
 
 We may now wish to explore the potential recovery of the larger species and sizes in the system. To do this we set up another scenario, where the model starts with the last time step of the fished scenario.

@@ -339,3 +339,37 @@ matchBiomassCustom <- function (params, species = NULL)
     }
     setBevertonHolt(params)
 }
+
+####### Compare ecosystem states
+plot_relative_biomass = function(sim0, sim1, ratio = FALSE) {
+    
+    # assume sim0 is steady state, sim1 is some kind of variation such as fishing
+    # mean of last five years
+    fish_sim <- apply(N(sim1)[(dim(N(sim1))[1]-5):(dim(N(sim1))[1]),,],2:3,mean)
+    unfish_sim <- apply(N(sim0)[(dim(N(sim0))[1]-5):(dim(N(sim0))[1]),,],2:3,mean)
+    
+    if (ratio) {
+        relative_n <- melt(fish_sim/unfish_sim) # Julia's original calculation
+    } else {
+        relative_n <- melt((fish_sim - unfish_sim) / (fish_sim + unfish_sim)) # Gustav's suggested calculation
+    }
+    colnames(relative_n)[1] <- "Species"
+    legend_levels <- intersect(names(sim0@params@linecolour), relative_n$Species)
+    p <- ggplot(relative_n) +
+        geom_line(aes(x = w, y = value, colour = Species), size = 1) +
+        scale_x_continuous(trans = "log10", name = "Weight [g]") +
+        scale_color_manual(values = sim0@params@linecolour[legend_levels]) +
+        theme(legend.key = element_rect(fill = "white"))
+    
+    if (ratio == T) {
+        p = p + scale_y_continuous(trans = "log10") +
+            geom_hline(yintercept = 1, linetype = 1, colour="dark grey", size=0.75) +
+            labs(y="Relative abundance")
+    } else {
+        p = p + geom_hline(yintercept = 0, linetype = 1, colour="dark grey", size=0.75) +
+            labs(y="Relative difference")
+    }
+    
+    print(p)
+    
+}
