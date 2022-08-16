@@ -23,9 +23,7 @@ We will start with a new example model, a preliminary model for the Heard and Mc
 
 The model has been calibrated using time-averaged data to achieve coexistence and a steady state. This followed a similar approach as the one you used last week. Feel free to use this model, the Curonian Lagoon model, or your own model in the scenarios you develop later on.
 
-\[***Julia: OR JUST USE CURONIAN LAGOON??not sure I can do the fishing as quickly as we would need!!*** \]
-
-First, let's read in the param object for this model, which contains the steady state information. The file is called *params10.rmd*, showing there was already a an iterative process involved with checking, refining , re-calibrating and re-checking the model, using time-averaged biomass data and the diagnostic plots below. \*\*\* THESE NOT THE MOST RECENT PARAMS
+First, let's read in the param object for this model, which contains the steady state information. The file is called *params10.rmd*, showing there was already an iterative process involved with checking, refining , re-calibrating and re-checking the model, using time-averaged biomass data and the diagnostic plots below.
 
 ```{r}
 sim <- readRDS("toothfish/params10.RDS")
@@ -50,7 +48,7 @@ For this model, we had the following main criteria for our project:
 
 -   Recruitment parameters ensured single-species yield curves were dome-shaped, as expected by theory.
 
--   The modeled catches through time captured teh trends in the reported catches trhough time.
+-   The modeled catches through time captured the trends in the reported catches through time.
 
 We can see from these plots that we still have a lot more work to do with refining the model! The size at age for some species seem much higher than the empirical parameters, feeding level of near satiation for all species and the biomass of some species is much higher than the data. Let's set some of those issues aside for now.
 

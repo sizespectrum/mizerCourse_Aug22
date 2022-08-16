@@ -47,16 +47,16 @@ ggplot(plot_dat, aes(x = Year, y = value)) +
 
 We can see from the data that there have been big changes in effort and catches through time. The three plots show effort in units of number of hooks, catches are in tonnes, and the final plot shows how the area of the fishing activity has expanded through time.
 
-Previously we assumed effort was 1 and we worked with catchability as the variable. Real effort data can come in all sorts of different units (hours or days fished, kilowatt days, number of vessels all per unit time). The key to using this in our model is that the catchability is the fraction of the available (that is also selected by the gear) stock caught per unit of any effort that is included.
+Previously we assumed effort was 1 and we worked with catchability as the variable. \*\*\* WHAT WAS USED HERE\*\*\* Real effort data can come in all sorts of different units (hours or days fished, kilowatt days, number of vessels all per unit time). The key to using this in our model is that the catchability is the fraction of the available (that is also selected by the gear) stock caught per unit of any effort that is included.
 
 Often, we have used fishing mortality rates from stock assessment to drive changes in effort through time, assuming Q\*E = F at maximally selected sizes (as in [this](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2664.12238) paper and others). But in many cases this information is not available. It also could be misleading as those fishing mortality rates are estimated using very different single-species models (but sometimes that is the best we have to work with, and as with all of the assumptions we make the limitations just need to be clear).
 
-How do we incorporate the effort data into the model? First, we can express the effort as relative to the time-averaged values, that were used to set up the steady state. Then we have to re-arrange the data so it can be read into the *param* object.
+How do we incorporate the effort data into the model? First, we have to re-arrange the data so it can be read into the *param* object.
 
 ```{r, code_folding=TRUE}
 species_params(params)
 
-relative_effort<-dat$EffortPerArea/mean(dat$EffortPerArea)
+#relative_effort<-dat$EffortPerArea/mean(dat$EffortPerArea)
 # side note: if time-averaged effort  is used to calibrate to steady state, it should be taken across the stable time period of the fishery
 
 effort_time <-array(c(rep(0,53),dat$EffortPerArea), dim = c(length(1950:2020),1),dimnames = list("time" = 1950:2020, "gear" = params@gear_params$gear[1]))
@@ -71,7 +71,9 @@ params<-setInitialValues(params,sim0)
 
 
 simf <- project(params, effort = effort_time)
+
 yieldplot<-plotYieldGear(simf)
+
 yieldcompare<-yieldplot+ geom_point(data = dat, shape = 1, size = 1, mapping = aes(x=Year, y= CatchPerArea))
 yieldcompare
 
@@ -105,13 +107,12 @@ yieldcompare2
 
 ```
 
-How do you interpret this? Remember think about the relationship between the fishing parameters in the model (e.g. F = Q*E). We didn't change these parameters, so they should be the same in both simulations and we can check them below:
+How do you interpret this? Remember think about the relationship between the fishing parameters in the model (e.g. F = Q\*E). We didn't change these parameters, so they should be the same in both simulations and we can check them below:
 
 ```{r}
 plotFMort(simf)
 plotFMort(simf2)
 ```
-
 
 #### Exercise:
 
@@ -145,10 +146,10 @@ plot(year,neweffort,typ="l")
 
 #### Exercise
 
-What level of Fmax causes collapse? Is this consistent with the knowledge form the equilibrium yield curves (sensitivity to fishing tutorial)? What do E and Q need to be to match the data?
+What level of Fmax causes collapse? Is this consistent with the knowledge form the equilibrium yield curves (sensitivity to fishing tutorial)?
 
-Optional : Exercise- set up another gear or a bycatch on on other the other species - follow same effort but with a lower catchability
+Optional: Exercise- set up another gear or a bycatch on on other the other species - follow same effort but with a lower catchability
 
 ### Going further
 
-If you are interested in 
+If you are interested in how to statistically fit models to time series data the mizerHowTo package discusses this (still in preparation).
