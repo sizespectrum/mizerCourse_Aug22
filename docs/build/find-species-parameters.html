@@ -306,7 +306,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
-</header><div class="cell" data-hash="find-species-parameters_cache/html/unnamed-chunk-1_118d5dbe68a926724e7da3928eabc0c1">
+</header><div class="cell" data-hash="find-species-parameters_cache/html/unnamed-chunk-1_9b5ee041d79c012001b40bfa762bdbde">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sizespectrum.org/mizer/">mizer</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -506,7 +506,7 @@ How to get observed biomasses
 </div>
 <ol start="6" type="1">
 <li><p>Fisheries <strong>yields</strong> in terms of total average yearly catches for each species in grams in <code>yield_observed</code>. While these are not used directly by mizer to set up the model, mizer can display this information in graphs that you can use to calibrate the model manually. We will discuss this in the <a href="../build/refine-model.html">Refine your model</a> tutorial.</p></li>
-<li><p>Species <strong>length-weight conversion</strong> coefficients <code>a</code> and <code>b</code>. The length <code>l</code> in cm and the weight <code>w</code> in grams of an average individual are related as: <span class="math display"> = a \cdot l^b</span> For many species the length-weight conversion coefficients <span class="math inline">a</span> and <span class="math inline">b</span> are available on FishBase. These coefficients are needed if maximum or maturation body size are provided in length or if we estimate <code>h</code> from Von Bertalanffy <code>v_bk</code>. If you do not provide values, mizer will assume <span class="math inline">a = 0.01\ \mathrm{g/cm}^{-3}</span> and <span class="math inline">b = 3</span>. For the Curonian Lagoon model we have taken values from FishBase. :::</p></li>
+<li><p>Species <strong>length-weight conversion</strong> coefficients <code>a</code> and <code>b</code>. The length <code>l</code> in cm and the weight <code>w</code> in grams of an average individual are related as: <span class="math display">w = a \cdot l^b</span> For many species the length-weight conversion coefficients <span class="math inline">a</span> and <span class="math inline">b</span> are available on FishBase. These coefficients are needed if maximum or maturation body size are provided in length or if we estimate <code>h</code> from Von Bertalanffy <code>v_bk</code>. If you do not provide values, mizer will assume <span class="math inline">a = 0.01\ \mathrm{g/cm}^{-3}</span> and <span class="math inline">b = 3</span>. For the Curonian Lagoon model we have taken values from FishBase.</p></li>
 </ol>
 <p>We have included another column in our species parameter frame that mizer ignores: <code>resilience</code>. This is just information for ourselves that we will use when we calibrate the sensitivity of species to change in week 3. You can have an arbitrary number of additional columns that contain information meaningful to you but ignored by mizer.</p>
 </section><section id="default-parameters" class="level2"><h2 class="anchored" data-anchor-id="default-parameters">Default parameters</h2>
@@ -544,12 +544,12 @@ Important
 <p>If you want to change the default values for any of these parameters for any of the species, you just need to add a corresponding column to your species parameter data frame. You can put <code>NA</code> into those columns for the species where you want mizer to keep the default.</p>
 </section><section id="exercise-collecting-species-parameters-from-fishbase" class="level2"><h2 class="anchored" data-anchor-id="exercise-collecting-species-parameters-from-fishbase">Exercise: collecting species parameters from FishBase</h2>
 <p>Our species parameter file is missing some parameters for roach (<em>Rutillus rutillus</em>). This is actually the most abundant species in the ecosystem. Your goal in this exercise is to find good values for the missing parameters for roach. We suggest that you use FishBase, where many modellers get their species parameters.</p>
-<p>In this exercise please open the <strong>curonian_species_params_exercise.csv</strong> file, go to FishBase, use the knowledge you gained so far and:</p>
-<p>1) Fill the NA values for roach</p>
+<p>In your worksheet repository for this week you will find the spreadsheet file <strong>curonian_species_params.csv</strong> file. Open this in your favourite spreadsheet programme or editor. Then go to FishBase, use the knowledge you gained so far and:</p>
+<p>1) Fill the NA values for roach.</p>
 <p>2) Look up values for breams and see if you agree with our selection of parameter values. You can overwrite our values with your values. This will be your species parameter file.</p>
 <p><strong>Important!</strong> Make sure you check all the different sources of information that FishBase has. Scroll all the way down to “More information” section and explore Length-weight, Fecundity, Age/size, Food items, Diet and especially Growth sections.</p>
-<p>Please commit this .csv file and push it to GitHub (just select the file as you selected other modified files). You will use the parameters that you found in the next tutorial.</p>
-<p>Here is a short video on exploring species parameters on FishBase</p>
+<p>Please commit the completed curonian_species_params.csv file to your worksheet repository and push it to GitHub (just select the file as you selected other modified files). You will be using that file again in the exercise in the next tutorial.</p>
+<p>Here is a short video on exploring species parameters on FishBase:</p>
 <div class="cell" data-hash="find-species-parameters_cache/html/unnamed-chunk-5_aaecaa6cd4bbde95661cc56e8d0ba9c3">
 <div class="cell-output-display">
 <div class="vembedr" align="center">

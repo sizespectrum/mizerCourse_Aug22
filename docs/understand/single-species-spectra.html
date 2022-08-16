@@ -113,7 +113,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit"
   }
-}</script><script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script><script>document.addEventListener("DOMContentLoaded", function () {
+}</script><link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script><script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script><script>document.addEventListener("DOMContentLoaded", function () {
  var mathElements = document.getElementsByClassName("math");
  var macros = [];
  for (var i = 0; i < mathElements.length; i++) {
@@ -565,7 +566,7 @@ Coefficients:
               2.113                0.750  </code></pre>
 </div>
 </div>
-<p>The slope of the line is indeed <span class="math inline">0.75 = 3/4</span>. In fact, the above shows that for juveniles <span class="math display">\log(g(w)) = 2.113 + \frac34 \log(w)</span> and thus <span class="math display">g(w) = g_0\ w^p = 2.113\  w^{3/4}.</span></p>
+<p>The slope of the line is indeed <span class="math inline">0.75 = 3/4</span>. In fact, the above shows that for juveniles <span class="math display">\log(g(w)) = 2.113 + \frac34 \log(w)</span> and thus <span class="math display">g(w) = g_0\ w^p = \exp(2.113)\  w^{3/4}.</span></p>
 <p>Of course in a real model, the growth rate would not so exactly follow a power law, because growth rate would vary depending on food availability, for example. In this example food is the background resource and its abundance is fixed, so food abundance does not vary.</p>
 <div class="callout-caution callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
