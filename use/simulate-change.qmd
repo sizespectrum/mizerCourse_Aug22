@@ -20,79 +20,112 @@ source("helper_functions.R")
 
 ```
 
-In the previous tutorials we have been focussed on the steady state. Now we are ready to make changes through time by forcing the model away from its steady state. For this example, will start with the toothfish model but as always you can you your own model or the curonian lagoon for the exercises.
+In the previous tutorials we have been focused on the steady state. Now we are ready to make changes through time by forcing the model away from its steady state. For this example, will start with the toothfish model but as always you can you your own model or the curonian lagoon for the exercises.
 
-In the previous tutorial, we examined a simple longline fishery that consists of targeting a single species (toothfish, otherwise known as D.ele). However, all of the parameters for fishing were fixed through time. Mizer can also be used to carry out projections with changes in fishing effort.
+### Fishing through time
+
+In the previous tutorial, we examined a simple longline fishery that consists of targeting a single species (toothfish, here referred to as *D.ele*). However, all of the parameters for fishing were fixed through time. Mizer can also be used to carry out projections with changes in fishing effort.
 
 We will start by reading in a time series of catch and effort.
 
-```{r}
+```{r, code_folding=TRUE}
 # read in model sim object
 sim <- readRDS("toothfish/params10.RDS")
 params <- sim@params
 
-# read in data - CHECK SHARING AGREEMENT!!   
-dat<-readRDS("toothfish/catch_effort.rds")
-plot_dat <- reshape2::melt(dat, "Year")
+# read in fishing data (note: these are not really correct values, they are only for illustration in this example) 
 
+dat<-readRDS("toothfish/longline.rds")
+
+plot_dat <- reshape2::melt(dat, "Year")
 ggplot(plot_dat, aes(x = Year, y = value)) +
   geom_point() +
   facet_wrap(~variable, nrow = 2, scales = "free")
 
-dat$Effort_km2<-dat$Effort/dat$area_km
-dat$CatchT_km2<-dat$CatchT/dat$area_km
 
 ```
 
 We can see from the data that there have been big changes in effort and catches through time. The three plots show effort in units of number of hooks, catches are in tonnes, and the final plot shows how the area of the fishing activity has expanded through time.
 
-Previously we assumed effort was 1 and we worked with catchability as the variable. Real effort data come in all sorts of different units (hours or days fished, kilowatt days, number of vessels all per unit time). The key to using this in our model is that the catchability is the fraction of the available (that is also selected by the gear) stock caught per unit of any effort that is included.
+Previously we assumed effort was 1 and we worked with catchability as the variable. Real effort data can come in all sorts of different units (hours or days fished, kilowatt days, number of vessels all per unit time). The key to using this in our model is that the catchability is the fraction of the available (that is also selected by the gear) stock caught per unit of any effort that is included.
 
-Often, we have used fishing mortality rates from stock assessment to drive changes in effort through time, assuming Q\*E = F at maximally selected sizes. But in many cases this information is not available. It also could be misleading as fishing mortality rates are estimated using single-species models (but sometimes that is the best we have to work with).
+Often, we have used fishing mortality rates from stock assessment to drive changes in effort through time, assuming Q\*E = F at maximally selected sizes (as in [this](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2664.12238) paper and others). But in many cases this information is not available. It also could be misleading as those fishing mortality rates are estimated using very different single-species models (but sometimes that is the best we have to work with, and as with all of the assumptions we make the limitations just need to be clear).
 
 How do we incorporate the effort data into the model? First, we can express the effort as relative to the time-averaged values, that were used to set up the steady state. Then we have to re-arrange the data so it can be read into the *param* object.
 
-```{r}
+```{r, code_folding=TRUE}
 species_params(params)
-params <- setBevertonHolt(params, reproduction_level = 0.85)
-dat$relative_effort<-dat$Effort/max(dat$Effort)
 
-effort_time <-array(c(rep(0,53),relative_effort), dim = c(length(1950:2020),1),dimnames = list("time" = 1950:2020, "gear" = params@gear_params$gear[1]))
+relative_effort<-dat$EffortPerArea/mean(dat$EffortPerArea)
+# side note: if time-averaged effort  is used to calibrate to steady state, it should be taken across the stable time period of the fishery
 
-
-
+effort_time <-array(c(rep(0,53),dat$EffortPerArea), dim = c(length(1950:2020),1),dimnames = list("time" = 1950:2020, "gear" = params@gear_params$gear[1]))
 
 ```
 
-Next we use the effort data to project the model forwards from it's steady state. But wait - we did not set up the model for the first year of the data, when fishing only just began. It may make more sense to use the steady state without any fishing as initial values.
+Next we use the effort data to project the model forwards from it's steady state. But wait - we did not set up the model for the first year of the data, when fishing only just began. It may make more sense to use a steady state without fishing as the initial values for our projection.
 
-```{r}
+```{r, code_folding=TRUE}
 sim0 <- projectToSteady(params, effort = 0, return_sim = TRUE, t_max = 200)
 params<-setInitialValues(params,sim0)
 
 
-simf <- project(params, effort = effort_time*100)
-plotYieldGear(simf)
-plotBiomass(simf)
+simf <- project(params, effort = effort_time)
+yieldplot<-plotYieldGear(simf)
+yieldcompare<-yieldplot+ geom_point(data = dat, shape = 1, size = 1, mapping = aes(x=Year, y= CatchPerArea))
+yieldcompare
 
-
-obsYield<-getYield(sim)[,]
-obsYield[,1]<-dat$CatchT
-obsY <-reshape2::melt(obsYield[,])
-names(obsY)<-c("time","sp","value")
-plotFittedTime(sim,obsY,plotSpecies = "D.ele",startyr = 1950,endyr = 2020)
 
 ```
 
-Exercise to examine how catch time series changes if erepro /Rmax change or other parameters -is this consistent with what you expected from the yield curves in the previous tutorial? What makes toothfish collapse?
+Here we can see that the modeled catch time series fall within the scatter of the observed catch data (reassuring), but the trends are different. It seems there is a sharp decline in modeled catches towards the end of the time series. While we should not expect the exact up and down fluctuations to be captured by our model (we don't have anything forcing the changes through time other than fishing!), we can examine how changing the reproduction parameters affects how well the model captures stock decline (and later, recovery), relative to the trends in the data.
 
-#### Catch only exploration
+We can look at this below by changing the reproduction level and seeing what the levels of sustainable fishing mortality the equilibrium yield vs F curves suggest for different assumptions (where the peak occurs we could consider a proxy for single-species *Fmsy*) .
+
+```{r,code_folding=T}
+params2<- setBevertonHolt(params, reproduction_level = 0.2)
+
+sim02 <- projectToSteady(params2, effort = 0, return_sim = TRUE, t_max = 200)
+
+plotYieldVsF(params2,species="D.ele")
+plotYieldVsF(params,species="D.ele")
+```
+
+Next, let's compare what happens when when use these new parameter in our dynamical fishing runs.
+
+```{r}
+params2<-setInitialValues(params2,sim02)
+simf2 <- project(params2, effort = effort_time)
+
+yieldplot2<-plotYieldGear(simf2)
+
+yieldcompare2<-yieldplot2+ geom_point(data = dat, shape = 1, size = 1, mapping = aes(x=Year, y= CatchPerArea))
+yieldcompare2
+
+
+```
+
+How do you interpret this? Remember think about the relationship between the fishing parameters in the model (e.g. F = Q*E). We didn't change these parameters, so they should be the same in both simulations and we can check them below:
+
+```{r}
+plotFMort(simf)
+plotFMort(simf2)
+```
+
+
+#### Exercise:
+
+Examine how catch time series changes relative to the data if the reproduction parameters change. Is this consistent with what you expected from the steady state yield curves? How do the biomasses change under these different scenarios?
+
+### Catch only exploration
 
 What if there was no effort data only catch ?
 
 Many fisheries develop through time according to phases: an exponential growth period, following either a peak and subsequent decline and a plateau, if stocks drop below sustainable levels and management kicks in (see [here](https://www.pnas.org/doi/abs/10.1073/pnas.1820344116) for example). These different types of development can be represented by a function, *effort_dynamics*(), and can be used to help estimate the fishing parameters given the the model parameters and data you may have. This is the approach used [here](https://www.pnas.org/doi/full/10.1073/pnas.1612722114). Here, we will use this function to explore effort through time.
 
-```{r}
+```{r,code_folding=TRUE}
+# move to helper_functions
+
 effort_dynamics<-function(effort_array, gear="longline",time=1950:2020,Fmax=1.5,steepness=0.2,midpoint=2005){
 
 effort_array[,gear]<-Fmax/(1+ exp(-steepness*(time - midpoint)))
@@ -101,221 +134,21 @@ return(effort_array)
 }
 
 neweffort<-effort_dynamics(effort_time,Fmax=2.0,steepness=0.2,midpoint=2003)
+
+# to scale this up to the effort and catchability we used in our model we can multiply by initial effort 
+
+neweffort<-neweffort*sim@params@initial_effort
+
 year=1950:2020
 plot(year,neweffort,typ="l")
 ```
 
+#### Exercise
 
-
-effort_time2\<-effort_time yr\<-1950:2020 effort_time2\[,1\]\<-(1.5/(1+ exp(-0.5\*(yr-2003)))) plot(effort_time2,typ="l")
-
-Exercise: what does the F and Q need to be to match the data?
+What level of Fmax causes collapse? Is this consistent with the knowledge form the equilibrium yield curves (sensitivity to fishing tutorial)? What do E and Q need to be to match the data?
 
 Optional : Exercise- set up another gear or a bycatch on on other the other species - follow same effort but with a lower catchability
 
-------------------
+### Going further
 
-## Species Collapse and Recovery in a Heavily Fished Multispecies System
-
-In this example we will read in the North Sea model, which consists of 12 interacting species and a background resource. All species are predators and prey since they feed according to size-based rules and they encounter each other. Fishing is assumed to be size-selective, targeting sizes above the maturity length $l_{50}$ of each species.
-
-First let's take a look at what the model has used in the historical period. These are fishing mortality rates derived from ICES stock assessments.
-
-```{r, echo = F, warning= F}
-plot_dat <- melt(getEffort(sim))  %>% filter(time >= 1980)
-colnames(plot_dat)[2] <- "Species"
-legend_levels <- intersect(names(sim@params@linecolour), plot_dat$Species)
-ggplot(plot_dat) + 
-geom_line(aes(x = time, y = value, colour = Species), size = 1) + 
-  scale_x_continuous(name = "Year") +
-  scale_y_continuous(name = "Effort") +
-  scale_color_manual(values = sim@params@linecolour[legend_levels]) +
-  theme(legend.key = element_rect(fill = "white"))
-```
-
-The species' maximum fishing mortality rates (which we call for convenience effort) for Cod and Saithe have declined but are not as low as what would be in line with single-species "Fmsy" (a reference level of fishing deemed sustainable from single-species stock assessments, commonly assumed to be around 0.2) and the fishing mortality rate for Sprat and Dab is very high.
-
-Then you can take a look at how the modelled species biomasses change through time by running the following:
-
-```{r}
-plotlyBiomass(sim, start_time = 1950, end_time = 2018)
-# size spectra averaged for the final 5 years
-plotlySpectra(sim,time_range = c(2015:2018),power=2)
-```
-
-## Examining changes in the community relative to an unfished state
-
-To be able to examine any changes in the community relative to an unfished state we can re-set effort = 0 and calculate the steady state.
-
-```{r, eval = T, warning=F, message=F}
-sim0 <- projectToSteady(params, effort = 0, return_sim = TRUE, t_max = 200)
-```
-
-```{r, warning=F}
-plotlyBiomass(sim0)
-```
-
-We can compare the current size spectra (averaged over 2015-2019) to the unfished size spectra to assess whether there is any evidence of a size-structured trophic cascade due to fishing.
-
-```{r , code_folding=TRUE, eval = T, echo = T, warning=F}
-plot_relative_biomass(sim0, sim)
-```
-
-Here we can see the effect of the reduction in large sized individuals of heavily fished species on the other sizes and species in the model, relative to the unfished steady state.
-
-The abundance of some (but not all) of the smaller to medium sizes of prey are a lot higher when their larger predators are removed (note the logarithmic scale). Sprat looks to be much lower.
-
-We can do the same with Biomass to see when, if any, of the species collapse. For simplicity, we use \< 0.1 of B/B_unfished as a proxy for a reference point for population collapse. We can add other reference points to this kind of plot, for example a simple rule of thumb for B_msy could be 0.5\*B_unfished.
-
-```{r,code_folding=TRUE, eval = T, echo = F, warning=F}
-# collect the biomasses from unfish and calcualte the relative change
-B0 <- getBiomass(sim0)[idxFinalT(sim0), ]
-Brel <- melt(sweep(getBiomass(sim), 2, B0, "/"))
-plot_Brel_all<-ggplot(filter(Brel, time >= 1950))+ 
-  geom_line(aes(x=time,y=value), size = 1) + 
-  ggpubr::theme_pubr() + 
-  geom_hline(yintercept = 0.1, linetype=1, colour="red", size=0.75) +
-  geom_hline(yintercept = 0.5, linetype=1, colour="steel blue", size=0.75) +
-  facet_wrap(.~sp,scales = "free") +
-  scale_y_continuous(name = "Relative Biomass") +
-  scale_x_continuous(breaks = seq(1960,2020, length.out = 3), name = "Time")+
-  annotate("text", x = 1959, y = 0.1+0.15, label = "Blim", color = "red") +
-  annotate("text", x = 1957, y = 0.5+0.15, label = "Bmsy", color = "steel blue")
-plot_Brel_all
-Brel_select <- Brel %>%
-    filter(sp == "Sprat" & time >= 1950) %>%
-    mutate(collapsed = value < 0.1)
-ggplot(Brel_select, aes(x = time, y = value, fill = collapsed)) +
-    geom_col(position = "identity") +
-    geom_hline(yintercept = 0.1, colour = "dark grey", size = 0.75) +
-    scale_fill_manual(values = alpha(c("blue", "red"), .3)) +
-    ggpubr::theme_pubr() +
-  scale_y_continuous(name = "Relative biomass") +
-  scale_x_continuous(name = "Time") +
-  annotate("text", x = 2015, y = max(Brel_select$value), 
-             label = "Sprat", color = "black")
-```
-
-## Projecting future recovery scenarios
-
-We may now wish to explore the potential recovery of the larger species and sizes in the system. To do this we set up another scenario, where the model starts with the last time step of the fished scenario.
-
-The effort values in 2018 were
-
-```{r, echo= FALSE}
-current_effort <- getEffort(sim)["2018", ]
-knitr::kable(t(current_effort), caption = "Current effort",)
-```
-
-Let's start a new simulation that begins with the effort from 2018 and projects forward for 50 years. We will apply a linear reduction in effort for a selected species to a target value (here assumed for simplicity to be 0.2 with effort expressed in terms of the species' fishing mortality rate for fully selected sizes).
-
-To do this we need to work with the effort array (time x gear) to enable changes in effort through time, for this scenario. Here we have a 'gear' for each species, since effort in this case were annual single-species fishing mortality estimates.
-
-```{r, echo = FALSE}
-sim_status_quo<-project(params,initial_n = sim@n["2018",,], initial_n_pp = sim@n_pp["2018",],effort=current_effort,t_max = 50)
-proj_effort <- matrix(current_effort, nrow = 51, ncol = 12, byrow = TRUE)
-dimnames(proj_effort) <- list(time = 2019:2069,
-                              gear = unique(gear_params(params)$gear))
-target<-0.2
-select_species="Sprat"
-# reach target by 10 years
-proj_effort[1:10, select_species] <- 
-    seq(from = proj_effort[1, select_species], to = target, length = 10)
-# then hold at target
-proj_effort[11:51, select_species] <- target
-# check it
-proj_effortDf <- data.frame("Time" = rownames(proj_effort), "Effort" = proj_effort[,select_species])
-proj_effortDf_short <- proj_effortDf[c(1:13,49:51),] # looks nicer but keeping long version
-flextable::regulartable(proj_effortDf_short) %>% flextable::set_caption("Projected effort on Sprat")
-# run the simulation forward, using the 2018 abundances as initial values
-params_status_quo <- setInitialValues(params, sim)
-sim_scen <- project(params_status_quo, effort = proj_effort, t_max = 50)
-# plot change in biomass relative to 2018 values
-B_current <- getBiomass(sim_scen)[1, ]
-Brel_scen <- melt(sweep(getBiomass(sim_scen), 2, B_current, "/"))
-colnames(Brel_scen)[2] <- "Species"
-legend_levels <- intersect(names(sim_scen@params@linecolour), Brel_scen$Species)
-ggplot(Brel_scen) + 
-  geom_line(aes(x = time,y = value,color = Species), size = 1) + 
-  geom_hline(yintercept = 1, linetype = 1, colour = "grey", size = 0.75) +
-  scale_y_continuous(name = "Relative biomass") +
-  scale_color_manual(values = sim@params@linecolour[legend_levels]) +
-  theme(legend.key = element_rect(fill = "white"))
-```
-
-We can see that when we reduce fishing on Sprat it increases the biomass of this species but also affects the biomass of other species in the community.
-
-Are any species collapsed still?
-
-```{r, echo = FALSE}
-Brel_ref <- Brel_scen  %>% mutate(collapsed = value < 0.1)
-plot_Brel_all<-ggplot(Brel_ref)+ 
-  geom_line(aes(x=time,y=value), size = 1) + 
-  ggpubr::theme_pubr() + 
-  geom_hline(yintercept = 0.1, linetype=1, colour="red", size=0.75) +
-  geom_hline(yintercept = 0.5, linetype=1, colour="steel blue", size=0.75) +
-  facet_wrap(.~Species,scales = "free") +
-  scale_y_continuous(name = "Relative Biomass") +
-  scale_x_continuous(breaks = seq(2020,2060, length.out = 3), name = "Time")+
-  annotate("text", x = 2027, y = 0.1+0.15, label = "Blim", color = "red") +
-  annotate("text", x = 2025, y = 0.5+0.15, label = "Bmsy", color = "steel blue")
-plot_Brel_all
-```
-
-## Example 2: Set up your own fishing scenario
-
-Rather than an entire time-series, we can also simply examine differences between two time-averaged states under different fishing regimes.
-
-We can alter the fishing parameters using a function called *gear_params()* and by changing the *effort* input.
-
-Let's take a look at the fishing parameters. Note that the gears in the above model were already setup to be species-specific.
-
-```{r, echo = FALSE}
-knitr::kable(gear_params(params), caption = "gear parameters",row.names = F)
-```
-
-We can group these species together according to the gears they are caught by. Let's imagine a big super trawler.
-
-```{r}
-# allocate species to gear types
-gear_params(params)$gear <- c("super_trawler")
-```
-
-Note that catchability is set to 1. This is because the fishing "effort" was here assumed to be the fishing mortality rate of fully selected sizes (see here [setFishing](https://sizespectrum.org/mizer/reference/setFishing.html?q=set%20fishing)).
-
-The previous effort won't work with these new gears, as it is gear x time. We only have a single gear now, so this is easier to set up.
-
-```{r}
-params <- setFishing(params, initial_effort = 1)
-```
-
-Now let's run two simulations, one with light fishing effort (effort = 0.5) and one heavely fished (effort = 1.5).
-
-```{r}
-sim_light <- project(params, effort = .5, t_max = 100)
-sim_heavy <- project(params, effort = 1.5, t_max = 100)
-```
-
-```{r, warning=F}
-plot_relative_biomass(sim_light,sim_heavy)
-```
-
-As we saw before large individuals are the most affected by the high fishing effort. This create a trophic cascade where smaller individuals, even if they are affected by the same fishing effort, will increase in abundance due to the release in predation from larger individuals.
-
-We can also extract the species biomasses:
-
-```{r}
-biomass<-rbind(getBiomass(sim_light)[100,],getBiomass(sim_heavy)[100,])
-row.names(biomass)<-c("light","heavy")
-```
-
-As well as yields:
-
-```{r, warning=F}
-yield<-rbind(getYield(sim_light)[100,],getYield(sim_heavy)[100,])
-row.names(yield)<-c("light","heavy") 
-```
-
-**Exercise: Now try to edit the above code to create your own fishing scenario.**
-
-## 
+If you are interested in 
