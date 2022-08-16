@@ -113,7 +113,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit"
   }
-}</script><link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+}</script><link href="../site_libs/vembedr-0.1.5/css/vembedr.css" rel="stylesheet">
+<link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 <script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script><link rel="stylesheet" href="../styles.css">
 <meta name="twitter:title" content="mizer course - Refine model">
 <meta name="twitter:description" content="We have a basic model with two background resources. This model produces somewhat reasonable diets, reasonable growth and we also managed to fit the model to the observed average biomasses.">
@@ -436,7 +437,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cur_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mizerExperimental/man/tuneParams.html">tuneParams</a></span><span class="op">(</span><span class="va">cur_model</span>, catch <span class="op">=</span> <span class="va">catch_lengths</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note how we assign the return value from the <code><a href="https://rdrr.io/pkg/mizerExperimental/man/tuneParams.html">tuneParams()</a></code> function back to the <code>cur_model</code> variable. That way we capture the changes that we make in the gadget.</p>
-<p>Video in preparation.</p>
+<div class="cell" data-hash="refine-model_cache/html/unnamed-chunk-15_76e64520467d39dc7b1ae33d92adacd2">
+<div class="cell-output-display">
+<div class="vembedr" align="center">
+<div class="vembedr-rounded" style="border-radius: 10px;">
+<iframe src="https://www.youtube.com/embed/SdiM0Iru8GQ" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+</div>
+</div>
 <p>The <code><a href="https://rdrr.io/pkg/mizerExperimental/man/tuneParams.html">tuneParams()</a></code> gadget has a lot of useful panels and allows you to play with the parameters interactively. But most of these plots are also available as separate plot functions in mizer or in mizerExperimental.</p>
 </section><section id="exercise-use-tuneparams-gadget-to-refine-your-model" class="level2"><h2 class="anchored" data-anchor-id="exercise-use-tuneparams-gadget-to-refine-your-model">Exercise: Use tuneParams gadget to refine your model</h2>
 <p>In our video we only started refining the model by adjusting some parameters for a few species. We ask you to do something similar but for all species in order to refine the model you have built in the previous tutorial. We are very interested in seeing the model that you come up with. We will collect the models from all participants to give us an ensemble of models to use next week. Please use the worksheet “worksheet-4-refine-model.Rmd” to commit your model.</p>
