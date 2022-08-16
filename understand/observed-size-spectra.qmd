@@ -398,7 +398,7 @@ An aside: Because, while we wrote this section we got confused ourselves, let us
 
 Now if we divide the number of fish in each bin by the width of the size bin in log weight we get what we denote as the "number density in log weight". Similarly if we divide the biomass in each bin by the width of the size bin on a logarithmic axis we get the "biomass density in log weight", which is the Sheldon density. 
 
-Below we plot the number densities (in black) and the biomass densities (in black), with the solid lines the densities in weight and the dashed lines the densities in log weight, all on the same axes.
+Below we plot the number densities (in black) and the biomass densities (in blue), with the solid lines the densities in weight and the dashed lines the densities in log weight, all on the same axes.
 
 ```{r }
 # remember how we calculated densities by dividing numbers and biomasses 

@@ -258,7 +258,7 @@ gm <- lm(log(g_small_fish$value) ~ log(g_small_fish$w))
 g0 <- round(gm$coefficients[[1]], digits=3)
 ```
 
-The slope of the line is indeed $0.75 = 3/4$. In fact, the above shows that for juveniles $$\log(g(w)) = `r g0` + \frac34 \log(w)$$ and thus $$g(w) = g_0\ w^p = `r g0`\  w^{3/4}.$$
+The slope of the line is indeed $0.75 = 3/4$. In fact, the above shows that for juveniles $$\log(g(w)) = `r g0` + \frac34 \log(w)$$ and thus $$g(w) = g_0\ w^p = \exp(`r g0`)\  w^{3/4}.$$
 
 Of course in a real model, the growth rate would not so exactly follow a power law, because growth rate would vary depending on food availability, for example. In this example food is the background resource and its abundance is fixed, so food abundance does not vary.
 

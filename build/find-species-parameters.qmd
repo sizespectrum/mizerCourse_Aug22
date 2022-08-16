@@ -143,8 +143,7 @@ Observed biomasses could be derived from **scientific surveys**, **underwater su
 
 6.  Fisheries **yields** in terms of total average yearly catches for each species in grams in `yield_observed`. While these are not used directly by mizer to set up the model, mizer can display this information in graphs that you can use to calibrate the model manually. We will discuss this in the [Refine your model](refine-model.qmd) tutorial.
 
-7.  Species **length-weight conversion** coefficients `a` and `b`. The length `l` in cm and the weight `w` in grams of an average individual are related as: $$ = a \cdot l^b$$ For many species the length-weight conversion coefficients $a$ and $b$ are available on FishBase. These coefficients are needed if maximum or maturation body size are provided in length or if we estimate `h` from Von Bertalanffy `v_bk`. If you do not provide values, mizer will assume $a = 0.01\ \mathrm{g/cm}^{-3}$ and $b = 3$. For the Curonian Lagoon model we have taken values from FishBase.
-:::
+7.  Species **length-weight conversion** coefficients `a` and `b`. The length `l` in cm and the weight `w` in grams of an average individual are related as: $$w = a \cdot l^b$$ For many species the length-weight conversion coefficients $a$ and $b$ are available on FishBase. These coefficients are needed if maximum or maturation body size are provided in length or if we estimate `h` from Von Bertalanffy `v_bk`. If you do not provide values, mizer will assume $a = 0.01\ \mathrm{g/cm}^{-3}$ and $b = 3$. For the Curonian Lagoon model we have taken values from FishBase.
 
 We have included another column in our species parameter frame that mizer ignores: `resilience`. This is just information for ourselves that we will use when we calibrate the sensitivity of species to change in week 3. You can have an arbitrary number of additional columns that contain information meaningful to you but ignored by mizer.
 
