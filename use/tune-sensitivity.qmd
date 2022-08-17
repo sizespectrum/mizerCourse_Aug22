@@ -142,6 +142,9 @@ ggplot(Brel, aes(x = row.names(Brel), y = value)) +
            show.legend = FALSE) + # Remove the legend
   xlab("Group") +
   ylab("Proportion of Unfished Biomass") 
+
+B0 <- getBiomass(sim0)
+Brel <- melt(sweep(getBiomass(sim), 2, B0, "/"))
 ```
 We can see there is very low impact on the biomass of each group, due to the very small rates of fishing mortality being inflicted on toothfish.
 
