@@ -28,7 +28,7 @@ First, let's read in the param object for this model, which contains the steady 
 ```{r}
 sim <- readRDS("toothfish/params10.RDS")
 params <- sim@params
-plotBiomassObservedVsModel(params,ratio = T)
+plotBiomassObservedVsModelCustom(params,ratio = T)
 plotGrowthCurves(sim,species_panel = T)
 plotlySpectra(sim, power = 2, total = TRUE)
 plotDiet2(sim)
@@ -50,7 +50,7 @@ For this model, we had the following main criteria for our project:
 
 -   The modeled catches through time captured the trends in the reported catches through time.
 
-We can see from these plots that we still have a lot more work to do with refining the model! The size at age for some species seem much higher than the empirical parameters, feeding level of near satiation for all species and the biomass of some species is much higher than the data. Let's set some of those issues aside for now.
+We can see from these plots that we still have more work to do with refining the model. The size at age for some species seem much higher than the empirical parameters, feeding level of near satiation for all species and the biomass of some species is much higher than the data. However size-at-age data are typically highly variable. So, let's set some of those issues aside for now.
 
 The last two of the criteria above require examining how the system reacts to changes in fishing. In the next tutorial we will look at changes though time. Here, we will examine how the reproduction parameters produce reasonable yield curves. How do we do this?
 
@@ -122,6 +122,8 @@ To be able to assess the wider ecosystem impacts of fishing in the community we 
 Let's compare the current size spectra (with fishing) to the unfished size spectra to assess whether there is any evidence of a size-structured trophic cascade due to fishing.
 
 ```{r , code_folding=TRUE, eval = T, echo = T, warning=F}
+sim0 <- projectToSteady(params, effort = 0, return_sim = TRUE, t_max = 200)
+sim <- projectToSteady(params, effort = 1, return_sim = TRUE, t_max = 200)
 plot_relative_biomass(sim0, sim)
 ```
 
@@ -133,13 +135,22 @@ We can do the same with Biomass to see when, if any, of the species collapse. Fo
 
 ```{r,code_folding=TRUE, eval = T, echo = F, warning=F}
 # collect the biomasses from unfish and calcualte the relative change
-B0 <- getBiomass(sim0)
-Brel <- melt(sweep(getBiomass(sim), 2, B0, "/"))
-plot_Brel_all<-ggplot(filter(Brel, time >= 1950))+ 
- geom_line(aes(x=time,y=value), size = 1) 
- 
+B0 <- getBiomass(sim0)[2,]
+Brel <- melt(sweep(getBiomass(sim), 2, B0, "/")[2,])
+ggplot(Brel, aes(x = row.names(Brel), y = value)) +
+  geom_bar(stat = "identity",
+           show.legend = FALSE) + # Remove the legend
+  xlab("Group") +
+  ylab("Proportion of Unfished Biomass") 
 ```
+We can see there is very low impact on the biomass of each group, due to the very small rates of fishing mortality being inflicted on toothfish.
+
 
 #### Exercise
 
+How do the biomasses change under your scenarios of fishing mortality when the reproduction level is lowered?
+
+
 ### Summary
+
+

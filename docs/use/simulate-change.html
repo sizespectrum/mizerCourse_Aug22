@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>mizer course - Using a model to explore the consequences of change</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../use/tune-sensitivity.html" rel="next">
+<link href="../use/index.html" rel="prev">
+<link href="../images/favicon-16x16.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script><link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="mizer course - Using a model to explore the consequences of change">
+<meta name="twitter:description" content="Mizer is a tool that can be used to simulate a dynamic size spectrum in an marine ecosystem, subject to changes through time, such as fishing pressure.">
+<meta name="twitter:creator" content="gustavdelius">
+<meta name="twitter:card" content="summary">
+</head>
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Using a model to explore the consequences of change</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">mizer course</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../prepare/index.html" class="sidebar-item-text sidebar-link">Prepare</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/introduce-yourself.html" class="sidebar-item-text sidebar-link">Introduce yourself</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/install-tools.html" class="sidebar-item-text sidebar-link">Install tools</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/use-git-and-github.html" class="sidebar-item-text sidebar-link">Use Git and GitHub</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../understand/index.html" class="sidebar-item-text sidebar-link">Week 1: Understand</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/observed-size-spectra.html" class="sidebar-item-text sidebar-link">Observed size spectra</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/single-species-spectra.html" class="sidebar-item-text sidebar-link">Single species spectra</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/predation-growth-and-mortality.html" class="sidebar-item-text sidebar-link">Predation, growth and mortality</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/species-interactions.html" class="sidebar-item-text sidebar-link">Species interactions</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/dynamics-of-spectra.html" class="sidebar-item-text sidebar-link">Dynamics of size spectra</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../build/index.html" class="sidebar-item-text sidebar-link">Week 2: Build</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/find-species-parameters.html" class="sidebar-item-text sidebar-link">Find species parameters</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/create-first-model.html" class="sidebar-item-text sidebar-link">Create your first model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/set-multiple-resources.html" class="sidebar-item-text sidebar-link">Set up multiple resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/refine-model.html" class="sidebar-item-text sidebar-link">Refine your model</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../use/index.html" class="sidebar-item-text sidebar-link">Week 3: Use</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/simulate-change.html" class="sidebar-item-text sidebar-link active">Tune reproduction sensitivity</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/tune-sensitivity.html" class="sidebar-item-text sidebar-link">Simulate fishing scenarios</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/change-resources.html" class="sidebar-item-text sidebar-link">Tune resource sensitivity</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/run-your-own-scenarios.html" class="sidebar-item-text sidebar-link">Simulate resource scenarios</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">Info</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../troubleshooting.html" class="sidebar-item-text sidebar-link">Troubleshooting</a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+<li><a href="#fishing-through-time" id="toc-fishing-through-time" class="nav-link" data-scroll-target="#fishing-through-time">Fishing through time</a></li>
+  <li><a href="#catch-only-exploration" id="toc-catch-only-exploration" class="nav-link" data-scroll-target="#catch-only-exploration">Catch only exploration</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul>
+</li>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sizespectrum/mizerCourse/edit/main/use/simulate-change.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sizespectrum/mizerCourse/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title d-none d-lg-block">Using a model to explore the consequences of change</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header><section id="introduction" class="level2"><h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Mizer is a tool that can be used to simulate a dynamic size spectrum in an marine ecosystem, subject to changes through time, such as fishing pressure. Multiple interacting species and fishing gears can be defined allowing for a range of fisheries management strategy scenarios, and their ecosystem impacts, to be tested.</p>
+<p>Below we explore some examples of what can be done using a previously calibrated mizer model. We will use the mizerHowTo package which contains some handy functions for this example.</p>
+<div class="cell" data-hash="simulate-change_cache/html/set-up_2ad3590d52b549421e35ef4a0cd3ae0f">
+
+</div>
+<p>In the previous tutorials we have been focused on the steady state. Now we are ready to make changes through time by forcing the model away from its steady state. For this example, will start with the toothfish model but as always you can you your own model or the curonian lagoon for the exercises.</p>
+<section id="fishing-through-time" class="level3"><h3 class="anchored" data-anchor-id="fishing-through-time">Fishing through time</h3>
+<p>In the previous tutorial, we examined a simple longline fishery that consists of targeting a single species (toothfish, here referred to as <em>D.ele</em>). However, all of the parameters for fishing were fixed through time. Mizer can also be used to carry out projections with changes in fishing effort.</p>
+<p>We will start by reading in a time series of catch and effort.</p>
+<div class="cell" data-code_folding="true" data-hash="simulate-change_cache/html/unnamed-chunk-1_5b77ae9465fde862df13eeecedf17b94">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># read in model sim object</span></span>
+<span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"toothfish/params10.RDS"</span><span class="op">)</span></span>
+<span><span class="va">params</span> <span class="op">&lt;-</span> <span class="va">sim</span><span class="op">@</span><span class="va">params</span></span>
+<span></span>
+<span><span class="co"># read in fishing data (note: these are not really correct values, they are only for illustration in this example) </span></span>
+<span></span>
+<span><span class="va">dat</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"toothfish/longline.rds"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plot_dat</span> <span class="op">&lt;-</span> <span class="fu">reshape2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/reshape2/man/melt.html">melt</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"Year"</span><span class="op">)</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">plot_dat</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Year</span>, y <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">variable</span>, nrow <span class="op">=</span> <span class="fl">2</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="simulate-change_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can see from the data that there have been big changes in effort and catches through time. The three plots show effort in units of number of hooks, catches are in tonnes, and the final plot shows how the area of the fishing activity has expanded through time.</p>
+<p>Previously we assumed effort was 1 and we worked with catchability as the variable. Real effort data can come in all sorts of different units (hours or days fished, kilowatt days, number of vessels all per unit time). The key to using this in our model is that the catchability is the fraction of the available (that is also selected by the gear) stock caught per unit of any effort that is included.</p>
+<p>Often, we have used fishing mortality rates from stock assessment to drive changes in effort through time, assuming Q*E = F at maximally selected sizes (as in <a href="https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2664.12238">this</a> paper and others). But in many cases this information is not available. It also could be misleading as those fishing mortality rates are estimated using very different single-species models (but sometimes that is the best we have to work with, and as with all of the assumptions we make the limitations just need to be clear).</p>
+<p>How do we incorporate the effort data into the model? First, we have to re-arrange the data so it can be read into the <em>param</em> object.</p>
+<div class="cell" data-code_folding="true" data-hash="simulate-change_cache/html/unnamed-chunk-2_91f80885800c1fe77fd7e1f9d563e7de">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">species_params</span><span class="op">(</span><span class="va">params</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["species"],"name":[1],"type":["chr"],"align":["left"]},{"label":["l_inf"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["l_mat"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["a"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["b"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["k_vb"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["t0"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["beta"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["sigma"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["w_inf"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["w_mat"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["biomass_observed"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["w_min"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["alpha"],"name":[14],"type":["dbl"],"align":["right"]},{"label":["interaction_resource"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[16],"type":["dbl"],"align":["right"]},{"label":["p"],"name":[17],"type":["dbl"],"align":["right"]},{"label":["q"],"name":[18],"type":["dbl"],"align":["right"]},{"label":["pred_kernel_type"],"name":[19],"type":["chr"],"align":["left"]},{"label":["h"],"name":[20],"type":["dbl"],"align":["right"]},{"label":["k"],"name":[21],"type":["dbl"],"align":["right"]},{"label":["ks"],"name":[22],"type":["dbl"],"align":["right"]},{"label":["z0"],"name":[23],"type":["dbl"],"align":["right"]},{"label":["gamma"],"name":[24],"type":["dbl"],"align":["right"]},{"label":["w_mat25"],"name":[25],"type":["dbl"],"align":["right"]},{"label":["m"],"name":[26],"type":["dbl"],"align":["right"]},{"label":["erepro"],"name":[27],"type":["dbl"],"align":["right"]},{"label":["R_max"],"name":[28],"type":["dbl"],"align":["right"]},{"label":["biomass_cutoffLow"],"name":[29],"type":["dbl"],"align":["right"]},{"label":["biomass_cutoffHigh"],"name":[30],"type":["dbl"],"align":["right"]},{"label":["yield_observed"],"name":[31],"type":["dbl"],"align":["right"]}],"data":[{"1":"D.ele","2":"215.00","3":"95.000","4":"0.006030","5":"3.180","6":"0.05000","7":"0.000","8":"100","9":"2","10":"157569.3033","11":"11734.87254","12":"24863947.8","13":"0.001","14":"0.6","15":"0.9774565","16":"0.6666667","17":"0.7","18":"0.7166667","19":"lognormal","20":"24.248224","21":"0","22":"2.1291777","23":"0.01110864","24":"2.790951e-06","25":"10513.95833","26":"1","27":"0.007744214","28":"58708.391","29":"199.2396","30":"4209.393","31":"2045102","_rn_":"D.ele"},{"1":"C.gun","2":"49.00","3":"26.000","4":"0.001285","5":"3.257","6":"0.36800","7":"0.067","8":"200","9":"2","10":"411.0283","11":"52.17606","12":"7543221.3","13":"0.001","14":"0.6","15":"0.6219654","16":"0.6666667","17":"0.7","18":"0.7166667","19":"lognormal","20":"21.420347","21":"0","22":"2.2529871","23":"0.08069761","24":"2.367621e-06","25":"46.74759","26":"1","27":"0.068515956","28":"623117.497","29":"199.2396","30":"4209.393","31":"0","_rn_":"C.gun"},{"1":"C.rhi","2":"86.80","3":"33.500","4":"0.000197","5":"3.570","6":"0.15000","7":"-0.710","8":"100","9":"2","10":"1640.5204","11":"54.81207","12":"4218500.8","13":"0.001","14":"0.6","15":"0.9133256","16":"0.6666667","17":"0.7","18":"0.7166667","19":"lognormal","20":"18.193719","21":"0","22":"1.9104698","23":"0.05087339","24":"2.294675e-06","25":"49.10934","26":"1","27":"0.065292562","28":"166139.572","29":"199.2396","30":"4209.393","31":"0","_rn_":"C.rhi"},{"1":"L.squ","2":"47.31","3":"29.000","4":"0.001800","5":"3.320","6":"0.13000","7":"0.140","8":"100","9":"2","10":"654.8115","11":"128.95371","12":"3666444.8","13":"0.001","14":"0.6","15":"0.1051315","16":"0.6666667","17":"0.7","18":"0.7166667","19":"lognormal","20":"8.317819","21":"0","22":"0.8488734","23":"0.06909487","24":"1.049081e-06","25":"115.53717","26":"1","27":"0.100489282","28":"14587468.158","29":"199.2396","30":"4209.393","31":"0","_rn_":"L.squ"},{"1":"M.cam","2":"64.30","3":"52.500","4":"0.006095","5":"2.977","6":"0.09498","7":"-1.595","8":"100","9":"2","10":"1472.3728","11":"805.17069","12":"1951617.3","13":"0.001","14":"0.6","15":"0.9419292","16":"0.6666667","17":"0.7","18":"0.7166667","19":"lognormal","20":"7.076849","21":"0","22":"0.6794512","23":"0.05274063","24":"8.925646e-07","25":"721.39949","26":"1","27":"0.229326143","28":"621642.074","29":"199.2396","30":"4209.393","31":"0","_rn_":"M.cam"},{"1":"B.eat","2":"87.90","3":"NA","4":"0.001750","5":"3.190","6":"0.50000","7":"-0.770","8":"100","9":"2","10":"2782.0348","11":"695.50870","12":"739819.2","13":"0.001","14":"0.6","15":"0.8770241","16":"0.6666667","17":"0.7","18":"0.7166667","19":"lognormal","20":"83.229856","21":"0","22":"8.0300264","23":"0.04266094","24":"1.049733e-05","25":"623.14691","26":"1","27":"0.064348370","28":"4221.885","29":"199.2396","30":"4209.393","31":"0","_rn_":"B.eat"},{"1":"B.irr","2":"132.90","3":"111.899","4":"0.003130","5":"3.110","6":"0.17000","7":"-1.740","8":"100","9":"2","10":"12580.7644","11":"7368.75024","12":"278277.2","13":"0.001","14":"0.6","15":"0.7784225","16":"0.6666667","17":"0.7","18":"0.7166667","19":"lognormal","20":"26.554470","21":"0","22":"2.3681312","23":"0.02579777","24":"3.349171e-06","25":"6602.09411","26":"1","27":"0.096241969","28":"1042.427","29":"199.2396","30":"4209.393","31":"0","_rn_":"B.irr"},{"1":"G.acu","2":"35.00","3":"NA","4":"0.006030","5":"3.250","6":"0.30000","7":"0.000","8":"100","9":"2","10":"628.8375","11":"157.20938","12":"327470.5","13":"0.001","14":"0.6","15":"0.9785166","16":"0.6666667","17":"0.7","18":"0.7166667","19":"lognormal","20":"18.779966","21":"0","22":"1.9039700","23":"0.07003338","24":"2.368615e-06","25":"140.85308","26":"1","27":"0.427544951","28":"32417.794","29":"199.2396","30":"4209.393","31":"0","_rn_":"G.acu"},{"1":"B.mur","2":"51.80","3":"46.138","4":"0.005430","5":"3.040","6":"0.31000","7":"-0.030","8":"100","9":"2","10":"883.8169","11":"621.63932","12":"109831.7","13":"0.001","14":"0.6","15":"0.9831208","16":"0.6666667","17":"0.7","18":"0.7166667","19":"lognormal","20":"14.827203","21":"0","22":"1.4358945","23":"0.06252166","24":"1.870075e-06","25":"556.96300","26":"1","27":"0.112178272","28":"14523.639","29":"199.2396","30":"4209.393","31":"0","_rn_":"B.mur"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">effort_time</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">53</span><span class="op">)</span>,<span class="va">dat</span><span class="op">$</span><span class="va">EffortPerArea</span><span class="op">)</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fl">1950</span><span class="op">:</span><span class="fl">2020</span><span class="op">)</span>,<span class="fl">1</span><span class="op">)</span>,dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"time"</span> <span class="op">=</span> <span class="fl">1950</span><span class="op">:</span><span class="fl">2020</span>, <span class="st">"gear"</span> <span class="op">=</span> <span class="va">params</span><span class="op">@</span><span class="va">gear_params</span><span class="op">$</span><span class="va">gear</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next we use the effort data to project the model forwards from it’s steady state. But wait - we did not set up the model for the first year of the data, when fishing only just began. It may make more sense to use a steady state without fishing as the initial values for our projection.</p>
+<div class="cell" data-code_folding="true" data-hash="simulate-change_cache/html/unnamed-chunk-3_67e17ce84e27ba740a571711014232cd">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim0</span> <span class="op">&lt;-</span> <span class="fu">projectToSteady</span><span class="op">(</span><span class="va">params</span>, effort <span class="op">=</span> <span class="fl">0</span>, return_sim <span class="op">=</span> <span class="cn">TRUE</span>, t_max <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 1.5 years.</code></pre>
+</div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params</span><span class="op">&lt;-</span><span class="fu">setInitialValues</span><span class="op">(</span><span class="va">params</span>,<span class="va">sim0</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">simf</span> <span class="op">&lt;-</span> <span class="fu">project</span><span class="op">(</span><span class="va">params</span>, effort <span class="op">=</span> <span class="va">effort_time</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">yieldplot</span><span class="op">&lt;-</span><span class="fu">plotYieldGear</span><span class="op">(</span><span class="va">simf</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">yieldcompare</span><span class="op">&lt;-</span><span class="va">yieldplot</span><span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat</span>, shape <span class="op">=</span> <span class="fl">1</span>, size <span class="op">=</span> <span class="fl">1</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">Year</span>, y<span class="op">=</span> <span class="va">CatchPerArea</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">yieldcompare</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="simulate-change_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here we can see that the modeled catch time series fall within the scatter of the observed catch data (reassuring), but the trends are different. It seems there is a sharp decline in modeled catches towards the end of the time series. While we should not expect the exact up and down fluctuations to be captured by our model (we don’t have anything forcing the changes through time other than fishing!), we can examine how changing the reproduction parameters affects how well the model captures stock decline (and later, recovery), relative to the trends in the data.</p>
+<p>We can look at this below by changing the reproduction level and seeing what the levels of sustainable fishing mortality the equilibrium yield vs F curves suggest for different assumptions (where the peak occurs we could consider a proxy for single-species <em>Fmsy</em>) .</p>
+<div class="cell" data-code_folding="true" data-hash="simulate-change_cache/html/unnamed-chunk-4_f699c8609d40ad59a82cd340da47467c">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params2</span><span class="op">&lt;-</span> <span class="fu">setBevertonHolt</span><span class="op">(</span><span class="va">params</span>, reproduction_level <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sim02</span> <span class="op">&lt;-</span> <span class="fu">projectToSteady</span><span class="op">(</span><span class="va">params2</span>, effort <span class="op">=</span> <span class="fl">0</span>, return_sim <span class="op">=</span> <span class="cn">TRUE</span>, t_max <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 1.5 years.</code></pre>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotYieldVsF</span><span class="op">(</span><span class="va">params2</span>,species<span class="op">=</span><span class="st">"D.ele"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 1.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 90 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 36 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 99 years. Value returned by the distance function was: 10.5521905688198</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 99 years. Value returned by the distance function was: 17.2376886919921</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 99 years. Value returned by the distance function was: 26.482467838532</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 9 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="simulate-change_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotYieldVsF</span><span class="op">(</span><span class="va">params</span>,species<span class="op">=</span><span class="st">"D.ele"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 1.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 25.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 13.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 33 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 22.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 21 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 18 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 10.5 years.
+Convergence was achieved in 10.5 years.
+Convergence was achieved in 10.5 years.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="simulate-change_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Next, let’s compare what happens when when use these new parameter in our dynamical fishing runs.</p>
+<div class="cell" data-hash="simulate-change_cache/html/unnamed-chunk-5_25d731c546c7833bf98d9c848870f574">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params2</span><span class="op">&lt;-</span><span class="fu">setInitialValues</span><span class="op">(</span><span class="va">params2</span>,<span class="va">sim02</span><span class="op">)</span></span>
+<span><span class="va">simf2</span> <span class="op">&lt;-</span> <span class="fu">project</span><span class="op">(</span><span class="va">params2</span>, effort <span class="op">=</span> <span class="va">effort_time</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">yieldplot2</span><span class="op">&lt;-</span><span class="fu">plotYieldGear</span><span class="op">(</span><span class="va">simf2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">yieldcompare2</span><span class="op">&lt;-</span><span class="va">yieldplot2</span><span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat</span>, shape <span class="op">=</span> <span class="fl">1</span>, size <span class="op">=</span> <span class="fl">1</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">Year</span>, y<span class="op">=</span> <span class="va">CatchPerArea</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">yieldcompare2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="simulate-change_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>How do you interpret this? Remember think about the relationship between the fishing parameters in the model (e.g.&nbsp;F = Q*E). We didn’t change these parameters, so they should be the same in both simulations and we can check them below:</p>
+<div class="cell" data-hash="simulate-change_cache/html/unnamed-chunk-6_88bd5c317300f3ad7e3192a3019be01c">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotFMort</span><span class="op">(</span><span class="va">simf</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="simulate-change_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotFMort</span><span class="op">(</span><span class="va">simf2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="simulate-change_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="exercise" class="level4"><h4 class="anchored" data-anchor-id="exercise">Exercise:</h4>
+<p>Examine how catch time series changes relative to the data if the reproduction parameters change. Is this consistent with what you expected from the steady state yield curves? How do the biomasses change under these different scenarios?</p>
+</section></section><section id="catch-only-exploration" class="level3"><h3 class="anchored" data-anchor-id="catch-only-exploration">Catch only exploration</h3>
+<p>What if there was no effort data only catch ?</p>
+<p>Many fisheries develop through time according to phases: an exponential growth period, following either a peak and subsequent decline and a plateau, if stocks drop below sustainable levels and management kicks in (see <a href="https://www.pnas.org/doi/abs/10.1073/pnas.1820344116">here</a> for example). These different types of development can be represented by a function, <em>effort_dynamics</em>(), and can be used to help estimate the fishing parameters given the the model parameters and data you may have. This is the approach used <a href="https://www.pnas.org/doi/full/10.1073/pnas.1612722114">here</a>. Here, we will use this function to explore effort through time.</p>
+<div class="cell" data-code_folding="true" data-hash="simulate-change_cache/html/unnamed-chunk-7_318caf2e40078917fc891ac7cdf7779a">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># should I move to helper_functions or leave it in?</span></span>
+<span></span>
+<span><span class="va">effort_dynamics</span><span class="op">&lt;-</span><span class="kw">function</span><span class="op">(</span><span class="va">effort_array</span>, <span class="va">gear</span><span class="op">=</span><span class="st">"longline"</span>,<span class="va">time</span><span class="op">=</span><span class="fl">1950</span><span class="op">:</span><span class="fl">2020</span>,<span class="va">Fmax</span><span class="op">=</span><span class="fl">1.5</span>,<span class="va">steepness</span><span class="op">=</span><span class="fl">0.2</span>,<span class="va">midpoint</span><span class="op">=</span><span class="fl">2005</span><span class="op">)</span><span class="op">{</span></span>
+<span></span>
+<span><span class="va">effort_array</span><span class="op">[</span>,<span class="va">gear</span><span class="op">]</span><span class="op">&lt;-</span><span class="va">Fmax</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">steepness</span><span class="op">*</span><span class="op">(</span><span class="va">time</span> <span class="op">-</span> <span class="va">midpoint</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">effort_array</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">neweffort</span><span class="op">&lt;-</span><span class="fu">effort_dynamics</span><span class="op">(</span><span class="va">effort_time</span>,Fmax<span class="op">=</span><span class="fl">2.0</span>,steepness<span class="op">=</span><span class="fl">0.2</span>,midpoint<span class="op">=</span><span class="fl">2003</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># to scale this up to the effort and catchability we used in our model we can multiply by initial effort </span></span>
+<span></span>
+<span><span class="va">neweffort</span><span class="op">&lt;-</span><span class="va">neweffort</span><span class="op">*</span><span class="va">sim</span><span class="op">@</span><span class="va">params</span><span class="op">@</span><span class="va">initial_effort</span></span>
+<span></span>
+<span><span class="va">year</span><span class="op">=</span><span class="fl">1950</span><span class="op">:</span><span class="fl">2020</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">year</span>,<span class="va">neweffort</span>,typ<span class="op">=</span><span class="st">"l"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="simulate-change_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="exercise-1" class="level4"><h4 class="anchored" data-anchor-id="exercise-1">Exercise</h4>
+<p>What level of Fmax causes collapse? Is this consistent with the knowledge form the equilibrium yield curves (sensitivity to fishing tutorial)?</p>
+</section><section id="exercise-2" class="level4"><h4 class="anchored" data-anchor-id="exercise-2">Exercise</h4>
+<p>Set up another gear or a bycatch on on other the other species - follow same effort but with a lower catchability.</p>
+<p>[need to add]</p>
+</section></section><section id="summary" class="level3"><h3 class="anchored" data-anchor-id="summary">Summary</h3>
+<p>[in prep]</p>
+<p>If you are interested in how to statistically fit models to time series data the mizerHowTo package discusses this (still in preparation).</p>
+<p>Next we will investigate dynamical changes in environment, with a focus on changes in resource abundance and size structure.</p>
+
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp(/https:\/\/course\.mizer\.sizespectrum\.org/);
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script><script src="https://giscus.app/client.js" data-repo="sizespectrum/mizerCourse" data-repo-id="R_kgDOHlJwYg" data-category="Comments" data-category-id="DIC_kwDOHlJwYs4CP_7j" data-mapping="title" data-reactions-enabled="0" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../use/index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 3: Use</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../use/tune-sensitivity.html" class="pagination-link">
+        <span class="nav-page-text">Simulate fishing scenarios</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
