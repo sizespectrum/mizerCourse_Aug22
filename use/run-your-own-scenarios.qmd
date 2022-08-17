@@ -4,7 +4,28 @@ title: "Run your own scenarios"
 
 ## Projecting future scenarios
 
-We may wish to explore what happens if we change fishing in the future. To do this we set up a scenario, where the model starts with the last time step of the fished scenario.
+
+Mizer can be used to explore future scenarios, where a simulation continues to project through time under different potential scenarios (e.g. to test fisheries management options or climate change scenarios). The goal of this and the next "changing resources" tutorial is to who you how to set these up these projections so that you can design your own future scenarios to explore.
+
+As usual, we need to have some packages installed.
+
+```{r set-up, echo = F,message=F, warning=F,code_folding=T}
+remotes::install_github("sizespectrum/mizerExperimental")
+library(mizerExperimental)
+remotes::install_github("sizespectrum/mizerMR")
+library(mizerMR)
+remotes::install_github("sizespectrum/mizerHowTo")
+library(mizerHowTo)
+library(tidyverse)
+source("helper_functions.R")
+```
+
+
+
+
+
+
+Let's start by exploring what happens if we change fishing in the future. To do this we set up a scenario, where the model starts with the last time step of the fished scenario.
 
 
 The effort values in 2020 were
