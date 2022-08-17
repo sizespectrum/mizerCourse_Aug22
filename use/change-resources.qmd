@@ -52,6 +52,37 @@ _ use the resource_dynamics function
 # Set up new resource forcing "function" - just changes to different time slot in the n_pp_array array
 
 
+Set the scenarios
+
+```{r}
+# Create parameter objects
+params_IPSL_picontrol <- params
+params_IPSL_ssp1rcp26 <- params
+params_IPSL_ssp5rcp85 <- params
+# Attach temperature
+other_params(params_IPSL_picontrol)$ocean_temp <- readRDS("processed/IPSL_ocean_temp_array_PIcontrol.RDS")
+other_params(params_IPSL_ssp1rcp26)$ocean_temp <- readRDS("processed/IPSL_ocean_temp_array_CCscenario_126.RDS")
+other_params(params_IPSL_ssp5rcp85)$ocean_temp <- readRDS("processed/IPSL_ocean_temp_array_CCscenario_585.RDS")
+# Attach plankton
+other_params(params_IPSL_picontrol)$n_pp_array <- readRDS("processed/IPSL_n_pp_array_PIcontrol.RDS")
+other_params(params_IPSL_ssp1rcp26)$n_pp_array <- readRDS("processed/IPSL_n_pp_array_CCscenario_126.RDS")
+other_params(params_IPSL_ssp5rcp85)$n_pp_array <- readRDS("processed/IPSL_n_pp_array_CCscenario_585.RDS")
+
+
+
+_ use the resource_dynamics function 
+
+
+# Set up new resource forcing "function" - just changes to different time slot in the n_pp_array array
+
+plankton_forcing <- function(params, t, ...) {
+  w_cut_off <- 10
+  pkt <- 10^(other_params(params)$n_pp_array[t + params@other_params$other$t_idx,])/params@dw_full # converting to density
+  pkt[which(as.numeric(names(pkt)) >= w_cut_off)] <- 0
+  
+  return(pkt)  
+}
+
 -simple example showing effect of two different states - e.g. change in resource slopes and intercepts on steady states?
 
 
