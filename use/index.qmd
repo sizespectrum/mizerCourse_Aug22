@@ -25,15 +25,12 @@ Using examples, the tutorials are designed to help you develop your own model si
 2.  [**Simulating and examining changes**](simulate-change.qmd)\
     Once the sensitivity to fishing is examined, we can assess how the model responds to changes in fishing through time. This step involves looking a bot closer at the fishing parameters in mizer and setting up a time-varying fishing effort. In this part we will start with an example that will show you how to run a model through a time series and compare it with data. You will then be able to explore how changes in reproduction, fishing and other parameters affect response to fishing through time.
 
-3.  [**Changing resources**](change-resources.qmd)\
+3.  [**Run your own scenarios**](run-your-own-scenarios.qmd)\
+    In this tutorial we will explore how to set up your own fishing experiments and scenarios. These can be scenarios that compare different levels of fishing or a comparison of different future scenario projections, where fishing changes through time.
+
+
+4.  [**Changing resources**](change-resources.qmd)\
     In this section we will examine whether the effects of fishing are affected by different parameters in the model that are affected by the environment, such as the amount of food available at the base of the food web, which is set by the amount of resources you have added in your model. For those wishing to go further, we will provide you with information on how you could take this example further by forcing the models with climate change scenarios through time.
 
-4.  [**Run your own scenarios**](run-your-own-scenarios.qmd)\
-    In this tutorial we will explore how to set up your own fishing experiments and scenarios. These can be scenarios that compare different levels of fishing and/or resources (at steady steady) or a comparison of different future scenario projections, where fishing and/or resources changes through time.
-
 #To get your worksheet repository for this week, follow this link: \#<https://classroom.github.com/xxx>
----
-title: "Week 3: Use mizer models"
----
 
-## In preparation

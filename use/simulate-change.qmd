@@ -8,7 +8,7 @@ Mizer is a tool that can be used to simulate a dynamic size spectrum in an marin
 
 Below we explore some examples of what can be done using a previously calibrated mizer model. We will use the mizerHowTo package which contains some handy functions for this example.
 
-```{r set-up, echo = F,message=F, warning=F}
+```{r set-up, echo = F,message=F, warning=F,code_folding=T}
 remotes::install_github("sizespectrum/mizerExperimental")
 library(mizerExperimental)
 remotes::install_github("sizespectrum/mizerMR")
@@ -45,7 +45,7 @@ ggplot(plot_dat, aes(x = Year, y = value)) +
 
 ```
 
-We can see from the data that there have been big changes in effort and catches through time. The three plots show effort in units of number of hooks, catches are in tonnes, and the final plot shows how the area of the fishing activity has expanded through time.
+We can see from the data that there have been big changes in effort and catches through time. The first plot shows relative effort per area (note: these data are only for illustration in this example). Catches are in tonnes per square km fished.
 
 Previously we assumed effort was 1 and we worked with catchability as the variable. Real effort data can come in all sorts of different units (hours or days fished, kilowatt days, number of vessels all per unit time). The key to using this in our model is that the catchability is the fraction of the available (that is also selected by the gear) stock caught per unit of any effort that is included.
 
@@ -56,7 +56,7 @@ How do we incorporate the effort data into the model? First, we have to re-arran
 ```{r, code_folding=TRUE}
 species_params(params)
 
-effort_time <-array(c(rep(0,53),dat$EffortPerArea), dim = c(length(1950:2020),1),dimnames = list("time" = 1950:2020, "gear" = params@gear_params$gear[1]))
+effort_time <-array(c(rep(0,13),dat$EffortPerArea), dim = c(length(1990:2020),1),dimnames = list("time" = 1990:2020, "gear" = params@gear_params$gear[1]))
 
 ```
 
@@ -81,7 +81,7 @@ Here we can see that the modeled catch time series fall within the scatter of th
 
 We can look at this below by changing the reproduction level and seeing what the levels of sustainable fishing mortality the equilibrium yield vs F curves suggest for different assumptions (where the peak occurs we could consider a proxy for single-species *Fmsy*) .
 
-```{r,code_folding=T}
+```{r,code_folding=T, echo=F,warning=FALSE}
 params2<- setBevertonHolt(params, reproduction_level = 0.2)
 
 sim02 <- projectToSteady(params2, effort = 0, return_sim = TRUE, t_max = 200)
@@ -104,10 +104,9 @@ yieldcompare2
 
 ```
 
-How do you interpret this? Remember think about the relationship between the fishing parameters in the model (e.g. F = Q\*E). We didn't change these parameters, so they should be the same in both simulations and we can check them below:
+These two plots look almost exactly the same. How do you interpret this? Remember think about the relationship between the fishing parameters in the model (e.g. F = Q\*E). We didn't change these parameters, so they should be the same in both simulations and we can check them below:
 
 ```{r}
-plotFMort(simf)
 plotFMort(simf2)
 ```
 
@@ -117,33 +116,52 @@ Examine how catch time series changes relative to the data if the reproduction p
 
 ### Catch only exploration
 
-What if there was no effort data only catch ?
+What if there was no effort data only catch ? This is the case for many data-poor fisheries or for fisheries where there is only restricted access to effort data.
 
 Many fisheries develop through time according to phases: an exponential growth period, following either a peak and subsequent decline and a plateau, if stocks drop below sustainable levels and management kicks in (see [here](https://www.pnas.org/doi/abs/10.1073/pnas.1820344116) for example). These different types of development can be represented by a function, *effort_dynamics*(), and can be used to help estimate the fishing parameters given the the model parameters and data you may have. This is the approach used [here](https://www.pnas.org/doi/full/10.1073/pnas.1612722114). Here, we will use this function to explore effort through time.
 
 ```{r,code_folding=TRUE}
 # should I move to helper_functions or leave it in?
 
-effort_dynamics<-function(effort_array, gear="longline",time=1950:2020,Fmax=1.5,steepness=0.2,midpoint=2005){
+effort_dynamics<-function(effort_array, gear="longline",time=1990:2020,Fmax=1.5,steepness=0.2,midpoint=2005){
 
 effort_array[,gear]<-Fmax/(1+ exp(-steepness*(time - midpoint)))
 
 return(effort_array)
 }
 
-neweffort<-effort_dynamics(effort_time,Fmax=2.0,steepness=0.2,midpoint=2003)
+# to scale the effort up to the effort we used in our model we divide Fmax by the catchability coefficient we used and set the Fmax to the same levels as abive (0.005)
 
-# to scale this up to the effort and catchability we used in our model we can multiply by initial effort 
 
-neweffort<-neweffort*sim@params@initial_effort
+neweffort<-effort_dynamics(effort_time,time=1990:2020,Fmax=0.005,steepness=0.9,midpoint=2005)
 
-year=1950:2020
+neweffort<-neweffort/gear_params(params)$catchability[1]
+
+year=1990:2020
 plot(year,neweffort,typ="l")
+
+```
+
+Now you can run the same model above using this effort.
+
+```{r}
+params3<-setInitialValues(params2,sim02)
+simf3 <- project(params3, effort = neweffort)
+
+yieldplot3<-plotYieldGear(simf3)
+
+yieldcompare3<-yieldplot3+ geom_point(data = dat, shape = 1, size = 1, mapping = aes(x=Year, y= CatchPerArea)) + xlim(2000,2020) 
+yieldcompare3
+
+
+plotBiomass(simf3)
+
+
 ```
 
 #### Exercise
 
-What level of Fmax causes collapse? Is this consistent with the knowledge form the equilibrium yield curves (sensitivity to fishing tutorial)?
+What level of Fmax causes toothfish catches to decline? Use the code above to change Fmax to determine this. Is this consistent with the knowledge from the equilibrium yield curves (sensitivity to fishing tutorial)?
 
 #### Exercise
 

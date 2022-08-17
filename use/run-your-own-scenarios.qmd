@@ -2,41 +2,56 @@
 title: "Run your own scenarios"
 ---
 
-## Projecting future recovery scenarios
+## Projecting future scenarios
 
-We may now wish to explore the potential recovery of the larger species and sizes in the system. To do this we set up another scenario, where the model starts with the last time step of the fished scenario.
+We may wish to explore what happens if we change fishing in the future. To do this we set up a scenario, where the model starts with the last time step of the fished scenario.
 
-The effort values in 2018 were
+
+The effort values in 2020 were
 
 ```{r, echo= FALSE}
-current_effort <- getEffort(sim)["2018", ]
-knitr::kable(t(current_effort), caption = "Current effort",)
+current_effort <- getEffort(sim)["2020", ]
 ```
 
-Let's start a new simulation that begins with the effort from 2018 and projects forward for 50 years. We will apply a linear reduction in effort for a selected species to a target value (here assumed for simplicity to be 0.2 with effort expressed in terms of the species' fishing mortality rate for fully selected sizes).
+Let's start a new simulation that begins with the logistic effort from 2020 and projects forward for 50 years. We will apply a linear increase in effort for toothfish to a target value (here assumed for simplicity to be F=0.5).
 
-To do this we need to work with the effort array (time x gear) to enable changes in effort through time, for this scenario. Here we have a 'gear' for each species, since effort in this case were annual single-species fishing mortality estimates.
+To do this we need to work with the effort array (time x gear) to enable changes in effort through time, for this scenario.
 
-```{r, echo = FALSE}
-sim_status_quo<-project(params,initial_n = sim@n["2018",,], initial_n_pp = sim@n_pp["2018",],effort=current_effort,t_max = 50)
-proj_effort <- matrix(current_effort, nrow = 51, ncol = 12, byrow = TRUE)
-dimnames(proj_effort) <- list(time = 2019:2069,
+```{r, code_folding=T, echo = FALSE}
+sim_status_quo<-project(params,initial_n = simf3@n["2020",,], initial_n_pp = simf3@n_pp["2020",],effort=current_effort,t_max = 50)
+proj_effort <- matrix(current_effort, nrow = 50, ncol = 1, byrow = TRUE)
+dimnames(proj_effort) <- list(time = 2021:2070,
                               gear = unique(gear_params(params)$gear))
-target<-0.2
-select_species="Sprat"
+# if we are working in the same units as the effort above
+# we can change the F below to scale effort to be consistent with a value of F=0.2
+# E= catchability/F 
+# otherwise if you assume F= Q*E, and set E to 1, you can use F=0.2 directly for the
+target<-0.2/gear_params(params)$catchability[1]
+select_gear="longline"
 # reach target by 10 years
-proj_effort[1:10, select_species] <- 
-    seq(from = proj_effort[1, select_species], to = target, length = 10)
+proj_effort[1:10,select_gear] <- 
+    seq(from = proj_effort[1], to = target, length = 10)
 # then hold at target
-proj_effort[11:51, select_species] <- target
+proj_effort[11:50, select_gear] <- target
 # check it
-proj_effortDf <- data.frame("Time" = rownames(proj_effort), "Effort" = proj_effort[,select_species])
-proj_effortDf_short <- proj_effortDf[c(1:13,49:51),] # looks nicer but keeping long version
-flextable::regulartable(proj_effortDf_short) %>% flextable::set_caption("Projected effort on Sprat")
+#plot(proj_effort,typ="l")
+
+```
+
+
+Now we want to run the simulation forward using the *project* function.
+
+```{r,code_folding=T}
 # run the simulation forward, using the 2018 abundances as initial values
 params_status_quo <- setInitialValues(params, sim)
 sim_scen <- project(params_status_quo, effort = proj_effort, t_max = 50)
-# plot change in biomass relative to 2018 values
+```
+
+How has this affected the catches and the biomass of other species in the system?
+
+```{r}
+plotYield(sim_scen)
+# plot change in biomass relative to 2020 values
 B_current <- getBiomass(sim_scen)[1, ]
 Brel_scen <- melt(sweep(getBiomass(sim_scen), 2, B_current, "/"))
 colnames(Brel_scen)[2] <- "Species"
@@ -49,24 +64,9 @@ ggplot(Brel_scen) +
   theme(legend.key = element_rect(fill = "white"))
 ```
 
-We can see that when we reduce fishing on Sprat it increases the biomass of this species but also affects the biomass of other species in the community.
 
-Are any species collapsed still?
+We can see that when we increase fishing on toothfish it slightly decreases the biomass of this species but also affects the biomass of other species in the community.
 
-```{r, echo = FALSE}
-Brel_ref <- Brel_scen  %>% mutate(collapsed = value < 0.1)
-plot_Brel_all<-ggplot(Brel_ref)+ 
-  geom_line(aes(x=time,y=value), size = 1) + 
-  ggpubr::theme_pubr() + 
-  geom_hline(yintercept = 0.1, linetype=1, colour="red", size=0.75) +
-  geom_hline(yintercept = 0.5, linetype=1, colour="steel blue", size=0.75) +
-  facet_wrap(.~Species,scales = "free") +
-  scale_y_continuous(name = "Relative Biomass") +
-  scale_x_continuous(breaks = seq(2020,2060, length.out = 3), name = "Time")+
-  annotate("text", x = 2027, y = 0.1+0.15, label = "Blim", color = "red") +
-  annotate("text", x = 2025, y = 0.5+0.15, label = "Bmsy", color = "steel blue")
-plot_Brel_all
-```
 
 ## Example 2: Set up your own fishing scenario
 
@@ -74,31 +74,32 @@ Rather than an entire time-series, we can also simply examine differences betwee
 
 We can alter the fishing parameters using a function called *gear_params()* and by changing the *effort* input.
 
-Let's take a look at the fishing parameters. Note that the gears in the above model were already setup to be species-specific.
+Let's take a look at the fishing parameters.
 
-```{r, echo = FALSE}
-knitr::kable(gear_params(params), caption = "gear parameters",row.names = F)
-```
-
-We can group these species together according to the gears they are caught by. Let's imagine a big super trawler.
+We can group species together according to the gears they are caught by. Let's imagine a big super trawler.
 
 ```{r}
 # allocate species to gear types
-gear_params(params)$gear <- c("super_trawler")
+gear_params(params) <- data.frame(
+    gear = c("longline", "super_trawler"),
+    species = c("D.ele", "C.gun"),
+    catchability = c(1, 1),
+    sel_fun = c("knife_edge", "knife_edge"),
+    knife_edge_size = c(2722, 52)
+    )
 ```
 
 Note that catchability is set to 1. This is because the fishing "effort" was here assumed to be the fishing mortality rate of fully selected sizes (see here [setFishing](https://sizespectrum.org/mizer/reference/setFishing.html?q=set%20fishing)).
 
-The previous effort won't work with these new gears, as it is gear x time. We only have a single gear now, so this is easier to set up.
 
 ```{r}
-params <- setFishing(params, initial_effort = 1)
+params <- setFishing(params, initial_effort = 0.5)
 ```
 
-Now let's run two simulations, one with light fishing effort (effort = 0.5) and one heavely fished (effort = 1.5).
+Now let's run two simulations, one with light fishing mortality (F = 0.2) and one heavy fishing (F = 1.5).
 
 ```{r}
-sim_light <- project(params, effort = .5, t_max = 100)
+sim_light <- project(params, effort = 0.5, t_max = 100)
 sim_heavy <- project(params, effort = 1.5, t_max = 100)
 ```
 
@@ -125,28 +126,4 @@ row.names(yield)<-c("light","heavy")
 **Exercise: Now try to edit the above code to create your own fishing scenario.**
 
 
-## other notes
-
-NOTES: 
-
-Develop your own scenarios. 
-
-Changes through time
-
-
-- Try different resource / fishing scenarios... 
-- Could talk thorugh temperature
-
-Comparison at steady state 
-
-If you do not have time series you could alternatively design a similar experiment involving scenarios that do not have time series at steady state -  just the % change by some period (drawing from lit). 
-
-For example - baseline , with catchability and Effort equal ( or F = 2 or at Fmsy) if you don’t have catch data 
-
-Increase/decrease resource 1 kappa
-Increase/decrease resource 1 lambda 
-Increase/decrease resource 2 lambda
-Increase/decrease fishing effort and/or size at selectivity 
-
-Experimental Matrix 
 
