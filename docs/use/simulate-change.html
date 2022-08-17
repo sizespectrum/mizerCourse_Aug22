@@ -311,7 +311,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header><section id="introduction" class="level2"><h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>Mizer is a tool that can be used to simulate a dynamic size spectrum in an marine ecosystem, subject to changes through time, such as fishing pressure. Multiple interacting species and fishing gears can be defined allowing for a range of fisheries management strategy scenarios, and their ecosystem impacts, to be tested.</p>
 <p>Below we explore some examples of what can be done using a previously calibrated mizer model. We will use the mizerHowTo package which contains some handy functions for this example.</p>
-<div class="cell" data-hash="simulate-change_cache/html/set-up_2ad3590d52b549421e35ef4a0cd3ae0f">
+<div class="cell" data-code_folding="true" data-hash="simulate-change_cache/html/set-up_944b1a5b0b996c8be5fda7211b774ee7">
 
 </div>
 <p>In the previous tutorials we have been focused on the steady state. Now we are ready to make changes through time by forcing the model away from its steady state. For this example, will start with the toothfish model but as always you can you your own model or the curonian lagoon for the exercises.</p>
@@ -335,11 +335,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="simulate-change_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>We can see from the data that there have been big changes in effort and catches through time. The three plots show effort in units of number of hooks, catches are in tonnes, and the final plot shows how the area of the fishing activity has expanded through time.</p>
+<p>We can see from the data that there have been big changes in effort and catches through time. The first plot shows relative effort per area (note: these data are only for illustration in this example). Catches are in tonnes per square km fished.</p>
 <p>Previously we assumed effort was 1 and we worked with catchability as the variable. Real effort data can come in all sorts of different units (hours or days fished, kilowatt days, number of vessels all per unit time). The key to using this in our model is that the catchability is the fraction of the available (that is also selected by the gear) stock caught per unit of any effort that is included.</p>
 <p>Often, we have used fishing mortality rates from stock assessment to drive changes in effort through time, assuming Q*E = F at maximally selected sizes (as in <a href="https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2664.12238">this</a> paper and others). But in many cases this information is not available. It also could be misleading as those fishing mortality rates are estimated using very different single-species models (but sometimes that is the best we have to work with, and as with all of the assumptions we make the limitations just need to be clear).</p>
 <p>How do we incorporate the effort data into the model? First, we have to re-arrange the data so it can be read into the <em>param</em> object.</p>
-<div class="cell" data-code_folding="true" data-hash="simulate-change_cache/html/unnamed-chunk-2_91f80885800c1fe77fd7e1f9d563e7de">
+<div class="cell" data-code_folding="true" data-hash="simulate-change_cache/html/unnamed-chunk-2_5f3c513e556ed9fb7786cbd13522995e">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">species_params</span><span class="op">(</span><span class="va">params</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
@@ -349,7 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </script>
 </div>
 </div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">effort_time</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">53</span><span class="op">)</span>,<span class="va">dat</span><span class="op">$</span><span class="va">EffortPerArea</span><span class="op">)</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fl">1950</span><span class="op">:</span><span class="fl">2020</span><span class="op">)</span>,<span class="fl">1</span><span class="op">)</span>,dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"time"</span> <span class="op">=</span> <span class="fl">1950</span><span class="op">:</span><span class="fl">2020</span>, <span class="st">"gear"</span> <span class="op">=</span> <span class="va">params</span><span class="op">@</span><span class="va">gear_params</span><span class="op">$</span><span class="va">gear</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">effort_time</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">13</span><span class="op">)</span>,<span class="va">dat</span><span class="op">$</span><span class="va">EffortPerArea</span><span class="op">)</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fl">1990</span><span class="op">:</span><span class="fl">2020</span><span class="op">)</span>,<span class="fl">1</span><span class="op">)</span>,dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"time"</span> <span class="op">=</span> <span class="fl">1990</span><span class="op">:</span><span class="fl">2020</span>, <span class="st">"gear"</span> <span class="op">=</span> <span class="va">params</span><span class="op">@</span><span class="va">gear_params</span><span class="op">$</span><span class="va">gear</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next we use the effort data to project the model forwards from it’s steady state. But wait - we did not set up the model for the first year of the data, when fishing only just began. It may make more sense to use a steady state without fishing as the initial values for our projection.</p>
 <div class="cell" data-code_folding="true" data-hash="simulate-change_cache/html/unnamed-chunk-3_67e17ce84e27ba740a571711014232cd">
@@ -372,20 +372,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Here we can see that the modeled catch time series fall within the scatter of the observed catch data (reassuring), but the trends are different. It seems there is a sharp decline in modeled catches towards the end of the time series. While we should not expect the exact up and down fluctuations to be captured by our model (we don’t have anything forcing the changes through time other than fishing!), we can examine how changing the reproduction parameters affects how well the model captures stock decline (and later, recovery), relative to the trends in the data.</p>
 <p>We can look at this below by changing the reproduction level and seeing what the levels of sustainable fishing mortality the equilibrium yield vs F curves suggest for different assumptions (where the peak occurs we could consider a proxy for single-species <em>Fmsy</em>) .</p>
-<div class="cell" data-code_folding="true" data-hash="simulate-change_cache/html/unnamed-chunk-4_f699c8609d40ad59a82cd340da47467c">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params2</span><span class="op">&lt;-</span> <span class="fu">setBevertonHolt</span><span class="op">(</span><span class="va">params</span>, reproduction_level <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">sim02</span> <span class="op">&lt;-</span> <span class="fu">projectToSteady</span><span class="op">(</span><span class="va">params2</span>, effort <span class="op">=</span> <span class="fl">0</span>, return_sim <span class="op">=</span> <span class="cn">TRUE</span>, t_max <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-code_folding="true" data-hash="simulate-change_cache/html/unnamed-chunk-4_6cd4485902547b64e79e7368adcd1c22">
 <div class="cell-output cell-output-stderr">
-<pre><code>Convergence was achieved in 1.5 years.</code></pre>
-</div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotYieldVsF</span><span class="op">(</span><span class="va">params2</span>,species<span class="op">=</span><span class="st">"D.ele"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Convergence was achieved in 1.5 years.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
-= FALSE, : D.ele are going extinct.</code></pre>
+<pre><code>Convergence was achieved in 1.5 years.
+Convergence was achieved in 1.5 years.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Simulation run did not converge after 90 years. Value returned by the distance function was: NA</code></pre>
@@ -403,37 +393,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>Simulation run did not converge after 99 years. Value returned by the distance function was: 26.482467838532</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
-= FALSE, : D.ele are going extinct.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
 <pre><code>Simulation run did not converge after 9 years. Value returned by the distance function was: NA</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
-= FALSE, : D.ele are going extinct.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
-= FALSE, : D.ele are going extinct.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
-= FALSE, : D.ele are going extinct.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA
+Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA
+Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="simulate-change_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotYieldVsF</span><span class="op">(</span><span class="va">params</span>,species<span class="op">=</span><span class="st">"D.ele"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Convergence was achieved in 1.5 years.</code></pre>
 </div>
@@ -466,7 +435,7 @@ Convergence was achieved in 10.5 years.</code></pre>
 </div>
 <p>Next, let’s compare what happens when when use these new parameter in our dynamical fishing runs.</p>
 <div class="cell" data-hash="simulate-change_cache/html/unnamed-chunk-5_25d731c546c7833bf98d9c848870f574">
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params2</span><span class="op">&lt;-</span><span class="fu">setInitialValues</span><span class="op">(</span><span class="va">params2</span>,<span class="va">sim02</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params2</span><span class="op">&lt;-</span><span class="fu">setInitialValues</span><span class="op">(</span><span class="va">params2</span>,<span class="va">sim02</span><span class="op">)</span></span>
 <span><span class="va">simf2</span> <span class="op">&lt;-</span> <span class="fu">project</span><span class="op">(</span><span class="va">params2</span>, effort <span class="op">=</span> <span class="va">effort_time</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">yieldplot2</span><span class="op">&lt;-</span><span class="fu">plotYieldGear</span><span class="op">(</span><span class="va">simf2</span><span class="op">)</span></span>
@@ -477,46 +446,63 @@ Convergence was achieved in 10.5 years.</code></pre>
 <p><img src="simulate-change_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>How do you interpret this? Remember think about the relationship between the fishing parameters in the model (e.g.&nbsp;F = Q*E). We didn’t change these parameters, so they should be the same in both simulations and we can check them below:</p>
-<div class="cell" data-hash="simulate-change_cache/html/unnamed-chunk-6_88bd5c317300f3ad7e3192a3019be01c">
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotFMort</span><span class="op">(</span><span class="va">simf</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These two plots look almost exactly the same. How do you interpret this? Remember think about the relationship between the fishing parameters in the model (e.g.&nbsp;F = Q*E). We didn’t change these parameters, so they should be the same in both simulations and we can check them below:</p>
+<div class="cell" data-hash="simulate-change_cache/html/unnamed-chunk-6_0931f98b38ff47008466d2e0e4e46f2d">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotFMort</span><span class="op">(</span><span class="va">simf2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="simulate-change_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotFMort</span><span class="op">(</span><span class="va">simf2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="simulate-change_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <section id="exercise" class="level4"><h4 class="anchored" data-anchor-id="exercise">Exercise:</h4>
 <p>Examine how catch time series changes relative to the data if the reproduction parameters change. Is this consistent with what you expected from the steady state yield curves? How do the biomasses change under these different scenarios?</p>
 </section></section><section id="catch-only-exploration" class="level3"><h3 class="anchored" data-anchor-id="catch-only-exploration">Catch only exploration</h3>
-<p>What if there was no effort data only catch ?</p>
+<p>What if there was no effort data only catch ? This is the case for many data-poor fisheries or for fisheries where there is only restricted access to effort data.</p>
 <p>Many fisheries develop through time according to phases: an exponential growth period, following either a peak and subsequent decline and a plateau, if stocks drop below sustainable levels and management kicks in (see <a href="https://www.pnas.org/doi/abs/10.1073/pnas.1820344116">here</a> for example). These different types of development can be represented by a function, <em>effort_dynamics</em>(), and can be used to help estimate the fishing parameters given the the model parameters and data you may have. This is the approach used <a href="https://www.pnas.org/doi/full/10.1073/pnas.1612722114">here</a>. Here, we will use this function to explore effort through time.</p>
-<div class="cell" data-code_folding="true" data-hash="simulate-change_cache/html/unnamed-chunk-7_318caf2e40078917fc891ac7cdf7779a">
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># should I move to helper_functions or leave it in?</span></span>
+<div class="cell" data-code_folding="true" data-hash="simulate-change_cache/html/unnamed-chunk-7_1c86d334a70e38c29d0590561bda9bdf">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># should I move to helper_functions or leave it in?</span></span>
 <span></span>
-<span><span class="va">effort_dynamics</span><span class="op">&lt;-</span><span class="kw">function</span><span class="op">(</span><span class="va">effort_array</span>, <span class="va">gear</span><span class="op">=</span><span class="st">"longline"</span>,<span class="va">time</span><span class="op">=</span><span class="fl">1950</span><span class="op">:</span><span class="fl">2020</span>,<span class="va">Fmax</span><span class="op">=</span><span class="fl">1.5</span>,<span class="va">steepness</span><span class="op">=</span><span class="fl">0.2</span>,<span class="va">midpoint</span><span class="op">=</span><span class="fl">2005</span><span class="op">)</span><span class="op">{</span></span>
+<span><span class="va">effort_dynamics</span><span class="op">&lt;-</span><span class="kw">function</span><span class="op">(</span><span class="va">effort_array</span>, <span class="va">gear</span><span class="op">=</span><span class="st">"longline"</span>,<span class="va">time</span><span class="op">=</span><span class="fl">1990</span><span class="op">:</span><span class="fl">2020</span>,<span class="va">Fmax</span><span class="op">=</span><span class="fl">1.5</span>,<span class="va">steepness</span><span class="op">=</span><span class="fl">0.2</span>,<span class="va">midpoint</span><span class="op">=</span><span class="fl">2005</span><span class="op">)</span><span class="op">{</span></span>
 <span></span>
 <span><span class="va">effort_array</span><span class="op">[</span>,<span class="va">gear</span><span class="op">]</span><span class="op">&lt;-</span><span class="va">Fmax</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">steepness</span><span class="op">*</span><span class="op">(</span><span class="va">time</span> <span class="op">-</span> <span class="va">midpoint</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">effort_array</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="va">neweffort</span><span class="op">&lt;-</span><span class="fu">effort_dynamics</span><span class="op">(</span><span class="va">effort_time</span>,Fmax<span class="op">=</span><span class="fl">2.0</span>,steepness<span class="op">=</span><span class="fl">0.2</span>,midpoint<span class="op">=</span><span class="fl">2003</span><span class="op">)</span></span>
+<span><span class="co"># to scale the effort up to the effort we used in our model we divide Fmax by the catchability coefficient we used and set the Fmax to the same levels as abive (0.005)</span></span>
 <span></span>
-<span><span class="co"># to scale this up to the effort and catchability we used in our model we can multiply by initial effort </span></span>
 <span></span>
-<span><span class="va">neweffort</span><span class="op">&lt;-</span><span class="va">neweffort</span><span class="op">*</span><span class="va">sim</span><span class="op">@</span><span class="va">params</span><span class="op">@</span><span class="va">initial_effort</span></span>
+<span><span class="va">neweffort</span><span class="op">&lt;-</span><span class="fu">effort_dynamics</span><span class="op">(</span><span class="va">effort_time</span>,time<span class="op">=</span><span class="fl">1990</span><span class="op">:</span><span class="fl">2020</span>,Fmax<span class="op">=</span><span class="fl">0.005</span>,steepness<span class="op">=</span><span class="fl">0.9</span>,midpoint<span class="op">=</span><span class="fl">2005</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">year</span><span class="op">=</span><span class="fl">1950</span><span class="op">:</span><span class="fl">2020</span></span>
+<span><span class="va">neweffort</span><span class="op">&lt;-</span><span class="va">neweffort</span><span class="op">/</span><span class="fu">gear_params</span><span class="op">(</span><span class="va">params</span><span class="op">)</span><span class="op">$</span><span class="va">catchability</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">year</span><span class="op">=</span><span class="fl">1990</span><span class="op">:</span><span class="fl">2020</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">year</span>,<span class="va">neweffort</span>,typ<span class="op">=</span><span class="st">"l"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="simulate-change_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Now you can run the same model above using this effort.</p>
+<div class="cell" data-hash="simulate-change_cache/html/unnamed-chunk-8_c402ec238307c172e4673d401faf4439">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params3</span><span class="op">&lt;-</span><span class="fu">setInitialValues</span><span class="op">(</span><span class="va">params2</span>,<span class="va">sim02</span><span class="op">)</span></span>
+<span><span class="va">simf3</span> <span class="op">&lt;-</span> <span class="fu">project</span><span class="op">(</span><span class="va">params3</span>, effort <span class="op">=</span> <span class="va">neweffort</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">yieldplot3</span><span class="op">&lt;-</span><span class="fu">plotYieldGear</span><span class="op">(</span><span class="va">simf3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">yieldcompare3</span><span class="op">&lt;-</span><span class="va">yieldplot3</span><span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat</span>, shape <span class="op">=</span> <span class="fl">1</span>, size <span class="op">=</span> <span class="fl">1</span>, mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">Year</span>, y<span class="op">=</span> <span class="va">CatchPerArea</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">xlim</span><span class="op">(</span><span class="fl">2000</span>,<span class="fl">2020</span><span class="op">)</span> </span>
+<span><span class="va">yieldcompare3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 10 row(s) containing missing values (geom_path).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="simulate-change_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotBiomass</span><span class="op">(</span><span class="va">simf3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="simulate-change_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 <section id="exercise-1" class="level4"><h4 class="anchored" data-anchor-id="exercise-1">Exercise</h4>
-<p>What level of Fmax causes collapse? Is this consistent with the knowledge form the equilibrium yield curves (sensitivity to fishing tutorial)?</p>
+<p>What level of Fmax causes toothfish catches to decline? Use the code above to change Fmax to determine this. Is this consistent with the knowledge from the equilibrium yield curves (sensitivity to fishing tutorial)?</p>
 </section><section id="exercise-2" class="level4"><h4 class="anchored" data-anchor-id="exercise-2">Exercise</h4>
 <p>Set up a bycatch on another the other species in the model. This uses the same effort but with a lower catchability. Hint: you can use the ?gear_params function to modify these values.</p>
 </section></section><section id="summary" class="level3"><h3 class="anchored" data-anchor-id="summary">Summary</h3>

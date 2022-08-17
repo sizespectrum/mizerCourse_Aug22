@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>mizer course - Tune sensitivity</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../use/change-resources.html" rel="next">
+<link href="../use/simulate-change.html" rel="prev">
+<link href="../images/favicon-16x16.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><script src="../site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><script src="../site_libs/plotly-binding-4.10.0/plotly.js"></script><script src="../site_libs/typedarray-0.1/typedarray.min.js"></script><script src="../site_libs/jquery-3.5.1/jquery.min.js"></script><link href="../site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="../site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><link href="../site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="../site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script><link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script><link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="mizer course - Tune sensitivity">
+<meta name="twitter:description" content="You might remember from week 1 that the reproduction parameters can influence how species react to dynamical changes in mortality in the system.">
+<meta name="twitter:creator" content="gustavdelius">
+<meta name="twitter:card" content="summary">
+</head>
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Tune sensitivity</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">mizer course</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../prepare/index.html" class="sidebar-item-text sidebar-link">Prepare</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/introduce-yourself.html" class="sidebar-item-text sidebar-link">Introduce yourself</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/install-tools.html" class="sidebar-item-text sidebar-link">Install tools</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/use-git-and-github.html" class="sidebar-item-text sidebar-link">Use Git and GitHub</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../understand/index.html" class="sidebar-item-text sidebar-link">Week 1: Understand</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/observed-size-spectra.html" class="sidebar-item-text sidebar-link">Observed size spectra</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/single-species-spectra.html" class="sidebar-item-text sidebar-link">Single species spectra</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/predation-growth-and-mortality.html" class="sidebar-item-text sidebar-link">Predation, growth and mortality</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/species-interactions.html" class="sidebar-item-text sidebar-link">Species interactions</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/dynamics-of-spectra.html" class="sidebar-item-text sidebar-link">Dynamics of size spectra</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../build/index.html" class="sidebar-item-text sidebar-link">Week 2: Build</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/find-species-parameters.html" class="sidebar-item-text sidebar-link">Find species parameters</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/create-first-model.html" class="sidebar-item-text sidebar-link">Create your first model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/set-multiple-resources.html" class="sidebar-item-text sidebar-link">Set up multiple resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/refine-model.html" class="sidebar-item-text sidebar-link">Refine your model</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../use/index.html" class="sidebar-item-text sidebar-link">Week 3: Use</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/simulate-change.html" class="sidebar-item-text sidebar-link">Tune reproduction sensitivity</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/tune-sensitivity.html" class="sidebar-item-text sidebar-link active">Simulate fishing scenarios</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/change-resources.html" class="sidebar-item-text sidebar-link">Tune resource sensitivity</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/run-your-own-scenarios.html" class="sidebar-item-text sidebar-link">Simulate resource scenarios</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">Info</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../troubleshooting.html" class="sidebar-item-text sidebar-link">Troubleshooting</a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+<li><a href="#tuning-fishing" id="toc-tuning-fishing" class="nav-link" data-scroll-target="#tuning-fishing">Tuning fishing</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#comparing-ecosystem-states-effects-of-fishing-relative-to-an-unfished-state" id="toc-comparing-ecosystem-states-effects-of-fishing-relative-to-an-unfished-state" class="nav-link" data-scroll-target="#comparing-ecosystem-states-effects-of-fishing-relative-to-an-unfished-state">Comparing ecosystem states: effects of fishing relative to an unfished state</a>
+  <ul class="collapse">
+<li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul>
+</li>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sizespectrum/mizerCourse/edit/main/use/tune-sensitivity.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sizespectrum/mizerCourse/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title d-none d-lg-block">Tune sensitivity</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header><section id="introduction" class="level2"><h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>You might remember from week 1 that the reproduction parameters can influence how species react to dynamical changes in mortality in the system. The goal of this tutorial is to explore how the species in your model respond to fishing, to ensure that the reproduction parameters are reasonable when you incorporate fishing dynamics into your model.</p>
+<p>First, we will install the same packages we used last week. Additionally, we will use the mizerHowTo package which contains some handy functions for this week’s workshops.</p>
+<div class="cell" data-hash="tune-sensitivity_cache/html/unnamed-chunk-1_75b88286e3fd9b094a3a158af522f927">
+<div class="cell-output cell-output-stderr">
+<pre><code>Skipping install of 'mizerExperimental' from a github remote, the SHA1 (aa423f9b) has not changed since last install.
+  Use `force = TRUE` to force installation</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: mizer</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'mizerExperimental'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:mizer':
+
+    calibrateYield, plotDataFrame, scaleModel, steady</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Skipping install of 'mizerMR' from a github remote, the SHA1 (e36acb94) has not changed since last install.
+  Use `force = TRUE` to force installation</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'mizerMR'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:mizerExperimental':
+
+    plotlyResourcePred, plotResourcePred</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:mizer':
+
+    animateSpectra, finalNResource, getDiet, initialNResource,
+    initialNResource&lt;-, NResource, plotDiet, plotlySpectra,
+    plotSpectra, resource_capacity, resource_capacity&lt;-,
+    resource_params, resource_params&lt;-, resource_rate, resource_rate&lt;-</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Skipping install of 'mizerHowTo' from a github remote, the SHA1 (16693771) has not changed since last install.
+  Use `force = TRUE` to force installation</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ggplot2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: dplyr</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: parallel</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ tibble  3.1.8     ✔ purrr   0.3.4
+✔ tidyr   1.2.0     ✔ stringr 1.4.0
+✔ readr   2.1.2     ✔ forcats 0.5.1
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+</div>
+<p>We will start with a new example model, a preliminary model for the Heard and McDonald Islands Patagonian toothfish longline fishery. While this is not a coastal or inland fishery, it is relatively data poor.</p>
+<p>The model has been calibrated using time-averaged data to achieve coexistence and a steady state. This followed a similar approach as the one you used last week. Feel free to use this model, the Curonian Lagoon model, or your own model in the scenarios you develop later on.</p>
+<p>First, let’s read in the param object for this model, which contains the steady state information. The file is called <em>params10.rmd</em>, showing there was already an iterative process involved with checking, refining , re-calibrating and re-checking the model, using time-averaged biomass data and the diagnostic plots below.</p>
+<div class="cell" data-hash="tune-sensitivity_cache/html/unnamed-chunk-2_df83aebb4ae9832133f3a7c564935d55">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"toothfish/params10.RDS"</span><span class="op">)</span></span>
+<span><span class="va">params</span> <span class="op">&lt;-</span> <span class="va">sim</span><span class="op">@</span><span class="va">params</span></span>
+<span><span class="fu">plotBiomassObservedVsModelCustom</span><span class="op">(</span><span class="va">params</span>,ratio <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tune-sensitivity_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotGrowthCurves</span><span class="op">(</span><span class="va">sim</span>,species_panel <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tune-sensitivity_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotlySpectra</span><span class="op">(</span><span class="va">sim</span>, power <span class="op">=</span> <span class="fl">2</span>, total <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-99716e8228581aa3e4de" style="width:100%;height:464px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-99716e8228581aa3e4de">{"x":{"data":[{"x":[-3,-2.91719725641746,-2.83439451283491,-2.75159176925237,-2.66878902566983,-2.58598628208728,-2.50318353850474,-2.4203807949222,-2.33757805133965,-2.25477530775711,-2.17197256417457,-2.08916982059202,-2.00636707700948,-1.92356433342694,-1.8407615898444,-1.75795884626185,-1.67515610267931,-1.59235335909677,-1.50955061551422,-1.42674787193168,-1.34394512834914,-1.26114238476659,-1.17833964118405,-1.09553689760151,-1.01273415401896,-0.92993141043642,-0.847128666853877,-0.764325923271334,-0.68152317968879,-0.598720436106247,-0.515917692523704,-0.433114948941161,-0.350312205358617,-0.267509461776074,-0.184706718193531,-0.101903974610988,-0.0191012310284444,0.0637015125540987,0.146504256136642,0.229306999719185,0.312109743301728,0.394912486884271,0.477715230466815,0.560517974049358,0.643320717631901,0.726123461214444,0.808926204796987,0.891728948379531,0.974531691962074,1.05733443554462,1.14013717912716,1.2229399227097,1.30574266629225,1.38854540987479,1.47134815345733,1.55415089703988,1.63695364062242,1.71975638420496,1.80255912778751,1.88536187137005,1.96816461495259,2.05096735853514,2.13377010211768,2.21657284570022,2.29937558928277,2.38217833286531,2.46498107644785,2.54778382003039,2.63058656361294,2.71338930719548,2.79619205077802,2.87899479436057,2.96179753794311,3.04460028152565,3.1274030251082,3.21020576869074,3.29300851227328,3.37581125585583,3.45861399943837,3.54141674302091,3.62421948660346,3.707022230186,3.78982497376854,3.87262771735109,3.95543046093363,4.03823320451617,4.12103594809872,4.20383869168126,4.2866414352638,4.36944417884635,4.45224692242889,4.53504966601143,4.61785240959397,4.70065515317652,4.78345789675906,4.8662606403416,4.94906338392415,5.03186612750669,5.11466887108923,5.19747161467178],"y":[-0.33735046412573,-0.226752439614699,-0.116185220441241,-0.00565478424676653,0.104831962246428,0.215267077480841,0.325641477179778,0.435944827238803,0.546165441105908,0.65629018622759,0.766304405023054,0.876191856709741,0.985934687077052,1.09551343392347,1.20490707625004,1.31409313535514,1.42304783560935,1.53174633182587,1.64016300870814,1.74827185581042,1.85604691877491,1.96346282433973,2.07049537282419,2.17712218761854,2.28332340681745,2.38908239776364,2.49438647117243,2.59922756797065,2.70360288928164,2.80751543838136,2.9109744431451,3.01399562864644,3.11660131221144,3.21882029733645,3.32068754830252,3.42224363383084,3.52353393539966,3.6246076235049,3.72551641277478,3.82631311401877,3.92705000760271,4.02777706764629,4.1285400701657,4.22937862026459,4.3303241337487,4.43139780717478,4.53260860755031,4.63395130906098,4.73540459993958,4.83692927887737,4.93847514731831,5.03995596612288,5.14126993626648,5.24229163284581,5.34287109182733,5.44283331332741,5.54197848894034,5.64008371675963,5.73690520640448,5.83217898833298,5.92562681935755,6.01696852385156,6.10593472597741,6.19223202879869,6.27555600398271,6.35564704443913,6.43229959854001,6.50535982584752,6.57472556259023,6.64034937836965,6.70224159788714,6.76047417962353,6.81518266209324,6.86656527995465,6.91488323644272,6.9604586901301,7.0036704941998,7.04494826125782,7.08428875776917,7.12264589648533,7.16055445969725,7.19857709051258,7.23738398350269,7.27838701571243,7.32793985423447,7.41319388187869,7.54434423195399,7.62798760435074,7.6681862809862,7.69993031593387,7.73270057255793,7.76792469938872,7.80524743208612,7.84403431062102,7.88449146570108,7.92911795563578,7.98399750393742,8.06015867609585,8.18240316918798,8.97466334737937],"text":["Species: D.ele<br />w: 1.000000e-03<br />value: 4.598853e-01","Species: D.ele<br />w: 1.210048e-03<br />value: 5.932634e-01","Species: D.ele<br />w: 1.464217e-03<br />value: 7.652702e-01","Species: D.ele<br />w: 1.771774e-03<br />value: 9.870638e-01","Species: D.ele<br />w: 2.143932e-03<br />value: 1.273010e+00","Species: D.ele<br />w: 2.594261e-03<br />value: 1.641599e+00","Species: D.ele<br />w: 3.139182e-03<br />value: 2.116613e+00","Species: D.ele<br />w: 3.798562e-03<br />value: 2.728631e+00","Species: D.ele<br />w: 4.596444e-03<br />value: 3.516944e+00","Species: D.ele<br />w: 5.561919e-03<br />value: 4.532003e+00","Species: D.ele<br />w: 6.730192e-03<br />value: 5.838542e+00","Species: D.ele<br />w: 8.143858e-03<br />value: 7.519550e+00","Species: D.ele<br />w: 9.854462e-03<br />value: 9.681322e+00","Species: D.ele<br />w: 1.192438e-02<br />value: 1.245987e+01","Species: D.ele<br />w: 1.442907e-02<br />value: 1.602902e+01","Species: D.ele<br />w: 1.745988e-02<br />value: 2.061072e+01","Species: D.ele<br />w: 2.112730e-02<br />value: 2.648792e+01","Species: D.ele<br />w: 2.556505e-02<br />value: 3.402094e+01","Species: D.ele<br />w: 3.093495e-02<br />value: 4.366797e+01","Species: D.ele<br />w: 3.743278e-02<br />value: 5.601081e+01","Species: D.ele<br />w: 4.529548e-02<br />value: 7.178718e+01","Species: D.ele<br />w: 5.480972e-02<br />value: 9.193118e+01","Species: D.ele<br />w: 6.632242e-02<br />value: 1.176238e+02","Species: D.ele<br />w: 8.025334e-02<br />value: 1.503565e+02","Species: D.ele<br />w: 9.711042e-02<br />value: 1.920098e+02","Species: D.ele<br />w: 1.175083e-01<br />value: 2.449528e+02","Species: D.ele<br />w: 1.421907e-01<br />value: 3.121666e+02","Species: D.ele<br />w: 1.720577e-01<br />value: 3.973997e+02","Species: D.ele<br />w: 2.081981e-01<br />value: 5.053624e+02","Species: D.ele<br />w: 2.519298e-01<br />value: 6.419710e+02","Species: D.ele<br />w: 3.048473e-01<br />value: 8.146563e+02","Species: D.ele<br />w: 3.688800e-01<br />value: 1.032751e+03","Species: D.ele<br />w: 4.463626e-01<br />value: 1.307981e+03","Species: D.ele<br />w: 5.401203e-01<br />value: 1.655085e+03","Species: D.ele<br />w: 6.535718e-01<br />value: 2.092606e+03","Species: D.ele<br />w: 7.908535e-01<br />value: 2.643892e+03","Species: D.ele<br />w: 9.569710e-01<br />value: 3.338366e+03","Species: D.ele<br />w: 1.157981e+00<br />value: 4.213157e+03","Species: D.ele<br />w: 1.401213e+00<br />value: 5.315161e+03","Species: D.ele<br />w: 1.695536e+00<br />value: 6.703678e+03","Species: D.ele<br />w: 2.051681e+00<br />value: 8.453762e+03","Species: D.ele<br />w: 2.482633e+00<br />value: 1.066049e+04","Species: D.ele<br />w: 3.004106e+00<br />value: 1.344436e+04","Species: D.ele<br />w: 3.635113e+00<br />value: 1.695816e+04","Species: D.ele<br />w: 4.398663e+00<br />value: 2.139558e+04","Species: D.ele<br />w: 5.322595e+00<br />value: 2.700212e+04","Species: D.ele<br />w: 6.440598e+00<br />value: 3.408856e+04","Species: D.ele<br />w: 7.793436e+00<br />value: 4.304783e+04","Species: D.ele<br />w: 9.430434e+00<br />value: 5.437567e+04","Species: D.ele<br />w: 1.141128e+01<br />value: 6.869566e+04","Species: D.ele<br />w: 1.380820e+01<br />value: 8.679109e+04","Species: D.ele<br />w: 1.670859e+01<br />value: 1.096367e+05","Species: D.ele<br />w: 2.021821e+01<br />value: 1.384427e+05","Species: D.ele<br />w: 2.446501e+01<br />value: 1.746995e+05","Species: D.ele<br />w: 2.960385e+01<br />value: 2.202273e+05","Species: D.ele<br />w: 3.582209e+01<br />value: 2.772256e+05","Species: D.ele<br />w: 4.334646e+01<br />value: 3.483201e+05","Species: D.ele<br />w: 5.245132e+01<br />value: 4.366000e+05","Species: D.ele<br />w: 6.346863e+01<br />value: 5.456388e+05","Species: D.ele<br />w: 7.680012e+01<br />value: 6.794836e+05","Species: D.ele<br />w: 9.293186e+01<br />value: 8.426104e+05","Species: D.ele<br />w: 1.124520e+02<br />value: 1.039845e+06","Species: D.ele<br />w: 1.360724e+02<br />value: 1.276247e+06","Species: D.ele<br />w: 1.646542e+02<br />value: 1.556797e+06","Species: D.ele<br />w: 1.992396e+02<br />value: 1.886062e+06","Species: D.ele<br />w: 2.410895e+02<br />value: 2.268021e+06","Species: D.ele<br />w: 2.917300e+02<br />value: 2.705824e+06","Species: D.ele<br />w: 3.530074e+02<br />value: 3.201547e+06","Species: D.ele<br />w: 4.271561e+02<br />value: 3.756000e+06","Species: D.ele<br />w: 5.168795e+02<br />value: 4.368671e+06","Species: D.ele<br />w: 6.254492e+02<br />value: 5.037808e+06","Species: D.ele<br />w: 7.568238e+02<br />value: 5.760686e+06","Species: D.ele<br />w: 9.157935e+02<br />value: 6.534053e+06","Species: D.ele<br />w: 1.108154e+03<br />value: 7.354705e+06","Species: D.ele<br />w: 1.340920e+03<br />value: 8.220216e+06","Species: D.ele<br />w: 1.622579e+03<br />value: 9.129746e+06","Species: D.ele<br />w: 1.963399e+03<br />value: 1.008487e+07","Species: D.ele<br />w: 2.375808e+03<br />value: 1.109043e+07","Species: D.ele<br />w: 2.874842e+03<br />value: 1.214196e+07","Species: D.ele<br />w: 3.478698e+03<br />value: 1.326313e+07","Species: D.ele<br />w: 4.209393e+03<br />value: 1.447286e+07","Species: D.ele<br />w: 5.093569e+03<br />value: 1.579709e+07","Species: D.ele<br />w: 6.163466e+03<br />value: 1.727364e+07","Species: D.ele<br />w: 7.458092e+03<br />value: 1.898397e+07","Species: D.ele<br />w: 9.024652e+03<br />value: 2.127844e+07","Species: D.ele<br />w: 1.092027e+04<br />value: 2.589369e+07","Species: D.ele<br />w: 1.321405e+04<br />value: 3.502227e+07","Species: D.ele<br />w: 1.598964e+04<br />value: 4.246074e+07","Species: D.ele<br />w: 1.934824e+04<br />value: 4.657858e+07","Species: D.ele<br />w: 2.341231e+04<br />value: 5.011068e+07","Species: D.ele<br />w: 2.833002e+04<br />value: 5.403816e+07","Species: D.ele<br />w: 3.428070e+04<br />value: 5.860365e+07","Species: D.ele<br />w: 4.148130e+04<br />value: 6.386272e+07","Species: D.ele<br />w: 5.019439e+04<br />value: 6.982876e+07","Species: D.ele<br />w: 6.073764e+04<br />value: 7.664635e+07","Species: D.ele<br />w: 7.349548e+04<br />value: 8.494111e+07","Species: D.ele<br />w: 8.893309e+04<br />value: 9.638235e+07","Species: D.ele<br />w: 1.076133e+05<br />value: 1.148573e+08","Species: D.ele<br />w: 1.302174e+05<br />value: 1.521960e+08","Species: D.ele<br />w: 1.575693e+05<br />value: 9.433294e+08"],"type":"scatter","mode":"lines","line":{"width":3.02362204724409,"color":"rgba(129,95,0,1)","dash":"solid"},"hoveron":"points","name":"D.ele","legendgroup":"D.ele","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-3,-2.91719725641746,-2.83439451283491,-2.75159176925237,-2.66878902566983,-2.58598628208728,-2.50318353850474,-2.4203807949222,-2.33757805133965,-2.25477530775711,-2.17197256417457,-2.08916982059202,-2.00636707700948,-1.92356433342694,-1.8407615898444,-1.75795884626185,-1.67515610267931,-1.59235335909677,-1.50955061551422,-1.42674787193168,-1.34394512834914,-1.26114238476659,-1.17833964118405,-1.09553689760151,-1.01273415401896,-0.92993141043642,-0.847128666853877,-0.764325923271334,-0.68152317968879,-0.598720436106247,-0.515917692523704,-0.433114948941161,-0.350312205358617,-0.267509461776074,-0.184706718193531,-0.101903974610988,-0.0191012310284444,0.0637015125540987,0.146504256136642,0.229306999719185,0.312109743301728,0.394912486884271,0.477715230466815,0.560517974049358,0.643320717631901,0.726123461214444,0.808926204796987,0.891728948379531,0.974531691962074,1.05733443554462,1.14013717912716,1.2229399227097,1.30574266629225,1.38854540987479,1.47134815345733,1.55415089703988,1.63695364062242,1.71975638420496,1.80255912778751,1.88536187137005,1.96816461495259,2.05096735853514,2.13377010211768,2.21657284570022,2.29937558928277,2.38217833286531,2.46498107644785,2.54778382003039,2.63058656361294],"y":[0.755698966197218,0.86636273907614,0.977000680711709,1.08760806726286,1.19817946230533,1.30870863587696,1.41918848155281,1.52961093363656,1.63996688714442,1.75024612388916,1.8604372486183,1.97052763979013,2.08050342013641,2.19034945261138,2.30004936760071,2.40958562729483,2.51893963285411,2.62809187934117,2.73702216231761,2.84570983845806,2.95413414050904,3.0622745444278,3.1701111836233,3.2776253019736,3.38479973383082,3.4916193957016,3.59807177088716,3.70414736527692,3.8098401099099,3.9151476840262,4.02007173127562,4.1246179416308,4.22879597240503,4.33261918357328,4.43610416523846,4.53927003841582,4.64213751411812,4.74472769978448,4.84706064618025,4.94915363182166,5.05101918563946,5.15266285199787,5.25408070547903,5.35525662634391,5.45615935177735,5.55673932356926,5.65692536056735,5.75662119494878,5.8557019305081,5.95401049688389,6.05136007658709,6.14751597398917,6.24221271491364,6.33518627054882,6.42644928099914,6.51820133004145,6.62599088947691,6.7989763434853,6.99506063438541,7.10472958865388,7.16276963146971,7.19553571413335,7.20497575963133,7.18566556039771,7.12822058838247,7.0179561386855,6.82976815746826,6.51266866894016,5.89609416796762],"text":["Species: C.gun<br />w: 1.000000e-03<br />value: 5.697692e+00","Species: C.gun<br />w: 1.210048e-03<br />value: 7.351276e+00","Species: C.gun<br />w: 1.464217e-03<br />value: 9.484199e+00","Species: C.gun<br />w: 1.771774e-03<br />value: 1.223512e+01","Species: C.gun<br />w: 2.143932e-03<br />value: 1.578263e+01","Species: C.gun<br />w: 2.594261e-03<br />value: 2.035676e+01","Species: C.gun<br />w: 3.139182e-03<br />value: 2.625358e+01","Species: C.gun<br />w: 3.798562e-03<br />value: 3.385407e+01","Species: C.gun<br />w: 4.596444e-03<br />value: 4.364826e+01","Species: C.gun<br />w: 5.561919e-03<br />value: 5.626601e+01","Species: C.gun<br />w: 6.730192e-03<br />value: 7.251657e+01","Species: C.gun<br />w: 8.143858e-03<br />value: 9.343888e+01","Species: C.gun<br />w: 9.854462e-03<br />value: 1.203659e+02","Species: C.gun<br />w: 1.192438e-02<br />value: 1.550063e+02","Species: C.gun<br />w: 1.442907e-02<br />value: 1.995489e+02","Species: C.gun<br />w: 1.745988e-02<br />value: 2.567944e+02","Species: C.gun<br />w: 2.112730e-02<br />value: 3.303236e+02","Species: C.gun<br />w: 2.556505e-02<br />value: 4.247094e+02","Species: C.gun<br />w: 3.093495e-02<br />value: 5.457857e+02","Species: C.gun<br />w: 3.743278e-02<br />value: 7.009868e+02","Species: C.gun<br />w: 4.529548e-02<br />value: 8.997755e+02","Species: C.gun<br />w: 5.480972e-02<br />value: 1.154183e+03","Species: C.gun<br />w: 6.632242e-02<br />value: 1.479487e+03","Species: C.gun<br />w: 8.025334e-02<br />value: 1.895070e+03","Species: C.gun<br />w: 9.711042e-02<br />value: 2.425491e+03","Species: C.gun<br />w: 1.175083e-01<br />value: 3.101840e+03","Species: C.gun<br />w: 1.421907e-01<br />value: 3.963435e+03","Species: C.gun<br />w: 1.720577e-01<br />value: 5.059963e+03","Species: C.gun<br />w: 2.081981e-01<br />value: 6.454166e+03","Species: C.gun<br />w: 2.519298e-01<br />value: 8.225223e+03","Species: C.gun<br />w: 3.048473e-01<br />value: 1.047302e+04","Species: C.gun<br />w: 3.688800e-01<br />value: 1.332349e+04","Species: C.gun<br />w: 4.463626e-01<br />value: 1.693542e+04","Species: C.gun<br />w: 5.401203e-01<br />value: 2.150895e+04","Species: C.gun<br />w: 6.535718e-01<br />value: 2.729632e+04","Species: C.gun<br />w: 7.908535e-01<br />value: 3.461545e+04","Species: C.gun<br />w: 9.569710e-01<br />value: 4.386696e+04","Species: C.gun<br />w: 1.157981e+00<br />value: 5.555558e+04","Species: C.gun<br />w: 1.401213e+00<br />value: 7.031705e+04","Species: C.gun<br />w: 1.695536e+00<br />value: 8.895157e+04","Species: C.gun<br />w: 2.051681e+00<br />value: 1.124655e+05","Species: C.gun<br />w: 2.482633e+00<br />value: 1.421225e+05","Species: C.gun<br />w: 3.004106e+00<br />value: 1.795067e+05","Species: C.gun<br />w: 3.635113e+00<br />value: 2.265983e+05","Species: C.gun<br />w: 4.398663e+00<br />value: 2.858639e+05","Species: C.gun<br />w: 5.322595e+00<br />value: 3.603623e+05","Species: C.gun<br />w: 6.440598e+00<br />value: 4.538636e+05","Species: C.gun<br />w: 7.793436e+00<br />value: 5.709804e+05","Species: C.gun<br />w: 9.430434e+00<br />value: 7.173018e+05","Species: C.gun<br />w: 1.141128e+01<br />value: 8.995193e+05","Species: C.gun<br />w: 1.380820e+01<br />value: 1.125538e+06","Species: C.gun<br />w: 1.670859e+01<br />value: 1.404481e+06","Species: C.gun<br />w: 2.021821e+01<br />value: 1.746677e+06","Species: C.gun<br />w: 2.446501e+01<br />value: 2.163646e+06","Species: C.gun<br />w: 2.960385e+01<br />value: 2.669619e+06","Species: C.gun<br />w: 3.582209e+01<br />value: 3.297625e+06","Species: C.gun<br />w: 4.334646e+01<br />value: 4.226597e+06","Species: C.gun<br />w: 5.245132e+01<br />value: 6.294719e+06","Species: C.gun<br />w: 6.346863e+01<br />value: 9.886911e+06","Species: C.gun<br />w: 7.680012e+01<br />value: 1.272710e+07","Species: C.gun<br />w: 9.293186e+01<br />value: 1.454687e+07","Species: C.gun<br />w: 1.124520e+02<br />value: 1.568685e+07","Species: C.gun<br />w: 1.360724e+02<br />value: 1.603156e+07","Species: C.gun<br />w: 1.646542e+02<br />value: 1.533436e+07","Species: C.gun<br />w: 1.992396e+02<br />value: 1.343447e+07","Species: C.gun<br />w: 2.410895e+02<br />value: 1.042212e+07","Species: C.gun<br />w: 2.917300e+02<br />value: 6.757222e+06","Species: C.gun<br />w: 3.530074e+02<br />value: 3.255882e+06","Species: C.gun<br />w: 4.271561e+02<br />value: 7.872165e+05"],"type":"scatter","mode":"lines","line":{"width":3.02362204724409,"color":"rgba(98,55,226,1)","dash":"solid"},"hoveron":"points","name":"C.gun","legendgroup":"C.gun","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-3,-2.91719725641746,-2.83439451283491,-2.75159176925237,-2.66878902566983,-2.58598628208728,-2.50318353850474,-2.4203807949222,-2.33757805133965,-2.25477530775711,-2.17197256417457,-2.08916982059202,-2.00636707700948,-1.92356433342694,-1.8407615898444,-1.75795884626185,-1.67515610267931,-1.59235335909677,-1.50955061551422,-1.42674787193168,-1.34394512834914,-1.26114238476659,-1.17833964118405,-1.09553689760151,-1.01273415401896,-0.92993141043642,-0.847128666853877,-0.764325923271334,-0.68152317968879,-0.598720436106247,-0.515917692523704,-0.433114948941161,-0.350312205358617,-0.267509461776074,-0.184706718193531,-0.101903974610988,-0.0191012310284444,0.0637015125540987,0.146504256136642,0.229306999719185,0.312109743301728,0.394912486884271,0.477715230466815,0.560517974049358,0.643320717631901,0.726123461214444,0.808926204796987,0.891728948379531,0.974531691962074,1.05733443554462,1.14013717912716,1.2229399227097,1.30574266629225,1.38854540987479,1.47134815345733,1.55415089703988,1.63695364062242,1.71975638420496,1.80255912778751,1.88536187137005,1.96816461495259,2.05096735853514,2.13377010211768,2.21657284570022,2.29937558928277,2.38217833286531,2.46498107644785,2.54778382003039,2.63058656361294,2.71338930719548,2.79619205077802,2.87899479436057,2.96179753794311,3.04460028152565,3.1274030251082,3.21020576869074,3.29300851227328],"y":[0.250168528787405,0.360796495986949,0.47138921500084,0.581940028084493,0.692441234057225,0.802883963923338,0.913258052264168,1.02355190740864,1.13375238432745,1.24384466521705,1.35381215381133,1.46363639052623,1.57329699653982,1.6827716557523,1.79203614415884,1.90106441639345,2.00982875895204,2.11830001876573,2.2264479142771,2.33424143389973,2.44164932368233,2.54864066216887,2.65518551591576,2.76125566403736,2.86682537469847,2.97187221092096,3.07637783772328,3.18032879780257,3.28371721903212,3.38654141429283,3.48880633284135,3.59052382271298,3.69171266563594,3.79239834955415,3.89261254895774,3.99239228954034,4.09177878089064,4.19081590858111,4.28954838472776,4.38801956348308,4.48626893469629,4.58432931496268,4.68222376048797,4.77996223080658,4.87753803681488,4.97492411141638,5.07206914711344,5.16889365307235,5.26528599733579,5.36109851427461,5.45615242766301,5.55021102506097,5.64300094242568,5.73421784590047,5.8236313825628,5.9118268513802,6.00482060195604,6.12743521720752,6.27357933500393,6.37270742940157,6.43753325718929,6.48667488343643,6.52311666955065,6.54570169496186,6.55230507898156,6.54043213278947,6.507245242477,6.44944754051608,6.36308315990327,6.24321422803845,6.08336641997265,5.87453281931547,5.60322085454708,5.2471199198616,4.76344187062863,4.04351344330765,2.06081293682502],"text":["Species: C.rhi<br />w: 1.000000e-03<br />value: 1.778970e+00","Species: C.rhi<br />w: 1.210048e-03<br />value: 2.295073e+00","Species: C.rhi<br />w: 1.464217e-03<br />value: 2.960665e+00","Species: C.rhi<br />w: 1.771774e-03<br />value: 3.818915e+00","Species: C.rhi<br />w: 2.143932e-03<br />value: 4.925397e+00","Species: C.rhi<br />w: 2.594261e-03<br />value: 6.351612e+00","Species: C.rhi<br />w: 3.139182e-03<br />value: 8.189513e+00","Species: C.rhi<br />w: 3.798562e-03<br />value: 1.055728e+01","Species: C.rhi<br />w: 4.596444e-03<br />value: 1.360669e+01","Species: C.rhi<br />w: 5.561919e-03<br />value: 1.753253e+01","Species: C.rhi<br />w: 6.730192e-03<br />value: 2.258459e+01","Species: C.rhi<br />w: 8.143858e-03<br />value: 2.908281e+01","Species: C.rhi<br />w: 9.854462e-03<br />value: 3.743665e+01","Species: C.rhi<br />w: 1.192438e-02<br />value: 4.816945e+01","Species: C.rhi<br />w: 1.442907e-02<br />value: 6.194926e+01","Species: C.rhi<br />w: 1.745988e-02<br />value: 7.962774e+01","Species: C.rhi<br />w: 2.112730e-02<br />value: 1.022890e+02","Species: C.rhi<br />w: 2.556505e-02<br />value: 1.313107e+02","Species: C.rhi<br />w: 3.093495e-02<br />value: 1.684410e+02","Species: C.rhi<br />w: 3.743278e-02<br />value: 2.158944e+02","Species: C.rhi<br />w: 4.529548e-02<br />value: 2.764708e+02","Species: C.rhi<br />w: 5.480972e-02<br />value: 3.537046e+02","Species: C.rhi<br />w: 6.632242e-02<br />value: 4.520490e+02","Species: C.rhi<br />w: 8.025334e-02<br />value: 5.771061e+02","Species: C.rhi<br />w: 9.711042e-02<br />value: 7.359111e+02","Species: C.rhi<br />w: 1.175083e-01<br />value: 9.372862e+02","Species: C.rhi<br />w: 1.421907e-01<br />value: 1.192279e+03","Species: C.rhi<br />w: 1.720577e-01<br />value: 1.514708e+03","Species: C.rhi<br />w: 2.081981e-01<br />value: 1.921840e+03","Species: C.rhi<br />w: 2.519298e-01<br />value: 2.435238e+03","Species: C.rhi<br />w: 3.048473e-01<br />value: 3.081813e+03","Species: C.rhi<br />w: 3.688800e-01<br />value: 3.895147e+03","Species: C.rhi<br />w: 4.463626e-01<br />value: 4.917141e+03","Species: C.rhi<br />w: 5.401203e-01<br />value: 6.200095e+03","Species: C.rhi<br />w: 6.535718e-01<br />value: 7.809308e+03","Species: C.rhi<br />w: 7.908535e-01<br />value: 9.826351e+03","Species: C.rhi<br />w: 9.569710e-01<br />value: 1.235318e+04","Species: C.rhi<br />w: 1.157981e+00<br />value: 1.551729e+04","Species: C.rhi<br />w: 1.401213e+00<br />value: 1.947818e+04","Species: C.rhi<br />w: 1.695536e+00<br />value: 2.443541e+04","Species: C.rhi<br />w: 2.051681e+00<br />value: 3.063860e+04","Species: C.rhi<br />w: 2.482633e+00<br />value: 3.839983e+04","Species: C.rhi<br />w: 3.004106e+00<br />value: 4.810872e+04","Species: C.rhi<br />w: 3.635113e+00<br />value: 6.025072e+04","Species: C.rhi<br />w: 4.398663e+00<br />value: 7.542895e+04","Species: C.rhi<br />w: 5.322595e+00<br />value: 9.438959e+04","Species: C.rhi<br />w: 6.440598e+00<br />value: 1.180509e+05","Species: C.rhi<br />w: 7.793436e+00<br />value: 1.475345e+05","Species: C.rhi<br />w: 9.430434e+00<br />value: 1.841985e+05","Species: C.rhi<br />w: 1.141128e+01<br />value: 2.296670e+05","Species: C.rhi<br />w: 1.380820e+01<br />value: 2.858594e+05","Species: C.rhi<br />w: 1.670859e+01<br />value: 3.549858e+05","Species: C.rhi<br />w: 2.021821e+01<br />value: 4.395426e+05","Species: C.rhi<br />w: 2.446501e+01<br />value: 5.422728e+05","Species: C.rhi<br />w: 2.960385e+01<br />value: 6.662410e+05","Species: C.rhi<br />w: 3.582209e+01<br />value: 8.162569e+05","Species: C.rhi<br />w: 4.334646e+01<br />value: 1.011162e+06","Species: C.rhi<br />w: 5.245132e+01<br />value: 1.341020e+06","Species: C.rhi<br />w: 6.346863e+01<br />value: 1.877497e+06","Species: C.rhi<br />w: 7.680012e+01<br />value: 2.358889e+06","Species: C.rhi<br />w: 9.293186e+01<br />value: 2.738629e+06","Species: C.rhi<br />w: 1.124520e+02<br />value: 3.066725e+06","Species: C.rhi<br />w: 1.360724e+02<br />value: 3.335160e+06","Species: C.rhi<br />w: 1.646542e+02<br />value: 3.513190e+06","Species: C.rhi<br />w: 1.992396e+02<br />value: 3.567016e+06","Species: C.rhi<br />w: 2.410895e+02<br />value: 3.470820e+06","Species: C.rhi<br />w: 2.917300e+02<br />value: 3.215476e+06","Species: C.rhi<br />w: 3.530074e+02<br />value: 2.814800e+06","Species: C.rhi<br />w: 4.271561e+02<br />value: 2.307189e+06","Species: C.rhi<br />w: 5.168795e+02<br />value: 1.750710e+06","Species: C.rhi<br />w: 6.254492e+02<br />value: 1.211620e+06","Species: C.rhi<br />w: 7.568238e+02<br />value: 7.490880e+05","Species: C.rhi<br />w: 9.157935e+02<br />value: 4.010706e+05","Species: C.rhi<br />w: 1.108154e+03<br />value: 1.766526e+05","Species: C.rhi<br />w: 1.340920e+03<br />value: 5.800185e+04","Species: C.rhi<br />w: 1.622579e+03<br />value: 1.105385e+04","Species: C.rhi<br />w: 1.963399e+03<br />value: 1.150305e+02"],"type":"scatter","mode":"lines","line":{"width":3.02362204724409,"color":"rgba(141,166,0,1)","dash":"solid"},"hoveron":"points","name":"C.rhi","legendgroup":"C.rhi","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-3,-2.91719725641746,-2.83439451283491,-2.75159176925237,-2.66878902566983,-2.58598628208728,-2.50318353850474,-2.4203807949222,-2.33757805133965,-2.25477530775711,-2.17197256417457,-2.08916982059202,-2.00636707700948,-1.92356433342694,-1.8407615898444,-1.75795884626185,-1.67515610267931,-1.59235335909677,-1.50955061551422,-1.42674787193168,-1.34394512834914,-1.26114238476659,-1.17833964118405,-1.09553689760151,-1.01273415401896,-0.92993141043642,-0.847128666853877,-0.764325923271334,-0.68152317968879,-0.598720436106247,-0.515917692523704,-0.433114948941161,-0.350312205358617,-0.267509461776074,-0.184706718193531,-0.101903974610988,-0.0191012310284444,0.0637015125540987,0.146504256136642,0.229306999719185,0.312109743301728,0.394912486884271,0.477715230466815,0.560517974049358,0.643320717631901,0.726123461214444,0.808926204796987,0.891728948379531,0.974531691962074,1.05733443554462,1.14013717912716,1.2229399227097,1.30574266629225,1.38854540987479,1.47134815345733,1.55415089703988,1.63695364062242,1.71975638420496,1.80255912778751,1.88536187137005,1.96816461495259,2.05096735853514,2.13377010211768,2.21657284570022,2.29937558928277,2.38217833286531,2.46498107644785,2.54778382003039,2.63058656361294,2.71338930719548,2.79619205077802,2.87899479436057],"y":[2.52996638741367,2.64014424954853,2.75020963477991,2.86014274189227,2.96992073341676,3.07951738866534,3.18890274923613,3.2980427664937,3.4068989632104,3.51542812441775,3.62358203543705,3.73130728786585,3.83854517677456,3.94523171425683,4.05129778548278,4.15666947321394,4.26126857504125,4.36501333412494,4.46781939873278,4.56960101827787,4.67027247386975,4.76974972979429,4.86795227918935,4.96480514301899,5.06024096695977,5.1542021468028,5.24664290029886,5.33753119286461,5.4268504169525,5.51460072071495,5.60079988116962,5.68548362042936,5.76870527044298,5.85053470159821,5.9310564427701,6.01036693416093,6.08857086878905,6.16577659309518,6.24209055146622,6.31761077354102,6.39241941748617,6.46657439814777,6.54010014790715,6.61297758268068,6.68513337888835,6.75642871282896,6.82664767518337,6.89548565312999,6.96253807213889,7.0272900077253,7.08916846159057,7.14735800575763,7.20096875636589,7.24898134458294,7.29025248744983,7.32352686128123,7.34745728525238,7.36064113867371,7.36170893545963,7.34974327926943,7.32684661476996,7.3101226513595,7.32241674466895,7.24273333167401,6.99461574661293,6.6393561098635,6.19802430879016,5.66182492058147,5.00804466736188,4.19480142904936,3.12752029947592,1.33495069091724],"text":["Species: L.squ<br />w: 1.000000e-03<br />value: 3.388179e+02","Species: L.squ<br />w: 1.210048e-03<br />value: 4.366608e+02","Species: L.squ<br />w: 1.464217e-03<br />value: 5.626128e+02","Species: L.squ<br />w: 1.771774e-03<br />value: 7.246741e+02","Species: L.squ<br />w: 2.143932e-03<br />value: 9.330840e+02","Species: L.squ<br />w: 2.594261e-03<br />value: 1.200929e+03","Species: L.squ<br />w: 3.139182e-03<br />value: 1.544908e+03","Species: L.squ<br />w: 3.798562e-03<br />value: 1.986291e+03","Species: L.squ<br />w: 4.596444e-03<br />value: 2.552107e+03","Species: L.squ<br />w: 5.561919e-03<br />value: 3.276635e+03","Species: L.squ<br />w: 6.730192e-03<br />value: 4.203219e+03","Species: L.squ<br />w: 8.143858e-03<br />value: 5.386508e+03","Species: L.squ<br />w: 9.854462e-03<br />value: 6.895173e+03","Species: L.squ<br />w: 1.192438e-02<br />value: 8.815191e+03","Species: L.squ<br />w: 1.442907e-02<br />value: 1.125376e+04","Species: L.squ<br />w: 1.745988e-02<br />value: 1.434397e+04","Species: L.squ<br />w: 2.112730e-02<br />value: 1.825024e+04","Species: L.squ<br />w: 2.556505e-02<br />value: 2.317466e+04","Species: L.squ<br />w: 3.093495e-02<br />value: 2.936428e+04","Species: L.squ<br />w: 3.743278e-02<br />value: 3.711941e+04","Species: L.squ<br />w: 4.529548e-02<br />value: 4.680287e+04","Species: L.squ<br />w: 5.480972e-02<br />value: 5.885044e+04","Species: L.squ<br />w: 6.632242e-02<br />value: 7.378232e+04","Species: L.squ<br />w: 8.025334e-02<br />value: 9.221576e+04","Species: L.squ<br />w: 9.711042e-02<br />value: 1.148791e+05","Species: L.squ<br />w: 1.175083e-01<br />value: 1.426271e+05","Species: L.squ<br />w: 1.421907e-01<br />value: 1.764586e+05","Species: L.squ<br />w: 1.720577e-01<br />value: 2.175360e+05","Species: L.squ<br />w: 2.081981e-01<br />value: 2.672086e+05","Species: L.squ<br />w: 2.519298e-01<br />value: 3.270399e+05","Species: L.squ<br />w: 3.048473e-01<br />value: 3.988411e+05","Species: L.squ<br />w: 3.688800e-01<br />value: 4.847118e+05","Species: L.squ<br />w: 4.463626e-01<br />value: 5.870908e+05","Species: L.squ<br />w: 5.401203e-01<br />value: 7.088179e+05","Species: L.squ<br />w: 6.535718e-01<br />value: 8.532110e+05","Species: L.squ<br />w: 7.908535e-01<br />value: 1.024158e+06","Species: L.squ<br />w: 9.569710e-01<br />value: 1.226227e+06","Species: L.squ<br />w: 1.157981e+00<br />value: 1.464794e+06","Species: L.squ<br />w: 1.401213e+00<br />value: 1.746186e+06","Species: L.squ<br />w: 1.695536e+00<br />value: 2.077834e+06","Species: L.squ<br />w: 2.051681e+00<br />value: 2.468422e+06","Species: L.squ<br />w: 2.482633e+00<br />value: 2.928022e+06","Species: L.squ<br />w: 3.004106e+00<br />value: 3.468168e+06","Species: L.squ<br />w: 3.635113e+00<br />value: 4.101829e+06","Species: L.squ<br />w: 4.398663e+00<br />value: 4.843211e+06","Species: L.squ<br />w: 5.322595e+00<br />value: 5.707274e+06","Species: L.squ<br />w: 6.440598e+00<br />value: 6.708844e+06","Species: L.squ<br />w: 7.793436e+00<br />value: 7.861142e+06","Species: L.squ<br />w: 9.430434e+00<br />value: 9.173564e+06","Species: L.squ<br />w: 1.141128e+01<br />value: 1.064854e+07","Species: L.squ<br />w: 1.380820e+01<br />value: 1.227915e+07","Species: L.squ<br />w: 1.670859e+01<br />value: 1.403971e+07","Species: L.squ<br />w: 2.021821e+01<br />value: 1.588432e+07","Species: L.squ<br />w: 2.446501e+01<br />value: 1.774113e+07","Species: L.squ<br />w: 2.960385e+01<br />value: 1.950979e+07","Species: L.squ<br />w: 3.582209e+01<br />value: 2.106332e+07","Species: L.squ<br />w: 4.334646e+01<br />value: 2.225652e+07","Species: L.squ<br />w: 5.245132e+01<br />value: 2.294252e+07","Species: L.squ<br />w: 6.346863e+01<br />value: 2.299900e+07","Species: L.squ<br />w: 7.680012e+01<br />value: 2.237398e+07","Species: L.squ<br />w: 9.293186e+01<br />value: 2.122495e+07","Species: L.squ<br />w: 1.124520e+02<br />value: 2.042315e+07","Species: L.squ<br />w: 1.360724e+02<br />value: 2.100955e+07","Species: L.squ<br />w: 1.646542e+02<br />value: 1.748773e+07","Species: L.squ<br />w: 1.992396e+02<br />value: 9.876788e+06","Species: L.squ<br />w: 2.410895e+02<br />value: 4.358691e+06","Species: L.squ<br />w: 2.917300e+02<br />value: 1.577700e+06","Species: L.squ<br />w: 3.530074e+02<br />value: 4.590129e+05","Species: L.squ<br />w: 4.271561e+02<br />value: 1.018696e+05","Species: L.squ<br />w: 5.168795e+02<br />value: 1.566035e+04","Species: L.squ<br />w: 6.254492e+02<br />value: 1.341283e+03","Species: L.squ<br />w: 7.568238e+02<br />value: 2.162473e+01"],"type":"scatter","mode":"lines","line":{"width":3.02362204724409,"color":"rgba(222,83,255,1)","dash":"solid"},"hoveron":"points","name":"L.squ","legendgroup":"L.squ","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-3,-2.91719725641746,-2.83439451283491,-2.75159176925237,-2.66878902566983,-2.58598628208728,-2.50318353850474,-2.4203807949222,-2.33757805133965,-2.25477530775711,-2.17197256417457,-2.08916982059202,-2.00636707700948,-1.92356433342694,-1.8407615898444,-1.75795884626185,-1.67515610267931,-1.59235335909677,-1.50955061551422,-1.42674787193168,-1.34394512834914,-1.26114238476659,-1.17833964118405,-1.09553689760151,-1.01273415401896,-0.92993141043642,-0.847128666853877,-0.764325923271334,-0.68152317968879,-0.598720436106247,-0.515917692523704,-0.433114948941161,-0.350312205358617,-0.267509461776074,-0.184706718193531,-0.101903974610988,-0.0191012310284444,0.0637015125540987,0.146504256136642,0.229306999719185,0.312109743301728,0.394912486884271,0.477715230466815,0.560517974049358,0.643320717631901,0.726123461214444,0.808926204796987,0.891728948379531,0.974531691962074,1.05733443554462,1.14013717912716,1.2229399227097,1.30574266629225,1.38854540987479,1.47134815345733,1.55415089703988,1.63695364062242,1.71975638420496,1.80255912778751,1.88536187137005,1.96816461495259,2.05096735853514,2.13377010211768,2.21657284570022,2.29937558928277,2.38217833286531,2.46498107644785,2.54778382003039,2.63058656361294,2.71338930719548,2.79619205077802,2.87899479436057,2.96179753794311,3.04460028152565,3.1274030251082,3.21020576869074],"y":[1.14864798870462,1.25897903844139,1.36923484405332,1.47940222469095,1.58946598684455,1.69940869369185,1.80921042875065,1.91884855984251,2.0282975110857,2.13752855246904,2.24650961843743,2.35520516874245,2.46357610644494,2.57157976924307,2.67917001105632,2.78629739083033,2.89290948463971,2.998951335176,3.10436604946349,3.20909555105481,3.31308148699664,3.41626628260015,3.51859432867488,3.62001327667909,3.72047540759201,3.81993903070065,3.91836985944489,4.01574230352241,4.11204061013237,4.20725978296124,4.30140620559218,4.39449789659602,4.48656432660556,4.57764573297966,4.66779187486912,4.7570601801359,4.84551324513487,4.93321565836343,5.02023012905679,5.10661291180788,5.19240852838121,5.27764379861004,5.36232120460903,5.44641162796018,5.52984651994363,5.6125095925413,5.6942281552459,5.77476427193745,5.85380597498258,5.93095885099694,6.00574642764109,6.07758175738005,6.14578375356128,6.20956868582205,6.26805167458978,6.32025239291938,6.36510604269988,6.40148145549321,6.42820365871252,6.44407518257892,6.44791032105405,6.43858161312955,6.41506444319842,6.37640287994043,6.32175437950601,6.25049318364003,6.16223202195042,6.05683637347329,5.93454080434905,5.7967450593618,5.65082734306584,5.52354109370992,5.37394181358043,4.9371396697043,4.09370679802713,2.70640601581335],"text":["Species: M.cam<br />w: 1.000000e-03<br />value: 1.408147e+01","Species: M.cam<br />w: 1.210048e-03<br />value: 1.815428e+01","Species: M.cam<br />w: 1.464217e-03<br />value: 2.340102e+01","Species: M.cam<br />w: 1.771774e-03<br />value: 3.015798e+01","Species: M.cam<br />w: 2.143932e-03<br />value: 3.885671e+01","Species: M.cam<br />w: 2.594261e-03<br />value: 5.005053e+01","Species: M.cam<br />w: 3.139182e-03<br />value: 6.444815e+01","Species: M.cam<br />w: 3.798562e-03<br />value: 8.295614e+01","Species: M.cam<br />w: 4.596444e-03<br />value: 1.067327e+02","Species: M.cam<br />w: 5.561919e-03<br />value: 1.372551e+02","Species: M.cam<br />w: 6.730192e-03<br />value: 1.764045e+02","Species: M.cam<br />w: 8.143858e-03<br />value: 2.265714e+02","Species: M.cam<br />w: 9.854462e-03<br />value: 2.907877e+02","Species: M.cam<br />w: 1.192438e-02<br />value: 3.728892e+02","Species: M.cam<br />w: 1.442907e-02<br />value: 4.777162e+02","Species: M.cam<br />w: 1.745988e-02<br />value: 6.113605e+02","Species: M.cam<br />w: 2.112730e-02<br />value: 7.814649e+02","Species: M.cam<br />w: 2.556505e-02<br />value: 9.975883e+02","Species: M.cam<br />w: 3.093495e-02<br />value: 1.271645e+03","Species: M.cam<br />w: 3.743278e-02<br />value: 1.618436e+03","Species: M.cam<br />w: 4.529548e-02<br />value: 2.056276e+03","Species: M.cam<br />w: 5.480972e-02<br />value: 2.607752e+03","Species: M.cam<br />w: 6.632242e-02<br />value: 3.300611e+03","Species: M.cam<br />w: 8.025334e-02<br />value: 4.168821e+03","Species: M.cam<br />w: 9.711042e-02<br />value: 5.253823e+03","Species: M.cam<br />w: 1.175083e-01<br />value: 6.606007e+03","Species: M.cam<br />w: 1.421907e-01<br />value: 8.286476e+03","Species: M.cam<br />w: 1.720577e-01<br />value: 1.036913e+04","Species: M.cam<br />w: 2.081981e-01<br />value: 1.294317e+04","Species: M.cam<br />w: 2.519298e-01<br />value: 1.611609e+04","Species: M.cam<br />w: 3.048473e-01<br />value: 2.001733e+04","Species: M.cam<br />w: 3.688800e-01<br />value: 2.480264e+04","Species: M.cam<br />w: 4.463626e-01<br />value: 3.065945e+04","Species: M.cam<br />w: 5.401203e-01<br />value: 3.781340e+04","Species: M.cam<br />w: 6.535718e-01<br />value: 4.653630e+04","Species: M.cam<br />w: 7.908535e-01<br />value: 5.715578e+04","Species: M.cam<br />w: 9.569710e-01<br />value: 7.006696e+04","Species: M.cam<br />w: 1.157981e+00<br />value: 8.574635e+04","Species: M.cam<br />w: 1.401213e+00<br />value: 1.047684e+05","Species: M.cam<br />w: 1.695536e+00<br />value: 1.278241e+05","Species: M.cam<br />w: 2.051681e+00<br />value: 1.557430e+05","Species: M.cam<br />w: 2.482633e+00<br />value: 1.895151e+05","Species: M.cam<br />w: 3.004106e+00<br />value: 2.303145e+05","Species: M.cam<br />w: 3.635113e+00<br />value: 2.795192e+05","Species: M.cam<br />w: 4.398663e+00<br />value: 3.387244e+05","Species: M.cam<br />w: 5.322595e+00<br />value: 4.097412e+05","Species: M.cam<br />w: 6.440598e+00<br />value: 4.945704e+05","Species: M.cam<br />w: 7.793436e+00<br />value: 5.953389e+05","Species: M.cam<br />w: 9.430434e+00<br />value: 7.141772e+05","Species: M.cam<br />w: 1.141128e+01<br />value: 8.530193e+05","Species: M.cam<br />w: 1.380820e+01<br />value: 1.013320e+06","Species: M.cam<br />w: 1.670859e+01<br />value: 1.195589e+06","Species: M.cam<br />w: 2.021821e+01<br />value: 1.398891e+06","Species: M.cam<br />w: 2.446501e+01<br />value: 1.620200e+06","Species: M.cam<br />w: 2.960385e+01<br />value: 1.853752e+06","Species: M.cam<br />w: 3.582209e+01<br />value: 2.090511e+06","Species: M.cam<br />w: 4.334646e+01<br />value: 2.317961e+06","Species: M.cam<br />w: 5.245132e+01<br />value: 2.520470e+06","Species: M.cam<br />w: 6.346863e+01<br />value: 2.680425e+06","Species: M.cam<br />w: 7.680012e+01<br />value: 2.780195e+06","Species: M.cam<br />w: 9.293186e+01<br />value: 2.804854e+06","Species: M.cam<br />w: 1.124520e+02<br />value: 2.745248e+06","Species: M.cam<br />w: 1.360724e+02<br />value: 2.600545e+06","Species: M.cam<br />w: 1.646542e+02<br />value: 2.379046e+06","Species: M.cam<br />w: 1.992396e+02<br />value: 2.097753e+06","Species: M.cam<br />w: 2.410895e+02<br />value: 1.780300e+06","Species: M.cam<br />w: 2.917300e+02<br />value: 1.452888e+06","Species: M.cam<br />w: 3.530074e+02<br />value: 1.139820e+06","Species: M.cam<br />w: 4.271561e+02<br />value: 8.600839e+05","Species: M.cam<br />w: 5.168795e+02<br />value: 6.262461e+05","Species: M.cam<br />w: 6.254492e+02<br />value: 4.475353e+05","Species: M.cam<br />w: 7.568238e+02<br />value: 3.338421e+05","Species: M.cam<br />w: 9.157935e+02<br />value: 2.365603e+05","Species: M.cam<br />w: 1.108154e+03<br />value: 8.652461e+04","Species: M.cam<br />w: 1.340920e+03<br />value: 1.240814e+04","Species: M.cam<br />w: 1.622579e+03<br />value: 5.086347e+02"],"type":"scatter","mode":"lines","line":{"width":3.02362204724409,"color":"rgba(14,67,0,1)","dash":"solid"},"hoveron":"points","name":"M.cam","legendgroup":"M.cam","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-3,-2.91719725641746,-2.83439451283491,-2.75159176925237,-2.66878902566983,-2.58598628208728,-2.50318353850474,-2.4203807949222,-2.33757805133965,-2.25477530775711,-2.17197256417457,-2.08916982059202,-2.00636707700948,-1.92356433342694,-1.8407615898444,-1.75795884626185,-1.67515610267931,-1.59235335909677,-1.50955061551422,-1.42674787193168,-1.34394512834914,-1.26114238476659,-1.17833964118405,-1.09553689760151,-1.01273415401896,-0.92993141043642,-0.847128666853877,-0.764325923271334,-0.68152317968879,-0.598720436106247,-0.515917692523704,-0.433114948941161,-0.350312205358617,-0.267509461776074,-0.184706718193531,-0.101903974610988,-0.0191012310284444,0.0637015125540987,0.146504256136642,0.229306999719185,0.312109743301728,0.394912486884271,0.477715230466815,0.560517974049358,0.643320717631901,0.726123461214444,0.808926204796987,0.891728948379531,0.974531691962074,1.05733443554462,1.14013717912716,1.2229399227097,1.30574266629225,1.38854540987479,1.47134815345733,1.55415089703988,1.63695364062242,1.71975638420496,1.80255912778751,1.88536187137005,1.96816461495259,2.05096735853514,2.13377010211768,2.21657284570022,2.29937558928277,2.38217833286531,2.46498107644785,2.54778382003039,2.63058656361294,2.71338930719548,2.79619205077802,2.87899479436057,2.96179753794311,3.04460028152565,3.1274030251082,3.21020576869074,3.29300851227328,3.37581125585583,3.45861399943837],"y":[-2.01021423924378,-1.89945513081768,-1.78870244512447,-1.67795779347611,-1.56722303839204,-1.45650032243716,-1.34579209778344,-1.23510115575699,-1.124430655423,-1.01378415003655,-0.903165609957124,-0.792579440399199,-0.682030492188519,-0.571524063529402,-0.461065890685143,-0.35066212545583,-0.240319297425698,-0.130044259173378,-0.0198441130082331,0.0902738816672531,0.20030242056045,0.310234285568436,0.420062493011036,0.529780456126904,0.639382157687257,0.748862327286884,0.858216616601846,0.96744176472388,1.07653574466546,1.1854978813432,1.29432893084772,1.40303111063959,1.511608070493,1.62006479454059,1.72840742562726,1.83664300430221,1.94477911609923,2.05282344218566,2.16078320991686,2.26866454123632,2.37647169816033,2.48420622576698,2.59186599420832,2.69944414238066,2.80692792718115,2.91429748397685,3.02152450629463,3.12857085613586,3.23538712109288,3.34191114098723,3.4480753604072,3.55378101211179,3.65891952438897,3.76336425135781,3.8669695867751,3.96957046501284,4.07098242355124,4.17100252788427,4.26941093794577,4.36597269089447,4.4604417888885,4.55256746560711,4.64210128083057,4.72879220062099,4.81239585597161,4.89269684174046,4.96953113350848,5.04289598376883,5.11369084222545,5.18862505836834,5.30344434260354,5.51041256857856,5.6688488035581,5.70250578728987,5.67421988208764,5.60476580114256,5.48445397867381,5.27861372414934,4.84297239894869],"text":["Species: B.eat<br />w: 1.000000e-03<br />value: 9.767553e-03","Species: B.eat<br />w: 1.210048e-03<br />value: 1.260506e-02","Species: B.eat<br />w: 1.464217e-03<br />value: 1.626663e-02","Species: B.eat<br />w: 1.771774e-03<br />value: 2.099144e-02","Species: B.eat<br />w: 2.143932e-03<br />value: 2.708800e-02","Species: B.eat<br />w: 2.594261e-03<br />value: 3.495423e-02","Species: B.eat<br />w: 3.139182e-03<br />value: 4.510326e-02","Species: B.eat<br />w: 3.798562e-03<br />value: 5.819677e-02","Species: B.eat<br />w: 4.596444e-03<br />value: 7.508779e-02","Species: B.eat<br />w: 5.561919e-03<br />value: 9.687592e-02","Species: B.eat<br />w: 6.730192e-03<br />value: 1.249782e-01","Species: B.eat<br />w: 8.143858e-03<br />value: 1.612206e-01","Species: B.eat<br />w: 9.854462e-03<br />value: 2.079551e-01","Species: B.eat<br />w: 1.192438e-02<br />value: 2.682106e-01","Species: B.eat<br />w: 1.442907e-02<br />value: 3.458869e-01","Species: B.eat<br />w: 1.745988e-02<br />value: 4.460031e-01","Species: B.eat<br />w: 2.112730e-02<br />value: 5.750170e-01","Species: B.eat<br />w: 2.556505e-02<br />value: 7.412347e-01","Species: B.eat<br />w: 3.093495e-02<br />value: 9.553354e-01","Species: B.eat<br />w: 3.743278e-02<br />value: 1.231045e+00","Species: B.eat<br />w: 4.529548e-02<br />value: 1.585997e+00","Species: B.eat<br />w: 5.480972e-02<br />value: 2.042840e+00","Species: B.eat<br />w: 6.632242e-02<br />value: 2.630647e+00","Species: B.eat<br />w: 8.025334e-02<br />value: 3.386729e+00","Species: B.eat<br />w: 9.711042e-02<br />value: 4.358953e+00","Species: B.eat<br />w: 1.175083e-01<br />value: 5.608702e+00","Species: B.eat<br />w: 1.421907e-01<br />value: 7.214672e+00","Species: B.eat<br />w: 1.720577e-01<br />value: 9.277731e+00","Species: B.eat<br />w: 2.081981e-01<br />value: 1.192712e+01","Species: B.eat<br />w: 2.519298e-01<br />value: 1.532844e+01","Species: B.eat<br />w: 3.048473e-01<br />value: 1.969377e+01","Species: B.eat<br />w: 3.688800e-01<br />value: 2.529479e+01","Species: B.eat<br />w: 4.463626e-01<br />value: 3.247941e+01","Species: B.eat<br />w: 5.401203e-01<br />value: 4.169316e+01","Species: B.eat<br />w: 6.535718e-01<br />value: 5.350661e+01","Species: B.eat<br />w: 7.908535e-01<br />value: 6.865039e+01","Species: B.eat<br />w: 9.569710e-01<br />value: 8.806009e+01","Species: B.eat<br />w: 1.157981e+00<br />value: 1.129337e+02","Species: B.eat<br />w: 1.401213e+00<br />value: 1.448049e+02","Species: B.eat<br />w: 1.695536e+00<br />value: 1.856370e+02","Species: B.eat<br />w: 2.051681e+00<br />value: 2.379423e+02","Species: B.eat<br />w: 2.482633e+00<br />value: 3.049343e+02","Species: B.eat<br />w: 3.004106e+00<br />value: 3.907203e+02","Species: B.eat<br />w: 3.635113e+00<br />value: 5.005462e+02","Species: B.eat<br />w: 4.398663e+00<br />value: 6.411032e+02","Species: B.eat<br />w: 5.322595e+00<br />value: 8.209137e+02","Species: B.eat<br />w: 6.440598e+00<br />value: 1.050811e+03","Species: B.eat<br />w: 7.793436e+00<br />value: 1.344531e+03","Species: B.eat<br />w: 9.430434e+00<br />value: 1.719440e+03","Species: B.eat<br />w: 1.141128e+01<br />value: 2.197410e+03","Species: B.eat<br />w: 1.380820e+01<br />value: 2.805920e+03","Species: B.eat<br />w: 1.670859e+01<br />value: 3.579159e+03","Species: B.eat<br />w: 2.021821e+01<br />value: 4.559524e+03","Species: B.eat<br />w: 2.446501e+01<br />value: 5.799149e+03","Species: B.eat<br />w: 2.960385e+01<br />value: 7.361555e+03","Species: B.eat<br />w: 3.582209e+01<br />value: 9.323317e+03","Species: B.eat<br />w: 4.334646e+01<br />value: 1.177558e+04","Species: B.eat<br />w: 5.245132e+01<br />value: 1.482527e+04","Species: B.eat<br />w: 6.346863e+01<br />value: 1.859563e+04","Species: B.eat<br />w: 7.680012e+01<br />value: 2.322591e+04","Species: B.eat<br />w: 9.293186e+01<br />value: 2.886967e+04","Species: B.eat<br />w: 1.124520e+02<br />value: 3.569172e+04","Species: B.eat<br />w: 1.360724e+02<br />value: 4.386330e+04","Species: B.eat<br />w: 1.646542e+02<br />value: 5.355404e+04","Species: B.eat<br />w: 1.992396e+02<br />value: 6.492259e+04","Species: B.eat<br />w: 2.410895e+02<br />value: 7.810824e+04","Species: B.eat<br />w: 2.917300e+02<br />value: 9.322473e+04","Species: B.eat<br />w: 3.530074e+02<br />value: 1.103814e+05","Species: B.eat<br />w: 4.271561e+02<br />value: 1.299244e+05","Species: B.eat<br />w: 5.168795e+02<br />value: 1.543921e+05","Species: B.eat<br />w: 6.254492e+02<br />value: 2.011149e+05","Species: B.eat<br />w: 7.568238e+02<br />value: 3.239012e+05","Species: B.eat<br />w: 9.157935e+02<br />value: 4.664969e+05","Species: B.eat<br />w: 1.108154e+03<br />value: 5.040873e+05","Species: B.eat<br />w: 1.340920e+03<br />value: 4.723021e+05","Species: B.eat<br />w: 1.622579e+03<br />value: 4.024999e+05","Species: B.eat<br />w: 1.963399e+03<br />value: 3.051083e+05","Species: B.eat<br />w: 2.375808e+03<br />value: 1.899388e+05","Species: B.eat<br />w: 2.874842e+03<br />value: 6.965822e+04"],"type":"scatter","mode":"lines","line":{"width":3.02362204724409,"color":"rgba(67,0,121,1)","dash":"solid"},"hoveron":"points","name":"B.eat","legendgroup":"B.eat","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-3,-2.91719725641746,-2.83439451283491,-2.75159176925237,-2.66878902566983,-2.58598628208728,-2.50318353850474,-2.4203807949222,-2.33757805133965,-2.25477530775711,-2.17197256417457,-2.08916982059202,-2.00636707700948,-1.92356433342694,-1.8407615898444,-1.75795884626185,-1.67515610267931,-1.59235335909677,-1.50955061551422,-1.42674787193168,-1.34394512834914,-1.26114238476659,-1.17833964118405,-1.09553689760151,-1.01273415401896,-0.92993141043642,-0.847128666853877,-0.764325923271334,-0.68152317968879,-0.598720436106247,-0.515917692523704,-0.433114948941161,-0.350312205358617,-0.267509461776074,-0.184706718193531,-0.101903974610988,-0.0191012310284444,0.0637015125540987,0.146504256136642,0.229306999719185,0.312109743301728,0.394912486884271,0.477715230466815,0.560517974049358,0.643320717631901,0.726123461214444,0.808926204796987,0.891728948379531,0.974531691962074,1.05733443554462,1.14013717912716,1.2229399227097,1.30574266629225,1.38854540987479,1.47134815345733,1.55415089703988,1.63695364062242,1.71975638420496,1.80255912778751,1.88536187137005,1.96816461495259,2.05096735853514,2.13377010211768,2.21657284570022,2.29937558928277,2.38217833286531,2.46498107644785,2.54778382003039,2.63058656361294,2.71338930719548,2.79619205077802,2.87899479436057,2.96179753794311,3.04460028152565,3.1274030251082,3.21020576869074,3.29300851227328,3.37581125585583,3.45861399943837,3.54141674302091,3.62421948660346,3.707022230186,3.78982497376854,3.87262771735109,3.95543046093363,4.03823320451617,4.12103594809872],"y":[-2.12605586840296,-2.01535295525915,-1.90465999479618,-1.79397914746889,-1.6833129125016,-1.57266416803676,-1.46203621263619,-1.35143280718015,-1.24085821591738,-1.13031724510111,-1.0198152773148,-0.909358299262298,-0.798952920492366,-0.688606380272475,-0.578326539652077,-0.468121855696402,-0.358001334960886,-0.24797446355114,-0.138051111602564,-0.028241410742563,0.0814443959212011,0.190996130509652,0.300403881534935,0.409658225607855,0.518750463973761,0.627672866284093,0.736418912154966,0.844983519328896,0.953363245742367,1.06155645161035,1.16956340685184,1.27738632886093,1.38502933580697,1.49249830132272,1.59980059757037,1.70694471518693,1.81393975040215,1.92079475157265,2.02751791937018,2.13411565679924,2.2405914670427,2.34694469884762,2.45316914085208,2.55925146809618,2.66516954623492,2.77089060205046,2.87636927320203,2.98154555626338,3.08634268052332,3.19066494630167,3.29440535306879,3.39741650747094,3.49953398505386,3.60056685290527,3.70029654946502,3.79847640030337,3.89483204992631,3.98906333449019,4.08084707603274,4.16983971044488,4.25568344538892,4.33801568056228,4.41647943763725,4.49071905140637,4.56039264013966,4.62519880297042,4.68488799500727,4.73927020077323,4.78822271964277,4.83169789633381,4.86972914443363,4.90243594032571,4.93002631730014,4.95279635610283,4.97112874554079,4.98548869538275,4.99641753771724,5.00452516566641,5.01048721403488,5.01508825431498,5.01959786216582,5.02846750023492,5.06543350649363,5.20582125255495,5.38189671461223,5.30140407045224,4.82118036035172],"text":["Species: B.irr<br />w: 1.000000e-03<br />value: 7.480733e-03","Species: B.irr<br />w: 1.210048e-03<br />value: 9.652661e-03","Species: B.irr<br />w: 1.464217e-03<br />value: 1.245489e-02","Species: B.irr<br />w: 1.771774e-03<br />value: 1.607018e-02","Species: B.irr<br />w: 2.143932e-03<br />value: 2.073419e-02","Species: B.irr<br />w: 2.594261e-03<br />value: 2.675074e-02","Species: B.irr<br />w: 3.139182e-03<br />value: 3.451150e-02","Species: B.irr<br />w: 3.798562e-03<br />value: 4.452123e-02","Species: B.irr<br />w: 4.596444e-03<br />value: 5.743039e-02","Species: B.irr<br />w: 5.561919e-03<br />value: 7.407689e-02","Species: B.irr<br />w: 6.730192e-03<br />value: 9.553989e-02","Species: B.irr<br />w: 8.143858e-03<br />value: 1.232088e-01","Species: B.irr<br />w: 9.854462e-03<br />value: 1.588719e-01","Species: B.irr<br />w: 1.192438e-02<br />value: 2.048300e-01","Species: B.irr<br />w: 1.442907e-02<br />value: 2.640423e-01","Species: B.irr<br />w: 1.745988e-02<br />value: 3.403127e-01","Species: B.irr<br />w: 2.112730e-02<br />value: 4.385293e-01","Species: B.irr<br />w: 2.556505e-02<br />value: 5.649702e-01","Species: B.irr<br />w: 3.093495e-02<br />value: 7.276942e-01","Species: B.irr<br />w: 3.743278e-02<br />value: 9.370410e-01","Species: B.irr<br />w: 4.529548e-02<br />value: 1.206270e+00","Species: B.irr<br />w: 5.480972e-02<br />value: 1.552373e+00","Species: B.irr<br />w: 6.632242e-02<br />value: 1.997119e+00","Species: B.irr<br />w: 8.025334e-02<br />value: 2.568374e+00","Species: B.irr<br />w: 9.711042e-02<br />value: 3.301798e+00","Species: B.irr<br />w: 1.175083e-01<br />value: 4.242998e+00","Species: B.irr<br />w: 1.421907e-01<br />value: 5.450281e+00","Species: B.irr<br />w: 1.720577e-01<br />value: 6.998154e+00","Species: B.irr<br />w: 2.081981e-01<br />value: 8.981797e+00","Species: B.irr<br />w: 2.519298e-01<br />value: 1.152276e+01","Species: B.irr<br />w: 3.048473e-01<br />value: 1.477622e+01","Species: B.irr<br />w: 3.688800e-01<br />value: 1.894028e+01","Species: B.irr<br />w: 4.463626e-01<br />value: 2.426774e+01","Species: B.irr<br />w: 5.401203e-01<br />value: 3.108124e+01","Species: B.irr<br />w: 6.535718e-01<br />value: 3.979244e+01","Species: B.irr<br />w: 7.908535e-01<br />value: 5.092660e+01","Species: B.irr<br />w: 9.569710e-01<br />value: 6.515380e+01","Species: B.irr<br />w: 1.157981e+00<br />value: 8.332873e+01","Species: B.irr<br />w: 1.401213e+00<br />value: 1.065413e+02","Species: B.irr<br />w: 1.695536e+00<br />value: 1.361807e+02","Species: B.irr<br />w: 2.051681e+00<br />value: 1.740169e+02","Species: B.irr<br />w: 2.482633e+00<br />value: 2.223027e+02","Species: B.irr<br />w: 3.004106e+00<br />value: 2.839025e+02","Species: B.irr<br />w: 3.635113e+00<br />value: 3.624528e+02","Species: B.irr<br />w: 4.398663e+00<br />value: 4.625616e+02","Species: B.irr<br />w: 5.322595e+00<br />value: 5.900524e+02","Species: B.irr<br />w: 6.440598e+00<br />value: 7.522623e+02","Species: B.irr<br />w: 7.793436e+00<br />value: 9.583972e+02","Species: B.irr<br />w: 9.430434e+00<br />value: 1.219952e+03","Species: B.irr<br />w: 1.141128e+01<br />value: 1.551190e+03","Species: B.irr<br />w: 1.380820e+01<br />value: 1.969724e+03","Species: B.irr<br />w: 1.670859e+01<br />value: 2.496988e+03","Species: B.irr<br />w: 2.021821e+01<br />value: 3.158886e+03","Species: B.irr<br />w: 2.446501e+01<br />value: 3.986271e+03","Species: B.irr<br />w: 2.960385e+01<br />value: 5.015296e+03","Species: B.irr<br />w: 3.582209e+01<br />value: 6.287477e+03","Species: B.irr<br />w: 4.334646e+01<br />value: 7.849320e+03","Species: B.irr<br />w: 5.245132e+01<br />value: 9.751318e+03","Species: B.irr<br />w: 6.346863e+01<br />value: 1.204612e+04","Species: B.irr<br />w: 7.680012e+01<br />value: 1.478563e+04","Species: B.irr<br />w: 9.293186e+01<br />value: 1.801704e+04","Species: B.irr<br />w: 1.124520e+02<br />value: 2.177788e+04","Species: B.irr<br />w: 1.360724e+02<br />value: 2.609032e+04","Species: B.irr<br />w: 1.646542e+02<br />value: 3.095416e+04","Species: B.irr<br />w: 1.992396e+02<br />value: 3.634065e+04","Species: B.irr<br />w: 2.410895e+02<br />value: 4.218896e+04","Species: B.irr<br />w: 2.917300e+02<br />value: 4.840475e+04","Species: B.irr<br />w: 3.530074e+02<br />value: 5.486182e+04","Species: B.irr<br />w: 4.271561e+02<br />value: 6.140768e+04","Species: B.irr<br />w: 5.168795e+02<br />value: 6.787313e+04","Species: B.irr<br />w: 6.254492e+02<br />value: 7.408481e+04","Species: B.irr<br />w: 7.568238e+02<br />value: 7.987961e+04","Species: B.irr<br />w: 9.157935e+02<br />value: 8.511896e+04","Species: B.irr<br />w: 1.108154e+03<br />value: 8.970081e+04","Species: B.irr<br />w: 1.340920e+03<br />value: 9.356830e+04","Species: B.irr<br />w: 1.622579e+03<br />value: 9.671386e+04","Species: B.irr<br />w: 1.963399e+03<br />value: 9.917850e+04","Species: B.irr<br />w: 2.375808e+03<br />value: 1.010474e+05","Species: B.irr<br />w: 2.874842e+03<br />value: 1.024442e+05","Species: B.irr<br />w: 3.478698e+03<br />value: 1.035353e+05","Species: B.irr<br />w: 4.209393e+03<br />value: 1.046159e+05","Species: B.irr<br />w: 5.093569e+03<br />value: 1.067745e+05","Species: B.irr<br />w: 6.163466e+03<br />value: 1.162609e+05","Species: B.irr<br />w: 7.458092e+03<br />value: 1.606280e+05","Species: B.irr<br />w: 9.024652e+03<br />value: 2.409332e+05","Species: B.irr<br />w: 1.092027e+04<br />value: 2.001723e+05","Species: B.irr<br />w: 1.321405e+04<br />value: 6.624916e+04"],"type":"scatter","mode":"lines","line":{"width":3.02362204724409,"color":"rgba(108,170,114,1)","dash":"solid"},"hoveron":"points","name":"B.irr","legendgroup":"B.irr","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-3,-2.91719725641746,-2.83439451283491,-2.75159176925237,-2.66878902566983,-2.58598628208728,-2.50318353850474,-2.4203807949222,-2.33757805133965,-2.25477530775711,-2.17197256417457,-2.08916982059202,-2.00636707700948,-1.92356433342694,-1.8407615898444,-1.75795884626185,-1.67515610267931,-1.59235335909677,-1.50955061551422,-1.42674787193168,-1.34394512834914,-1.26114238476659,-1.17833964118405,-1.09553689760151,-1.01273415401896,-0.92993141043642,-0.847128666853877,-0.764325923271334,-0.68152317968879,-0.598720436106247,-0.515917692523704,-0.433114948941161,-0.350312205358617,-0.267509461776074,-0.184706718193531,-0.101903974610988,-0.0191012310284444,0.0637015125540987,0.146504256136642,0.229306999719185,0.312109743301728,0.394912486884271,0.477715230466815,0.560517974049358,0.643320717631901,0.726123461214444,0.808926204796987,0.891728948379531,0.974531691962074,1.05733443554462,1.14013717912716,1.2229399227097,1.30574266629225,1.38854540987479,1.47134815345733,1.55415089703988,1.63695364062242,1.71975638420496,1.80255912778751,1.88536187137005,1.96816461495259,2.05096735853514,2.13377010211768,2.21657284570022,2.29937558928277,2.38217833286531,2.46498107644785,2.54778382003039,2.63058656361294,2.71338930719548,2.79619205077802,2.87899479436057],"y":[-0.475691654207765,-0.365045556124541,-0.254425358991818,-0.143835894404852,-0.0332827538906913,0.0772276172070549,0.187687821569798,0.298089409451155,0.40842277859037,0.518677077905831,0.628840119182597,0.738898301781201,0.848836556168134,0.958638312744181,1.06828550294694,1.17775859984744,1.28703670535661,1.39609769061762,1.50491839510119,1.61347488827778,1.72174279547123,1.82969768659653,1.93731552298213,2.04457315345793,2.15144884648156,2.25792284045308,2.36397788974392,2.46959977957712,2.57477777898434,2.67950499786153,2.78377861184131,2.88759991743321,2.99097417971882,3.09391023580916,3.19641981918305,3.29851657276134,3.40021472192773,3.50152738246679,3.60246448238097,3.70303028069073,3.80322047069093,3.90301886001536,4.00239362579428,4.10129315100359,4.19964145891832,4.29733327775861,4.39422878867278,4.49014813865835,4.58486583718292,4.67810520194077,4.76954093110775,4.85877254227139,4.94534104132666,5.0287199612145,5.10831468910308,5.18346416737008,5.25344591445658,5.31748675641786,5.37478414444702,5.42458224709177,5.46664787433754,5.50433935302397,5.5603454422661,5.68068795456189,5.7493516340528,5.64879657286243,5.43738887442282,5.13885851793385,4.73653334803345,4.18451804600271,3.36555424000943,0.969014587291528],"text":["Species: G.acu<br />w: 1.000000e-03<br />value: 3.344324e-01","Species: G.acu<br />w: 1.210048e-03<br />value: 4.314738e-01","Species: G.acu<br />w: 1.464217e-03<br />value: 5.566403e-01","Species: G.acu<br />w: 1.771774e-03<br />value: 7.180656e-01","Species: G.acu<br />w: 2.143932e-03<br />value: 9.262266e-01","Species: G.acu<br />w: 2.594261e-03<br />value: 1.194614e+00","Species: G.acu<br />w: 3.139182e-03<br />value: 1.540593e+00","Species: G.acu<br />w: 3.798562e-03<br />value: 1.986504e+00","Species: G.acu<br />w: 4.596444e-03<br />value: 2.561078e+00","Species: G.acu<br />w: 5.561919e-03<br />value: 3.301240e+00","Species: G.acu<br />w: 6.730192e-03<br />value: 4.254418e+00","Species: G.acu<br />w: 8.143858e-03<br />value: 5.481486e+00","Species: G.acu<br />w: 9.854462e-03<br />value: 7.060518e+00","Species: G.acu<br />w: 1.192438e-02<br />value: 9.091558e+00","Species: G.acu<br />w: 1.442907e-02<br />value: 1.170268e+01","Species: G.acu<br />w: 1.745988e-02<br />value: 1.505770e+01","Species: G.acu<br />w: 2.112730e-02<br />value: 1.936586e+01","Species: G.acu<br />w: 2.556505e-02<br />value: 2.489417e+01","Species: G.acu<br />w: 3.093495e-02<br />value: 3.198294e+01","Species: G.acu<br />w: 3.743278e-02<br />value: 4.106529e+01","Species: G.acu<br />w: 4.529548e-02<br />value: 5.269177e+01","Species: G.acu<br />w: 5.480972e-02<br />value: 6.756125e+01","Species: G.acu<br />w: 6.632242e-02<br />value: 8.655966e+01","Species: G.acu<br />w: 8.025334e-02<br />value: 1.108085e+02","Species: G.acu<br />w: 9.711042e-02<br />value: 1.417258e+02","Species: G.acu<br />w: 1.175083e-01<br />value: 1.811018e+02","Species: G.acu<br />w: 1.421907e-01<br />value: 2.311947e+02","Species: G.acu<br />w: 1.720577e-01<br />value: 2.948491e+02","Species: G.acu<br />w: 2.081981e-01<br />value: 3.756451e+02","Species: G.acu<br />w: 2.519298e-01<br />value: 4.780849e+02","Species: G.acu<br />w: 3.048473e-01<br />value: 6.078251e+02","Species: G.acu<br />w: 3.688800e-01<br />value: 7.719691e+02","Species: G.acu<br />w: 4.463626e-01<br />value: 9.794318e+02","Species: G.acu<br />w: 5.401203e-01<br />value: 1.241396e+03","Species: G.acu<br />w: 6.535718e-01<br />value: 1.571882e+03","Species: G.acu<br />w: 7.908535e-01<br />value: 1.988459e+03","Species: G.acu<br />w: 9.569710e-01<br />value: 2.513129e+03","Species: G.acu<br />w: 1.157981e+00<br />value: 3.173419e+03","Species: G.acu<br />w: 1.401213e+00<br />value: 4.003727e+03","Species: G.acu<br />w: 1.695536e+00<br />value: 5.046965e+03","Species: G.acu<br />w: 2.051681e+00<br />value: 6.356535e+03","Species: G.acu<br />w: 2.482633e+00<br />value: 7.998690e+03","Species: G.acu<br />w: 3.004106e+00<br />value: 1.005527e+04","Species: G.acu<br />w: 3.635113e+00<br />value: 1.262680e+04","Species: G.acu<br />w: 4.398663e+00<br />value: 1.583585e+04","Species: G.acu<br />w: 5.322595e+00<br />value: 1.983048e+04","Species: G.acu<br />w: 6.440598e+00<br />value: 2.478728e+04","Species: G.acu<br />w: 7.793436e+00<br />value: 3.091350e+04","Species: G.acu<br />w: 9.430434e+00<br />value: 3.844730e+04","Species: G.acu<br />w: 1.141128e+01<br />value: 4.765464e+04","Species: G.acu<br />w: 1.380820e+01<br />value: 5.882215e+04","Species: G.acu<br />w: 1.670859e+01<br />value: 7.223914e+04","Species: G.acu<br />w: 2.021821e+01<br />value: 8.817410e+04","Species: G.acu<br />w: 2.446501e+01<br />value: 1.068366e+05","Species: G.acu<br />w: 2.960385e+01<br />value: 1.283260e+05","Species: G.acu<br />w: 3.582209e+01<br />value: 1.525683e+05","Species: G.acu<br />w: 4.334646e+01<br />value: 1.792445e+05","Species: G.acu<br />w: 5.245132e+01<br />value: 2.077240e+05","Species: G.acu<br />w: 6.346863e+01<br />value: 2.370195e+05","Species: G.acu<br />w: 7.680012e+01<br />value: 2.658167e+05","Species: G.acu<br />w: 9.293186e+01<br />value: 2.928518e+05","Species: G.acu<br />w: 1.124520e+02<br />value: 3.194033e+05","Species: G.acu<br />w: 1.360724e+02<br />value: 3.633670e+05","Species: G.acu<br />w: 1.646542e+02<br />value: 4.793889e+05","Species: G.acu<br />w: 1.992396e+02<br />value: 5.615024e+05","Species: G.acu<br />w: 2.410895e+02<br />value: 4.454475e+05","Species: G.acu<br />w: 2.917300e+02<br />value: 2.737719e+05","Species: G.acu<br />w: 3.530074e+02<br />value: 1.376761e+05","Species: G.acu<br />w: 4.271561e+02<br />value: 5.451718e+04","Species: G.acu<br />w: 5.168795e+02<br />value: 1.529389e+04","Species: G.acu<br />w: 6.254492e+02<br />value: 2.320354e+03","Species: G.acu<br />w: 7.568238e+02<br />value: 9.311392e+00"],"type":"scatter","mode":"lines","line":{"width":3.02362204724409,"color":"rgba(238,0,83,1)","dash":"solid"},"hoveron":"points","name":"G.acu","legendgroup":"G.acu","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-3,-2.91719725641746,-2.83439451283491,-2.75159176925237,-2.66878902566983,-2.58598628208728,-2.50318353850474,-2.4203807949222,-2.33757805133965,-2.25477530775711,-2.17197256417457,-2.08916982059202,-2.00636707700948,-1.92356433342694,-1.8407615898444,-1.75795884626185,-1.67515610267931,-1.59235335909677,-1.50955061551422,-1.42674787193168,-1.34394512834914,-1.26114238476659,-1.17833964118405,-1.09553689760151,-1.01273415401896,-0.92993141043642,-0.847128666853877,-0.764325923271334,-0.68152317968879,-0.598720436106247,-0.515917692523704,-0.433114948941161,-0.350312205358617,-0.267509461776074,-0.184706718193531,-0.101903974610988,-0.0191012310284444,0.0637015125540987,0.146504256136642,0.229306999719185,0.312109743301728,0.394912486884271,0.477715230466815,0.560517974049358,0.643320717631901,0.726123461214444,0.808926204796987,0.891728948379531,0.974531691962074,1.05733443554462,1.14013717912716,1.2229399227097,1.30574266629225,1.38854540987479,1.47134815345733,1.55415089703988,1.63695364062242,1.71975638420496,1.80255912778751,1.88536187137005,1.96816461495259,2.05096735853514,2.13377010211768,2.21657284570022,2.29937558928277,2.38217833286531,2.46498107644785,2.54778382003039,2.63058656361294,2.71338930719548,2.79619205077802,2.87899479436057,2.96179753794311],"y":[-0.734455644254346,-0.623942100897236,-0.513475572123991,-0.403064613078902,-0.292719112091481,-0.182450449174822,-0.0722716599185044,0.0378023990271488,0.147754887856159,0.257566831164176,0.367216982759515,0.476681716657889,0.585934954422866,0.694948140039771,0.803690274206,0.912128020145211,1.02022589266349,1.12794654102138,1.23525113417826,1.34209985398347,1.44845249790417,1.55426918791279,1.65951117630292,1.76414173263438,1.86812708898012,1.97143741347872,2.0740477752646,2.17593905755053,2.27709877037179,2.37752171062175,2.47721041479388,2.57617534946951,2.6744347860993,2.77201430993457,2.86894591785242,2.96526666597281,3.06101683499749,3.15623758872295,3.25096810885421,3.34524219686838,3.43908434124601,3.53250525617495,3.62549690643916,3.71802704359441,3.81003329202579,3.90141684169869,3.9920358291738,4.08169852158137,4.17015646133669,4.25709778348641,4.34214872225783,4.4248468140761,4.50465677740843,4.58096169443773,4.6530628849932,4.72018277825955,4.78147172693144,4.83602056970531,4.88287629703297,4.92105551954004,4.94956978270152,4.96746069940125,4.97383484267903,4.96784655278044,4.94873511651193,4.91590871674966,4.86901203002644,4.80824747848896,4.73647949190206,4.6709233808478,4.65697742074236,4.56730067732509,4.03071121285438],"text":["Species: B.mur<br />w: 1.000000e-03<br />value: 1.843081e-01","Species: B.mur<br />w: 1.210048e-03<br />value: 2.377157e-01","Species: B.mur<br />w: 1.464217e-03<br />value: 3.065663e-01","Species: B.mur<br />w: 1.771774e-03<br />value: 3.953078e-01","Species: B.mur<br />w: 2.143932e-03<br />value: 5.096604e-01","Species: B.mur<br />w: 2.594261e-03<br />value: 6.569761e-01","Species: B.mur<br />w: 3.139182e-03<br />value: 8.466976e-01","Species: B.mur<br />w: 3.798562e-03<br />value: 1.090944e+00","Species: B.mur<br />w: 4.596444e-03<br />value: 1.405254e+00","Species: B.mur<br />w: 5.561919e-03<br />value: 1.809534e+00","Species: B.mur<br />w: 6.730192e-03<br />value: 2.329255e+00","Species: B.mur<br />w: 8.143858e-03<br />value: 2.996965e+00","Species: B.mur<br />w: 9.854462e-03<br />value: 3.854206e+00","Species: B.mur<br />w: 1.192438e-02<br />value: 4.953910e+00","Species: B.mur<br />w: 1.442907e-02<br />value: 6.363415e+00","Species: B.mur<br />w: 1.745988e-02<br />value: 8.168231e+00","Species: B.mur<br />w: 2.112730e-02<br />value: 1.047673e+01","Species: B.mur<br />w: 2.556505e-02<br />value: 1.342600e+01","Species: B.mur<br />w: 3.093495e-02<br />value: 1.718902e+01","Species: B.mur<br />w: 3.743278e-02<br />value: 2.198365e+01","Species: B.mur<br />w: 4.529548e-02<br />value: 2.808358e+01","Species: B.mur<br />w: 5.480972e-02<br />value: 3.583185e+01","Species: B.mur<br />w: 6.632242e-02<br />value: 4.565740e+01","Species: B.mur<br />w: 8.025334e-02<br />value: 5.809540e+01","Species: B.mur<br />w: 9.711042e-02<br />value: 7.381202e+01","Species: B.mur<br />w: 1.175083e-01<br />value: 9.363483e+01","Species: B.mur<br />w: 1.421907e-01<br />value: 1.185899e+02","Species: B.mur<br />w: 1.720577e-01<br />value: 1.499474e+02","Species: B.mur<br />w: 2.081981e-01<br />value: 1.892774e+02","Species: B.mur<br />w: 2.519298e-01<br />value: 2.385183e+02","Species: B.mur<br />w: 3.048473e-01<br />value: 3.000616e+02","Species: B.mur<br />w: 3.688800e-01<br />value: 3.768559e+02","Species: B.mur<br />w: 4.463626e-01<br />value: 4.725359e+02","Species: B.mur<br />w: 5.401203e-01<br />value: 5.915811e+02","Species: B.mur<br />w: 6.535718e-01<br />value: 7.395132e+02","Species: B.mur<br />w: 7.908535e-01<br />value: 9.231381e+02","Species: B.mur<br />w: 9.569710e-01<br />value: 1.150845e+03","Species: B.mur<br />w: 1.157981e+00<br />value: 1.432972e+03","Species: B.mur<br />w: 1.401213e+00<br />value: 1.782248e+03","Species: B.mur<br />w: 1.695536e+00<br />value: 2.214329e+03","Species: B.mur<br />w: 2.051681e+00<br />value: 2.748428e+03","Species: B.mur<br />w: 2.482633e+00<br />value: 3.408044e+03","Species: B.mur<br />w: 3.004106e+00<br />value: 4.221793e+03","Species: B.mur<br />w: 3.635113e+00<br />value: 5.224287e+03","Species: B.mur<br />w: 4.398663e+00<br />value: 6.457037e+03","Species: B.mur<br />w: 5.322595e+00<br />value: 7.969239e+03","Species: B.mur<br />w: 6.440598e+00<br />value: 9.818289e+03","Species: B.mur<br />w: 7.793436e+00<br />value: 1.206976e+04","Species: B.mur<br />w: 9.430434e+00<br />value: 1.479641e+04","Species: B.mur<br />w: 1.141128e+01<br />value: 1.807581e+04","Species: B.mur<br />w: 1.380820e+01<br />value: 2.198613e+04","Species: B.mur<br />w: 1.670859e+01<br />value: 2.659787e+04","Species: B.mur<br />w: 2.021821e+01<br />value: 3.196368e+04","Species: B.mur<br />w: 2.446501e+01<br />value: 3.810322e+04","Species: B.mur<br />w: 2.960385e+01<br />value: 4.498450e+04","Species: B.mur<br />w: 3.582209e+01<br />value: 5.250284e+04","Species: B.mur<br />w: 4.334646e+01<br />value: 6.046050e+04","Species: B.mur<br />w: 5.245132e+01<br />value: 6.855207e+04","Species: B.mur<br />w: 6.346863e+01<br />value: 7.636182e+04","Species: B.mur<br />w: 7.680012e+01<br />value: 8.337878e+04","Species: B.mur<br />w: 9.293186e+01<br />value: 8.903685e+04","Species: B.mur<br />w: 1.124520e+02<br />value: 9.278135e+04","Species: B.mur<br />w: 1.360724e+02<br />value: 9.415315e+04","Species: B.mur<br />w: 1.646542e+02<br />value: 9.286382e+04","Species: B.mur<br />w: 1.992396e+02<br />value: 8.886589e+04","Species: B.mur<br />w: 2.410895e+02<br />value: 8.239649e+04","Species: B.mur<br />w: 2.917300e+02<br />value: 7.396258e+04","Species: B.mur<br />w: 3.530074e+02<br />value: 6.430541e+04","Species: B.mur<br />w: 4.271561e+02<br />value: 5.451042e+04","Species: B.mur<br />w: 5.168795e+02<br />value: 4.687307e+04","Species: B.mur<br />w: 6.254492e+02<br />value: 4.539180e+04","Species: B.mur<br />w: 7.568238e+02<br />value: 3.692331e+04","Species: B.mur<br />w: 9.157935e+02<br />value: 1.073275e+04"],"type":"scatter","mode":"lines","line":{"width":3.02362204724409,"color":"rgba(0,121,87,1)","dash":"solid"},"hoveron":"points","name":"B.mur","legendgroup":"B.mur","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-4.98726584598104,-4.90446310239849,-4.82166035881595,-4.73885761523341,-4.65605487165086,-4.57325212806832,-4.49044938448578,-4.40764664090323,-4.32484389732069,-4.24204115373815,-4.1592384101556,-4.07643566657306,-3.99363292299052,-3.91083017940798,-3.82802743582543,-3.74522469224289,-3.66242194866035,-3.5796192050778,-3.49681646149526,-3.41401371791272,-3.33121097433017,-3.24840823074763,-3.16560548716509,-3.08280274358254,-3,-2.91719725641746,-2.83439451283491,-2.75159176925237,-2.66878902566983,-2.58598628208728,-2.50318353850474,-2.4203807949222,-2.33757805133965,-2.25477530775711,-2.17197256417457,-2.08916982059202,-2.00636707700948,-1.92356433342694,-1.8407615898444,-1.75795884626185,-1.67515610267931,-1.59235335909677,-1.50955061551422,-1.42674787193168,-1.34394512834914,-1.26114238476659,-1.17833964118405,-1.09553689760151,-1.01273415401896,-0.92993141043642,-0.847128666853877,-0.764325923271334,-0.68152317968879,-0.598720436106247,-0.515917692523704,-0.433114948941161,-0.350312205358617,-0.267509461776074,-0.184706718193531,-0.101903974610988,-0.0191012310284444,0.0637015125540987,0.146504256136642,0.229306999719185,0.312109743301728,0.394912486884271,0.477715230466815,0.560517974049358,0.643320717631901,0.726123461214444,0.808926204796987,0.891728948379531,0.974531691962074],"y":[8.52406335897022,8.5199230561578,8.5157827103388,8.51164231089358,8.50750184471198,8.5033612956412,8.4992206438188,8.49507986486827,8.49093892893097,8.48679779950322,8.48265643204232,8.47851477229915,8.47437275432831,8.47023029811967,8.46608730678729,8.46194366324417,8.45779922628332,8.45365382597948,8.44950725832057,8.44535927897649,8.44120959611503,8.43705786218421,8.43290366459735,8.42874651528611,8.42458584013116,8.42042096347958,8.41625109736487,8.41207532640396,8.40789259328953,8.40370168449089,8.39950121683549,8.39528962581846,8.39106515666718,8.38682585935874,8.38256958893253,8.37829401253767,8.3739966246794,8.36967477205416,8.36532568916074,8.36094654551953,8.35653450480299,8.3520867954646,8.34760079155138,8.34307410131086,8.33850465998837,8.33389082190501,8.32923144557548,8.3245259643467,8.31977443389666,8.31497754701033,8.31013660541515,8.30525343816135,8.30033025609128,8.29536943234072,8.29037319950905,8.28534325504938,8.28028026748746,8.27518327721375,8.27004898679372,8.26487093708014,8.2596385670912,8.25433615801869,8.24894166543833,8.24342544963331,8.23774892296156,8.23186314662045,8.22570742824586,8.21920799756308,8.21227687018057,8.20481104873216,8.19669225302937,8.18778741086749,8.17795016919106],"text":["Species: Resource<br />w: 1.029756e-05<br />value: 3.342438e+08","Species: Resource<br />w: 1.246054e-05<br />value: 3.310725e+08","Species: Resource<br />w: 1.507786e-05<br />value: 3.279312e+08","Species: Resource<br />w: 1.824494e-05<br />value: 3.248197e+08","Species: Resource<br />w: 2.207726e-05<br />value: 3.217376e+08","Species: Resource<br />w: 2.671455e-05<br />value: 3.186848e+08","Species: Resource<br />w: 3.232590e-05<br />value: 3.156608e+08","Species: Resource<br />w: 3.911590e-05<br />value: 3.126654e+08","Species: Resource<br />w: 4.733214e-05<br />value: 3.096984e+08","Species: Resource<br />w: 5.727418e-05<br />value: 3.067593e+08","Species: Resource<br />w: 6.930452e-05<br />value: 3.038480e+08","Species: Resource<br />w: 8.386183e-05<br />value: 3.009642e+08","Species: Resource<br />w: 1.014769e-04<br />value: 2.981074e+08","Species: Resource<br />w: 1.227919e-04<br />value: 2.952775e+08","Species: Resource<br />w: 1.485842e-04<br />value: 2.924740e+08","Species: Resource<br />w: 1.797940e-04<br />value: 2.896968e+08","Species: Resource<br />w: 2.175595e-04<br />value: 2.869454e+08","Species: Resource<br />w: 2.632575e-04<br />value: 2.842195e+08","Species: Resource<br />w: 3.185543e-04<br />value: 2.815187e+08","Species: Resource<br />w: 3.854662e-04<br />value: 2.788427e+08","Species: Resource<br />w: 4.664327e-04<br />value: 2.761910e+08","Species: Resource<br />w: 5.644062e-04<br />value: 2.735633e+08","Species: Resource<br />w: 6.829588e-04<br />value: 2.709591e+08","Species: Resource<br />w: 8.264132e-04<br />value: 2.683778e+08","Species: Resource<br />w: 1.000000e-03<br />value: 2.658189e+08","Species: Resource<br />w: 1.210048e-03<br />value: 2.632819e+08","Species: Resource<br />w: 1.464217e-03<br />value: 2.607661e+08","Species: Resource<br />w: 1.771774e-03<br />value: 2.582708e+08","Species: Resource<br />w: 2.143932e-03<br />value: 2.557953e+08","Species: Resource<br />w: 2.594261e-03<br />value: 2.533388e+08","Species: Resource<br />w: 3.139182e-03<br />value: 2.509003e+08","Species: Resource<br />w: 3.798562e-03<br />value: 2.484790e+08","Species: Resource<br />w: 4.596444e-03<br />value: 2.460737e+08","Species: Resource<br />w: 5.561919e-03<br />value: 2.436834e+08","Species: Resource<br />w: 6.730192e-03<br />value: 2.413068e+08","Species: Resource<br />w: 8.143858e-03<br />value: 2.389428e+08","Species: Resource<br />w: 9.854462e-03<br />value: 2.365901e+08","Species: Resource<br />w: 1.192438e-02<br />value: 2.342474e+08","Species: Resource<br />w: 1.442907e-02<br />value: 2.319133e+08","Species: Resource<br />w: 1.745988e-02<br />value: 2.295866e+08","Species: Resource<br />w: 2.112730e-02<br />value: 2.272660e+08","Species: Resource<br />w: 2.556505e-02<br />value: 2.249504e+08","Species: Resource<br />w: 3.093495e-02<br />value: 2.226388e+08","Species: Resource<br />w: 3.743278e-02<br />value: 2.203302e+08","Species: Resource<br />w: 4.529548e-02<br />value: 2.180242e+08","Species: Resource<br />w: 5.480972e-02<br />value: 2.157202e+08","Species: Resource<br />w: 6.632242e-02<br />value: 2.134182e+08","Species: Resource<br />w: 8.025334e-02<br />value: 2.111183e+08","Species: Resource<br />w: 9.711042e-02<br />value: 2.088211e+08","Species: Resource<br />w: 1.175083e-01<br />value: 2.065273e+08","Species: Resource<br />w: 1.421907e-01<br />value: 2.042380e+08","Species: Resource<br />w: 1.720577e-01<br />value: 2.019545e+08","Species: Resource<br />w: 2.081981e-01<br />value: 1.996780e+08","Species: Resource<br />w: 2.519298e-01<br />value: 1.974101e+08","Species: Resource<br />w: 3.048473e-01<br />value: 1.951521e+08","Species: Resource<br />w: 3.688800e-01<br />value: 1.929049e+08","Species: Resource<br />w: 4.463626e-01<br />value: 1.906691e+08","Species: Resource<br />w: 5.401203e-01<br />value: 1.884444e+08","Species: Resource<br />w: 6.535718e-01<br />value: 1.862297e+08","Species: Resource<br />w: 7.908535e-01<br />value: 1.840225e+08","Species: Resource<br />w: 9.569710e-01<br />value: 1.818187e+08","Species: Resource<br />w: 1.157981e+00<br />value: 1.796123e+08","Species: Resource<br />w: 1.401213e+00<br />value: 1.773951e+08","Species: Resource<br />w: 1.695536e+00<br />value: 1.751562e+08","Species: Resource<br />w: 2.051681e+00<br />value: 1.728817e+08","Species: Resource<br />w: 2.482633e+00<br />value: 1.705545e+08","Species: Resource<br />w: 3.004106e+00<br />value: 1.681541e+08","Species: Resource<br />w: 3.635113e+00<br />value: 1.656563e+08","Species: Resource<br />w: 4.398663e+00<br />value: 1.630335e+08","Species: Resource<br />w: 5.322595e+00<br />value: 1.602548e+08","Species: Resource<br />w: 6.440598e+00<br />value: 1.572868e+08","Species: Resource<br />w: 7.793436e+00<br />value: 1.540946e+08","Species: Resource<br />w: 9.430434e+00<br />value: 1.506434e+08"],"type":"scatter","mode":"lines","line":{"width":3.02362204724409,"color":"rgba(0,255,0,1)","dash":"solid"},"hoveron":"points","name":"Resource","legendgroup":"Resource","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-4.98726584598104,-4.90446310239849,-4.82166035881595,-4.73885761523341,-4.65605487165086,-4.57325212806832,-4.49044938448578,-4.40764664090323,-4.32484389732069,-4.24204115373815,-4.1592384101556,-4.07643566657306,-3.99363292299052,-3.91083017940798,-3.82802743582543,-3.74522469224289,-3.66242194866035,-3.5796192050778,-3.49681646149526,-3.41401371791272,-3.33121097433017,-3.24840823074763,-3.16560548716509,-3.08280274358254,-3,-2.91719725641746,-2.83439451283491,-2.75159176925237,-2.66878902566983,-2.58598628208728,-2.50318353850474,-2.4203807949222,-2.33757805133965,-2.25477530775711,-2.17197256417457,-2.08916982059202,-2.00636707700948,-1.92356433342694,-1.8407615898444,-1.75795884626185,-1.67515610267931,-1.59235335909677,-1.50955061551422,-1.42674787193168,-1.34394512834914,-1.26114238476659,-1.17833964118405,-1.09553689760151,-1.01273415401896,-0.92993141043642,-0.847128666853877,-0.764325923271334,-0.68152317968879,-0.598720436106247,-0.515917692523704,-0.433114948941161,-0.350312205358617,-0.267509461776074,-0.184706718193531,-0.101903974610988,-0.0191012310284444,0.0637015125540987,0.146504256136642,0.229306999719185,0.312109743301728,0.394912486884271,0.477715230466815,0.560517974049358,0.643320717631901,0.726123461214444,0.808926204796987,0.891728948379531,0.974531691962074,1.05733443554462,1.14013717912716,1.2229399227097,1.30574266629225,1.38854540987479,1.47134815345733,1.55415089703988,1.63695364062242,1.71975638420496,1.80255912778751,1.88536187137005,1.96816461495259,2.05096735853514,2.13377010211768,2.21657284570022,2.29937558928277,2.38217833286531,2.46498107644785,2.54778382003039,2.63058656361294,2.71338930719548,2.79619205077802,2.87899479436057,2.96179753794311,3.04460028152565,3.1274030251082,3.21020576869074,3.29300851227328,3.37581125585583,3.45861399943837,3.54141674302091,3.62421948660346,3.707022230186,3.78982497376854,3.87262771735109,3.95543046093363,4.03823320451617,4.12103594809872,4.20383869168126,4.2866414352638,4.36944417884635,4.45224692242889,4.53504966601143,4.61785240959397,4.70065515317652,4.78345789675906,4.8662606403416,4.94906338392415,5.03186612750669,5.11466887108923,5.19747161467178],"y":[8.52406335897022,8.5199230561578,8.5157827103388,8.51164231089358,8.50750184471198,8.5033612956412,8.4992206438188,8.49507986486827,8.49093892893097,8.48679779950322,8.48265643204232,8.47851477229915,8.47437275432831,8.47023029811967,8.46608730678729,8.46194366324417,8.45779922628332,8.45365382597948,8.44950725832057,8.44535927897649,8.44120959611503,8.43705786218421,8.43290366459735,8.42874651528611,8.42458643053966,8.42042173174674,8.41625209683049,8.41207662627747,8.40789428330578,8.40370388089889,8.39950407008564,8.39529333040667,8.39106996370751,8.38683209259245,8.3825776650444,8.37830446684199,8.37401014346061,8.36969223310146,8.36534821232138,8.36097555541055,8.35657180816107,8.35213467597453,8.34766212537004,8.3431524968923,8.33860462621978,8.33401796899362,8.32939272361121,8.32472994505241,8.3200316418436,8.31530084763058,8.31054165862954,8.30575922854145,8.30095971339465,8.29615016022981,8.29133833551491,8.28653249158909,8.28174107216419,8.27697236082995,8.2722340794903,8.26753294660891,8.26287420799163,8.25826115551788,8.25369465161769,8.24917267904445,8.2446899358705,8.24023749317802,8.23580252508594,8.23136810354697,8.22691301814623,8.22241152715156,8.21783286414276,8.21314021330254,8.20828873693076,7.1061541262503,7.1724933561923,7.23576349211283,7.29525328727313,7.35018358255603,7.39976562311311,7.44350741063482,7.48315765397004,7.52938135350549,7.58357841146372,7.61602217569857,7.62927387588755,7.63780450819039,7.65108927680278,7.61201921827702,7.49987564279523,7.36074664551915,7.20947407102884,7.0507001031405,6.90916640227367,6.84792538785594,6.84641235469089,6.86239085290291,6.88840600386573,6.91443152462311,6.94726195706273,6.98410055698769,7.02074552170427,7.05619618525797,7.09040131002,7.12602294307102,7.16368243121096,7.20150266468147,7.24029722440975,7.28204622843417,7.33282968649608,7.41653830498448,7.5451649802711,7.62798760435074,7.6681862809862,7.69993031593387,7.73270057255793,7.76792469938872,7.80524743208612,7.84403431062102,7.88449146570108,7.92911795563578,7.98399750393742,8.06015867609585,8.18240316918798,8.97466334737937],"text":["Species: Total<br />w: 1.029756e-05<br />value: 3.342438e+08","Species: Total<br />w: 1.246054e-05<br />value: 3.310725e+08","Species: Total<br />w: 1.507786e-05<br />value: 3.279312e+08","Species: Total<br />w: 1.824494e-05<br />value: 3.248197e+08","Species: Total<br />w: 2.207726e-05<br />value: 3.217376e+08","Species: Total<br />w: 2.671455e-05<br />value: 3.186848e+08","Species: Total<br />w: 3.232590e-05<br />value: 3.156608e+08","Species: Total<br />w: 3.911590e-05<br />value: 3.126654e+08","Species: Total<br />w: 4.733214e-05<br />value: 3.096984e+08","Species: Total<br />w: 5.727418e-05<br />value: 3.067593e+08","Species: Total<br />w: 6.930452e-05<br />value: 3.038480e+08","Species: Total<br />w: 8.386183e-05<br />value: 3.009642e+08","Species: Total<br />w: 1.014769e-04<br />value: 2.981074e+08","Species: Total<br />w: 1.227919e-04<br />value: 2.952775e+08","Species: Total<br />w: 1.485842e-04<br />value: 2.924740e+08","Species: Total<br />w: 1.797940e-04<br />value: 2.896968e+08","Species: Total<br />w: 2.175595e-04<br />value: 2.869454e+08","Species: Total<br />w: 2.632575e-04<br />value: 2.842195e+08","Species: Total<br />w: 3.185543e-04<br />value: 2.815187e+08","Species: Total<br />w: 3.854662e-04<br />value: 2.788427e+08","Species: Total<br />w: 4.664327e-04<br />value: 2.761910e+08","Species: Total<br />w: 5.644062e-04<br />value: 2.735633e+08","Species: Total<br />w: 6.829588e-04<br />value: 2.709591e+08","Species: Total<br />w: 8.264132e-04<br />value: 2.683778e+08","Species: Total<br />w: 1.000000e-03<br />value: 2.658193e+08","Species: Total<br />w: 1.210048e-03<br />value: 2.632823e+08","Species: Total<br />w: 1.464217e-03<br />value: 2.607667e+08","Species: Total<br />w: 1.771774e-03<br />value: 2.582716e+08","Species: Total<br />w: 2.143932e-03<br />value: 2.557963e+08","Species: Total<br />w: 2.594261e-03<br />value: 2.533401e+08","Species: Total<br />w: 3.139182e-03<br />value: 2.509020e+08","Species: Total<br />w: 3.798562e-03<br />value: 2.484811e+08","Species: Total<br />w: 4.596444e-03<br />value: 2.460764e+08","Species: Total<br />w: 5.561919e-03<br />value: 2.436868e+08","Species: Total<br />w: 6.730192e-03<br />value: 2.413113e+08","Species: Total<br />w: 8.143858e-03<br />value: 2.389486e+08","Species: Total<br />w: 9.854462e-03<br />value: 2.365975e+08","Species: Total<br />w: 1.192438e-02<br />value: 2.342568e+08","Species: Total<br />w: 1.442907e-02<br />value: 2.319253e+08","Species: Total<br />w: 1.745988e-02<br />value: 2.296019e+08","Species: Total<br />w: 2.112730e-02<br />value: 2.272855e+08","Species: Total<br />w: 2.556505e-02<br />value: 2.249752e+08","Species: Total<br />w: 3.093495e-02<br />value: 2.226702e+08","Species: Total<br />w: 3.743278e-02<br />value: 2.203700e+08","Species: Total<br />w: 4.529548e-02<br />value: 2.180744e+08","Species: Total<br />w: 5.480972e-02<br />value: 2.157834e+08","Species: Total<br />w: 6.632242e-02<br />value: 2.134975e+08","Species: Total<br />w: 8.025334e-02<br />value: 2.112175e+08","Species: Total<br />w: 9.711042e-02<br />value: 2.089448e+08","Species: Total<br />w: 1.175083e-01<br />value: 2.066811e+08","Species: Total<br />w: 1.421907e-01<br />value: 2.044286e+08","Species: Total<br />w: 1.720577e-01<br />value: 2.021898e+08","Species: Total<br />w: 2.081981e-01<br />value: 1.999676e+08","Species: Total<br />w: 2.519298e-01<br />value: 1.977653e+08","Species: Total<br />w: 3.048473e-01<br />value: 1.955863e+08","Species: Total<br />w: 3.688800e-01<br />value: 1.934339e+08","Species: Total<br />w: 4.463626e-01<br />value: 1.913115e+08","Species: Total<br />w: 5.401203e-01<br />value: 1.892223e+08","Species: Total<br />w: 6.535718e-01<br />value: 1.871691e+08","Species: Total<br />w: 7.908535e-01<br />value: 1.851539e+08","Species: Total<br />w: 9.569710e-01<br />value: 1.831784e+08","Species: Total<br />w: 1.157981e+00<br />value: 1.812430e+08","Species: Total<br />w: 1.401213e+00<br />value: 1.793472e+08","Species: Total<br />w: 1.695536e+00<br />value: 1.774895e+08","Species: Total<br />w: 2.051681e+00<br />value: 1.756669e+08","Species: Total<br />w: 2.482633e+00<br />value: 1.738751e+08","Species: Total<br />w: 3.004106e+00<br />value: 1.721086e+08","Species: Total<br />w: 3.635113e+00<br />value: 1.703602e+08","Species: Total<br />w: 4.398663e+00<br />value: 1.686215e+08","Species: Total<br />w: 5.322595e+00<br />value: 1.668828e+08","Species: Total<br />w: 6.440598e+00<br />value: 1.651326e+08","Species: Total<br />w: 7.793436e+00<br />value: 1.633579e+08","Species: Total<br />w: 9.430434e+00<br />value: 1.615432e+08","Species: Total<br />w: 1.141128e+01<br />value: 1.276892e+07","Species: Total<br />w: 1.380820e+01<br />value: 1.487625e+07","Species: Total<br />w: 1.670859e+01<br />value: 1.720931e+07","Species: Total<br />w: 2.021821e+01<br />value: 1.973573e+07","Species: Total<br />w: 2.446501e+01<br />value: 2.239668e+07","Species: Total<br />w: 2.960385e+01<br />value: 2.510531e+07","Species: Total<br />w: 3.582209e+01<br />value: 2.776562e+07","Species: Total<br />w: 4.334646e+01<br />value: 3.041989e+07","Species: Total<br />w: 5.245132e+01<br />value: 3.383618e+07","Species: Total<br />w: 6.346863e+01<br />value: 3.833349e+07","Species: Total<br />w: 7.680012e+01<br />value: 4.130686e+07","Species: Total<br />w: 9.293186e+01<br />value: 4.258669e+07","Species: Total<br />w: 1.124520e+02<br />value: 4.343147e+07","Species: Total<br />w: 1.360724e+02<br />value: 4.478053e+07","Species: Total<br />w: 1.646542e+02<br />value: 4.092788e+07","Species: Total<br />w: 1.992396e+02<br />value: 3.161372e+07","Species: Total<br />w: 2.410895e+02<br />value: 2.294810e+07","Species: Total<br />w: 2.917300e+02<br />value: 1.619847e+07","Species: Total<br />w: 3.530074e+02<br />value: 1.123829e+07","Species: Total<br />w: 4.271561e+02<br />value: 8.112718e+06","Species: Total<br />w: 5.168795e+02<br />value: 7.045720e+06","Species: Total<br />w: 6.254492e+02<br />value: 7.021216e+06","Species: Total<br />w: 7.568238e+02<br />value: 7.284351e+06","Species: Total<br />w: 9.157935e+02<br />value: 7.734033e+06","Species: Total<br />w: 1.108154e+03<br />value: 8.211671e+06","Species: Total<br />w: 1.340920e+03<br />value: 8.856497e+06","Species: Total<br />w: 1.622579e+03<br />value: 9.640522e+06","Species: Total<br />w: 1.963399e+03<br />value: 1.048928e+07","Species: Total<br />w: 2.375808e+03<br />value: 1.138141e+07","Species: Total<br />w: 2.874842e+03<br />value: 1.231406e+07","Species: Total<br />w: 3.478698e+03<br />value: 1.336666e+07","Species: Total<br />w: 4.209393e+03<br />value: 1.457748e+07","Species: Total<br />w: 5.093569e+03<br />value: 1.590386e+07","Species: Total<br />w: 6.163466e+03<br />value: 1.738991e+07","Species: Total<br />w: 7.458092e+03<br />value: 1.914460e+07","Species: Total<br />w: 9.024652e+03<br />value: 2.151938e+07","Species: Total<br />w: 1.092027e+04<br />value: 2.609386e+07","Species: Total<br />w: 1.321405e+04<br />value: 3.508851e+07","Species: Total<br />w: 1.598964e+04<br />value: 4.246074e+07","Species: Total<br />w: 1.934824e+04<br />value: 4.657858e+07","Species: Total<br />w: 2.341231e+04<br />value: 5.011068e+07","Species: Total<br />w: 2.833002e+04<br />value: 5.403816e+07","Species: Total<br />w: 3.428070e+04<br />value: 5.860365e+07","Species: Total<br />w: 4.148130e+04<br />value: 6.386272e+07","Species: Total<br />w: 5.019439e+04<br />value: 6.982876e+07","Species: Total<br />w: 6.073764e+04<br />value: 7.664635e+07","Species: Total<br />w: 7.349548e+04<br />value: 8.494111e+07","Species: Total<br />w: 8.893309e+04<br />value: 9.638235e+07","Species: Total<br />w: 1.076133e+05<br />value: 1.148573e+08","Species: Total<br />w: 1.302174e+05<br />value: 1.521960e+08","Species: Total<br />w: 1.575693e+05<br />value: 9.433294e+08"],"type":"scatter","mode":"lines","line":{"width":3.02362204724409,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","name":"Total","legendgroup":"Total","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.2283105022831,"r":7.30593607305936,"b":40.1826484018265,"l":54.7945205479452},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-5.49650271901368,5.70670848770442],"tickmode":"array","ticktext":["1e-03","1e+00","1e+03"],"tickvals":[-3,0,3],"categoryorder":"array","categoryarray":["1e-03","1e+00","1e+03"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Size [g]","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2.68109182919208,9.52969930816848],"tickmode":"array","ticktext":["1","10","100","1000","10000","1e+05","1e+06","1e+07","1e+08","1e+09"],"tickvals":[0,1,2,3,4,5,6,7,8,9],"categoryorder":"array","categoryarray":["1","10","100","1000","10000","1e+05","1e+06","1e+07","1e+08","1e+09"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Biomass density [g]","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"Legend","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"16911a232a23":{"x":{},"y":{},"colour":{},"linetype":{},"size":{},"type":"scatter"}},"cur_data":"16911a232a23","visdat":{"16911a232a23":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotDiet2</span><span class="op">(</span><span class="va">sim</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 3266 rows containing missing values (position_stack).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tune-sensitivity_files/figure-html/unnamed-chunk-2-4.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This model is focussed on Patagonian toothfish and key prey species in the longline fishery.</p>
+<p>For this model, we had the following main criteria for our project:</p>
+<ul>
+<li><p>Modelled biomasses were within +/- 10-20% of the observed biomasses.</p></li>
+<li><p>Unfished normalised biomass size spectrum slope that is negative and close to -1</p></li>
+<li><p>Growth curves approximated the von Bertalanffy growth curves for each species.</p></li>
+<li><p>Toothfish diet captured dietary changes with body size and became more piscivorous at larger sizes.</p></li>
+<li><p>Recruitment parameters ensured single-species yield curves were dome-shaped, as expected by theory.</p></li>
+<li><p>The modeled catches through time captured the trends in the reported catches through time.</p></li>
+</ul>
+<p>We can see from these plots that we still have more work to do with refining the model. The size at age for some species seem much higher than the empirical parameters, feeding level of near satiation for all species and the biomass of some species is much higher than the data. However size-at-age data are typically highly variable. So, let’s set some of those issues aside for now.</p>
+<p>The last two of the criteria above require examining how the system reacts to changes in fishing. In the next tutorial we will look at changes though time. Here, we will examine how the reproduction parameters produce reasonable yield curves. How do we do this?</p>
+<p>First, let’s take a look at how fishing is set up in this model.</p>
+<div class="cell" data-hash="tune-sensitivity_cache/html/unnamed-chunk-3_69959cfbcf46043c17c56cb571bfeee7">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">gear_params</span><span class="op">(</span><span class="va">params</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["species"],"name":[1],"type":["chr"],"align":["left"]},{"label":["gear"],"name":[2],"type":["chr"],"align":["left"]},{"label":["sel_func"],"name":[3],"type":["chr"],"align":["left"]},{"label":["knife_edge_size"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["catchability"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["initial_effort"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"D.ele","2":"longline","3":"knife_edge","4":"2722","5":"7e-07","6":"1","_rn_":"D.ele, longline"},{"1":"C.gun","2":"longline","3":"knife_edge","4":"2722","5":"0e+00","6":"1","_rn_":"C.gun, longline"},{"1":"C.rhi","2":"longline","3":"knife_edge","4":"2722","5":"0e+00","6":"1","_rn_":"C.rhi, longline"},{"1":"L.squ","2":"longline","3":"knife_edge","4":"2722","5":"0e+00","6":"1","_rn_":"L.squ, longline"},{"1":"M.cam","2":"longline","3":"knife_edge","4":"2722","5":"0e+00","6":"1","_rn_":"M.cam, longline"},{"1":"B.eat","2":"longline","3":"knife_edge","4":"2722","5":"0e+00","6":"1","_rn_":"B.eat, longline"},{"1":"B.irr","2":"longline","3":"knife_edge","4":"2722","5":"0e+00","6":"1","_rn_":"B.irr, longline"},{"1":"G.acu","2":"longline","3":"knife_edge","4":"2722","5":"0e+00","6":"1","_rn_":"G.acu, longline"},{"1":"B.mur","2":"longline","3":"knife_edge","4":"2722","5":"0e+00","6":"1","_rn_":"B.mur, longline"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Currently we can see there is one gear - <em>longline</em> - which has a knife_edge selectivity function that starts fishing at very large sizes of toothfish only (<em>knife_edge_size</em>=2722 g). The size selectivity was derived from the length distribution of catches from the long-line fisheries data. If your model does not yet include fishing, you can set up your own fishing gear using the <em>gear_params()</em> function and by following the example <a href="https://sizespectrum.org/mizer/reference/setFishing.html">here</a>.</p>
+<p>We can see that the <em>initial_effort</em> has been set to 1 and the <em>catchability</em> has been set to a very low number: 7e-07. This shows the model has been calibrated with a very low level of fishing mortality.</p>
+<section id="tuning-fishing" class="level3"><h3 class="anchored" data-anchor-id="tuning-fishing">Tuning fishing</h3>
+<p>As mentioned before the calibrated reproduction parameters affect how species respond to fishing intensity. To get an idea on how the model has been calibrated in terms of reproduction, let’s check the reproduction level.</p>
+<div class="cell" data-hash="tune-sensitivity_cache/html/unnamed-chunk-4_d055374e86cface788b7efb3100e9db3">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">reproduction_level</span> <span class="op">&lt;-</span> <span class="fu">getReproductionLevel</span><span class="op">(</span><span class="va">params</span><span class="op">)</span></span>
+<span><span class="va">reproduction_level</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    D.ele     C.gun     C.rhi     L.squ     M.cam     B.eat     B.irr     G.acu 
+0.9998035 0.9994817 0.9991013 0.9426729 0.8279399 0.9999131 0.9996038 0.9996273 
+    B.mur 
+0.9777815 </code></pre>
+</div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">species_params</span><span class="op">(</span><span class="va">params</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"erepro"</span>, <span class="st">"R_max"</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["erepro"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["R_max"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.007744214","2":"58708.391","_rn_":"D.ele"},{"1":"0.068515956","2":"623117.497","_rn_":"C.gun"},{"1":"0.065292562","2":"166139.572","_rn_":"C.rhi"},{"1":"0.100489282","2":"14587468.158","_rn_":"L.squ"},{"1":"0.229326143","2":"621642.074","_rn_":"M.cam"},{"1":"0.064348370","2":"4221.885","_rn_":"B.eat"},{"1":"0.096241969","2":"1042.427","_rn_":"B.irr"},{"1":"0.427544951","2":"32417.794","_rn_":"G.acu"},{"1":"0.112178272","2":"14523.639","_rn_":"B.mur"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>We can see that the erepro and R_max values have been estimated. Let’s see how close the model catches are form the observed.</p>
+<div class="cell" data-hash="tune-sensitivity_cache/html/unnamed-chunk-5_e9cfcd05524465343af75772bfbb78d4">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotYieldObservedVsModel</span><span class="op">(</span><span class="va">params</span>, ratio<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following species are not being fished in your model and will not be included in the plot: C.gun, C.rhi, L.squ, M.cam, B.eat, B.irr, G.acu, B.mur.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tune-sensitivity_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The modeled yields looks pretty close to the observed.</p>
+<p>Now, let’s take a look at how this combination of parameters influences how toothfish respond to different levels of fishing. These are not temporal dynamics with fishing changing through time yet, each level run at steady state.</p>
+<div class="cell" data-hash="tune-sensitivity_cache/html/unnamed-chunk-6_f6c09fa127ec5905df6d998fd371820c">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotYieldVsF</span><span class="op">(</span><span class="va">params</span>,species<span class="op">=</span><span class="st">"D.ele"</span>,no_steps<span class="op">=</span><span class="fl">50</span>,F_max<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 1.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 25.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 24 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 22.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 21 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 18 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 15 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 13.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 12 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 10.5 years.
+Convergence was achieved in 10.5 years.
+Convergence was achieved in 10.5 years.
+Convergence was achieved in 10.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 9 years.
+Convergence was achieved in 9 years.
+Convergence was achieved in 9 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 7.5 years.
+Convergence was achieved in 7.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 6 years.
+Convergence was achieved in 6 years.
+Convergence was achieved in 6 years.
+Convergence was achieved in 6 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 6 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 3 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 3 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 3 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 3 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 3 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 3 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 3 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tune-sensitivity_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Fmsy around 0.4 for toothfish</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next let’s see what happens if we adjust the reproduction parameters. If you would like to read further about this step see Gustav’s blogpost <a href="https://blog.mizer.sizespectrum.org/posts/2021-08-03-density-dependence-in-reproduction/">here</a>.</p>
+<div class="cell" data-hash="tune-sensitivity_cache/html/unnamed-chunk-7_7edf96b7448513f4984ebdbba6bedb49">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params2</span> <span class="op">&lt;-</span> <span class="fu">setBevertonHolt</span><span class="op">(</span><span class="va">params</span>, reproduction_level <span class="op">=</span> <span class="fl">0.85</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plotBevertonHolt2</span><span class="op">(</span><span class="va">params</span>, <span class="va">params2</span>, <span class="st">"D.ele"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 94 row(s) containing missing values (geom_path).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tune-sensitivity_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim2</span> <span class="op">&lt;-</span> <span class="fu">project</span><span class="op">(</span><span class="va">params2</span>, t_max <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
+<span><span class="fu">plotBiomass</span><span class="op">(</span><span class="va">sim2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tune-sensitivity_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotYieldVsF</span><span class="op">(</span><span class="va">params</span>,species<span class="op">=</span><span class="st">"D.ele"</span>,no_steps<span class="op">=</span><span class="fl">50</span>,F_max<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 1.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 25.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 24 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 22.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 21 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 18 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 15 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 13.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 12 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 10.5 years.
+Convergence was achieved in 10.5 years.
+Convergence was achieved in 10.5 years.
+Convergence was achieved in 10.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 9 years.
+Convergence was achieved in 9 years.
+Convergence was achieved in 9 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 7.5 years.
+Convergence was achieved in 7.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 6 years.
+Convergence was achieved in 6 years.
+Convergence was achieved in 6 years.
+Convergence was achieved in 6 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 6 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 3 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.
+Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 3 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 3 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 3 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 3 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 3 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 3 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 4.5 years.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tune-sensitivity_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotYieldVsF</span><span class="op">(</span><span class="va">params2</span>,species<span class="op">=</span><span class="st">"D.ele"</span>,no_steps<span class="op">=</span><span class="fl">50</span>,F_max<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 1.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 25.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 24 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 22.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 21 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 15 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 13.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 12 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 10.5 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 12 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 18 years.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 99 years. Value returned by the distance function was: 0.203198712320825</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 99 years. Value returned by the distance function was: 0.738202569327246</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 99 years. Value returned by the distance function was: 1.49094836056093</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 99 years. Value returned by the distance function was: 2.487705270807</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 99 years. Value returned by the distance function was: 3.71837506860701</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 99 years. Value returned by the distance function was: 5.17268081594456</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 15 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in projectToSteady(params, t_max = 100, return_sim = TRUE, progress_bar
+= FALSE, : D.ele are going extinct.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Simulation run did not converge after 1.5 years. Value returned by the distance function was: NA</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tune-sensitivity_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This shows that altering the level of density-dependence in recruitment affects how sensitive toothfish (D.ele for short) are to fishing. The first model would enable toothfish to sustain (at equilbrium) much higher levels of fishing before it collapses.</p>
+</section><section id="exercise" class="level3"><h3 class="anchored" data-anchor-id="exercise">Exercise</h3>
+<p>Explore changes in reproduction level using your model (or the curonian lagoon model). How does changing the reproduction level affect how closely your modeled biomasses and catches match the observations?</p>
+</section></section><section id="comparing-ecosystem-states-effects-of-fishing-relative-to-an-unfished-state" class="level2"><h2 class="anchored" data-anchor-id="comparing-ecosystem-states-effects-of-fishing-relative-to-an-unfished-state">Comparing ecosystem states: effects of fishing relative to an unfished state</h2>
+<p>To be able to assess the wider ecosystem impacts of fishing in the community we need to understand how changes compare to an unfished state. We can use the above model unfished steady state with effort = 0 to do this combined with some functions to calculate ecological indicators.</p>
+<p>Let’s compare the current size spectra (with fishing) to the unfished size spectra to assess whether there is any evidence of a size-structured trophic cascade due to fishing.</p>
+<div class="cell" data-code_folding="true" data-hash="tune-sensitivity_cache/html/unnamed-chunk-8_a136826ded178d5ff7a8c6b3f71cfcbc">
+<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim0</span> <span class="op">&lt;-</span> <span class="fu">projectToSteady</span><span class="op">(</span><span class="va">params</span>, effort <span class="op">=</span> <span class="fl">0</span>, return_sim <span class="op">=</span> <span class="cn">TRUE</span>, t_max <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 1.5 years.</code></pre>
+</div>
+<div class="sourceCode" id="cb180"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu">projectToSteady</span><span class="op">(</span><span class="va">params</span>, effort <span class="op">=</span> <span class="fl">1</span>, return_sim <span class="op">=</span> <span class="cn">TRUE</span>, t_max <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 1.5 years.</code></pre>
+</div>
+<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plot_relative_biomass</span><span class="op">(</span><span class="va">sim0</span>, <span class="va">sim</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tune-sensitivity_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here we can see the effect of the reduction in large sized individuals of heavily fished species on the other sizes and species in the model, relative to the unfished steady state.</p>
+<p>The abundance of some (but not all) of the smaller to medium sizes of prey are a lot higher when their larger predators are removed (note the logarithmic scale). Sprat looks to be much lower.</p>
+<p>We can do the same with Biomass to see when, if any, of the species collapse. For simplicity, we use &lt; 0.1 of B/B_unfished as a proxy for a reference point for population collapse. We can add other reference points to this kind of plot, for example a simple rule of thumb for B_msy could be 0.5*B_unfished.</p>
+<div class="cell" data-code_folding="true" data-hash="tune-sensitivity_cache/html/unnamed-chunk-9_869f32a80212f1fa09fc6073fe5625dd">
+<div class="cell-output-display">
+<p><img src="tune-sensitivity_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can see there is very low impact on the biomass of each group, due to the very small rates of fishing mortality being inflicted on toothfish.</p>
+<section id="exercise-1" class="level4"><h4 class="anchored" data-anchor-id="exercise-1">Exercise</h4>
+<p>How do the biomasses change under your scenarios of fishing mortality when the reproduction level is lowered?</p>
+</section><section id="summary" class="level3"><h3 class="anchored" data-anchor-id="summary">Summary</h3>
+
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp(/https:\/\/course\.mizer\.sizespectrum\.org/);
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script><script src="https://giscus.app/client.js" data-repo="sizespectrum/mizerCourse" data-repo-id="R_kgDOHlJwYg" data-category="Comments" data-category-id="DIC_kwDOHlJwYs4CP_7j" data-mapping="title" data-reactions-enabled="0" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../use/simulate-change.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tune reproduction sensitivity</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../use/change-resources.html" class="pagination-link">
+        <span class="nav-page-text">Tune resource sensitivity</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
