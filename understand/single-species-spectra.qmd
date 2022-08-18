@@ -255,17 +255,18 @@ lm(log(g_small_fish$value) ~ log(g_small_fish$w))
 
 ```{r include=FALSE}
 gm <- lm(log(g_small_fish$value) ~ log(g_small_fish$w))
-g0 <- round(gm$coefficients[[1]], digits=3)
+log_g0 <- round(gm$coefficients[[1]], digits = 3)
+g0 <- exp(gm$coefficients[[1]])
 ```
 
-The slope of the line is indeed $0.75 = 3/4$. In fact, the above shows that for juveniles $$\log(g(w)) = `r g0` + \frac34 \log(w)$$ and thus $$g(w) = g_0\ w^p = \exp(`r g0`)\  w^{3/4}.$$
+The slope of the line is indeed $0.75 = 3/4$. In fact, the above shows that for juveniles $$\log(g(w)) \approx `r log_g0` + \frac34 \log(w)$$ and thus $$g(w) = g_0\ w^p \approx \exp(`r log_g0`)\  w^{3/4}\approx `r round(g0, digits = 3)`\  w^{3/4}.$$
 
 Of course in a real model, the growth rate would not so exactly follow a power law, because growth rate would vary depending on food availability, for example. In this example food is the background resource and its abundance is fixed, so food abundance does not vary.
 
 ```{r include=FALSE}
 mort_rate_frame <- melt(getMort(params))
 mm <- lm(log(mort_rate_frame$value) ~ log(mort_rate_frame$w_prey))
-m0 <- round(mm$coefficients[[1]], digits = 3)
+m0 <- exp(mm$coefficients[[1]])
 ```
 
 ::: {.callout-caution collapse="false"}
@@ -306,7 +307,7 @@ jm <- lm(log(nf$value) ~ log(nf$w))
 jexp <- round(jm$coefficients[[2]], digits = 3)
 ```
 
-The linear model fit says that the exponent is `r jexp`. The mathematics claimed that the exponent should be $-\mu_0 / g_0 - p$. We have already observed that $\mu_0 = `r m0`$ and $g_0 = `r g0`$ so we get
+The linear model fit says that the exponent is `r jexp`. The mathematics claimed that the exponent should be $-\mu_0 / g_0 - p$. We have already observed that $g_0 \approx `r round(g0, digits = 3)`$ and you have determined $\mu_0$ in Exercise 3, so we get
 
 ```{r}
 -m0 / g0 - 3/4
