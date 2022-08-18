@@ -146,14 +146,11 @@ ggplot(log10(Brel), aes(x = row.names(Brel), y = value)) +
 B0 <- getBiomass(sim0)
 Brel <- melt(sweep(getBiomass(sim), 2, B0, "/"))
 ```
-We can see there is very low impact on the biomass of each group, due to the very small rates of fishing mortality being inflicted on toothfish.
 
+We can see there is very low impact on the biomass of each group, due to the very small rates of fishing mortality being inflicted on toothfish.
 
 #### Exercise
 
 How do the biomasses change under your scenarios of fishing mortality when the reproduction level is lowered?
 
-
 ### Summary
-
-
