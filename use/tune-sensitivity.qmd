@@ -2,5 +2,155 @@
 title: "Tune sensitivity"
 ---
 
-## In preparation
+## Introduction
 
+You might remember from week 1 that the reproduction parameters can influence how species react to dynamical changes in mortality in the system. The goal of this tutorial is to explore how the species in your model respond to fishing, to ensure that the reproduction parameters are reasonable when you incorporate fishing dynamics into your model.
+
+First, we will install the same packages we used last week. Additionally, we will use the mizerHowTo package which contains some handy functions for this week's workshops.
+
+```{r,echo=FALSE,message=FALSE}
+remotes::install_github("sizespectrum/mizerExperimental")
+library(mizerExperimental)
+remotes::install_github("sizespectrum/mizerMR")
+library(mizerMR)
+remotes::install_github("sizespectrum/mizerHowTo")
+library(mizerHowTo)
+library(tidyverse)
+source("helper_functions.R")
+```
+
+We will start with a new example model, a preliminary model for the Heard and McDonald Islands Patagonian toothfish longline fishery. While this is not a coastal or inland fishery, it is relatively data poor.
+
+The model has been calibrated using time-averaged data to achieve coexistence and a steady state. This followed a similar approach as the one you used last week. Feel free to use this model, the Curonian Lagoon model, or your own model in the scenarios you develop later on.
+
+First, let's read in the param object for this model, which contains the steady state information. The file is called *params10.rmd*, showing there was already an iterative process involved with checking, refining , re-calibrating and re-checking the model, using time-averaged biomass data and the diagnostic plots below.
+
+```{r,message=FALSE}
+sim <- readRDS("toothfish/params10.RDS")
+params <- sim@params
+plotBiomassObservedVsModelCustom(params,ratio = T)
+plotGrowthCurves(sim,species_panel = T)
+plotlySpectra(sim, power = 2, total = TRUE)
+plotDiet2(sim)
+```
+
+This model is focussed on Patagonian toothfish and key prey species in the longline fishery.
+
+For this model, we had the following main criteria for our project:
+
+-   Modelled biomasses were within +/- 10-20% of the observed biomasses.
+
+-   Unfished normalised biomass size spectrum slope that is negative and close to -1
+
+-   Growth curves approximated the von Bertalanffy growth curves for each species.
+
+-   Toothfish diet captured dietary changes with body size and became more piscivorous at larger sizes.
+
+-   Recruitment parameters ensured single-species yield curves were dome-shaped, as expected by theory.
+
+-   The modeled catches through time captured the trends in the reported catches through time.
+
+We can see from these plots that we still have more work to do with refining the model. The size at age for some species seem much higher than the empirical parameters, feeding level of near satiation for all species and the biomass of some species is much higher than the data. However size-at-age data are typically highly variable. So, let's set some of those issues aside for now.
+
+The last two of the criteria above require examining how the system reacts to changes in fishing. In the next tutorial we will look at changes though time. Here, we will examine how the reproduction parameters produce reasonable yield curves. How do we do this?
+
+First, let's take a look at how fishing is set up in this model.
+
+```{r}
+gear_params(params)
+```
+
+Currently we can see there is one gear - *longline* - which has a knife_edge selectivity function that starts fishing at very large sizes of toothfish only (*knife_edge_size*=2722 g). The size selectivity was derived from the length distribution of catches from the long-line fisheries data. If your model does not yet include fishing, you can set up your own fishing gear using the *gear_params()* function and by following the example [here](https://sizespectrum.org/mizer/reference/setFishing.html).
+
+We can see that the *initial_effort* has been set to 1 and the *catchability* has been set to a very low number: 7e-07. This shows the model has been calibrated with a very low level of fishing mortality.
+
+### Tuning fishing
+
+As mentioned before the calibrated reproduction parameters affect how species respond to fishing intensity. To get an idea on how the model has been calibrated in terms of reproduction, let's check the reproduction level.
+
+```{r,message=FALSE}
+reproduction_level <- getReproductionLevel(params)
+reproduction_level
+
+species_params(params)[, c("erepro", "R_max")]
+
+```
+
+We can see that the erepro and R_max values have been estimated. Let's see how close the model catches are form the observed.
+
+```{r,message=FALSE}
+plotYieldObservedVsModel(params, ratio=T)
+```
+
+The modeled yields looks pretty close to the observed.
+
+Now, let's take a look at how this combination of parameters influences how toothfish respond to different levels of fishing. These are not temporal dynamics with fishing changing through time yet, each level run at steady state.
+
+```{r,message=FALSE}
+plotYieldVsF(params,species="D.ele",no_steps=50,F_max=2)
+# Fmsy around 0.4 for toothfish
+
+```
+
+Next let's see what happens if we adjust the reproduction parameters. If you would like to read further about this step see Gustav's blogpost [here](https://blog.mizer.sizespectrum.org/posts/2021-08-03-density-dependence-in-reproduction/).
+
+```{r}
+params2 <- setBevertonHolt(params, reproduction_level = 0.85)
+
+plotBevertonHolt2(params, params2, "D.ele")
+
+sim2 <- project(params2, t_max = 20)
+plotBiomass(sim2)
+
+
+plotYieldVsF(params,species="D.ele",no_steps=50,F_max=2)
+plotYieldVsF(params2,species="D.ele",no_steps=50,F_max=2)
+
+
+```
+
+This shows that altering the level of density-dependence in recruitment affects how sensitive toothfish (D.ele for short) are to fishing. The first model would enable toothfish to sustain (at equilbrium) much higher levels of fishing before it collapses.
+
+### Exercise
+
+Explore changes in reproduction level using your model (or the curonian lagoon model). How does changing the reproduction level affect how closely your modeled biomasses and catches match the observations?
+
+## Comparing ecosystem states: effects of fishing relative to an unfished state
+
+To be able to assess the wider ecosystem impacts of fishing in the community we need to understand how changes compare to an unfished state. We can use the above model unfished steady state with effort = 0 to do this combined with some functions to calculate ecological indicators.
+
+Let's compare the current size spectra (with fishing) to the unfished size spectra to assess whether there is any evidence of a size-structured trophic cascade due to fishing.
+
+```{r , code_folding=TRUE, eval = T, echo = T, warning=F}
+sim0 <- projectToSteady(params, effort = 0, return_sim = TRUE, t_max = 200)
+sim <- projectToSteady(params, effort = 1, return_sim = TRUE, t_max = 200)
+plot_relative_biomass(sim0, sim)
+```
+
+Here we can see the effect of the reduction in large sized individuals of heavily fished species on the other sizes and species in the model, relative to the unfished steady state.
+
+The abundance of some (but not all) of the smaller to medium sizes of prey are a lot higher when their larger predators are removed (note the logarithmic scale). Sprat looks to be much lower.
+
+We can do the same with Biomass to see when, if any, of the species collapse. For simplicity, we use \< 0.1 of B/B_unfished as a proxy for a reference point for population collapse. We can add other reference points to this kind of plot, for example a simple rule of thumb for B_msy could be 0.5\*B_unfished.
+
+```{r,code_folding=TRUE, eval = T, echo = F, warning=F}
+# collect the biomasses from unfish and calcualte the relative change
+B0 <- getBiomass(sim0)[2,]
+Brel <- melt(sweep(getBiomass(sim), 2, B0, "/")[2,])
+ggplot(log10(Brel), aes(x = row.names(Brel), y = value)) +
+  geom_bar(stat = "identity",
+           show.legend = FALSE) + # Remove the legend
+  xlab("Group") +
+  ylab("Proportion of Unfished Biomass") 
+
+B0 <- getBiomass(sim0)
+Brel <- melt(sweep(getBiomass(sim), 2, B0, "/"))
+```
+
+We can see there is very low impact on the biomass of each group, due to the very small rates of fishing mortality being inflicted on toothfish.
+
+#### Exercise
+
+How do the biomasses change under your scenarios of fishing mortality when the reproduction level is lowered?
+
+### Summary
