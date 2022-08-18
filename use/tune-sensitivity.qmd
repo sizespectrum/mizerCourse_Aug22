@@ -137,7 +137,7 @@ We can do the same with Biomass to see when, if any, of the species collapse. Fo
 # collect the biomasses from unfish and calcualte the relative change
 B0 <- getBiomass(sim0)[2,]
 Brel <- melt(sweep(getBiomass(sim), 2, B0, "/")[2,])
-ggplot(Brel, aes(x = row.names(Brel), y = value)) +
+ggplot(log10(Brel), aes(x = row.names(Brel), y = value)) +
   geom_bar(stat = "identity",
            show.legend = FALSE) + # Remove the legend
   xlab("Group") +

@@ -135,7 +135,7 @@ We can alter the fishing parameters using a function called *gear_params()* and 
 
 Let's take a look at the fishing parameters.
 
-We can group species together according to the gears they are caught by. Let's imagine a big super trawler.
+We can group species together according to the gears they are caught by. Initially let's just add another gear  - a trawler targeting icefish (C.gun). 
 
 ```{r}
 # allocate species to gear types
@@ -191,7 +191,9 @@ ggplot(Brel_scens, aes(fill=scen, y=value, x=species)) +
 
 ```
 
-As we saw before large individuals are the most affected by the high fishing effort. This create a trophic cascade where smaller individuals, even if they are affected by the same fishing effort, will increase in abundance due to the release in predation from larger individuals.
+The impact of the combined trawl and longline appears to have more of an effect on C.gun but the biomass of D.ele is less depleted relative to the unfished state. 
+
+There are a lot of additional plots and results that can be explored from the above scenarios.
 
 **Exercise: Now try to edit one of the above code examples to create your own fishing scenario.**
 
