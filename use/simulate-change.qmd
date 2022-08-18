@@ -45,7 +45,7 @@ ggplot(plot_dat, aes(x = Year, y = value)) +
 
 ```
 
-We can see from the data that there have been big changes in effort and catches through time. The first plot shows relative effort per area (note: these data are only for illustration in this example). Catches are in tonnes per square km fished.
+We can see from the data that there have been big changes in effort and catches through time. The first plot shows relative effort per area (note: these data are not correct and are only being used for illustration in this example). Catches are in tonnes per square km fished.
 
 Previously we assumed effort was 1 and we worked with catchability as the variable. Real effort data can come in all sorts of different units (hours or days fished, kilowatt days, number of vessels all per unit time). The key to using this in our model is that the catchability is the fraction of the available (that is also selected by the gear) stock caught per unit of any effort that is included.
 
@@ -130,16 +130,22 @@ effort_array[,gear]<-Fmax/(1+ exp(-steepness*(time - midpoint)))
 return(effort_array)
 }
 
-# to scale the effort up to the effort we used in our model we divide Fmax by the catchability coefficient we used and set the Fmax to the same levels as abive (0.005)
 
+```
 
-neweffort<-effort_dynamics(effort_time,time=1990:2020,Fmax=0.005,steepness=0.9,midpoint=2005)
+After using the above function we can scale the effort up to the effort units we used in our base model. We do this by setting the Fmax in the logistic equation to the desired level of Fishing Mortality Rate (e.g. 0.005 was used above but for this example we will plug in a different value here to explore heavier fishing). We then divide Fmax by our estimated catchability coefficient (which was estimated to be a very small number) to get effort in the correct ballpark and units as the data we used above. If you want to run the model directly with fishing mortality rate as the "effort" driver you would need to set the catchability coefficient to 1 in this example. If no effort exists for your system, we would need to estimate the catchability coefficient (either by hand tuning or statistical time-series fitting. We discuss the latter in the mizerHowTo package, and this \[*blog* JULIA TO ADD\], if you are interested in taking this further).
 
+```{r}
+neweffort<-effort_dynamics(effort_time,time=1990:2020,Fmax=0.5,steepness=0.9,midpoint=2005)
+
+#rescale to get effort in same units as our example
 neweffort<-neweffort/gear_params(params)$catchability[1]
+
+# or if you want to just use fishing mortality only in your model, overwrite the catchability to 1:
+# gear_params(params)$catchability[1]<-1
 
 year=1990:2020
 plot(year,neweffort,typ="l")
-
 ```
 
 Now you can run the same model above using this effort.
@@ -156,16 +162,22 @@ yieldcompare3
 
 plotBiomass(simf3)
 
+# let's save the output for our next tutorial
+
+saveRDS(simf3,"simf3.rds")
+
 
 ```
 
-#### Exercise
-
-What level of Fmax causes toothfish catches to decline? Use the code above to change Fmax to determine this. Is this consistent with the knowledge from the equilibrium yield curves (sensitivity to fishing tutorial)?
+We can see here at a fixed level of Fmax=0.5 through time catches initially increase, reach a peak around 2006 and then decline. The biomass trajectories also show that toothfish starts declining slightly before this.
 
 #### Exercise
 
-Set up a bycatch on another the other species in the model. This uses the same effort but with a lower catchability. Hint: you can use the ?gear_params function to modify these values.
+What is the lowest level of Fmax you can find that causes toothfish catches to decline? Use the code above to change Fmax to determine this. Is this consistent with the knowledge from the equilibrium yield curves (sensitivity to fishing tutorial)?
+
+#### Exercise
+
+Set up a bycatch on another the other species in the model. This can be done using the same gear (and effort) but changing the catchability of some of the other species (currently everything is set to zero except for toothfish). Hint: you can use the ?gear_params function to modify these values.
 
 ### Summary
 

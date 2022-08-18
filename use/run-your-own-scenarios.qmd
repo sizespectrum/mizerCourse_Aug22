@@ -25,8 +25,11 @@ source("helper_functions.R")
 
 
 
-Let's start by exploring what happens if we change fishing in the future. To do this we set up a scenario, where the model starts with the last time step of the fished scenario.
+Let's start by exploring what happens if we change fishing in the future. To do this we set up a scenario, where the model starts with the last time step of the fished scenario. Let's pick up the the model output we saved from the end of the last tutorial.
 
+```{r}
+
+```
 
 The effort values in 2020 were
 
