@@ -566,7 +566,7 @@ Coefficients:
               2.113                0.750  </code></pre>
 </div>
 </div>
-<p>The slope of the line is indeed <span class="math inline">0.75 = 3/4</span>. In fact, the above shows that for juveniles <span class="math display">\log(g(w)) = 2.113 + \frac34 \log(w)</span> and thus <span class="math display">g(w) = g_0\ w^p = \exp(2.113)\  w^{3/4}.</span></p>
+<p>The slope of the line is indeed <span class="math inline">0.75 = 3/4</span>. In fact, the above shows that for juveniles <span class="math display">\log(g(w)) \approx 2.113 + \frac34 \log(w)</span> and thus <span class="math display">g(w) = g_0\ w^p \approx \exp(2.113)\  w^{3/4}\approx 8.27\  w^{3/4}.</span></p>
 <p>Of course in a real model, the growth rate would not so exactly follow a power law, because growth rate would vary depending on food availability, for example. In this example food is the background resource and its abundance is fixed, so food abundance does not vary.</p>
 <div class="callout-caution callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
@@ -614,7 +614,7 @@ Coefficients:
      -8.022       -1.682  </code></pre>
 </div>
 </div>
-<p>The linear model fit says that the exponent is -1.682. The mathematics claimed that the exponent should be <span class="math inline">-\mu_0 / g_0 - p</span>. We have already observed that <span class="math inline">\mu_0 = 2.038</span> and <span class="math inline">g_0 = 2.113</span> so we get</p>
+<p>The linear model fit says that the exponent is -1.682. The mathematics claimed that the exponent should be <span class="math inline">-\mu_0 / g_0 - p</span>. We have already observed that <span class="math inline">g_0 \approx 8.27</span> and you have determined <span class="math inline">\mu_0</span> in Exercise 3, so we get</p>
 <div class="cell" data-hash="single-species-spectra_cache/html/unnamed-chunk-29_c98e7b2033c0834aff4d7c5a8b1bc417">
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">-</span><span class="va">m0</span> <span class="op">/</span> <span class="va">g0</span> <span class="op">-</span> <span class="fl">3</span><span class="op">/</span><span class="fl">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
