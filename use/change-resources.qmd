@@ -2,10 +2,17 @@
 title: "Change resources"
 ---
 
-## In preparation
+## Introduction
 
+Mizer can be used to explore the consequences of climate change scenarios on aquatic ecosystems and fisheries. One of the major responses to climate change is changing plankton abundance and size structure. However, these responses are highly uncertain and variable and so are their impacts on the rest of food webs.
 
-```{r}
+We can implement multiple drivers under climate change by coupling mizer to outputs of earth system models such as temperature, abundance of different size classes of plankton and/or detrital "marine snow" that reaches the seafloor through time.
+
+In this example, we will demonstrate how to implement changes in resource abundance and size structure through time, by working with pre-made resource size spectra files (n_pp) that were estimated from two climate change scenarios from earth system model output. These were derived from model variables small and large phytoplankton biomass from the Fisheries and Marine Ecosystems Model Intercomparison Project ([FishMIP](https://www.isimip.org/about/marine-ecosystems-fisheries/)). There are a lot of steps in processing these data, but we won't go in to that here. The main goal is to demonstrate how to use these scenario forcings to create changes in your mizer resources through time.
+
+We will combine these plankton forcings with the status quo fishing scenario we used last time to explore how the marine demersal fish community changes under this forcing through time. The two model scenarios are ssp585 (highest emissions or "worst") and ssp126 (mitigation to cut emissions or "best").
+
+```{r,message=FALSE}
 remotes::install_github("sizespectrum/mizerExperimental")
 library(mizerExperimental)
 remotes::install_github("sizespectrum/mizerMR")
@@ -16,90 +23,89 @@ library(tidyverse)
 source("helper_functions.R")
 ```
 
-function forcing plankton from climate model 
-```{r}
+Read in the parameters and the climate scenario inputs for the resource spectrum.
 
+```{r}
+sim<-readRDS("sim_scen2.rds")
+params<-sim@params
+```
+
+We need to create a function to enable the mizer model to use the plankton forcing from the earth system model.
+
+```{r,code_folding=T,message=FALSE}
 plankton_forcing <- function(params, t, ...) {
   w_cut_off <- 10
   pkt <- 10^(other_params(params)$n_pp_array[t + params@other_params$other$t_idx,])/params@dw_full # converting to density
   pkt[which(as.numeric(names(pkt)) >= w_cut_off)] <- 0
-  
   return(pkt)  
 }
 
+params<- setResource(params, resource_dynamics = "plankton_forcing")
 
-sim<-readRDS("sim_scen2.rds")
-params<-sim@params
-params <- setResource(params, resource_dynamics = "plankton_forcing")
+# ste up the two scenarios
+params_worst<-params
+
+params_best<-params
+
+other_params(params_best)$n_pp_array <- readRDS("toothfish/IPSL_n_pp_array_CCscenario_126.RDS")
+
+other_params(params_worst)$n_pp_array <- readRDS("toothfish/IPSL_n_pp_array_CCscenario_585.RDS")
 
 ```
 
+Have a look how the model responds throough time without fishing.
 
-Set the scenarios
+```{r,message=FALSE}
+sim_best <- project(params_ssp126, effort = 0)
 
-```{r}
+sim_worst <- project(params_ssp585, effort = 0)
 
-# Create parameter objects
-# 
-# params_IPSL_picontrol <- params
-# params_IPSL_ssp1rcp26 <- params
-# params_IPSL_ssp5rcp85 <- params
-# # Attach temperature
-# other_params(params_IPSL_picontrol)$ocean_temp <- readRDS("processed/IPSL_ocean_temp_array_PIcontrol.RDS")
-# other_params(params_IPSL_ssp1rcp26)$ocean_temp <- readRDS("processed/IPSL_ocean_temp_array_CCscenario_126.RDS")
-# other_params(params_IPSL_ssp5rcp85)$ocean_temp <- readRDS("processed/IPSL_ocean_temp_array_CCscenario_585.RDS")
-# # Attach plankton
-# other_params(params_IPSL_picontrol)$n_pp_array <- readRDS("processed/IPSL_n_pp_array_PIcontrol.RDS")
-# other_params(params_IPSL_ssp1rcp26)$n_pp_array <- readRDS("processed/IPSL_n_pp_array_CCscenario_126.RDS")
-# other_params(params_IPSL_ssp5rcp85)$n_pp_array <- readRDS("processed/IPSL_n_pp_array_CCscenario_585.RDS")
-# 
-# 
-
-#sim <- project(params_IPSL_ssp1rcp26, effort = effort)
+plotBiomass(sim_best)
+plotBiomass(sim_worst)
 ```
 
-_ use the resource_dynamics function 
-
+\_ use the resource_dynamics function
 
 # Set up new resource forcing "function" - just changes to different time slot in the n_pp_array array
 
+Alternatively, even if we do not couple directly to these outputs we can create experiments that examine long-term changes in these drivers relative to a baseline steady state.
 
 Set the scenarios
 
-```{r}
 # Create parameter objects
-# params_IPSL_picontrol <- params
-# params_IPSL_ssp1rcp26 <- params
-# params_IPSL_ssp5rcp85 <- params
+
+# params_IPSL_picontrol \<- params
+
+# params_IPSL_ssp1rcp26 \<- params
+
+# params_IPSL_ssp5rcp85 \<- params
+
 # Attach temperature
-# other_params(params_IPSL_picontrol)$ocean_temp <- readRDS("processed/IPSL_ocean_temp_array_PIcontrol.RDS")
-# other_params(params_IPSL_ssp1rcp26)$ocean_temp <- readRDS("processed/IPSL_ocean_temp_array_CCscenario_126.RDS")
-# other_params(params_IPSL_ssp5rcp85)$ocean_temp <- readRDS("processed/IPSL_ocean_temp_array_CCscenario_585.RDS")
-# # Attach plankton
-# other_params(params_IPSL_picontrol)$n_pp_array <- readRDS("processed/IPSL_n_pp_array_PIcontrol.RDS")
-# other_params(params_IPSL_ssp1rcp26)$n_pp_array <- readRDS("processed/IPSL_n_pp_array_CCscenario_126.RDS")
-# other_params(params_IPSL_ssp5rcp85)$n_pp_array <- readRDS("processed/IPSL_n_pp_array_CCscenario_585.RDS")
-# 
+
+# other_params(params_IPSL_picontrol)$ocean_temp <- readRDS("processed/IPSL_ocean_temp_array_PIcontrol.RDS") # other_params(params_IPSL_ssp1rcp26)$ocean_temp \<- readRDS("processed/IPSL_ocean_temp_array_CCscenario_126.RDS")
+
+# other_params(params_IPSL_ssp5rcp85)\$ocean_temp \<- readRDS("processed/IPSL_ocean_temp_array_CCscenario_585.RDS")
+
+# \# Attach plankton
+
+# other_params(params_IPSL_picontrol)$n_pp_array <- readRDS("processed/IPSL_n_pp_array_PIcontrol.RDS") # other_params(params_IPSL_ssp1rcp26)$n_pp_array \<- readRDS("processed/IPSL_n\_pp_array_CCscenario_126.RDS")
+
+# other_params(params_IPSL_ssp5rcp85)\$n_pp_array \<- readRDS("processed/IPSL_n\_pp_array_CCscenario_585.RDS")
 
 simple example showing effect of two different states - e.g. change in resource slopes and intercepts on steady states?
 
+NOTES: 3. Change Resources -Plankton over time - resource_dynamics
 
-NOTES: 
-3. Change Resources 
--Plankton over time - resource_dynamics 
-
-Project the above scenario holding effort constant 
+Project the above scenario holding effort constant
 
 Can directly use outputs of earth system models for projections (GFDL inputs - FishMIP), to easily show you what functions to work we will use 2 stylised scenarios that you can adapt and explore for your own model scenarios.
 
-If you wish to participate in FishMIP, we  provide inputs of ocean physical & bc variables to modellers.
+This is one part of the set up that we have used to create a thermizer model for the Patagonian toothfish fishery and for FishMIP.
 
-trend - X% decline per year, lambda and X% 
+If you wish to participate in FishMIP, we provide inputs of ocean physical & bc variables to modellers.
+
+trend - X% decline per year, lambda and X%
 
 (Add noise ?)
 
-Exercise - try creating  running your own scenarios - with and without fishing -how do changes in resource affect the catches abs biomass compared to the baseline (no change in resources scenario) . How does biomass change with & without fishing under the scenarios 
-
-
-
-
+Exercise - try creating running your own scenarios - with and without fishing -how do changes in resource affect the catches abs biomass compared to the baseline (no change in resources scenario) . How does biomass change with & without fishing under the scenarios
