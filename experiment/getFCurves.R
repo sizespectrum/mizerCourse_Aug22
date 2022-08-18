@@ -81,13 +81,17 @@ getFCurves <- function(params,
     }
     
     assert_that(is.numeric(F_range))
+    # split into the F values smaller than current fishing
+    # and those larger or equal to current fishing
     sel <- F_range < current_FMort
-    F_range1 <- rev(F_range[sel])
-    F_range2 <- F_range[!sel]
+    F_range1 <- sort(F_range[sel], decreasing = TRUE)
+    F_range2 <- sort(F_range[!sel])
     
+    # First work down from current fishing
     df1 <- calc_vals(params = params, F_range = F_range1, 
                      idx_species = idx_species,
                      tol = tol, t_max = t_max)
+    # Then work up from current fishing
     df2 <- calc_vals(params = params, F_range = F_range2, 
                      idx_species = idx_species,
                      tol = tol, t_max = t_max)
