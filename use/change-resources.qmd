@@ -73,46 +73,13 @@ plotBiomass(sim_worst)
 
 This shows how the effects of plankton changing alone can have a big effects on the model.
 
+The above example shows how you can directly use outputs of earth system models for projections (GFDL inputs - FishMIP), to easily show you what functions to work we will use 2 stylised scenarios that you can adapt and explore for your own model scenarios.
+
+This is one part of the set up that we have used to create a thermizer model for the Patagonian toothfish fishery and for FishMIP.
 
 
 Alternatively, even if we do not couple directly to these outputs we can create experiments that examine long-term changes in these drivers relative to a baseline steady state.
 
-Set the scenarios
-
-# Create parameter objects
-
-# params_IPSL_picontrol \<- params
-
-# params_IPSL_ssp1rcp26 \<- params
-
-# params_IPSL_ssp5rcp85 \<- params
-
-# Attach temperature
-
-# other_params(params_IPSL_picontrol)$ocean_temp <- readRDS("processed/IPSL_ocean_temp_array_PIcontrol.RDS") # other_params(params_IPSL_ssp1rcp26)$ocean_temp \<- readRDS("processed/IPSL_ocean_temp_array_CCscenario_126.RDS")
-
-# other_params(params_IPSL_ssp5rcp85)\$ocean_temp \<- readRDS("processed/IPSL_ocean_temp_array_CCscenario_585.RDS")
-
-# \# Attach plankton
-
-# other_params(params_IPSL_picontrol)$n_pp_array <- readRDS("processed/IPSL_n_pp_array_PIcontrol.RDS") # other_params(params_IPSL_ssp1rcp26)$n_pp_array \<- readRDS("processed/IPSL_n\_pp_array_CCscenario_126.RDS")
-
-# other_params(params_IPSL_ssp5rcp85)\$n_pp_array \<- readRDS("processed/IPSL_n\_pp_array_CCscenario_585.RDS")
-
-simple example showing effect of two different states - e.g. change in resource slopes and intercepts on steady states?
-
-NOTES: 3. Change Resources -Plankton over time - resource_dynamics
-
-Project the above scenario holding effort constant
-
-Can directly use outputs of earth system models for projections (GFDL inputs - FishMIP), to easily show you what functions to work we will use 2 stylised scenarios that you can adapt and explore for your own model scenarios.
-
-This is one part of the set up that we have used to create a thermizer model for the Patagonian toothfish fishery and for FishMIP.
-
-If you wish to participate in FishMIP, we provide inputs of ocean physical & bc variables to modellers.
-
-trend - X% decline per year, lambda and X%
-
-(Add noise ?)
+SHOW SIMPLER STEADY STATE CHANGING OF KAPPA AND LAMBDA?
 
 Exercise - try creating running your own scenarios - with and without fishing -how do changes in resource affect the catches abs biomass compared to the baseline (no change in resources scenario) . How does biomass change with & without fishing under the scenarios
