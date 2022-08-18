@@ -74,9 +74,9 @@ other_params(params_worst)$n_pp_array <- readRDS("toothfish/IPSL_n_pp_array_CCsc
 Have a look how the model responds through time without fishing.
 
 ```{r,message=FALSE}
-sim_best <- project(params_best, effort = 0)
+sim_best <- project(params_best, effort = 0, t_start = 2021, t_max = 50)
 
-sim_worst <- project(params_worst, effort = 0)
+sim_worst <- project(params_worst, effort = 0, t_start = 2021, t_max = 50)
 
 plotBiomass(sim_best)
 plotBiomass(sim_worst)
