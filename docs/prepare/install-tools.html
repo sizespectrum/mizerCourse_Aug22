@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>mizer course - Install tools</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../prepare/use-git-and-github.html" rel="next">
+<link href="../prepare/introduce-yourself.html" rel="prev">
+<link href="../images/favicon-16x16.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script><link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="mizer course - Install tools">
+<meta name="twitter:description" content="For this course you will need access to a machine with an installation of R, Git, RStudio and some important R packages, including, of course, mizer itself and mizerExperimental.">
+<meta name="twitter:creator" content="gustavdelius">
+<meta name="twitter:card" content="summary">
+</head>
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Install tools</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">mizer course</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../prepare/index.html" class="sidebar-item-text sidebar-link">Prepare</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/introduce-yourself.html" class="sidebar-item-text sidebar-link">Introduce yourself</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/install-tools.html" class="sidebar-item-text sidebar-link active">Install tools</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/use-git-and-github.html" class="sidebar-item-text sidebar-link">Use Git and GitHub</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../understand/index.html" class="sidebar-item-text sidebar-link">Week 1: Understand</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/observed-size-spectra.html" class="sidebar-item-text sidebar-link">Observed size spectra</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/single-species-spectra.html" class="sidebar-item-text sidebar-link">Single species spectra</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/predation-growth-and-mortality.html" class="sidebar-item-text sidebar-link">Predation, growth and mortality</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/species-interactions.html" class="sidebar-item-text sidebar-link">Species interactions</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/dynamics-of-spectra.html" class="sidebar-item-text sidebar-link">Dynamics of size spectra</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../build/index.html" class="sidebar-item-text sidebar-link">Week 2: Build</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/find-species-parameters.html" class="sidebar-item-text sidebar-link">Find species parameters</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/create-first-model.html" class="sidebar-item-text sidebar-link">Create your first model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/set-multiple-resources.html" class="sidebar-item-text sidebar-link">Set up multiple resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/refine-model.html" class="sidebar-item-text sidebar-link">Refine your model</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../use/index.html" class="sidebar-item-text sidebar-link">Week 3: Use</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/simulate-change.html" class="sidebar-item-text sidebar-link">Tune reproduction sensitivity</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/tune-sensitivity.html" class="sidebar-item-text sidebar-link">Simulate fishing scenarios</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/change-resources.html" class="sidebar-item-text sidebar-link">Tune resource sensitivity</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/run-your-own-scenarios.html" class="sidebar-item-text sidebar-link">Simulate resource scenarios</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">Info</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../troubleshooting.html" class="sidebar-item-text sidebar-link">Troubleshooting</a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#r" id="toc-r" class="nav-link active" data-scroll-target="#r">R</a></li>
+  <li><a href="#rstudio" id="toc-rstudio" class="nav-link" data-scroll-target="#rstudio">RStudio</a></li>
+  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages">R Packages</a></li>
+  <li><a href="#git" id="toc-git" class="nav-link" data-scroll-target="#git">Git</a></li>
+  <li><a href="#issues" id="toc-issues" class="nav-link" data-scroll-target="#issues">Issues</a></li>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sizespectrum/mizerCourse/edit/main/prepare/install-tools.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sizespectrum/mizerCourse/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title d-none d-lg-block">Install tools</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header><p>For this course you will need access to a machine with an installation of R, Git, RStudio and some important R packages, including, of course, mizer itself and mizerExperimental. Below we give the necessary information to allow you to install these tools.</p>
+<p>If you run into difficulties, please make a post in the Comments section below. It is quite likely that someone else on the course has encountered similar difficulties and that someone has ideas on how to solve them.</p>
+<p>If you already have some of these tools installed, please make sure that the version you have is recent.</p>
+<section id="r" class="level2"><h2 class="anchored" data-anchor-id="r">R</h2>
+<p>Mizer is compatible with <a href="https://www.r-project.org/">R</a> versions 3.1 and later. However in this course we will assume that you have a version newer than 4.0. So if you are still using 3.x, now is the time to upgrade. You can install or upgrade R on your computer by following the instructions at <a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a> for your particular platform. In fact, upgrading follows the same procedure as installing from scratch.</p>
+<p>Alternatively, if you can not or do not want to install R on your computer, you can also work with R and RStudio in your internet browser by creating yourself a free account at <a href="https://rstudio.cloud" class="uri">https://rstudio.cloud</a>. There you can then install mizer as described above. Running mizer in the RStudio Cloud may be slightly slower than running it locally on your machine, but the speed is usually quite acceptable.</p>
+</section><section id="rstudio" class="level2"><h2 class="anchored" data-anchor-id="rstudio">RStudio</h2>
+<p>This course assumes that you will be using <a href="https://www.rstudio.com/products/rstudio/">RStudio</a> to work with R. There is really no reason not to use RStudio and it makes a lot of things much easier.</p>
+<p>RStudio develops rapidly and adds useful features all the time and so it is best if you install the <a href="https://www.rstudio.com/products/rstudio/download/preview/">latest version</a>. This course was written with version 2022.07.0+548. If you already have RStudio installed but it is an older version, the way to upgrade is to just install the newest version. The old version will automatically be replaced by the new.</p>
+<p>If you are new to RStudio, the video on the RStudio IDE homepage is well worth watching.</p>
+<div class="wistia_responsive_padding" style="padding:56.25% 0 0 0;position:relative;">
+  <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+    <iframe allowfullscreen="" class="wistia_embed" frameborder="0" height="100%" id="wistia_embed" name="wistia_embed" scrolling="no" src="https://fast.wistia.net/embed/iframe/520zbd3tij?videoFoam=true" title="RStudio IDE Overview Video" width="100%"></iframe>
+  </div>
+</div>
+<script async="" src="https://fast.wistia.net/assets/external/E-v1.js">
+</script></section><section id="r-packages" class="level2"><h2 class="anchored" data-anchor-id="r-packages">R Packages</h2>
+<p>R packages extend the functionality of R. mizer itself is such an R package. There is a central repository for R packages called CRAN which hosts all of the packages needed for this course, except for the mizerExperimental and mizerMR packages. To install them on your computer just start RStudio and then in the console issue the command</p>
+<div class="cell" data-hash="install-tools_cache/html/unnamed-chunk-1_5ce445d5827d3f64d64b0d3a8b2a9f5f">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mizer"</span>, <span class="st">"tidyverse"</span>, <span class="st">"plotly"</span>, <span class="st">"remotes"</span>, <span class="st">"usethis"</span>,</span>
+<span>                   <span class="st">"rmarkdown"</span>, <span class="st">"rstudioapi"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The mizerExperimental package is for code that is still experimental and thus changes frequently. Therefore it is hosted in a <a href="https://github.com/sizespectrum/mizerExperimental">GitHub repository</a>. You install it with</p>
+<div class="cell" data-hash="install-tools_cache/html/unnamed-chunk-2_aa54b9e2273926ac42a4c5c34de9e118">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"sizespectrum/mizerExperimental"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The mizerMR package that extends mizer to work with multiple resources has not been released to CRAN because the plan is to incorporate it into core mizer in the future, so this too you need to install directly from GitHub.</p>
+<div class="cell" data-hash="install-tools_cache/html/unnamed-chunk-3_2fc3405f8031a08fbeb0f493dba64786">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"sizespectrum/mizerMR"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="git" class="level2"><h2 class="anchored" data-anchor-id="git">Git</h2>
+<p><a href="https://git-scm.com/">Git</a> is a distributed version control system that we will use in this course. We will discuss that more on the page <a href="../prepare/use-git-and-github.html">Use Git and GitHub</a>.</p>
+<p>Git may already be installed on your system. If you are in RStudio, then you can issue the following command in the “Terminal” tab:</p>
+<pre><code>git --version</code></pre>
+<p>If that comes back with a version number, then git is already installed. The current Git version is 2.25.1. If you have an older version then keep this in mind and if you should at some point notice that Git is not behaving the same for you as for others, then you might want to install the latest version. Or simply install the latest version now to be on the safe side.</p>
+<p>To install Git follow the links at <a href="https://git-scm.com/downloads" class="uri">https://git-scm.com/downloads</a> for your operating system. You do not need a GUI client for Git because you will be using Git from within RStudio. After you have installed Git, you may want to restart RStudio.</p>
+<p>Finally, you should tell Git about yourself by running the following command in the RStudio Console, where of course you change the name and email address to your own:</p>
+<div class="cell" data-hash="install-tools_cache/html/unnamed-chunk-4_83204357d8e73316cebd3859c2306bdb">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_git_config.html">use_git_config</a></span><span class="op">(</span>user.name <span class="op">=</span> <span class="st">"Jane Doe"</span>, </span>
+<span>                        user.email <span class="op">=</span> <span class="st">"jane@example.org"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="issues" class="level2"><h2 class="anchored" data-anchor-id="issues">Issues</h2>
+<p>As with all computer-related things, unexpected problems are likely to crop up. Be sure to post about them below. Alternatively you can also report issues by clicking on the “Report an issue” link that you find at the bottom of the right side-bar. That will create an entry in the GitHub issue tracker.</p>
+<p>If you have a correction to this page or want to suggest an edit, use the “Edit this page” link. Don’t worry: we will need to approve your edits before they go live, so you can feel free to edit as much as you like.</p>
+<p>This course should be a collaborative experience. You will find the “Edit this page” and “Report an issue” links on every tutorial page and you will find a comments section on every page of the course website. Never hesitate to use them.</p>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp(/https:\/\/course\.mizer\.sizespectrum\.org/);
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script><script src="https://giscus.app/client.js" data-repo="sizespectrum/mizerCourse" data-repo-id="R_kgDOHlJwYg" data-category="Comments" data-category-id="DIC_kwDOHlJwYs4CP_7j" data-mapping="title" data-reactions-enabled="0" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../prepare/introduce-yourself.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduce yourself</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../prepare/use-git-and-github.html" class="pagination-link">
+        <span class="nav-page-text">Use Git and GitHub</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

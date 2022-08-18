@@ -1,0 +1,18 @@
+{
+  "hash": "68e4d842654404d69a126da16c2e1faa",
+  "result": {
+    "markdown": "---\ntitle: \"Prepare for the mizer course\"\neditor: visual\n---\n\n::: {.cell hash='index_cache/html/unnamed-chunk-1_d5234d016646382ead0111525dbc3eb1'}\n::: {.cell-output-display}\n```{=html}\n<div class=\"vembedr\" align=\"center\">\n<div class=\"vembedr-rounded\" style=\"border-radius: 10px;\">\n<iframe src=\"https://www.youtube.com/embed/MesBEpwkTaQ\" width=\"533\" height=\"300\" frameborder=\"0\" allowfullscreen=\"\" data-external=\"1\"></iframe>\n</div>\n</div>\n```\n:::\n:::\n\n\n\nWhile the course only starts on Monday the 8th of August, if you like you can already start preparations:\n\n1\\) You can [introduce yourself](introduce-yourself.qmd) and your interests to your fellow participants.\n\n2\\) You can [install the tools](install-tools.qmd) that we will use in the course.\n\n3\\) You can familiarise yourself with how we will be [using Git and GitHub](use-git-and-github.qmd) in this course for collaboration and feedback on your coursework.\n\n4\\) We assume that you are familiar with the basics of R programming. There are plenty of free resources to learn R. You can look through [R studio resources](https://www.rstudio.com/resources/webinars/), go through [R for Data Science](https://r4ds.had.co.nz/) or explore multiple other tools. You can also share your favourite tutorials or resources in the comments below.\n\nThat will allow for a flying start to the course. You won't believe how much we are looking forward to meeting you all on the 8th of August\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {
+      "include-in-header": [
+        "<link href=\"../site_libs/vembedr-0.1.5/css/vembedr.css\" rel=\"stylesheet\" />\n<link href=\"../site_libs/pagedtable-1.1/css/pagedtable.css\" rel=\"stylesheet\" />\n<script src=\"../site_libs/pagedtable-1.1/js/pagedtable.js\"></script>\n"
+      ]
+    },
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

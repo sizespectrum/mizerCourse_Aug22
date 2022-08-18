@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>mizer course - Run your own scenarios</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../troubleshooting.html" rel="next">
+<link href="../use/change-resources.html" rel="prev">
+<link href="../images/favicon-16x16.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script><link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="mizer course - Run your own scenarios">
+<meta name="twitter:description" content="Mizer can be used to explore future scenarios, where a simulation continues to project through time under different potential scenarios (e.g.">
+<meta name="twitter:creator" content="gustavdelius">
+<meta name="twitter:card" content="summary">
+</head>
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Run your own scenarios</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">mizer course</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../prepare/index.html" class="sidebar-item-text sidebar-link">Prepare</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/introduce-yourself.html" class="sidebar-item-text sidebar-link">Introduce yourself</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/install-tools.html" class="sidebar-item-text sidebar-link">Install tools</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/use-git-and-github.html" class="sidebar-item-text sidebar-link">Use Git and GitHub</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../understand/index.html" class="sidebar-item-text sidebar-link">Week 1: Understand</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/observed-size-spectra.html" class="sidebar-item-text sidebar-link">Observed size spectra</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/single-species-spectra.html" class="sidebar-item-text sidebar-link">Single species spectra</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/predation-growth-and-mortality.html" class="sidebar-item-text sidebar-link">Predation, growth and mortality</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/species-interactions.html" class="sidebar-item-text sidebar-link">Species interactions</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/dynamics-of-spectra.html" class="sidebar-item-text sidebar-link">Dynamics of size spectra</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../build/index.html" class="sidebar-item-text sidebar-link">Week 2: Build</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/find-species-parameters.html" class="sidebar-item-text sidebar-link">Find species parameters</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/create-first-model.html" class="sidebar-item-text sidebar-link">Create your first model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/set-multiple-resources.html" class="sidebar-item-text sidebar-link">Set up multiple resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/refine-model.html" class="sidebar-item-text sidebar-link">Refine your model</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../use/index.html" class="sidebar-item-text sidebar-link">Week 3: Use</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/simulate-change.html" class="sidebar-item-text sidebar-link">Tune reproduction sensitivity</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/tune-sensitivity.html" class="sidebar-item-text sidebar-link">Simulate fishing scenarios</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/change-resources.html" class="sidebar-item-text sidebar-link">Tune resource sensitivity</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/run-your-own-scenarios.html" class="sidebar-item-text sidebar-link active">Simulate resource scenarios</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">Info</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../troubleshooting.html" class="sidebar-item-text sidebar-link">Troubleshooting</a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#projecting-future-scenarios" id="toc-projecting-future-scenarios" class="nav-link active" data-scroll-target="#projecting-future-scenarios">Projecting future scenarios</a></li>
+  <li><a href="#set-up-your-own-fishing-scenario-simpler-comparison-of-steady-states" id="toc-set-up-your-own-fishing-scenario-simpler-comparison-of-steady-states" class="nav-link" data-scroll-target="#set-up-your-own-fishing-scenario-simpler-comparison-of-steady-states">Set up your own fishing scenario: simpler comparison of steady states</a></li>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sizespectrum/mizerCourse/edit/main/use/run-your-own-scenarios.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sizespectrum/mizerCourse/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title d-none d-lg-block">Run your own scenarios</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header><section id="projecting-future-scenarios" class="level2"><h2 class="anchored" data-anchor-id="projecting-future-scenarios">Projecting future scenarios</h2>
+<p>Mizer can be used to explore future scenarios, where a simulation continues to project through time under different potential scenarios (e.g.&nbsp;to test fisheries management options or climate change scenarios). The goal of this and the next “changing resources” tutorial is to who you how to set these up these projections so that you can design your own future scenarios to explore.</p>
+<p>As usual, we need to have some packages installed.</p>
+<div class="cell" data-code_folding="true" data-hash="run-your-own-scenarios_cache/html/set-up_af3a8f4356bd80ee6bb9cfaccbc05301">
+<div class="cell-output cell-output-stdout">
+<pre><code>httr (1.4.3 -&gt; 1.4.4) [CRAN]
+
+  There is a binary version available but the source version is later:
+     binary source needs_compilation
+httr  1.4.3  1.4.4             FALSE
+
+* checking for file ‘/private/var/folders/w7/3yk2257x6016ch_prhf0wwrshwgt88/T/RtmptBjRkN/remotes1a0d448cf719/sizespectrum-mizerExperimental-2465461/DESCRIPTION’ ... OK
+* preparing ‘mizerExperimental’:
+* checking DESCRIPTION meta-information ... OK
+* checking for LF line-endings in source and make files and shell scripts
+* checking for empty or unneeded directories
+* building ‘mizerExperimental_2.3.1.tar.gz’</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+* checking for file ‘/private/var/folders/w7/3yk2257x6016ch_prhf0wwrshwgt88/T/RtmptBjRkN/remotes1a0d74b6f0ae/sizespectrum-mizerMR-7ef0515/DESCRIPTION’ ... OK
+* preparing ‘mizerMR’:
+* checking DESCRIPTION meta-information ... OK
+* checking for LF line-endings in source and make files and shell scripts
+* checking for empty or unneeded directories
+* building ‘mizerMR_0.0.3.tar.gz’</code></pre>
+</div>
+</div>
+<p>Let’s start by exploring what happens if we change fishing in the future. To do this we set up two scenarios, one where the model starts with the last time step of the fished scenario and continues into the future (the “status quo”). The other will be designed to explore “more sustainable scenario”. Let’s pick up the the model output we saved from the end of the last tutorial.</p>
+<div class="cell" data-hash="run-your-own-scenarios_cache/html/unnamed-chunk-1_75eed53a00889a7df10e32cc118f628a">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"simf3.rds"</span><span class="op">)</span></span>
+<span><span class="va">params</span><span class="op">&lt;-</span><span class="va">sim</span><span class="op">@</span><span class="va">params</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The effort values in 2020 were</p>
+<div class="cell" data-hash="run-your-own-scenarios_cache/html/unnamed-chunk-2_44d83d37238f391273222d6e686d8858">
+
+</div>
+<p>Let’s start a new simulation that begins with the logistic effort from 2020 and projects forward for 50 years. We will apply a linear decrease in effort for toothfish to a target value (here assumed for simplicity to be F=0.2).</p>
+<p>To do this we need to work the effort array again (time x gear) to enable changes in effort through time.</p>
+<div class="cell" data-code_folding="true" data-hash="run-your-own-scenarios_cache/html/unnamed-chunk-3_95b9637a3148df1e9492dae805ce6502">
+
+</div>
+<p>That was Scenario 1 (“status quo”), now let’s set up Scenario 2, the “more sustainable” option we wish to explore. Again, if we are working in the same units as the effort above we can change the F below to scale effort to be consistent with a value of F=0.2. So we need to set effort= catchability/targetF Otherwise if you assume targetF= catchability*E, and set catchability to 1, you can just use targetF=0.2 directly for Scenario 2.</p>
+<div class="cell" data-hash="run-your-own-scenarios_cache/html/unnamed-chunk-4_1d7b1f6698e3cb40107d8ca798594e61">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">proj_effort_scen2</span> <span class="op">&lt;-</span> <span class="va">proj_effort_scen1</span></span>
+<span><span class="va">targetF</span><span class="op">&lt;-</span><span class="fl">0.2</span><span class="op">/</span><span class="fu">gear_params</span><span class="op">(</span><span class="va">params</span><span class="op">)</span><span class="op">$</span><span class="va">catchability</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="va">select_gear</span><span class="op">=</span><span class="st">"longline"</span></span>
+<span><span class="co"># reach target by 10 years</span></span>
+<span><span class="va">proj_effort_scen2</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,<span class="va">select_gear</span><span class="op">]</span> <span class="op">&lt;-</span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="va">proj_effort_scen2</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, to <span class="op">=</span> <span class="va">targetF</span>, length <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co"># then hold at target</span></span>
+<span><span class="va">proj_effort_scen2</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">50</span>, <span class="va">select_gear</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">targetF</span></span>
+<span><span class="co"># check it</span></span>
+<span><span class="co">#plot(proj_effort_scen2,typ="l")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we want to run the simulation forward using the <em>project</em> function.</p>
+<div class="cell" data-code_folding="true" data-hash="run-your-own-scenarios_cache/html/unnamed-chunk-5_c1a08b1457e8d3b7751992ba4d5b91ea">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># run the simulations forward, both using the 2020 abundances as initial values</span></span>
+<span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu">setInitialValues</span><span class="op">(</span><span class="va">params</span>, <span class="va">sim</span><span class="op">)</span></span>
+<span><span class="va">sim_scen1</span> <span class="op">&lt;-</span> <span class="fu">project</span><span class="op">(</span><span class="va">params</span>, effort <span class="op">=</span> <span class="va">proj_effort_scen1</span>, t_max <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">sim_scen2</span> <span class="op">&lt;-</span> <span class="fu">project</span><span class="op">(</span><span class="va">params</span>, effort <span class="op">=</span> <span class="va">proj_effort_scen2</span>, t_max <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>How has this affected the catches and the biomass of other species in the system relative to fishing levels in 2020?</p>
+<div class="cell" data-hash="run-your-own-scenarios_cache/html/unnamed-chunk-6_60951039293f56957d4f1523202c8b2d">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#set the scenario to examine relative to 2020 levels</span></span>
+<span><span class="va">scen</span><span class="op">&lt;-</span><span class="va">sim_scen2</span></span>
+<span><span class="fu">plotYield</span><span class="op">(</span><span class="va">scen</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="run-your-own-scenarios_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># plot change in biomass under each scenario relative to current values</span></span>
+<span><span class="va">B_current</span> <span class="op">&lt;-</span> <span class="fu">getBiomass</span><span class="op">(</span><span class="va">scen</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></span>
+<span><span class="va">Brel_scen</span> <span class="op">&lt;-</span> <span class="fu">melt</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sweep.html">sweep</a></span><span class="op">(</span><span class="fu">getBiomass</span><span class="op">(</span><span class="va">scen</span><span class="op">)</span>, <span class="fl">2</span>, <span class="va">B_current</span>, <span class="st">"/"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">Brel_scen</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Species"</span></span>
+<span><span class="va">legend_levels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">scen</span><span class="op">@</span><span class="va">params</span><span class="op">@</span><span class="va">linecolour</span><span class="op">)</span>, <span class="va">Brel_scen</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">Brel_scen</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>,y <span class="op">=</span> <span class="va">value</span>,color <span class="op">=</span> <span class="va">Species</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">1</span>, linetype <span class="op">=</span> <span class="fl">1</span>, colour <span class="op">=</span> <span class="st">"grey"</span>, size <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_y_continuous</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Relative biomass"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">sim</span><span class="op">@</span><span class="va">params</span><span class="op">@</span><span class="va">linecolour</span><span class="op">[</span><span class="va">legend_levels</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.key <span class="op">=</span> <span class="fu">element_rect</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="run-your-own-scenarios_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The above plot shows that relative to 2020 reducing fishing mortality to 0.2 still results in further declines in biomass and catches.</p>
+<p>To compare the status of the stock we need to express the changes relative to the unfished state according to the model. This will provide us with a rough indicator of the level of depletion. Generally, we would consider a stock to be collapsed if biomass was &lt; 0.1 of the unfished levels. Some data-poor single species fisheries management strategies seek for depletion to be around or above 0.5 of unfished levels.</p>
+<p>Let’s take a look at the relative exploitation status of the stocks using the projected values for 2050. We will put the y-axis scale is log10 to better visualise the differences across species.</p>
+<div class="cell" data-hash="run-your-own-scenarios_cache/html/unnamed-chunk-7_381bda7db560abc8f696b1d7a24a2a04">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># plot change in biomass under each scenario relative to unfished values</span></span>
+<span><span class="co"># get saved values from steady state without fishing (previous tutorial)</span></span>
+<span><span class="va">sim0</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"sim0.rds"</span><span class="op">)</span></span>
+<span><span class="co"># get the unfished biomasses</span></span>
+<span><span class="va">B_unfished</span> <span class="op">&lt;-</span> <span class="fu">getBiomass</span><span class="op">(</span><span class="va">sim0</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></span>
+<span><span class="co">#scen 1</span></span>
+<span><span class="va">Brel_scen1_2050</span> <span class="op">&lt;-</span> <span class="fu">getBiomass</span><span class="op">(</span><span class="va">sim_scen1</span><span class="op">)</span><span class="op">[</span><span class="st">"2050"</span>,<span class="op">]</span><span class="op">/</span><span class="va">B_unfished</span></span>
+<span></span>
+<span><span class="co">#scen 2</span></span>
+<span><span class="va">Brel_scen2_2050</span> <span class="op">&lt;-</span> <span class="fu">getBiomass</span><span class="op">(</span><span class="va">sim_scen2</span><span class="op">)</span><span class="op">[</span><span class="st">"2050"</span>,<span class="op">]</span><span class="op">/</span><span class="va">B_unfished</span></span>
+<span></span>
+<span><span class="va">Brel_scens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>species<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">Brel_scen1_2050</span><span class="op">)</span>,value<span class="op">=</span><span class="va">Brel_scen1_2050</span>,scen<span class="op">=</span><span class="st">"scen1"</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>species<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">Brel_scen2_2050</span><span class="op">)</span>,value<span class="op">=</span><span class="va">Brel_scen2_2050</span>,scen<span class="op">=</span><span class="st">"scen2"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># barplot comparing the 2 scenarios by 2050</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">Brel_scens</span>, <span class="fu">aes</span><span class="op">(</span>fill<span class="op">=</span><span class="va">scen</span>, y<span class="op">=</span><span class="va">value</span>, x<span class="op">=</span><span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_bar</span><span class="op">(</span>position<span class="op">=</span><span class="st">"dodge"</span>, stat<span class="op">=</span><span class="st">"identity"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>     <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0.1</span>, linetype <span class="op">=</span> <span class="fl">2</span>, colour <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>  <span class="op">+</span> <span class="fu">scale_y_log10</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"log10(Biomass/Biomass Unfished)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="run-your-own-scenarios_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">sim_scen2</span>,<span class="st">"sim_scen2.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Species with B/B_unfished values that are below the red dashed line imply the stock is still collapsed.</p>
+<p>We can see that when we decrease fishing to the targetF under scenario 2 this slightly improves the relative biomass compared to the status quo. Recovery would require lower levels of F to ensure sustainable fishing in the long-term. Another thing to note is that relative to the unfished community there are several species that actually increase under this fishing scenario - this is what happens when account for food web interactions in models!</p>
+</section><section id="set-up-your-own-fishing-scenario-simpler-comparison-of-steady-states" class="level2"><h2 class="anchored" data-anchor-id="set-up-your-own-fishing-scenario-simpler-comparison-of-steady-states">Set up your own fishing scenario: simpler comparison of steady states</h2>
+<p>Rather than an entire time-series, we can also simply examine differences between two time-averaged states under different fishing regimes.</p>
+<p>We can alter the fishing parameters using a function called <em>gear_params()</em> and by changing the <em>effort</em> input.</p>
+<p>Let’s take a look at the fishing parameters.</p>
+<p>We can group species together according to the gears they are caught by. Let’s imagine a big super trawler.</p>
+<div class="cell" data-hash="run-your-own-scenarios_cache/html/unnamed-chunk-8_7e40d2d0aca0ce74c01d7aece6b8e3d9">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># allocate species to gear types</span></span>
+<span><span class="fu">gear_params</span><span class="op">(</span><span class="va">params</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>    gear <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"longline"</span>, <span class="st">"super_trawler"</span><span class="op">)</span>,</span>
+<span>    species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"D.ele"</span>, <span class="st">"C.gun"</span><span class="op">)</span>,</span>
+<span>    catchability <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    sel_fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"knife_edge"</span>, <span class="st">"knife_edge"</span><span class="op">)</span>,</span>
+<span>    knife_edge_size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2722</span>, <span class="fl">52</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="co">#check it</span></span>
+<span><span class="fu">gear_params</span><span class="op">(</span><span class="va">params</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["gear"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species"],"name":[2],"type":["chr"],"align":["left"]},{"label":["catchability"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["sel_fun"],"name":[4],"type":["chr"],"align":["left"]},{"label":["knife_edge_size"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["sel_func"],"name":[6],"type":["chr"],"align":["left"]}],"data":[{"1":"longline","2":"D.ele","3":"1","4":"knife_edge","5":"2722","6":"knife_edge","_rn_":"D.ele, longline"},{"1":"super_trawler","2":"C.gun","3":"1","4":"knife_edge","5":"52","6":"knife_edge","_rn_":"C.gun, super_trawler"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Note that catchability is set to 1. This is because the fishing “effort” was here assumed to be the fishing mortality rate of fully selected sizes (see here <a href="https://sizespectrum.org/mizer/reference/setFishing.html?q=set%20fishing">setFishing</a>).</p>
+<div class="cell" data-hash="run-your-own-scenarios_cache/html/unnamed-chunk-9_ca1ecd96e4c1f149675f56020ce208dd">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu">setFishing</span><span class="op">(</span><span class="va">params</span>, initial_effort <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now let’s run two simulations, one with light fishing mortality (F = 0.2) and one heavy fishing (F = 1.5).</p>
+<div class="cell" data-hash="run-your-own-scenarios_cache/html/unnamed-chunk-10_36dd7b72326432ce9139f6762cb56f75">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim_unfished</span> <span class="op">&lt;-</span> <span class="fu">projectToSteady</span><span class="op">(</span><span class="va">params</span>, effort <span class="op">=</span> <span class="fl">0</span>, t_max <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 201 years.</code></pre>
+</div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params_longline_trawl</span><span class="op">&lt;-</span><span class="va">params</span></span>
+<span><span class="va">sim_longline_trawl</span> <span class="op">&lt;-</span> <span class="fu">projectToSteady</span><span class="op">(</span><span class="va">params_longline_trawl</span>, effort <span class="op">=</span> <span class="fl">0.1</span>, t_max <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 111 years.</code></pre>
+</div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params_longline</span><span class="op">&lt;-</span><span class="va">params</span></span>
+<span><span class="fu">gear_params</span><span class="op">(</span><span class="va">params_longline</span><span class="op">)</span><span class="op">$</span><span class="va">catchability</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">=</span><span class="fl">0</span></span>
+<span><span class="va">sim_longline</span> <span class="op">&lt;-</span> <span class="fu">projectToSteady</span><span class="op">(</span><span class="va">params_longline</span>, effort <span class="op">=</span> <span class="fl">0.1</span>, t_max <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Convergence was achieved in 36 years.</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="run-your-own-scenarios_cache/html/unnamed-chunk-11_549f8b59c198501a23f700a32c9e58f1">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># plot change in biomass under each scenario relative to unfished values</span></span>
+<span><span class="co"># get the unfished biomasses</span></span>
+<span><span class="va">B_unfished</span> <span class="op">&lt;-</span> <span class="fu">getBiomass</span><span class="op">(</span><span class="va">sim_unfished</span><span class="op">)</span></span>
+<span><span class="co">#scen 1</span></span>
+<span><span class="va">Brel_longline</span> <span class="op">&lt;-</span> <span class="fu">getBiomass</span><span class="op">(</span><span class="va">sim_longline</span><span class="op">)</span><span class="op">/</span><span class="va">B_unfished</span></span>
+<span></span>
+<span><span class="co">#scen 2</span></span>
+<span><span class="va">Brel_longline_trawl</span> <span class="op">&lt;-</span> <span class="fu">getBiomass</span><span class="op">(</span><span class="va">sim_longline_trawl</span><span class="op">)</span><span class="op">/</span><span class="va">B_unfished</span></span>
+<span></span>
+<span><span class="va">Brel_scens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>species<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">Brel_longline</span><span class="op">)</span>,value<span class="op">=</span><span class="va">Brel_longline</span>,scen<span class="op">=</span><span class="st">"longline"</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>species<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">Brel_longline_trawl</span><span class="op">)</span>,value<span class="op">=</span><span class="va">Brel_longline_trawl</span>,scen<span class="op">=</span><span class="st">"longline_trawl"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># barplot comparing the 2 scenarios by 2050</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">Brel_scens</span>, <span class="fu">aes</span><span class="op">(</span>fill<span class="op">=</span><span class="va">scen</span>, y<span class="op">=</span><span class="va">value</span>, x<span class="op">=</span><span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_bar</span><span class="op">(</span>position<span class="op">=</span><span class="st">"dodge"</span>, stat<span class="op">=</span><span class="st">"identity"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>     <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0.1</span>, linetype <span class="op">=</span> <span class="fl">2</span>, colour <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>  <span class="op">+</span> <span class="fu">scale_y_log10</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"log10(Biomass/Biomass Unfished)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="run-your-own-scenarios_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As we saw before large individuals are the most affected by the high fishing effort. This create a trophic cascade where smaller individuals, even if they are affected by the same fishing effort, will increase in abundance due to the release in predation from larger individuals.</p>
+<p>We can also extract the species biomasses:</p>
+<div class="cell" data-hash="run-your-own-scenarios_cache/html/unnamed-chunk-12_5edc7b7a0ccf9e14a5f2bd494495536f">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">biomass</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="fu">getBiomass</span><span class="op">(</span><span class="va">sim_light</span><span class="op">)</span><span class="op">[</span><span class="fl">100</span>,<span class="op">]</span>,<span class="fu">getBiomass</span><span class="op">(</span><span class="va">sim_heavy</span><span class="op">)</span><span class="op">[</span><span class="fl">100</span>,<span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">biomass</span><span class="op">)</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"light"</span>,<span class="st">"heavy"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As well as yields:</p>
+<div class="cell" data-hash="run-your-own-scenarios_cache/html/unnamed-chunk-13_a2e689ac5e1fa7d660fa0fc595e074a4">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">yield</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="fu">getYield</span><span class="op">(</span><span class="va">sim_light</span><span class="op">)</span><span class="op">[</span><span class="fl">100</span>,<span class="op">]</span>,<span class="fu">getYield</span><span class="op">(</span><span class="va">sim_heavy</span><span class="op">)</span><span class="op">[</span><span class="fl">100</span>,<span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">yield</span><span class="op">)</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"light"</span>,<span class="st">"heavy"</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Exercise: Now try to edit one of the above code examples to create your own fishing scenario.</strong></p>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp(/https:\/\/course\.mizer\.sizespectrum\.org/);
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script><script src="https://giscus.app/client.js" data-repo="sizespectrum/mizerCourse" data-repo-id="R_kgDOHlJwYg" data-category="Comments" data-category-id="DIC_kwDOHlJwYs4CP_7j" data-mapping="title" data-reactions-enabled="0" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../use/change-resources.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tune resource sensitivity</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../troubleshooting.html" class="pagination-link">
+        <span class="nav-page-text">Troubleshooting</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
