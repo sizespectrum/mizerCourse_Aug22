@@ -22,11 +22,12 @@ source("helper_functions.R")
 
 
 
+Let's start by exploring what happens if we change fishing in the future. To do this we set up two scenarios, one where the model starts with the last time step of the fished scenario and continues into the future  (the "status quo"). The other will be designed to explore "more sustainable scenario". Let's pick up the the model output we saved from the end of the last tutorial.
 
-
-
-Let's start by exploring what happens if we change fishing in the future. To do this we set up a scenario, where the model starts with the last time step of the fished scenario.
-
+```{r}
+sim<-readRDS("simf3.rds")
+params<-sim@params
+```
 
 The effort values in 2020 were
 
@@ -34,28 +35,35 @@ The effort values in 2020 were
 current_effort <- getEffort(sim)["2020", ]
 ```
 
-Let's start a new simulation that begins with the logistic effort from 2020 and projects forward for 50 years. We will apply a linear increase in effort for toothfish to a target value (here assumed for simplicity to be F=0.5).
+Let's start a new simulation that begins with the logistic effort from 2020 and projects forward for 50 years. We will apply a linear decrease in effort for toothfish to a target value (here assumed for simplicity to be F=0.2).
 
-To do this we need to work with the effort array (time x gear) to enable changes in effort through time, for this scenario.
+To do this we need to work the effort array again (time x gear) to enable changes in effort through time.
 
 ```{r, code_folding=T, echo = FALSE}
-sim_status_quo<-project(params,initial_n = simf3@n["2020",,], initial_n_pp = simf3@n_pp["2020",],effort=current_effort,t_max = 50)
-proj_effort <- matrix(current_effort, nrow = 50, ncol = 1, byrow = TRUE)
-dimnames(proj_effort) <- list(time = 2021:2070,
+sim_scen1<-project(params,initial_n = sim@n["2020",,], initial_n_pp = sim@n_pp["2020",],effort=current_effort,t_max = 50)
+proj_effort_scen1 <- matrix(current_effort, nrow = 50, ncol = 1, byrow = TRUE)
+dimnames(proj_effort_scen1) <- list(time = 2021:2070,
                               gear = unique(gear_params(params)$gear))
-# if we are working in the same units as the effort above
-# we can change the F below to scale effort to be consistent with a value of F=0.2
-# E= catchability/F 
-# otherwise if you assume F= Q*E, and set E to 1, you can use F=0.2 directly for the
-target<-0.2/gear_params(params)$catchability[1]
+# check it
+#plot(proj_effort_scen1,typ="l")
+```
+
+That was Scenario 1 ("status quo"), now let's set up Scenario 2, the "more sustainable" option we wish to explore. 
+Again, if we are working in the same units as the effort above
+we can change the F below to scale effort to be consistent with a value of F=0.2. So we need to set effort= catchability/targetF 
+Otherwise if you assume targetF= catchability*E, and set catchability to 1, you can just use targetF=0.2 directly for Scenario 2.
+
+```{r}
+proj_effort_scen2 <- proj_effort_scen1
+targetF<-0.2/gear_params(params)$catchability[1]
 select_gear="longline"
 # reach target by 10 years
-proj_effort[1:10,select_gear] <- 
-    seq(from = proj_effort[1], to = target, length = 10)
+proj_effort_scen2[1:10,select_gear] <- 
+    seq(from = proj_effort_scen2[1], to = targetF, length = 10)
 # then hold at target
-proj_effort[11:50, select_gear] <- target
+proj_effort_scen2[11:50, select_gear] <- targetF
 # check it
-#plot(proj_effort,typ="l")
+#plot(proj_effort_scen2,typ="l")
 
 ```
 
@@ -63,31 +71,60 @@ proj_effort[11:50, select_gear] <- target
 Now we want to run the simulation forward using the *project* function.
 
 ```{r,code_folding=T}
-# run the simulation forward, using the 2018 abundances as initial values
-params_status_quo <- setInitialValues(params, sim)
-sim_scen <- project(params_status_quo, effort = proj_effort, t_max = 50)
+# run the simulations forward, both using the 2020 abundances as initial values
+params <- setInitialValues(params, sim)
+sim_scen1 <- project(params, effort = proj_effort_scen1, t_max = 50)
+sim_scen2 <- project(params, effort = proj_effort_scen2, t_max = 50)
 ```
 
-How has this affected the catches and the biomass of other species in the system?
+How has this affected the catches and the biomass of other species in the system relative to fishing levels in 2020?
 
 ```{r}
-plotYield(sim_scen)
-# plot change in biomass relative to 2020 values
-B_current <- getBiomass(sim_scen)[1, ]
-Brel_scen <- melt(sweep(getBiomass(sim_scen), 2, B_current, "/"))
+#set the scenario to examine relative to 2020 levels
+scen<-sim_scen2
+plotYield(scen)
+# plot change in biomass under each scenario relative to current values
+B_current <- getBiomass(scen)[1, ]
+Brel_scen <- melt(sweep(getBiomass(scen), 2, B_current, "/"))
 colnames(Brel_scen)[2] <- "Species"
-legend_levels <- intersect(names(sim_scen@params@linecolour), Brel_scen$Species)
+legend_levels <- intersect(names(scen@params@linecolour), Brel_scen$Species)
 ggplot(Brel_scen) + 
   geom_line(aes(x = time,y = value,color = Species), size = 1) + 
   geom_hline(yintercept = 1, linetype = 1, colour = "grey", size = 0.75) +
   scale_y_continuous(name = "Relative biomass") +
   scale_color_manual(values = sim@params@linecolour[legend_levels]) +
-  theme(legend.key = element_rect(fill = "white"))
+  theme(legend.key = element_rect(fill = "white")) 
 ```
 
+The above plot shows that relative to 2020 reducing fishing mortality to 0.2 still results in further declines in biomass and catches.
 
-We can see that when we increase fishing on toothfish it slightly decreases the biomass of this species but also affects the biomass of other species in the community.
+To compare the status of the stock we need to express the changes relative to the unfished state according to the model. This will provide us with a rough indicator of the level of depletion. Generally, we would consider a stock to be collapsed if biomass was < 0.1 of the unfished levels. Some data-poor single species fisheries management strategies seek for depletion to be around or above 0.5 of unfished levels.
 
+Let's take a look at the relative exploitation status of the stocks using the projected values for 2050. We will put the y-axis scale is log10 to better visualise the differences across species. 
+
+```{r}
+# plot change in biomass under each scenario relative to unfished values
+# get saved values from steady state without fishing (previous tutorial)
+sim0<-readRDS("sim0.rds")
+# get the unfished biomasses
+B_unfished <- getBiomass(sim0)[1, ]
+#scen 1
+Brel_scen1_2050 <- getBiomass(sim_scen1)["2050",]/B_unfished
+
+#scen 2
+Brel_scen2_2050 <- getBiomass(sim_scen2)["2050",]/B_unfished
+
+Brel_scens <- rbind(data.frame(species=names(Brel_scen1_2050),value=Brel_scen1_2050,scen="scen1"),data.frame(species=names(Brel_scen2_2050),value=Brel_scen2_2050,scen="scen2"))
+
+# barplot comparing the 2 scenarios by 2050
+ggplot(Brel_scens, aes(fill=scen, y=value, x=species)) + 
+    geom_bar(position="dodge", stat="identity") + 
+     geom_hline(yintercept = 0.1, linetype = 2, colour = "red", size = 0.5)  + scale_y_continuous(name = "log10(Biomass/Biomass Unfished)") + scale_y_log10()
+  
+```
+Species with B/B_unfished values that are below the red dashed line imply the stock is still collapsed.
+
+We can see that when we decrease fishing to the targetF under scenario 2 this slightly improves the relative biomass compared to the status quo. Recovery wuld require lower levels of F to ensure sustainable fishing in the long-term. Another thing to note is that relative to the unfished community there are several species that actually increase under this fishing scenario - this is what happens when account for food web interactions in models!  
 
 ## Example 2: Set up your own fishing scenario
 
