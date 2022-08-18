@@ -1,9 +1,188 @@
 ---
 title: "Using a model to explore the consequences of change"
 ---
-  Here you will learn how to explore the effects of changing parameters on
-  an existing mizer model. This will include a guest lecture by 
-  Julia Blanchard
 
-## In preparation
+## Introduction
 
+Mizer is a tool that can be used to simulate a dynamic size spectrum in an marine ecosystem, subject to changes through time, such as fishing pressure. Multiple interacting species and fishing gears can be defined allowing for a range of fisheries management strategy scenarios, and their ecosystem impacts, to be tested.
+
+Below we explore some examples of what can be done using a previously calibrated mizer model. We will use the mizerHowTo package which contains some handy functions for this example.
+
+```{r set-up, echo = F,message=F, warning=F,code_folding=T}
+remotes::install_github("sizespectrum/mizerExperimental")
+library(mizerExperimental)
+remotes::install_github("sizespectrum/mizerMR")
+library(mizerMR)
+remotes::install_github("sizespectrum/mizerHowTo")
+library(mizerHowTo)
+library(tidyverse)
+source("helper_functions.R")
+
+```
+
+In the previous tutorials we have been focused on the steady state. Now we are ready to make changes through time by forcing the model away from its steady state. For this example, will start with the toothfish model but as always you can you your own model or the curonian lagoon for the exercises.
+
+### Fishing through time
+
+In the previous tutorial, we examined a simple longline fishery that consists of targeting a single species (toothfish, here referred to as *D.ele*). However, all of the parameters for fishing were fixed through time. Mizer can also be used to carry out projections with changes in fishing effort.
+
+We will start by reading in a time series of catch and effort.
+
+```{r, code_folding=TRUE}
+# read in model sim object
+sim <- readRDS("toothfish/params10.RDS")
+params <- sim@params
+
+# read in fishing data (note: these are not really correct values, they are only for illustration in this example) 
+
+dat<-readRDS("toothfish/longline.rds")
+
+plot_dat <- reshape2::melt(dat, "Year")
+ggplot(plot_dat, aes(x = Year, y = value)) +
+  geom_point() +
+  facet_wrap(~variable, nrow = 2, scales = "free")
+
+
+```
+
+We can see from the data that there have been big changes in effort and catches through time. The first plot shows relative effort per area (note: these data are not correct and are only being used for illustration in this example). Catches are in tonnes per square km fished.
+
+Previously we assumed effort was 1 and we worked with catchability as the variable. Real effort data can come in all sorts of different units (hours or days fished, kilowatt days, number of vessels all per unit time). The key to using this in our model is that the catchability is the fraction of the available (that is also selected by the gear) stock caught per unit of any effort that is included.
+
+Often, we have used fishing mortality rates from stock assessment to drive changes in effort through time, assuming Q\*E = F at maximally selected sizes (as in [this](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2664.12238) paper and others). But in many cases this information is not available. It also could be misleading as those fishing mortality rates are estimated using very different single-species models (but sometimes that is the best we have to work with, and as with all of the assumptions we make the limitations just need to be clear).
+
+How do we incorporate the effort data into the model? First, we have to re-arrange the data so it can be read into the *param* object.
+
+```{r, code_folding=TRUE}
+species_params(params)
+
+effort_time <-array(c(rep(0,13),dat$EffortPerArea), dim = c(length(1990:2020),1),dimnames = list("time" = 1990:2020, "gear" = params@gear_params$gear[1]))
+
+```
+
+Next we use the effort data to project the model forwards from it's steady state. But wait - we did not set up the model for the first year of the data, when fishing only just began. It may make more sense to use a steady state without fishing as the initial values for our projection.
+
+```{r, code_folding=TRUE}
+sim0 <- projectToSteady(params, effort = 0, return_sim = TRUE, t_max = 200)
+params<-setInitialValues(params,sim0)
+
+
+simf <- project(params, effort = effort_time)
+
+yieldplot<-plotYieldGear(simf)
+
+yieldcompare<-yieldplot+ geom_point(data = dat, shape = 1, size = 1, mapping = aes(x=Year, y= CatchPerArea))
+yieldcompare
+
+
+```
+
+Here we can see that the modeled catch time series fall within the scatter of the observed catch data (reassuring), but the trends are different. It seems there is a sharp decline in modeled catches towards the end of the time series. While we should not expect the exact up and down fluctuations to be captured by our model (we don't have anything forcing the changes through time other than fishing!), we can examine how changing the reproduction parameters affects how well the model captures stock decline (and later, recovery), relative to the trends in the data.
+
+We can look at this below by changing the reproduction level and seeing what the levels of sustainable fishing mortality the equilibrium yield vs F curves suggest for different assumptions (where the peak occurs we could consider a proxy for single-species *Fmsy*) .
+
+```{r,code_folding=T, echo=F,warning=FALSE}
+params2<- setBevertonHolt(params, reproduction_level = 0.2)
+
+sim02 <- projectToSteady(params2, effort = 0, return_sim = TRUE, t_max = 200)
+
+plotYieldVsF(params2,species="D.ele")
+plotYieldVsF(params,species="D.ele")
+```
+
+Next, let's compare what happens when when use these new parameter in our dynamical fishing runs.
+
+```{r}
+params2<-setInitialValues(params2,sim02)
+simf2 <- project(params2, effort = effort_time)
+
+yieldplot2<-plotYieldGear(simf2)
+
+yieldcompare2<-yieldplot2+ geom_point(data = dat, shape = 1, size = 1, mapping = aes(x=Year, y= CatchPerArea))
+yieldcompare2
+
+
+```
+
+These two plots look almost exactly the same. How do you interpret this? Remember think about the relationship between the fishing parameters in the model (e.g. F = Q\*E). We didn't change these parameters, so they should be the same in both simulations and we can check them below:
+
+```{r}
+plotFMort(simf2)
+```
+
+#### Exercise:
+
+Examine how catch time series changes relative to the data if the reproduction parameters change. Is this consistent with what you expected from the steady state yield curves? How do the biomasses change under these different scenarios?
+
+### Catch only exploration
+
+What if there was no effort data only catch ? This is the case for many data-poor fisheries or for fisheries where there is only restricted access to effort data.
+
+Many fisheries develop through time according to phases: an exponential growth period, following either a peak and subsequent decline and a plateau, if stocks drop below sustainable levels and management kicks in (see [here](https://www.pnas.org/doi/abs/10.1073/pnas.1820344116) for example). These different types of development can be represented by a function, *effort_dynamics*(), and can be used to help estimate the fishing parameters given the the model parameters and data you may have. This is the approach used [here](https://www.pnas.org/doi/full/10.1073/pnas.1612722114). Here, we will use this function to explore effort through time.
+
+```{r,code_folding=TRUE}
+# should I move to helper_functions or leave it in?
+
+effort_dynamics<-function(effort_array, gear="longline",time=1990:2020,Fmax=1.5,steepness=0.2,midpoint=2005){
+
+effort_array[,gear]<-Fmax/(1+ exp(-steepness*(time - midpoint)))
+
+return(effort_array)
+}
+
+
+```
+
+After using the above function we can scale the effort up to the effort units we used in our base model. We do this by setting the Fmax in the logistic equation to the desired level of Fishing Mortality Rate (e.g. 0.005 was used above but for this example we will plug in a different value here to explore heavier fishing). We then divide Fmax by our estimated catchability coefficient (which was estimated to be a very small number) to get effort in the correct ballpark and units as the data we used above. If you want to run the model directly with fishing mortality rate as the "effort" driver you would need to set the catchability coefficient to 1 in this example. If no effort exists for your system, we would need to estimate the catchability coefficient (either by hand tuning or statistical time-series fitting. We discuss the latter in the mizerHowTo package, and this \[*blog* JULIA TO ADD\], if you are interested in taking this further).
+
+```{r}
+neweffort<-effort_dynamics(effort_time,time=1990:2020,Fmax=0.5,steepness=0.9,midpoint=2005)
+
+#rescale to get effort in same units as our example
+neweffort<-neweffort/gear_params(params)$catchability[1]
+
+# or if you want to just use fishing mortality only in your model, overwrite the catchability to 1:
+# gear_params(params)$catchability[1]<-1
+
+year=1990:2020
+plot(year,neweffort,typ="l")
+```
+
+Now you can run the same model above using this effort.
+
+```{r}
+params3<-setInitialValues(params2,sim02)
+simf3 <- project(params3, effort = neweffort)
+
+yieldplot3<-plotYieldGear(simf3)
+
+yieldcompare3<-yieldplot3+ geom_point(data = dat, shape = 1, size = 1, mapping = aes(x=Year, y= CatchPerArea)) + xlim(2000,2020) 
+yieldcompare3
+
+
+plotBiomass(simf3)
+
+# let's save the output for our next tutorial
+
+saveRDS(simf3,"simf3.rds")
+
+
+```
+
+We can see here at a fixed level of Fmax=0.5 through time catches initially increase, reach a peak around 2006 and then decline. The biomass trajectories also show that toothfish starts declining slightly before this.
+
+#### Exercise
+
+What is the lowest level of Fmax you can find that causes toothfish catches to decline? Use the code above to change Fmax to determine this. Is this consistent with the knowledge from the equilibrium yield curves (sensitivity to fishing tutorial)?
+
+#### Exercise
+
+Set up a bycatch on another the other species in the model. This can be done using the same gear (and effort) but changing the catchability of some of the other species (currently everything is set to zero except for toothfish). Hint: you can use the ?gear_params function to modify these values.
+
+### Summary
+
+\[in prep\]
+
+If you are interested in how to statistically fit models to time series data the mizerHowTo package discusses this (still in preparation).
+
+Next we will investigate dynamical changes in environment, with a focus on changes in resource abundance and size structure.
