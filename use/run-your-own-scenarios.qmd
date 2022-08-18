@@ -126,7 +126,7 @@ Species with B/B_unfished values that are below the red dashed line imply the st
 
 We can see that when we decrease fishing to the targetF under scenario 2 this slightly improves the relative biomass compared to the status quo. Recovery wuld require lower levels of F to ensure sustainable fishing in the long-term. Another thing to note is that relative to the unfished community there are several species that actually increase under this fishing scenario - this is what happens when account for food web interactions in models!  
 
-## Example 2: Set up your own fishing scenario
+## Set up your own fishing scenario: comparison of steady states
 
 Rather than an entire time-series, we can also simply examine differences between two time-averaged states under different fishing regimes.
 
