@@ -80,13 +80,13 @@ website:
         href: use/index.qmd
         contents:
           - text: Tune reproduction sensitivity
-            href: use/simulate-change.qmd
-          - text: Simulate fishing scenarios
             href: use/tune-sensitivity.qmd
-          - text: Tune resource sensitivity
-            href: use/change-resources.qmd
-          - text: Simulate resource scenarios
+          - text: Simulate fishing scenarios
+            href: use/simulate-change.qmd
+          - text: Run your own scenarios
             href: use/run-your-own-scenarios.qmd
+          - text: Change resource scenarios
+            href: use/change-resources.qmd
       - section: "Info"
         contents:
           - text: Troubleshooting
