@@ -220,9 +220,9 @@ We have seen the two species parameters that determine how the energy invested i
 
 -   The birth rate $R_{dd}$ at steady state. This determines the abundance of a species.
 
--   The ratio between $R_{max}$ and $R_{dd}$ at steady state. This determines the degree of density dependence.
+-   The ratio between $R_{dd}$ and $R_{max}$ at steady state. This determines the degree of density dependence.
 
-The ratio $R_{max} / R_{dd}$ we denote as the **reproduction level**. This name may remind you of the feeding level, which was the ratio between the maximum feeding rate and the actual feeding rate and described the level of density dependence coming from satiation. It takes a value between 0 and 1. It follows from our discussion in the previous section that a species with a high reproduction level is more resilient to changes.
+The ratio $R_{dd} / R_{max}$ we denote as the **reproduction level**. This name may remind you of the feeding level, which was the ratio betweenthe actual feeding rate and the  the maximum feeding rate and described the level of density dependence coming from satiation. It takes a value between 0 and 1. It follows from our discussion in the previous section that a species with a high reproduction level is more resilient to changes.
 
 We can get the reproduction levels of the different species with `getReproductionLevel()`:
 
