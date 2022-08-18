@@ -8,7 +8,7 @@ You might remember from week 1 that the reproduction parameters can influence ho
 
 First, we will install the same packages we used last week. Additionally, we will use the mizerHowTo package which contains some handy functions for this week's workshops.
 
-```{r,echo=FALSE}
+```{r,echo=FALSE,message=FALSE}
 remotes::install_github("sizespectrum/mizerExperimental")
 library(mizerExperimental)
 remotes::install_github("sizespectrum/mizerMR")
@@ -25,7 +25,7 @@ The model has been calibrated using time-averaged data to achieve coexistence an
 
 First, let's read in the param object for this model, which contains the steady state information. The file is called *params10.rmd*, showing there was already an iterative process involved with checking, refining , re-calibrating and re-checking the model, using time-averaged biomass data and the diagnostic plots below.
 
-```{r}
+```{r,message=FALSE}
 sim <- readRDS("toothfish/params10.RDS")
 params <- sim@params
 plotBiomassObservedVsModelCustom(params,ratio = T)
@@ -68,7 +68,7 @@ We can see that the *initial_effort* has been set to 1 and the *catchability* ha
 
 As mentioned before the calibrated reproduction parameters affect how species respond to fishing intensity. To get an idea on how the model has been calibrated in terms of reproduction, let's check the reproduction level.
 
-```{r}
+```{r,message=FALSE}
 reproduction_level <- getReproductionLevel(params)
 reproduction_level
 
@@ -78,7 +78,7 @@ species_params(params)[, c("erepro", "R_max")]
 
 We can see that the erepro and R_max values have been estimated. Let's see how close the model catches are form the observed.
 
-```{r}
+```{r,message=FALSE}
 plotYieldObservedVsModel(params, ratio=T)
 ```
 
@@ -86,7 +86,7 @@ The modeled yields looks pretty close to the observed.
 
 Now, let's take a look at how this combination of parameters influences how toothfish respond to different levels of fishing. These are not temporal dynamics with fishing changing through time yet, each level run at steady state.
 
-```{r}
+```{r,message=FALSE}
 plotYieldVsF(params,species="D.ele",no_steps=50,F_max=2)
 # Fmsy around 0.4 for toothfish
 
