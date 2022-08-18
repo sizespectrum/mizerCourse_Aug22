@@ -4,7 +4,6 @@ title: "Run your own scenarios"
 
 ## Projecting future scenarios
 
-
 Mizer can be used to explore future scenarios, where a simulation continues to project through time under different potential scenarios (e.g. to test fisheries management options or climate change scenarios). The goal of this and the next "changing resources" tutorial is to who you how to set these up these projections so that you can design your own future scenarios to explore.
 
 As usual, we need to have some packages installed.
@@ -119,14 +118,16 @@ Brel_scens <- rbind(data.frame(species=names(Brel_scen1_2050),value=Brel_scen1_2
 # barplot comparing the 2 scenarios by 2050
 ggplot(Brel_scens, aes(fill=scen, y=value, x=species)) + 
     geom_bar(position="dodge", stat="identity") + 
-     geom_hline(yintercept = 0.1, linetype = 2, colour = "red", size = 0.5)  + scale_y_continuous(name = "log10(Biomass/Biomass Unfished)") + scale_y_log10()
+     geom_hline(yintercept = 0.1, linetype = 2, colour = "red", size = 0.5)  + scale_y_log10(name = "log10(Biomass/Biomass Unfished)")
+
+saveRDS(sim_scen2,"sim_scen2.rds")
   
 ```
 Species with B/B_unfished values that are below the red dashed line imply the stock is still collapsed.
 
 We can see that when we decrease fishing to the targetF under scenario 2 this slightly improves the relative biomass compared to the status quo. Recovery would require lower levels of F to ensure sustainable fishing in the long-term. Another thing to note is that relative to the unfished community there are several species that actually increase under this fishing scenario - this is what happens when account for food web interactions in models!  
 
-## Set up your own fishing scenario: comparison of steady states
+## Set up your own fishing scenario: simpler comparison of steady states
 
 Rather than an entire time-series, we can also simply examine differences between two time-averaged states under different fishing regimes.
 
@@ -145,43 +146,54 @@ gear_params(params) <- data.frame(
     sel_fun = c("knife_edge", "knife_edge"),
     knife_edge_size = c(2722, 52)
     )
+#check it
+gear_params(params)
 ```
 
 Note that catchability is set to 1. This is because the fishing "effort" was here assumed to be the fishing mortality rate of fully selected sizes (see here [setFishing](https://sizespectrum.org/mizer/reference/setFishing.html?q=set%20fishing)).
 
 
 ```{r}
-params <- setFishing(params, initial_effort = 0.5)
+params <- setFishing(params, initial_effort = 0.1)
 ```
 
 Now let's run two simulations, one with light fishing mortality (F = 0.2) and one heavy fishing (F = 1.5).
 
 ```{r}
-sim_light <- project(params, effort = 0.5, t_max = 100)
-sim_heavy <- project(params, effort = 1.5, t_max = 100)
+sim_unfished <- projectToSteady(params, effort = 0, t_max = 500)
+
+params_longline_trawl<-params
+sim_longline_trawl <- projectToSteady(params_longline_trawl, effort = 0.1, t_max = 500)
+
+
+params_longline<-params
+gear_params(params_longline)$catchability[2]=0
+sim_longline <- projectToSteady(params_longline, effort = 0.1, t_max = 500)
 ```
 
 ```{r, warning=F}
-plot_relative_biomass(sim_light,sim_heavy)
+# plot change in biomass under each scenario relative to unfished values
+# get the unfished biomasses
+B_unfished <- getBiomass(sim_unfished)
+#scen 1
+Brel_longline <- getBiomass(sim_longline)/B_unfished
+
+#scen 2
+Brel_longline_trawl <- getBiomass(sim_longline_trawl)/B_unfished
+
+Brel_scens <- rbind(data.frame(species=names(Brel_longline),value=Brel_longline,scen="longline"),data.frame(species=names(Brel_longline_trawl),value=Brel_longline_trawl,scen="longline_trawl"))
+
+# barplot comparing the 2 scenarios by 2050
+ggplot(Brel_scens, aes(fill=scen, y=value, x=species)) + 
+    geom_bar(position="dodge", stat="identity") + 
+     geom_hline(yintercept = 0.1, linetype = 2, colour = "red", size = 0.5)  + scale_y_log10(name = "log10(Biomass/Biomass Unfished)")
+
+
 ```
 
 As we saw before large individuals are the most affected by the high fishing effort. This create a trophic cascade where smaller individuals, even if they are affected by the same fishing effort, will increase in abundance due to the release in predation from larger individuals.
 
-We can also extract the species biomasses:
-
-```{r}
-biomass<-rbind(getBiomass(sim_light)[100,],getBiomass(sim_heavy)[100,])
-row.names(biomass)<-c("light","heavy")
-```
-
-As well as yields:
-
-```{r, warning=F}
-yield<-rbind(getYield(sim_light)[100,],getYield(sim_heavy)[100,])
-row.names(yield)<-c("light","heavy") 
-```
-
-**Exercise: Now try to edit the above code to create your own fishing scenario.**
+**Exercise: Now try to edit one of the above code examples to create your own fishing scenario.**
 
 
 

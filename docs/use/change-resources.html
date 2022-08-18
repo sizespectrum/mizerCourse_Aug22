@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>mizer course - Change resources</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../use/run-your-own-scenarios.html" rel="next">
+<link href="../use/tune-sensitivity.html" rel="prev">
+<link href="../images/favicon-16x16.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script><script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script><script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script><script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="mizer course - Change resources">
+<meta name="twitter:description" content="function forcing plankton from climate model">
+<meta name="twitter:creator" content="gustavdelius">
+<meta name="twitter:card" content="summary">
+</head>
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Change resources</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">mizer course</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../prepare/index.html" class="sidebar-item-text sidebar-link">Prepare</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/introduce-yourself.html" class="sidebar-item-text sidebar-link">Introduce yourself</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/install-tools.html" class="sidebar-item-text sidebar-link">Install tools</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../prepare/use-git-and-github.html" class="sidebar-item-text sidebar-link">Use Git and GitHub</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../understand/index.html" class="sidebar-item-text sidebar-link">Week 1: Understand</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/observed-size-spectra.html" class="sidebar-item-text sidebar-link">Observed size spectra</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/single-species-spectra.html" class="sidebar-item-text sidebar-link">Single species spectra</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/predation-growth-and-mortality.html" class="sidebar-item-text sidebar-link">Predation, growth and mortality</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/species-interactions.html" class="sidebar-item-text sidebar-link">Species interactions</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../understand/dynamics-of-spectra.html" class="sidebar-item-text sidebar-link">Dynamics of size spectra</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../build/index.html" class="sidebar-item-text sidebar-link">Week 2: Build</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/find-species-parameters.html" class="sidebar-item-text sidebar-link">Find species parameters</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/create-first-model.html" class="sidebar-item-text sidebar-link">Create your first model</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/set-multiple-resources.html" class="sidebar-item-text sidebar-link">Set up multiple resources</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../build/refine-model.html" class="sidebar-item-text sidebar-link">Refine your model</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../use/index.html" class="sidebar-item-text sidebar-link">Week 3: Use</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/simulate-change.html" class="sidebar-item-text sidebar-link">Tune reproduction sensitivity</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/tune-sensitivity.html" class="sidebar-item-text sidebar-link">Simulate fishing scenarios</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/change-resources.html" class="sidebar-item-text sidebar-link active">Tune resource sensitivity</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/run-your-own-scenarios.html" class="sidebar-item-text sidebar-link">Simulate resource scenarios</a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">Info</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../troubleshooting.html" class="sidebar-item-text sidebar-link">Troubleshooting</a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#in-preparation" id="toc-in-preparation" class="nav-link active" data-scroll-target="#in-preparation">In preparation</a></li>
+  <li><a href="#set-up-new-resource-forcing-function---just-changes-to-different-time-slot-in-the-n_pp_array-array" id="toc-set-up-new-resource-forcing-function---just-changes-to-different-time-slot-in-the-n_pp_array-array" class="nav-link" data-scroll-target="#set-up-new-resource-forcing-function---just-changes-to-different-time-slot-in-the-n_pp_array-array">Set up new resource forcing “function” - just changes to different time slot in the n_pp_array array</a></li>
+  <li><a href="#create-parameter-objects" id="toc-create-parameter-objects" class="nav-link" data-scroll-target="#create-parameter-objects">Create parameter objects</a></li>
+  <li><a href="#params_ipsl_picontrol---params" id="toc-params_ipsl_picontrol---params" class="nav-link" data-scroll-target="#params_ipsl_picontrol---params">params_IPSL_picontrol &lt;- params</a></li>
+  <li><a href="#params_ipsl_ssp1rcp26---params" id="toc-params_ipsl_ssp1rcp26---params" class="nav-link" data-scroll-target="#params_ipsl_ssp1rcp26---params">params_IPSL_ssp1rcp26 &lt;- params</a></li>
+  <li><a href="#params_ipsl_ssp5rcp85---params" id="toc-params_ipsl_ssp5rcp85---params" class="nav-link" data-scroll-target="#params_ipsl_ssp5rcp85---params">params_IPSL_ssp5rcp85 &lt;- params</a></li>
+  <li><a href="#attach-temperature" id="toc-attach-temperature" class="nav-link" data-scroll-target="#attach-temperature">Attach temperature</a></li>
+  <li><a href="#other_paramsparams_ipsl_picontrolocean_temp---readrdsprocessedipsl_ocean_temp_array_picontrol.rds-other_paramsparams_ipsl_ssp1rcp26ocean_temp---readrdsprocessedipsl_ocean_temp_array_ccscenario_126.rds" id="toc-other_paramsparams_ipsl_picontrolocean_temp---readrdsprocessedipsl_ocean_temp_array_picontrol.rds-other_paramsparams_ipsl_ssp1rcp26ocean_temp---readrdsprocessedipsl_ocean_temp_array_ccscenario_126.rds" class="nav-link" data-scroll-target="#other_paramsparams_ipsl_picontrolocean_temp---readrdsprocessedipsl_ocean_temp_array_picontrol.rds-other_paramsparams_ipsl_ssp1rcp26ocean_temp---readrdsprocessedipsl_ocean_temp_array_ccscenario_126.rds">other_params(params_IPSL_picontrol)<span class="math inline">ocean_temp &lt;- readRDS("processed/IPSL_ocean_temp_array_PIcontrol.RDS") # other_params(params_IPSL_ssp1rcp26)</span>ocean_temp &lt;- readRDS(“processed/IPSL_ocean_temp_array_CCscenario_126.RDS”)</a></li>
+  <li><a href="#other_paramsparams_ipsl_ssp5rcp85ocean_temp---readrdsprocessedipsl_ocean_temp_array_ccscenario_585.rds-attach-plankton-other_paramsparams_ipsl_picontroln_pp_array---readrdsprocessedipsl_n_pp_array_picontrol.rds" id="toc-other_paramsparams_ipsl_ssp5rcp85ocean_temp---readrdsprocessedipsl_ocean_temp_array_ccscenario_585.rds-attach-plankton-other_paramsparams_ipsl_picontroln_pp_array---readrdsprocessedipsl_n_pp_array_picontrol.rds" class="nav-link" data-scroll-target="#other_paramsparams_ipsl_ssp5rcp85ocean_temp---readrdsprocessedipsl_ocean_temp_array_ccscenario_585.rds-attach-plankton-other_paramsparams_ipsl_picontroln_pp_array---readrdsprocessedipsl_n_pp_array_picontrol.rds">other_params(params_IPSL_ssp5rcp85)<span class="math inline">ocean_temp &lt;- readRDS("processed/IPSL_ocean_temp_array_CCscenario_585.RDS") # # Attach plankton # other_params(params_IPSL_picontrol)</span>n_pp_array &lt;- readRDS(“processed/IPSL_n_pp_array_PIcontrol.RDS”)</a></li>
+  <li><a href="#other_paramsparams_ipsl_ssp1rcp26n_pp_array---readrdsprocessedipsl_n_pp_array_ccscenario_126.rds-other_paramsparams_ipsl_ssp5rcp85n_pp_array---readrdsprocessedipsl_n_pp_array_ccscenario_585.rds" id="toc-other_paramsparams_ipsl_ssp1rcp26n_pp_array---readrdsprocessedipsl_n_pp_array_ccscenario_126.rds-other_paramsparams_ipsl_ssp5rcp85n_pp_array---readrdsprocessedipsl_n_pp_array_ccscenario_585.rds" class="nav-link" data-scroll-target="#other_paramsparams_ipsl_ssp1rcp26n_pp_array---readrdsprocessedipsl_n_pp_array_ccscenario_126.rds-other_paramsparams_ipsl_ssp5rcp85n_pp_array---readrdsprocessedipsl_n_pp_array_ccscenario_585.rds">other_params(params_IPSL_ssp1rcp26)<span class="math inline">n_pp_array &lt;- readRDS("processed/IPSL_n_pp_array_CCscenario_126.RDS") # other_params(params_IPSL_ssp5rcp85)</span>n_pp_array &lt;- readRDS(“processed/IPSL_n_pp_array_CCscenario_585.RDS”)</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sizespectrum/mizerCourse/edit/main/use/change-resources.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sizespectrum/mizerCourse/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title d-none d-lg-block">Change resources</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header><section id="in-preparation" class="level2"><h2 class="anchored" data-anchor-id="in-preparation">In preparation</h2>
+<div class="cell" data-hash="change-resources_cache/html/unnamed-chunk-1_802ea2f82992f19d98faf194aa4ea044">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"sizespectrum/mizerExperimental"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Skipping install of 'mizerExperimental' from a github remote, the SHA1 (24654618) has not changed since last install.
+  Use `force = TRUE` to force installation</code></pre>
+</div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sizespectrum/mizerExperimental">mizerExperimental</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: mizer</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'mizerExperimental'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:mizer':
+
+    calibrateYield, plotDataFrame, scaleModel, steady</code></pre>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"sizespectrum/mizerMR"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Skipping install of 'mizerMR' from a github remote, the SHA1 (7ef05154) has not changed since last install.
+  Use `force = TRUE` to force installation</code></pre>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://sizespectrum.org/mizerMR/">mizerMR</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'mizerMR'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:mizerExperimental':
+
+    plotlyResourcePred, plotResourceLevel, plotResourcePred</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:mizer':
+
+    animateSpectra, finalNResource, getDiet, initialNResource,
+    initialNResource&lt;-, NResource, plotDiet, plotlySpectra,
+    plotSpectra, resource_capacity, resource_capacity&lt;-,
+    resource_params, resource_params&lt;-, resource_rate, resource_rate&lt;-</code></pre>
+</div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"sizespectrum/mizerHowTo"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Skipping install of 'mizerHowTo' from a github remote, the SHA1 (16693771) has not changed since last install.
+  Use `force = TRUE` to force installation</code></pre>
+</div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sizespectrum.org/mizerHowTo">mizerHowTo</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ggplot2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: dplyr</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: parallel</code></pre>
+</div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages
+───────────────────────────────────────
+tidyverse 1.3.2 ──</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ tibble  3.1.8     ✔ purrr   0.3.4
+✔ tidyr   1.2.0     ✔ stringr 1.4.0
+✔ readr   2.1.2     ✔ forcats 0.5.1
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"helper_functions.R"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>function forcing plankton from climate model</p>
+<div class="cell" data-hash="change-resources_cache/html/unnamed-chunk-2_db288930514dd84403d2d65de7c0654f">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plankton_forcing</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">params</span>, <span class="va">t</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">w_cut_off</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span>  <span class="va">pkt</span> <span class="op">&lt;-</span> <span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/setRateFunction.html">other_params</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span><span class="op">$</span><span class="va">n_pp_array</span><span class="op">[</span><span class="va">t</span> <span class="op">+</span> <span class="va">params</span><span class="op">@</span><span class="va">other_params</span><span class="op">$</span><span class="va">other</span><span class="op">$</span><span class="va">t_idx</span>,<span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="va">params</span><span class="op">@</span><span class="va">dw_full</span> <span class="co"># converting to density</span></span>
+<span>  <span class="va">pkt</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">pkt</span><span class="op">)</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="va">w_cut_off</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span>  </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">pkt</span><span class="op">)</span>  </span>
+<span><span class="op">}</span></span>
+<span></span>
+<span></span>
+<span><span class="va">sim</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"sim_scen2.rds"</span><span class="op">)</span></span>
+<span><span class="va">params</span><span class="op">&lt;-</span><span class="va">sim</span><span class="op">@</span><span class="va">params</span></span>
+<span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sizespectrum.org/mizer/reference/setResource.html">setResource</a></span><span class="op">(</span><span class="va">params</span>, resource_dynamics <span class="op">=</span> <span class="st">"plankton_forcing"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Set the scenarios</p>
+<div class="cell" data-hash="change-resources_cache/html/unnamed-chunk-3_621c33cc6241f8c13f76285eb0a7f1a5">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Create parameter objects</span></span>
+<span><span class="co"># </span></span>
+<span><span class="co"># params_IPSL_picontrol &lt;- params</span></span>
+<span><span class="co"># params_IPSL_ssp1rcp26 &lt;- params</span></span>
+<span><span class="co"># params_IPSL_ssp5rcp85 &lt;- params</span></span>
+<span><span class="co"># # Attach temperature</span></span>
+<span><span class="co"># other_params(params_IPSL_picontrol)$ocean_temp &lt;- readRDS("processed/IPSL_ocean_temp_array_PIcontrol.RDS")</span></span>
+<span><span class="co"># other_params(params_IPSL_ssp1rcp26)$ocean_temp &lt;- readRDS("processed/IPSL_ocean_temp_array_CCscenario_126.RDS")</span></span>
+<span><span class="co"># other_params(params_IPSL_ssp5rcp85)$ocean_temp &lt;- readRDS("processed/IPSL_ocean_temp_array_CCscenario_585.RDS")</span></span>
+<span><span class="co"># # Attach plankton</span></span>
+<span><span class="co"># other_params(params_IPSL_picontrol)$n_pp_array &lt;- readRDS("processed/IPSL_n_pp_array_PIcontrol.RDS")</span></span>
+<span><span class="co"># other_params(params_IPSL_ssp1rcp26)$n_pp_array &lt;- readRDS("processed/IPSL_n_pp_array_CCscenario_126.RDS")</span></span>
+<span><span class="co"># other_params(params_IPSL_ssp5rcp85)$n_pp_array &lt;- readRDS("processed/IPSL_n_pp_array_CCscenario_585.RDS")</span></span>
+<span><span class="co"># </span></span>
+<span><span class="co"># </span></span>
+<span></span>
+<span><span class="co">#sim &lt;- project(params_IPSL_ssp1rcp26, effort = effort)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>_ use the resource_dynamics function</p>
+</section><section id="set-up-new-resource-forcing-function---just-changes-to-different-time-slot-in-the-n_pp_array-array" class="level1"><h1>Set up new resource forcing “function” - just changes to different time slot in the n_pp_array array</h1>
+<p>Set the scenarios</p>
+</section><section id="create-parameter-objects" class="level1"><h1>Create parameter objects</h1>
+</section><section id="params_ipsl_picontrol---params" class="level1"><h1>params_IPSL_picontrol &lt;- params</h1>
+</section><section id="params_ipsl_ssp1rcp26---params" class="level1"><h1>params_IPSL_ssp1rcp26 &lt;- params</h1>
+</section><section id="params_ipsl_ssp5rcp85---params" class="level1"><h1>params_IPSL_ssp5rcp85 &lt;- params</h1>
+</section><section id="attach-temperature" class="level1"><h1>Attach temperature</h1>
+</section><section id="other_paramsparams_ipsl_picontrolocean_temp---readrdsprocessedipsl_ocean_temp_array_picontrol.rds-other_paramsparams_ipsl_ssp1rcp26ocean_temp---readrdsprocessedipsl_ocean_temp_array_ccscenario_126.rds" class="level1"><h1>other_params(params_IPSL_picontrol)<span class="math inline">ocean_temp &lt;- readRDS("processed/IPSL_ocean_temp_array_PIcontrol.RDS") # other_params(params_IPSL_ssp1rcp26)</span>ocean_temp &lt;- readRDS(“processed/IPSL_ocean_temp_array_CCscenario_126.RDS”)</h1>
+</section><section id="other_paramsparams_ipsl_ssp5rcp85ocean_temp---readrdsprocessedipsl_ocean_temp_array_ccscenario_585.rds-attach-plankton-other_paramsparams_ipsl_picontroln_pp_array---readrdsprocessedipsl_n_pp_array_picontrol.rds" class="level1"><h1>other_params(params_IPSL_ssp5rcp85)<span class="math inline">ocean_temp &lt;- readRDS("processed/IPSL_ocean_temp_array_CCscenario_585.RDS") # # Attach plankton # other_params(params_IPSL_picontrol)</span>n_pp_array &lt;- readRDS(“processed/IPSL_n_pp_array_PIcontrol.RDS”)</h1>
+</section><section id="other_paramsparams_ipsl_ssp1rcp26n_pp_array---readrdsprocessedipsl_n_pp_array_ccscenario_126.rds-other_paramsparams_ipsl_ssp5rcp85n_pp_array---readrdsprocessedipsl_n_pp_array_ccscenario_585.rds" class="level1"><h1>other_params(params_IPSL_ssp1rcp26)<span class="math inline">n_pp_array &lt;- readRDS("processed/IPSL_n_pp_array_CCscenario_126.RDS") # other_params(params_IPSL_ssp5rcp85)</span>n_pp_array &lt;- readRDS(“processed/IPSL_n_pp_array_CCscenario_585.RDS”)</h1>
+</section><section id="section" class="level1"><h1></h1>
+<p>simple example showing effect of two different states - e.g.&nbsp;change in resource slopes and intercepts on steady states?</p>
+<p>NOTES: 3. Change Resources -Plankton over time - resource_dynamics</p>
+<p>Project the above scenario holding effort constant</p>
+<p>Can directly use outputs of earth system models for projections (GFDL inputs - FishMIP), to easily show you what functions to work we will use 2 stylised scenarios that you can adapt and explore for your own model scenarios.</p>
+<p>If you wish to participate in FishMIP, we provide inputs of ocean physical &amp; bc variables to modellers.</p>
+<p>trend - X% decline per year, lambda and X%</p>
+<p>(Add noise ?)</p>
+<p>Exercise - try creating running your own scenarios - with and without fishing -how do changes in resource affect the catches abs biomass compared to the baseline (no change in resources scenario) . How does biomass change with &amp; without fishing under the scenarios</p>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp(/https:\/\/course\.mizer\.sizespectrum\.org/);
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script><script src="https://giscus.app/client.js" data-repo="sizespectrum/mizerCourse" data-repo-id="R_kgDOHlJwYg" data-category="Comments" data-category-id="DIC_kwDOHlJwYs4CP_7j" data-mapping="title" data-reactions-enabled="0" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../use/tune-sensitivity.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Simulate fishing scenarios</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../use/run-your-own-scenarios.html" class="pagination-link">
+        <span class="nav-page-text">Simulate resource scenarios</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
