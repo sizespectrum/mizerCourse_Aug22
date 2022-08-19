@@ -183,344 +183,178 @@ getRDD(cma_newGear)/getRDI(cma_newGear)
 
 This tells us that most species can produce a huge amount more, but this reproduction is strongly capped by the R_max parameter we have (maximum recruitment possible in the system).
 
-## Exploring F curves: breams
+## Exploring F curves: one species at a time
 
-To set reproduction level to the reasonable levels and get reasonable response to fishing, we will apply a range of fishing mortalities to one species at a time and check how their yields, biomasses (SSB), RDD and RDI will change. We can use a handy function plotFCurves() or getFCurves() for this purpose. Let's concentrate on breams, or the third species
-
-### doing it only for cmg model
+To set reproduction level to the reasonable levels and get reasonable response to fishing, we will apply a range of fishing mortalities to one species at a time and check how their yields, biomasses (SSB), RDD and RDI will change. We can use a handy function plotFCurves(). If you want to save the resulting dataframe you can use getFCurves(). Let's start with breams
 
 ```{r}
+#get the list of species to remind ourselves
 species_params(cmg_newGear)$species
-getReproductionLevel(cmg_newGear)[2]
-plotFCurves(cmg_newGear, species = "ruffe", F_max = 3, no_steps = 20)
 
+#what is the reproduction level of breams
+getReproductionLevel(cmg_newGear)[3]
+
+#plot F curves for this species. We will project with different fishing mortalities, up to a maximum of 1. 
+plotFCurves(cmg_newGear, species = "breams", F_max = 1, no_steps = 20)
+```
+
+The yield curve (dashed line) does not taper down even at fishing mortality as high as 1, so we want to decrease reproduction level 
+
+```{r}
+#first we save current reproduction level into a vector 
 rep_level <- getReproductionLevel(cmg_newGear)
-rep_level[1] <- 0.90
+
+#replace our species reproduction level with a new value 
+rep_level[3] <- 0.85
+
+#asign it back to the model 
+cmg_newGear <- setBevertonHolt(cmg_newGear, reproduction_level = rep_level)
+
+#check that it worked 
+getReproductionLevel(cmg_newGear)
+
+#and plot F curves again
+plotFCurves(cmg_newGear, species = "breams", F_max = 1, no_steps = 20)
+```
+
+Now we repeat the same for another species. Let's take pikeperch (it is species 8)
+
+```{r}
+#check its reproduction level, plot yield curve, adjust, check, plot again. Repeat until the yield curves look reasonable
+getReproductionLevel(cmg_newGear)[8]
+plotFCurves(cmg_newGear, species = "pikeperch", F_max = 1, no_steps = 20)
+rep_level[8] <- 0.75
 cmg_newGear <- setBevertonHolt(cmg_newGear, reproduction_level = rep_level)
 getReproductionLevel(cmg_newGear)
-plotFCurves(cmg_newGear, species = "smallfish", F_max = 3, no_steps = 20)
+plotFCurves(cmg_newGear, species = "pikeperch", F_max = 1, no_steps = 20)
 
-#smallfish 0.9
-#ruffe 0.865 ok as set 
-#bream 0.85 - converges ok
-#roach 0.6766 fine as set
-#vimba 0.80 
-#carassius 0.75
-#perch 0.5
-#pikeperch 0.75
-#burbot 0.8
-#predator_fish 0.85
+```
 
+Once we are happy with all the species, we save the parameter file
+
+```{r}
+#we can assign it to a new name (tuned), so it is easier to remember
 cmg_newGearTuned <- cmg_newGear
 saveParams(cmg_newGearTuned, "cmg_newGearTuned.rds")
+```
+
+Exercise 1 
+Now you do the same with your model
+
+Important! 
+
+You might notice that in some cases plotFCurves() gives a warning that convergence was not reached. This means that species didn't settle into a new stable state with a new fishing level and we should not trust result for this specific fishing level. When we call plotFCurves() mizer will start with the initial effort and will go up all the way to the maximum value and then go down from the initial to 0. Often we find that it is the most extreme values that do not settle into an equilibrium. We can see that in an example with cma model (curonian model asta) - shoudl we show this example? If yes, we should use pikeperch
 
 
-#return original gear params 
+## Going back to the original gear parameters
+
+Now we wonder what will happen to species sensitivity to fishing once we go back to the original gear parameters. Afterall, we used those parameters to tune our model using the tuneParams() gadget. Will they still work? Let's explore it. 
+
+
+```{r}
+#these were the original gear parameters
 gear_params(cmg)
+#we will assign them back to the tuned model 
 gear_params(cmg_newGearTuned) <-gear_params(cmg)
+#and check that it worked 
 gear_params(cmg_newGearTuned)
+#and check that reproduction levels are as we want (after all the tuning)
 getReproductionLevel(cmg_newGearTuned)
+```
 
+Let's plot F curves for small fish
+
+```{r}
 plotFCurves(cmg_newGearTuned, species = "smallfish", F_max = 3, no_steps = 20)
-plotFCurves(cmg_newGearTuned, species = "ruffe", F_max = 3, no_steps = 20)
+```
 
+This does not really make sense, because catchability of smallfish is set to 0, so we are actually not catching it all. Let's better look at ruffe. It is caught, with this the given selectivity we are only catching a few largest individuals 
 
-plotFCurves(cmg_newGearTuned, species = "breams", F_max = 1, no_steps = 20)
-plotFCurves(cmg_newGear, species = "breams", F_max = 1, no_steps = 20)
+```{r}
+plotFCurves(cmg_newGearTuned, species = "ruffe", F_max = 10, no_steps = 20)
+```
+
+So, of course as we expect, even very high effort values (10) will see increasing yield, as we are really not catching much of this species.  
+
+Let's better look at a species that is caught commercially - roach 
+
+```{r}
+#F curves with our system specific gear
+plotFCurves(cmg_newGearTuned, species = "roach", F_max = 1, no_steps = 20)
+#F curves with generic gear that was used for tuning 
+plotFCurves(cmg_newGear, species = "roach", F_max = 1, no_steps = 20)
+```
+
+Why the difference? Let's look how the original gear parameters differ from our generic set 
+
+```{r}
+
 gear_params(cmg_newGear)[3,]
 gear_params(cmg_newGearTuned)[3,]
-
-
-plotFCurves(cmg_newGearTuned, species = "roach", F_max = 1, no_steps = 20)
-plotFCurves(cmg_newGear, species = "roach", F_max = 1, no_steps = 20)
-gear_params(cmg_newGear)[4,]
-gear_params(cmg_newGearTuned)[4,]
-
-plotFCurves(cmg_newGearTuned, species = "vimba", F_max = 1, no_steps = 20)
-plotFCurves(cmg_newGear, species = "vimba", F_max = 1, no_steps = 20)
-gear_params(cmg_newGear)[4,]
-gear_params(cmg_newGearTuned)[4,]
-
-plotFCurves(cmg_newGearTuned, species = "perch", F_max = 1, no_steps = 20)
-plotFCurves(cmg_newGear, species = "perch", F_max = 1, no_steps = 20)
-gear_params(cmg_newGear)[6,]
-gear_params(cmg_newGearTuned)[6,]
-
-plotFCurves(cmg_newGearTuned, species = "pikeperch", F_max = 1, no_steps = 20)
-plotFCurves(cmg_newGear, species = "pikeperch", F_max = 1, no_steps = 20)
-gear_params(cmg_newGear)[8,]
-gear_params(cmg_newGearTuned)[8,]
-
-plotFCurves(cmg_newGearTuned, species = "burbot", F_max = 1, no_steps = 20)
-plotFCurves(cmg_newGear, species = "burbot", F_max = 1, no_steps = 20)
-gear_params(cmg_newGear)[9,]
-gear_params(cmg_newGearTuned)[9,]
-
 ```
+
+We can see that with the system specific parameters, selectivity starts much later, so again we are only catching largest individuals. Therefore the species can sustain a lot more fishing. Note, however, that catchability was set to 2, so the x axis on the F curve plot should be multiplied by two (in reality we were applying fishign mortality from 0 to 2). You can do the same for other species. 
+
+##Project with a new model 
+
+Now that we calibrated reproduction level let's see how the model responds to changes in overall effort. 
 
 ```{r}
-#check its reproduction level 
-getReproductionLevel(cma_newGear)[3]
+#cmg_newGearTuned <- readParams("use/cmg_newGearTuned.rds")
 
-#get F curves 
-plotFCurves(cma_newGear, species = "breams", F_max = 1, no_steps = 20)
-#TODO: explain what this does 
+#remind ourselves about the effort that was set
+initial_effort(cmg_newGearTuned)
+getReproductionLevel(cmg_newGearTuned)
+gear_params(cmg_newGearTuned)
 
-getReproductionLevel(cmg_newGear)[3]
-plotFCurves(cmg_newGear, species = "breams", F_max = 1, no_steps = 20)
+#double the effort and see if the model stabilises
+sim_cmgTuned06 <- project(cmg_newGearTuned, effort = 0.6, t_max = 100, dt = 0.1)
+plotlyBiomass(sim_cmgTuned06)
+```   
 
-#now we want to know how these curves look in two differnet models. Do they depend only on bream reproduction parameters alone, or also on species interactions? We will set reproduction level to the same value in two models (cma and cmg) and run the same function 
+Generally yes, but one species crashes. What should we do, after all this effort. There are several options: 
+1) use steady again and adjust reproduction levels a bit; 
+2) adjust reproduction level only for a species that crashed; 
+3) go into more complex optimisation of reproduction levels using time series data; 
+4) run iterative tuning to adjust sensitivity to fishing in small steps automatically.
 
-#model that Asta tuned (but with updated gear parameters)
-rep_level <- getReproductionLevel(cma_newGear)
-rep_level[3] <- 0.90
-cma_newGear <- setBevertonHolt(cma_newGear, reproduction_level = rep_level)
-getReproductionLevel(cma_newGear)
-
-#model that Gustav tuned (but with updated gear parameters)
-rep_level <- getReproductionLevel(cmg_newGear)
-rep_level[3] <- 0.90
-cmg_newGear <- setBevertonHolt(cmg_newGear, reproduction_level = rep_level)
-getReproductionLevel(cmg_newGear)
-```
-
-plot curves from the two calibration sets again, reproduction level for bream is the same now
+We will try the first option, let's adjust it with steady()
 
 ```{r}
-plotFCurves(cma_newGear, species = "breams", F_max = 1, no_steps = 20)
+test <- steady(cmg_newGearTuned)
+#what has changed when using steady?
+getReproductionLevel(test)/getReproductionLevel(cmg_newGearTuned)
 
-plotFCurves(cmg_newGear, species = "breams", F_max = 1, no_steps = 20)
+#try to run simulations and vary effort 
+sim_test <- project(test, effort = 0.8, t_max = 100, dt = 0.1)
+plotBiomass(sim_test)
+# it worked, species stabilise
 ```
 
-How will these calibration sets respond to changes in reproduction level? We can see that the first model yield curve peaks at 0.1 and then drops fast, so we probably need higher reproduction level. For the second model we may want to reduce reproduction level, as the yield curve does not drop even with very high fishing mortality.
+TODO: give reference to the tuning with time series using optim (mizerHowTo)
 
-```{r}
-rep_level <- getReproductionLevel(cma_newGear)
-rep_level[3] <- 0.99
-cma_newGear <- setBevertonHolt(cma_newGear, reproduction_level = rep_level)
-getReproductionLevel(cma_newGear)
-plotFCurves(cma_newGear, species = "breams", F_max = 1, no_steps = 20)
+## How do we decide that our model is now properly tuned? 
 
-(rep_level <- getReproductionLevel(cmg_newGear))
-rep_level[3] <- 0.8
-cmg_newGear <- setBevertonHolt(cmg_newGear, reproduction_level = rep_level)
-getReproductionLevel(cmg_newGear)
-plotFCurves(cmg_newGear, species = "breams", F_max = 1, no_steps = 20)
+Here is a list of criteria that could be used for models that were not calibrated to time series data: 
 
-#the second model curve looks more reasonable now
+-   Modelled biomasses were within +/- 20% (or some other proportion) of the observed biomasses.
+-   Growth curves approximated the von Bertalanffy growth curves for each species.
+-   Species diet capture dietary changes with body size, with predators becoming more piscivorous at larger sizes.
+-   Recruitment parameters ensured single-species yield curves were dome-shaped, as expected by theory.
+-   Modelled catches are similar to the observed catches
+-   If available, catch size distributions approximately match, while accounting for gear selectivity in the model and observations 
 
-```
+If time series data of F, species abundance and catches is available we also will look at: 
+-   Species recruitment parameters ensure that time series of fishing mortalities produced approximately expected catches and biomases. Some discrepancies are expected due to uncertainty in estimates and stochasticity 
 
-## Exploring F curves: pikeperch
+##Other resources 
 
-Now let's look at another species - pikeperch
-
-```{r}
-getReproductionLevel(cma_newGear)
-getReproductionLevel(cmg_newGear)
-
-plotFCurves(cma_newGear, species = "pikeperch", F_max = 1, no_steps = 20)
-
-plotFCurves(cmg_newGear, species = "pikeperch", F_max = 1, no_steps = 20)
-```
-
-TODO: explain issues with non-convergence and how the plotFCurves first goes to the right and then to the left.
-
-The second model looks much better, and it also converges nicely. However, yield curves does not go down, so we will reduce the reproduction level from a very high value of 0.99 to 0.9
-
-```{r}
-(rep_level <- getReproductionLevel(cmg_newGear))
-rep_level[8] <- 0.90
-cmg_newGear <- setBevertonHolt(cmg_newGear, reproduction_level = rep_level)
-getReproductionLevel(cmg_newGear)
-
-plotFCurves(cmg_newGear, species = "pikeperch", F_max = 1, no_steps = 20)
-
-#we can expand the maximum range until which we explore these curves to see if the yield curve starts to go down 
-plotFCurves(cmg_newGear, species = "pikeperch", F_max = 1.5, no_steps = 20)
-
-#this is looking reasonably well, but we might want to decrease the reproduction level further down if we have evidende that maximum yield is achieved at lower values. 
-
-rep_level[8] <- 0.85
-cmg_newGear <- setBevertonHolt(cmg_newGear, reproduction_level = rep_level)
-getReproductionLevel(cmg_newGear)
-
-plotFCurves(cmg_newGear, species = "pikeperch", F_max = 1, no_steps = 20)
-
-#But now that we changed the pikeperch, has this affected yield curves for breams?
-plotFCurves(cmg_newGear, species = "breams", F_max = 1, no_steps = 20)
-#not really
-```
-
-Do that for other species
-
-Run project Set original gear parameters to the new models and explore fishing impacts
-
-Remind participants again what the stock recruitment curve means and what we do by changing reproduction level (use a figure from Ken perhaps)
-
-TODO - Jacobsen et al. Fish Fish paper on LME and tuning appendix - suggest physiological recruitment versus actual recruitment (RDI/RDD) = 100 for many species
-
-Now we project with same effort level
-
-```{r}
-
-#and now run the simulation with higher effort 
-sim_cmg <- project(cmg_newGear, effort = 0.6, t_max = 200, dt = 0.1)
-plot(sim_cmg)
-#now species are more resilient to fishing. Can they sustain much higher fishing levels?     
-    
-sim_cma <- project(cma_newGear, effort = 0.6, t_max = 200, dt = 0.1)
-plot(sim_cma)
-
-#compare biomassed at same fishing level from two different model parameterisations
-getBiomass(sim_cmg)[201,]/getBiomass(sim_cma)[201,]
-```
-
-# END OF ASTA's attempts for now. I am work on details below
+Some references to more advanced tuning and work in progress 
 
 ```{r,echo=FALSE,message=FALSE}
-remotes::install_github("sizespectrum/mizerExperimental")
-library(mizerExperimental)
-remotes::install_github("sizespectrum/mizerMR")
-library(mizerMR)
 remotes::install_github("sizespectrum/mizerHowTo")
 library(mizerHowTo)
 library(tidyverse)
 source("use/helper_functions.R")
 ```
 
-We will start with a new example model, a preliminary model for the Heard and McDonald Islands Patagonian toothfish longline fishery. While this is not a coastal or inland fishery, it is relatively data poor.
-
-The model has been calibrated using time-averaged data to achieve coexistence and a steady state. This followed a similar approach as the one you used last week. Feel free to use this model, the Curonian Lagoon model, or your own model in the scenarios you develop later on.
-
-First, let's read in the param object for this model, which contains the steady state information. The file is called *params10.rmd*, showing there was already an iterative process involved with checking, refining , re-calibrating and re-checking the model, using time-averaged biomass data and the diagnostic plots below.
-
-```{r,message=FALSE}
-sim <- readRDS("use/toothfish/params10.RDS")
-params <- sim@params
-plotBiomassObservedVsModelCustom(params,ratio = T)
-plotGrowthCurves(sim,species_panel = T)
-plotlySpectra(sim, power = 2, total = TRUE)
-plotDiet2(sim)
-```
-
-This model is focussed on Patagonian toothfish and key prey species in the longline fishery.
-
-For this model, we had the following main criteria for our project:
-
--   Modelled biomasses were within +/- 10-20% of the observed biomasses.
-
--   Unfished normalised biomass size spectrum slope that is negative and close to -1
-
--   Growth curves approximated the von Bertalanffy growth curves for each species.
-
--   Toothfish diet captured dietary changes with body size and became more piscivorous at larger sizes.
-
--   Recruitment parameters ensured single-species yield curves were dome-shaped, as expected by theory.
-
--   The modeled catches through time captured the trends in the reported catches through time.
-
-We can see from these plots that we still have more work to do with refining the model. The size at age for some species seem much higher than the empirical parameters, feeding level of near satiation for all species and the biomass of some species is much higher than the data. However size-at-age data are typically highly variable. So, let's set some of those issues aside for now.
-
-The last two of the criteria above require examining how the system reacts to changes in fishing. In the next tutorial we will look at changes though time. Here, we will examine how the reproduction parameters produce reasonable yield curves. How do we do this?
-
-First, let's take a look at how fishing is set up in this model.
-
-```{r}
-gear_params(params)
-```
-
-Currently we can see there is one gear - *longline* - which has a knife_edge selectivity function that starts fishing at very large sizes of toothfish only (*knife_edge_size*=2722 g). The size selectivity was derived from the length distribution of catches from the long-line fisheries data. If your model does not yet include fishing, you can set up your own fishing gear using the *gear_params()* function and by following the example [here](https://sizespectrum.org/mizer/reference/setFishing.html).
-
-We can see that the *initial_effort* has been set to 1 and the *catchability* has been set to a very low number: 7e-07. This shows the model has been calibrated with a very low level of fishing mortality.
-
-### Tuning fishing
-
-As mentioned before the calibrated reproduction parameters affect how species respond to fishing intensity. To get an idea on how the model has been calibrated in terms of reproduction, let's check the reproduction level.
-
-```{r,message=FALSE}
-reproduction_level <- getReproductionLevel(params)
-reproduction_level
-
-species_params(params)[, c("erepro", "R_max")]
-
-```
-
-We can see that the erepro and R_max values have been estimated. Let's see how close the model catches are form the observed.
-
-```{r,message=FALSE}
-plotYieldObservedVsModel(params, ratio=T)
-```
-
-The modeled yields looks pretty close to the observed.
-
-Now, let's take a look at how this combination of parameters influences how toothfish respond to different levels of fishing. These are not temporal dynamics with fishing changing through time yet, each level run at steady state.
-
-```{r,message=FALSE}
-plotYieldVsF(params,species="D.ele",no_steps=50,F_max=2)
-# Fmsy around 0.4 for toothfish
-
-```
-
-Next let's see what happens if we adjust the reproduction parameters. If you would like to read further about this step see Gustav's blogpost [here](https://blog.mizer.sizespectrum.org/posts/2021-08-03-density-dependence-in-reproduction/).
-
-```{r}
-params2 <- setBevertonHolt(params, reproduction_level = 0.85)
-
-plotBevertonHolt2(params, params2, "D.ele")
-
-sim2 <- project(params2, t_max = 20)
-plotBiomass(sim2)
-
-
-plotYieldVsF(params,species="D.ele",no_steps=50,F_max=2)
-plotYieldVsF(params2,species="D.ele",no_steps=50,F_max=2)
-
-
-```
-
-This shows that altering the level of density-dependence in recruitment affects how sensitive toothfish (D.ele for short) are to fishing. The first model would enable toothfish to sustain (at equilbrium) much higher levels of fishing before it collapses.
-
-### Exercise
-
-Explore changes in reproduction level using your model (or the curonian lagoon model). How does changing the reproduction level affect how closely your modeled biomasses and catches match the observations?
-
-## Comparing ecosystem states: effects of fishing relative to an unfished state
-
-To be able to assess the wider ecosystem impacts of fishing in the community we need to understand how changes compare to an unfished state. We can use the above model unfished steady state with effort = 0 to do this combined with some functions to calculate ecological indicators.
-
-Let's compare the current size spectra (with fishing) to the unfished size spectra to assess whether there is any evidence of a size-structured trophic cascade due to fishing.
-
-```{r , code_folding=TRUE, eval = T, echo = T, warning=F}
-sim0 <- projectToSteady(params, effort = 0, return_sim = TRUE, t_max = 200)
-sim <- projectToSteady(params, effort = 1, return_sim = TRUE, t_max = 200)
-plot_relative_biomass(sim0, sim)
-```
-
-Here we can see the effect of the reduction in large sized individuals of heavily fished species on the other sizes and species in the model, relative to the unfished steady state.
-
-The abundance of some (but not all) of the smaller to medium sizes of prey are a lot higher when their larger predators are removed (note the logarithmic scale). Sprat looks to be much lower.
-
-We can do the same with Biomass to see when, if any, of the species collapse. For simplicity, we use \< 0.1 of B/B_unfished as a proxy for a reference point for population collapse. We can add other reference points to this kind of plot, for example a simple rule of thumb for B_msy could be 0.5\*B_unfished.
-
-```{r,code_folding=TRUE, eval = T, echo = F, warning=F}
-# collect the biomasses from unfish and calcualte the relative change
-B0 <- getBiomass(sim0)[2,]
-Brel <- melt(sweep(getBiomass(sim), 2, B0, "/")[2,])
-ggplot(log10(Brel), aes(x = row.names(Brel), y = value)) +
-  geom_bar(stat = "identity",
-           show.legend = FALSE) + # Remove the legend
-  xlab("Group") +
-  ylab("Proportion of Unfished Biomass") 
-
-B0 <- getBiomass(sim0)
-Brel <- melt(sweep(getBiomass(sim), 2, B0, "/"))
-```
-
-We can see there is very low impact on the biomass of each group, due to the very small rates of fishing mortality being inflicted on toothfish.
-
-#### Exercise
-
-How do the biomasses change under your scenarios of fishing mortality when the reproduction level is lowered?
-
-### Summary
