@@ -101,7 +101,6 @@ yieldplot2<-plotYieldGear(simf2)
 yieldcompare2<-yieldplot2+ geom_point(data = dat, shape = 1, size = 1, mapping = aes(x=Year, y= CatchPerArea))
 yieldcompare2
 
-
 ```
 
 These two plots look almost exactly the same. How do you interpret this? Remember think about the relationship between the fishing parameters in the model (e.g. F = Q\*E). We didn't change these parameters, so they should be the same in both simulations and we can check them below:
@@ -109,6 +108,12 @@ These two plots look almost exactly the same. How do you interpret this? Remembe
 ```{r}
 plotFMort(simf2)
 ```
+
+
+
+
+
+
 
 #### Exercise:
 
