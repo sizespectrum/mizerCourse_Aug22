@@ -153,7 +153,7 @@ The solid line is the effect of fishing alone. So the effects of climate change 
 
 The above example shows how you can directly use outputs of earth system models for projections (GFDL inputs - FishMIP), to easily show you what functions to work we will use 2 stylised scenarios that you can adapt and explore for your own model scenarios.
 
-This is just one part of the set up that we have used to create a thermizer model for the Patagonian toothfish fishery and for FishMIP.
+This is just one part of the set up that we have used to create a thermizer model for the Patagonian toothfish fishery and for FishMIP. Incorporating the additonal effects of warming are more complex but can build on the above examples.
 
 ### Comparing alternative states when there are multiple resources
 
