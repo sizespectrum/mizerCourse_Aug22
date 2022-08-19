@@ -28,7 +28,7 @@ source("helper_functions.R")
 Read in the parameters and the climate scenario inputs for the resource spectrum.
 
 ```{r}
-sim <- readRDS("toothfish/params10.RDS")
+sim <- readRDS("sim0.RDS")
 params <- sim@params
 first_year <- 2021
 last_year <- 2070
@@ -74,19 +74,40 @@ other_params(params_worst)$n_pp_array <- readRDS("toothfish/IPSL_n_pp_array_CCsc
 Have a look how the model responds through time without fishing.
 
 ```{r,message=FALSE}
-sim_best <- project(params_best, effort = 0, t_start = 2021, t_max = 50)
 
-sim_worst <- project(params_worst, effort = 0, t_start = 2021, t_max = 50)
+sim_ncc <- project(sim@params, effort = 0, t_start = 2021, t_max = 50)
 
+
+sim_best <- project(params_best, effort = 0,t_start = 2021, t_max = 50)
+
+sim_worst <- project(params_worst, effort = 0,t_start = 2021, t_max = 50)
+
+
+plotBiomass(sim_ncc)
 plotBiomass(sim_best)
 plotBiomass(sim_worst)
+
 ```
 
-This shows how the effects of plankton changing alone can have a big effects on the model.
+
+```{r}
+change_biomass_best <- melt(getBiomass(sim_best)-getBiomass(sim_ncc))
+change_biomass_worst <- melt(getBiomass(sim_worst)-getBiomass(sim_ncc))
+
+p1<-ggplot(change_biomass_best) +
+    geom_line(aes(x = time, y = value, colour = sp))
+
+p2<-p1 + geom_line(data= change_biomass_worst, aes(x = time, y = value, colour = sp),linetype = "dotted") + labs(y="Biomass CC/Biomass No CC")
+
+p2
+```
+
+
+This shows how the effects of plankton changing alone through time can have a big effects in the model but that the differences in the scenarios for this region are marginal.
 
 The above example shows how you can directly use outputs of earth system models for projections (GFDL inputs - FishMIP), to easily show you what functions to work we will use 2 stylised scenarios that you can adapt and explore for your own model scenarios.
 
-This is one part of the set up that we have used to create a thermizer model for the Patagonian toothfish fishery and for FishMIP.
+This is just one part of the set up that we have used to create a thermizer model for the Patagonian toothfish fishery and for FishMIP.
 
 ### Comparing alternative states when there are multiple resources
 
