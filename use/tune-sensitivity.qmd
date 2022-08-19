@@ -6,9 +6,9 @@ title: "Tune reproduction sensitivity"
 
 In the tutorial x of week 1 we briefly looked at how density dependence of reproduction, or the so called reproduction level, can influence how species react to changes in mortality, such as from fishing. It might be good if you go back to this tutorial and remind yourself about two parameters that will affect reproduction level. They are $R_max$ and $erepro$. $R_max$ sets the maximum amount of eggs or larvae (individuals in the first size class) that can recruit in the system, where $erepro$ defines the slope of how egg production scales with the energy invested in reproduction (which depends on the spawning stock biomass and their energy intake).
 
-Important! What is recruitment?
+**Important! What is recruitment?**
 
-In fisheries, the term 'recruitment' usuallyu refers to the numbers of fish that recruit into fishery, which will depend on egg production, early density dependence, growth, early mortality and gear selectivity. In mizer we often use the term 'recruitment' to describe the number of individuals that enter the first size class in the model. This number will depend on the energy invested into reproduction and density dependence parameters $R_max$ and $erepro$. So please be aware of this difference, and remember that here recruitment means numbers in the first size class.
+In fisheries, the term 'recruitment' usually refers to the numbers of fish that recruit into fishery, which will depend on egg production, early density dependence, growth, early mortality and gear selectivity. In mizer we often use the term 'recruitment' to describe the number of individuals that enter the first size class in the model. This number will depend on the energy invested into reproduction and density dependence parameters $R_max$ and $erepro$. So please be aware of this difference, and remember that here recruitment means numbers in the first size class.
 
 When we built our models in week 2 we were not concerned about the reproduction level and we kept the recruitment independent from energy invested into reproduction. The steady() function used in week 2 didn't care about setting realistic reproduction levels for the species. It is important to understand that by modifying $R_max$ and $erepro$ we can change the reproduction level - point along the density dependence curve that the species is - without changing biomass at steady state.
 
@@ -24,19 +24,46 @@ library(mizerMR)
 library(tidyverse)
 ```
 
-Next we load our final steady state model that we saved after playing with the tuneParams() gadget. We will run this model to steady() just to make sure resources are as expected (you don't need to get into details of this). We will use two models that Asta and Gustav independently tuned with the tuneParams() gadget.
+### Steady state models will not be steady once conditions change
+
+We load our final steady state model that we saved after playing with the tuneParams() gadget. We will run this model to steady() just to make sure resources are as expected (you don't need to get into details of this). We will use two models that Asta and Gustav independently tuned with the tuneParams() gadget.
 
 ```{r}
 cur_model_asta <- readParams("use/cur_model_asta.rds")
 cur_model_gustav <- readParams("build/cur_model_refined.rds")
 
-#run to new steady level 
+#run to new steady level. We will abbreviate the two models as cma (curronian model asta) and cmg 
 cma <- cur_model_asta |> steady()
 cmg <- cur_model_gustav |> steady()
 
 ```
 
-Let's look at reproduction levels of our steady state models.
+Let's first check that steady state models are indeed steady under same conditions. If we run project() with exactly same conditions biomasses should stay stable.
+
+```{r}
+initial_effort(cma)
+initial_effort(cmg)
+```
+
+During the tuning we might have adjusted the overall effort, so when projecting we will use this effort. Then we will project both models for 50 years using the same effort and plot their biomasses
+
+```{r}
+sim_cma <- project(cma, effort = 0.5, t_max = 50, dt = 0.1)
+plotBiomass(sim_cma)
+#everything looks reasonably stable
+
+sim_cmg <- project(cmg, effort = 0.3, t_max = 50, dt = 0.1)
+plotBiomass(sim_cmg)
+```
+
+Let's check how different the biomases are in the two calibrations (how closely they were matched to observed biomasses)
+
+```{r}
+getBiomass(sim_cmg)[51,]/getBiomass(sim_cma)[51,]
+
+```
+
+However, steady state models are not necessarily steady if conditions change. This will depend on how we set up reproduction level and density dependence of recruitment. Let's look at reproduction levels of our steady state models.
 
 ```{r}
 getReproductionLevel(cma)
@@ -44,27 +71,7 @@ getReproductionLevel(cmg)
 
 ```
 
-For some species these reproduction levels don't look reasonable at all. They are extremely low. Let's make sure we understand that steady state models are steady, so that if we project them with exactly same conditions nothing changes. We will just check that we use the right effort for each model
-
-```{r}
-
-initial_effort(cma)
-initial_effort(cmg)
-
-#the overall effort level was changed during calibration so we should use the same overall effort in simulations 
-
-#we will project both models for 50 years using the same effort and plot their biomasses 
-
-sim_cma <- project(cma, effort = 0.5, t_max = 50, dt = 0.1)
-plotBiomass(sim_cma)
-#everything looks reasonably stable
-
-
-sim_cmg <- project(cmg, effort = 0.3, t_max = 50, dt = 0.1)
-plotBiomass(sim_cmg)
-```
-
-However, steady state is not steady when we move away from these conditions. So if we change the effort a bit, some species might start changing too much without settling into new equlibrium
+For some species these reproduction levels don't look reasonable at all. They are extremely low, suggesting that recruitment will completely depend on species biomass. If there is small change in biomass, recruitment will decrease, that will lead to less biomass, less recruitment and so on. We want that when we change fishign effort in our models, species should settle into a new equilibrium. If this does not happen, the density dependence does not work very well. To test it we will change the effort and run the models for a little longer
 
 ```{r}
 #decrease effort from 0.5 to 0.3 and run for a little longer
@@ -77,25 +84,37 @@ plotBiomass(sim_cmg)
 
 ```
 
-If we set reproduction level reasonably well, species should be resilient to reasonable changes in fishing mortality and settle into new equilibrium.
+Yes, as expected biomasses keep changing over time and do not settle into a new equilibrium. Let's try to fix it.
 
 ## What should the sensitivity to fishing be?
 
-We will want to tune reproduction level of each species to make sure that their response to fishing is reasonable. How do we know what is reasonable? It is not a straightforward question. We can start by consulting general fisheries models. You can read about the principles of basic fisheries surplus production models in this excellent book by Malcolm Haddon "[Using R for Modelling and Quantitative Methods in Fisheries](https://haddonm.github.io/URMQMF/surplus-production-models.html)". In these models population resilience is defined by the maximum population growth rate r (which is NOT the same as r_max used in mizer). Under the standard assumptions about density dependence (Schaeffer models) maximum sustainable yield (MSY) is expected at 0.5 of unfished stock biomass and it can be estimated as r/4 proportion of of unfished biomass. For example, if r =0.5 and unfished biomass is 1000 tons, MSY is 125 tons. Similarly, proportional harvest rate (proportion of population that can be removed each year) to give MSY is estimated as r/2, which for the case of r= 0.5, would be at 0.25. Note, that this is a proportional harvest rate which is not the same as instantaneous harvest rate in fisheries models and not the same as instantaneous mortality rate used in mizer, but is close enough for values \<0.5). We usually do not know population growth rates (r) for our species, but [generic estimates](https://studylib.net/doc/5888624/doc---fishbase) from multiple species give values of 0.6-1.5 for high resilience species (Von Bertalanffy growth rate K\>0.3, maturation age \< 1, high fecundity) and values of 0.2-1 for medium resilience species. ![](/images/PopGrowthRates.png)
+We will need to tune reproduction level of each species to make sure that their response to fishing is reasonable. How do we know what is reasonable? It is not a straightforward question. We can start by consulting general fisheries models. You can read about the principles of basic fisheries surplus production models in this excellent book by Malcolm Haddon "[Using R for Modelling and Quantitative Methods in Fisheries](https://haddonm.github.io/URMQMF/surplus-production-models.html)". In these models population resilience is defined by the maximum population growth rate ***r*** (which is NOT the same as r_max used in mizer). Under the standard assumptions about density dependence (Schaeffer models) maximum sustainable yield (MSY) is expected at 0.5 of unfished stock biomass and it can be estimated as r/4 proportion of of unfished biomass. For example, if r =0.5 and unfished biomass is 1000 tons, MSY is 125 tons. Similarly, proportional harvest rate (proportion of population that can be removed each year) to give MSY is estimated as r/2, which for the case of r= 0.5, would be at 0.25. Note, that this is a proportional harvest rate which is not the same as instantaneous harvest rate in fisheries models and not the same as instantaneous mortality rate used in mizer, but is close enough for values \<0.5). We usually do not know population growth rates (r) for our species, but we can also look up expectations and estimates in FishBase life-history tool section. Or we can use [generic estimates](https://studylib.net/doc/5888624/doc---fishbase) which suggest r of 0.6-1.5 for high resilience species (Von Bertalanffy growth rate K\>0.3, maturation age \< 1, high fecundity) and r of 0.2-1 for medium resilience species (see below).
+
+![](/images/PopGrowthRates.png)
 
 Of course these values are derived from single species models with very different assumptions to those of ours, so they can only be used as very general guides. Also remember again that proportional fishing mortality rates are NOT the same as mizer rates in a steady state population, especially when they are \> 0.7 or more.
 
-Alternatively, we can also use Ken Andersen's book and expectations for species with different w_inf values, as estimated from trait-based models (all species parameters, except for w_inf) are identical) and when all species are fished with 50% selectivity at 5% of their w_inf. The panels below represents species with different asymptotic sizes: 333 g (top), 10 g (bottom left), and 10 kg (bottom right). This figure shows that highest yields are expected at fishing mortality of about 0.3-0.5. TODO: explain what the different lines mean
+Alternatively, we can also use Ken Andersen's book and expectations for species with different w_inf values, as estimated from trait-based models (all species parameters, except for w_inf) are identical) and when all species are fished with 50% selectivity at 5% of their w_inf. The panels below represents species with different asymptotic sizes: 333 g (top), 10 g (bottom left), and 10 kg (bottom right). The lines show yield (black lines), yield per recruit (dashed lines), spawning stock biomass (dark gray lines), and recruitment (light gray lines), all scaled by their maximum value. We will not deal with yield per recruit, so ignore the dashed lines. This figure shows that highest yields are expected at instantaneous fishing mortality of about 0.3-0.5/year.
 
 ![](/images/ReferencePointCurves.png)
 
+We can aim to achieve that in our models.
+
 ## Tuning sensitivity to fishing
 
-We will explore how changing reproduction levels will change our species sensitivity to fishing. But for this exploration we will set gear parameters in such a way that all species are fished similarly. So we will set catchability to 1, logistic selectivity 50% selection at maturation length, and 25% selection at 25% maturation length. This is because we do not have data about species resilience to fishing in our particular system (Curonian Lagoon), so we will explore their responses in general. If you do have system specific data and fishing parameters, it would make sense to set parameters accordingly. We will provide further suggestions below.
+Let's explore how changing reproduction levels will change our species sensitivity to fishing. But for this exploration we will set gear parameters in such a way that all species are fished similarly. This is because our current gear parameters are set for a specific commerical fishery, which selects some species, but does not catch smallfish or almost no ruffe, for smaller fish they target only adults and for largest fish they also target juveniles. Catchabilities also differ a lot.
+
+```{r}
+gear_params(cmg)
+```
+
+To tune sensitivity of each species to extra mortality we will set catchability of all species to 1, so that effort values directly reflect fishing mortality. We will also set gear 50% selectivity to maturation length of each species and 25% selection to 25% maturation length.
+
+If you do have system specific data on how changes in fishing under system specific gear parameters change species biomasses, you should use these system specific details. We do not have such data for Curonian Lagoon, so we will explore species responses in general.
 
 ### Setting gear selectivity
 
-Gear selectivity parameters are set in length, so we will first convert w_mat and w_mat25 to length values. .
+Gear selectivity parameters are defined by length, so we will first convert w_mat and w_mat25 to length values.
 
 ```{r}
 #calculate L_mat for all species
@@ -112,49 +131,50 @@ gp$l50 <- L_mat
 gp$l25 <- L_25mat
 #set all catchability to 1
 gp$catchability <-1
+```
 
-## assign them to new models and update gear params
-cma_newGear <- cma
-(gear_params(cma_newGear) <- gp)
+We will assign these gear parameters for our parameterised model, but for simplicity we will use only one model.
+
+```{r}
+
+#assign the model to a new variable, so that we can keep both
 cmg_newGear <- cmg
+#set new gear parameters for the new model 
 (gear_params(cmg_newGear) <- gp)
 
 #as we change gear parameters we need to bring the model to steady again 
-cma_newGear <- steady(cma_newGear)
 cmg_newGear <- steady(cmg_newGear)
 
-#assess whether new models are stable and not in fluctuating dynamics
-sim_cma_NewGear <- project(cma_newGear, effort = 0.5, t_max = 100, dt = 0.1)
-plotBiomass(sim_cma_NewGear)
-#good enough 
-
+#assess whether the model with new gear params is stable and not in fluctuating dynamics
 sim_cmg_NewGear <- project(cmg_newGear, effort = 0.3, t_max = 100, dt = 0.1)
 plotBiomass(sim_cmg_NewGear)
+#good enough 
 
 ```
 
-Now we need to decide what reproduction level we should set. One way to approach that is to assume the $erepro$ parameter for all species is the same and set reproduction level accordingly. We can do that with setBevertonHolt() function as we briefly learned in week 1. After some experimentation we found that providind erepro of 0.002 gives reproduction levels
+We saw previously that reproduction levels in our species were not very sensible. So we need to decide what reproduction level we should set to start our tuning. Remember when we change species reproduction level we do not change the overall biomass in the steady state (black circle in the figure below), but only the shape of recruitment curves and how quickly they reach the maximum.
+
+TODO: add that plot
+
+For now we will follow [Jacobsen et al. 2016](https://onlinelibrary.wiley.com/doi/full/10.1111/faf.12171) approach and assume the $erepro$ parameter for all species is the same. Once we modify erepro for all species, the reproduction level and Rmax will be adjusted to keep the steady state biomass the same. We can do that with setBevertonHolt() function as we briefly learned in week 1. After some experimentation we found that erepro of 0.002 gives reasonable reproduction levels. You can play with different erepro values for your models.
 
 ```{r}
-cma_newGear <- setBevertonHolt(cma_newGear, erepro = 0.002)
-getReproductionLevel(cma_newGear)
-species_params(cma_newGear)["erepro"]
-species_params(cma_newGear)["R_max"]
-
 cmg_newGear <- setBevertonHolt(cmg_newGear, erepro = 0.002)
+#let's check what reproduction was set
 getReproductionLevel(cmg_newGear)
+#and look at species reproduction parameters 
+species_params(cma_newGear)[, c("erepro", "R_max")]
 
-#You can play with differnet erepro values and see which reproduction levels you get. 
 ```
 
 Remember, reproduction level is the ratio between RDD and Rmax and can vary between 0 and 1. It tells us how close the actual reproduction (after applying density dependence) is to the theoretical maximum, set by R_max. We can check this ratio
 
 ```{r}
-#how close the RDD is to Rmax 
-getRDD(cma_newGear)/species_params(cma_newGear)$R_max
+#how close the RDD (actual recruitment, after applying density dependence) is to Rmax? This is the same as reproduction level 
+getRDD(cmg_newGear)/species_params(cmg_newGear)$R_max
 ```
 
-We can also look how close the actual reproduction is to the physiological reproduction - reproduction level produced by the model species, after accounting for the food intake and growth rates, but before applying density dependence
+We can also look how close the actual reproduction is to the physiological reproduction - reproduction level produced by the model species, after accounting for the food intake and growth rates, but before applying density dependence (RDI)
 
 ```{r}
 getRDD(cma_newGear)/getRDI(cma_newGear)
@@ -166,6 +186,77 @@ This tells us that most species can produce a huge amount more, but this reprodu
 ## Exploring F curves: breams
 
 To set reproduction level to the reasonable levels and get reasonable response to fishing, we will apply a range of fishing mortalities to one species at a time and check how their yields, biomasses (SSB), RDD and RDI will change. We can use a handy function plotFCurves() or getFCurves() for this purpose. Let's concentrate on breams, or the third species
+
+### doing it only for cmg model
+
+```{r}
+species_params(cmg_newGear)$species
+getReproductionLevel(cmg_newGear)[2]
+plotFCurves(cmg_newGear, species = "ruffe", F_max = 3, no_steps = 20)
+
+rep_level <- getReproductionLevel(cmg_newGear)
+rep_level[1] <- 0.90
+cmg_newGear <- setBevertonHolt(cmg_newGear, reproduction_level = rep_level)
+getReproductionLevel(cmg_newGear)
+plotFCurves(cmg_newGear, species = "smallfish", F_max = 3, no_steps = 20)
+
+#smallfish 0.9
+#ruffe 0.865 ok as set 
+#bream 0.85 - converges ok
+#roach 0.6766 fine as set
+#vimba 0.80 
+#carassius 0.75
+#perch 0.5
+#pikeperch 0.75
+#burbot 0.8
+#predator_fish 0.85
+
+cmg_newGearTuned <- cmg_newGear
+saveParams(cmg_newGearTuned, "cmg_newGearTuned.rds")
+
+
+#return original gear params 
+gear_params(cmg)
+gear_params(cmg_newGearTuned) <-gear_params(cmg)
+gear_params(cmg_newGearTuned)
+getReproductionLevel(cmg_newGearTuned)
+
+plotFCurves(cmg_newGearTuned, species = "smallfish", F_max = 3, no_steps = 20)
+plotFCurves(cmg_newGearTuned, species = "ruffe", F_max = 3, no_steps = 20)
+
+
+plotFCurves(cmg_newGearTuned, species = "breams", F_max = 1, no_steps = 20)
+plotFCurves(cmg_newGear, species = "breams", F_max = 1, no_steps = 20)
+gear_params(cmg_newGear)[3,]
+gear_params(cmg_newGearTuned)[3,]
+
+
+plotFCurves(cmg_newGearTuned, species = "roach", F_max = 1, no_steps = 20)
+plotFCurves(cmg_newGear, species = "roach", F_max = 1, no_steps = 20)
+gear_params(cmg_newGear)[4,]
+gear_params(cmg_newGearTuned)[4,]
+
+plotFCurves(cmg_newGearTuned, species = "vimba", F_max = 1, no_steps = 20)
+plotFCurves(cmg_newGear, species = "vimba", F_max = 1, no_steps = 20)
+gear_params(cmg_newGear)[4,]
+gear_params(cmg_newGearTuned)[4,]
+
+plotFCurves(cmg_newGearTuned, species = "perch", F_max = 1, no_steps = 20)
+plotFCurves(cmg_newGear, species = "perch", F_max = 1, no_steps = 20)
+gear_params(cmg_newGear)[6,]
+gear_params(cmg_newGearTuned)[6,]
+
+plotFCurves(cmg_newGearTuned, species = "pikeperch", F_max = 1, no_steps = 20)
+plotFCurves(cmg_newGear, species = "pikeperch", F_max = 1, no_steps = 20)
+gear_params(cmg_newGear)[8,]
+gear_params(cmg_newGearTuned)[8,]
+
+plotFCurves(cmg_newGearTuned, species = "burbot", F_max = 1, no_steps = 20)
+plotFCurves(cmg_newGear, species = "burbot", F_max = 1, no_steps = 20)
+gear_params(cmg_newGear)[9,]
+gear_params(cmg_newGearTuned)[9,]
+
+```
 
 ```{r}
 #check its reproduction level 
@@ -201,7 +292,7 @@ plotFCurves(cma_newGear, species = "breams", F_max = 1, no_steps = 20)
 plotFCurves(cmg_newGear, species = "breams", F_max = 1, no_steps = 20)
 ```
 
-How will these calibration sets respond to changes in reproduction level? We can see that the first model yield curve peaks at 0.1 and then drops fast, so we probably need higher reproduction level. For the second model we may want to reduce reproduction level, as the yield curve does not drop even with very high fishing mortality. 
+How will these calibration sets respond to changes in reproduction level? We can see that the first model yield curve peaks at 0.1 and then drops fast, so we probably need higher reproduction level. For the second model we may want to reduce reproduction level, as the yield curve does not drop even with very high fishing mortality.
 
 ```{r}
 rep_level <- getReproductionLevel(cma_newGear)
@@ -233,7 +324,7 @@ plotFCurves(cma_newGear, species = "pikeperch", F_max = 1, no_steps = 20)
 plotFCurves(cmg_newGear, species = "pikeperch", F_max = 1, no_steps = 20)
 ```
 
-TODO: explain issues with non-convergence and how the plotFCurves first goes to the right and then to the left. 
+TODO: explain issues with non-convergence and how the plotFCurves first goes to the right and then to the left.
 
 The second model looks much better, and it also converges nicely. However, yield curves does not go down, so we will reduce the reproduction level from a very high value of 0.99 to 0.9
 
@@ -261,13 +352,11 @@ plotFCurves(cmg_newGear, species = "breams", F_max = 1, no_steps = 20)
 #not really
 ```
 
-Do that for other species 
+Do that for other species
 
-Run project 
-Set original gear parameters to the new models and explore fishing impacts
+Run project Set original gear parameters to the new models and explore fishing impacts
 
 Remind participants again what the stock recruitment curve means and what we do by changing reproduction level (use a figure from Ken perhaps)
-
 
 TODO - Jacobsen et al. Fish Fish paper on LME and tuning appendix - suggest physiological recruitment versus actual recruitment (RDI/RDD) = 100 for many species
 
@@ -287,7 +376,6 @@ plot(sim_cma)
 getBiomass(sim_cmg)[201,]/getBiomass(sim_cma)[201,]
 ```
 
-
 # END OF ASTA's attempts for now. I am work on details below
 
 ```{r,echo=FALSE,message=FALSE}
@@ -298,7 +386,7 @@ library(mizerMR)
 remotes::install_github("sizespectrum/mizerHowTo")
 library(mizerHowTo)
 library(tidyverse)
-source("helper_functions.R")
+source("use/helper_functions.R")
 ```
 
 We will start with a new example model, a preliminary model for the Heard and McDonald Islands Patagonian toothfish longline fishery. While this is not a coastal or inland fishery, it is relatively data poor.
