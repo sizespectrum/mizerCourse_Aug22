@@ -103,7 +103,7 @@ We can aim to achieve that in our models.
 
 ## Tuning sensitivity to fishing
 
-Let's explore how changing reproduction levels will change our species sensitivity to fishing. But for this exploration we will set gear parameters in such a way that all species are fished similarly. This is because our current gear parameters are set for a specific commerical fishery, which selects some species, but does not catch smallfish or almost no ruffe, for smaller fish they target only adults and for largest fish they also target juveniles. Catchabilities also differ a lot.
+Let's explore how changing reproduction levels will change our species sensitivity to fishing. But for this exploration we will set gear parameters in such a way that all species are fished similarly. This is because our current gear parameters are set for a specific commercial fishery, which selects some species, but does not catch smallfish or almost no ruffe, for smaller fish they target only adults and for largest fish they also target juveniles. Catchabilities also differ a lot.
 
 ```{r}
 gear_params(cmg)
@@ -119,13 +119,13 @@ Gear selectivity parameters are defined by length, so we will first convert w_ma
 
 ```{r}
 #calculate L_mat for all species
-(L_mat = (species_params(cma)$w_mat/species_params(cma)$a)^(1/species_params(cma)$b))
+(L_mat = (species_params(cmg)$w_mat/species_params(cmg)$a)^(1/species_params(cmg)$b))
 #calculate L_mat25 for all species
-(L_25mat = (species_params(cma)$w_mat25/species_params(cma)$a)^(1/species_params(cma)$b))
+(L_25mat = (species_params(cmg)$w_mat25/species_params(cmg)$a)^(1/species_params(cmg)$b))
 
 #Mizer is set in such way that we need to provide all gear parameters at once, so we first set a gear dataframe and then give it to mizer. 
 #take gear parameters from the current model
-(gp <- gear_params(cma))
+(gp <- gear_params(cmg))
 #update L50 selectivity with new values
 gp$l50 <- L_mat
 #update L25 selectivity with new values
@@ -199,7 +199,7 @@ getReproductionLevel(cmg_newGear)[3]
 plotFCurves(cmg_newGear, species = "breams", F_max = 1, no_steps = 20)
 ```
 
-The yield curve (dashed line) does not taper down even at fishing mortality as high as 1, so we want to decrease reproduction level 
+The yield curve (dashed line) does not taper down even at fishing mortality as high as 1, so we want to decrease reproduction level
 
 ```{r}
 #first we save current reproduction level into a vector 
@@ -239,85 +239,95 @@ cmg_newGearTuned <- cmg_newGear
 saveParams(cmg_newGearTuned, "cmg_newGearTuned.rds")
 ```
 
-Exercise 1 
-Now you do the same with your model
+Exercise 1 Now you do the same with your model
 
-Important! 
+Important!
 
 You might notice that in some cases plotFCurves() gives a warning that convergence was not reached. This means that species didn't settle into a new stable state with a new fishing level and we should not trust result for this specific fishing level. When we call plotFCurves() mizer will start with the initial effort and will go up all the way to the maximum value and then go down from the initial to 0. Often we find that it is the most extreme values that do not settle into an equilibrium. We can see that in an example with cma model (curonian model asta) - shoudl we show this example? If yes, we should use pikeperch
 
-
 ## Going back to the original gear parameters
 
-Now we wonder what will happen to species sensitivity to fishing once we go back to the original gear parameters. Afterall, we used those parameters to tune our model using the tuneParams() gadget. Will they still work? Let's explore it. 
-
+Now we wonder what will happen to species sensitivity to fishing once we go back to the original gear parameters. Afterall, we used those parameters to tune our model using the tuneParams() gadget. Will they still work? Let's explore it.
 
 ```{r}
-#these were the original gear parameters
+#now we read the file with all reproduction tuned, with RT referring to 'reproduction tuned'
+cur_model_RT <- readRDS("cmg_ReproTuned.rds")
+#check that reproduction level is as expected 
+(repro_level_tuned <- getReproductionLevel(cur_model_RT))
+#check our gear parameters 
+gear_params(cur_model_RT)
+# yes, these are generic gear parameters
+
+#now let's assign the tuned reproduction level to the original curonian_model_gustav (cmg) model. We only changed reproduction level in this model, so we will overwrite reproduction level with a tuned one
+cmg <- setBevertonHolt(cmg, reproduction_level = repro_level_tuned)
+
+#check gear parameters
 gear_params(cmg)
-#we will assign them back to the tuned model 
-gear_params(cmg_newGearTuned) <-gear_params(cmg)
-#and check that it worked 
-gear_params(cmg_newGearTuned)
-#and check that reproduction levels are as we want (after all the tuning)
-getReproductionLevel(cmg_newGearTuned)
+#check reproduction level 
+getReproductionLevel(cmg)
+#lookg good 
+
+
 ```
 
-Let's plot F curves for small fish
+Now let's plot F curves for small fish using the model with tuned reproduction but original gear selectivity
 
 ```{r}
-plotFCurves(cmg_newGearTuned, species = "smallfish", F_max = 3, no_steps = 20)
+plotFCurves(cmg, species = "smallfish", F_max = 3, no_steps = 20)
 ```
 
-This does not really make sense, because catchability of smallfish is set to 0, so we are actually not catching it all. Let's better look at ruffe. It is caught, with this the given selectivity we are only catching a few largest individuals 
+This does not really make sense, because catchability of smallfish is set to 0, so we are actually not catching it all. Let's better look at ruffe. It is caught, with this the given selectivity we are only catching a few largest individuals
 
 ```{r}
-plotFCurves(cmg_newGearTuned, species = "ruffe", F_max = 10, no_steps = 20)
+plotFCurves(cmg, species = "ruffe", F_max = 10, no_steps = 20)
 ```
 
-So, of course as we expect, even very high effort values (10) will see increasing yield, as we are really not catching much of this species.  
+So, of course as we expect, even very high effort values (10) will see increasing yield, as we are really not catching much of this species.
 
-Let's better look at a species that is caught commercially - roach 
+Let's better look at a species that is caught commercially - roach
 
 ```{r}
 #F curves with our system specific gear
-plotFCurves(cmg_newGearTuned, species = "roach", F_max = 1, no_steps = 20)
-#F curves with generic gear that was used for tuning 
-plotFCurves(cmg_newGear, species = "roach", F_max = 1, no_steps = 20)
+plotFCurves(cmg, species = "roach", F_max = 1, no_steps = 20)
+#F curves with generic gear that was used for tuning (and has different gear parameters)
+plotFCurves(cur_model_RT, species = "roach", F_max = 1, no_steps = 20)
 ```
 
-Why the difference? Let's look how the original gear parameters differ from our generic set 
+Why the difference? Let's look how the original gear parameters differ from our generic set
 
 ```{r}
 
-gear_params(cmg_newGear)[3,]
-gear_params(cmg_newGearTuned)[3,]
+gear_params(cmg)[3,]
+gear_params(cur_model_RT)[3,]
 ```
 
-We can see that with the system specific parameters, selectivity starts much later, so again we are only catching largest individuals. Therefore the species can sustain a lot more fishing. Note, however, that catchability was set to 2, so the x axis on the F curve plot should be multiplied by two (in reality we were applying fishign mortality from 0 to 2). You can do the same for other species. 
+We can see that with the system specific parameters, selectivity starts much later, so again we are only catching largest individuals. Therefore the species can sustain a lot more fishing. Note, however, that catchability was set to 2, so the x axis on the F curve plot should be multiplied by two (in reality we were applying fishing mortality from 0 to 2). You can do the same for other species.
 
-##Project with a new model 
+##Project with a new model
 
-Now that we calibrated reproduction level let's see how the model responds to changes in overall effort. 
+Now that we calibrated reproduction level let's see how the model responds to changes in overall effort.
 
 ```{r}
-#cmg_newGearTuned <- readParams("use/cmg_newGearTuned.rds")
-
 #remind ourselves about the effort that was set
-initial_effort(cmg_newGearTuned)
-getReproductionLevel(cmg_newGearTuned)
-gear_params(cmg_newGearTuned)
+initial_effort(cmg)
 
-#double the effort and see if the model stabilises
-sim_cmgTuned06 <- project(cmg_newGearTuned, effort = 0.6, t_max = 100, dt = 0.1)
-plotlyBiomass(sim_cmgTuned06)
-```   
+#first run with the same effort and see that the model is still stable
+sim_cmg <- project(cmg, effort = 0.3, t_max = 100, dt = 0.1)
+plotlyBiomass(sim_cmg)
 
-Generally yes, but one species crashes. What should we do, after all this effort. There are several options: 
-1) use steady again and adjust reproduction levels a bit; 
-2) adjust reproduction level only for a species that crashed; 
-3) go into more complex optimisation of reproduction levels using time series data; 
-4) run iterative tuning to adjust sensitivity to fishing in small steps automatically.
+#now double the effort and see if the model stabilises into a new state
+sim_cmg_F06 <- project(cmg, effort = 0.6, t_max = 100, dt = 0.1)
+plotlyBiomass(sim_cmg_F06)
+
+#
+gear_params(cmg)
+getBiomass(sim_cmg_F06)[101,]/getBiomass(sim_cmg)[101,]
+
+```
+
+### The rest should be modified because nothing crashes now
+
+Generally yes, but one species crashes. What should we do, after all this effort. There are several options: 1) use steady again and adjust reproduction levels a bit; 2) adjust reproduction level only for a species that crashed; 3) go into more complex optimisation of reproduction levels using time series data; 4) run iterative tuning to adjust sensitivity to fishing in small steps automatically.
 
 We will try the first option, let's adjust it with steady()
 
@@ -334,23 +344,19 @@ plotBiomass(sim_test)
 
 TODO: give reference to the tuning with time series using optim (mizerHowTo)
 
-## How do we decide that our model is now properly tuned? 
+## How do we decide that our model is now properly tuned?
 
-Here is a list of criteria that could be used for models that were not calibrated to time series data: 
+Here is a list of criteria that could be used for models that were not calibrated to time series data:
 
 -   Modelled biomasses were within +/- 20% (or some other proportion) of the observed biomasses.
 -   Growth curves approximated the von Bertalanffy growth curves for each species.
 -   Species diet capture dietary changes with body size, with predators becoming more piscivorous at larger sizes.
 -   Recruitment parameters ensured single-species yield curves were dome-shaped, as expected by theory.
 -   Modelled catches are similar to the observed catches
--   If available, catch size distributions approximately match, while accounting for gear selectivity in the model and observations 
+-   If available, catch size distributions approximately match, while accounting for gear selectivity in the model and observations
 
-If time series data of F, species abundance and catches is available we also will look at: 
--   Species recruitment parameters ensure that time series of fishing mortalities produced approximately expected catches and biomases. Some discrepancies are expected due to uncertainty in estimates and stochasticity 
+If time series data of F, species abundance and catches is available we also will look at: - Species recruitment parameters ensure that time series of fishing mortalities produced approximately expected catches and biomases. Some discrepancies are expected due to uncertainty in estimates and stochasticity
 
-##Other resources 
+##Other resources
 
-Some references to more advanced tuning and work in progress 
-
-
-
+Some references to more advanced tuning and work in progress
