@@ -4,11 +4,92 @@ title: "Change resources"
 
 ## Introduction
 
-Mizer can be used to explore the consequences of climate change scenarios on aquatic ecosystems and fisheries. One of the major responses to climate change is changing plankton abundance and size structure. However, these responses are highly uncertain and variable and so are their impacts on the rest of food webs.
+Mizer can be used to explore the consequences of climate change scenarios on aquatic ecosystems and fisheries. One of the major responses to climate change is changing plankton abundance and size structure. However, these responses are highly uncertain and variable and so are their impacts on the rest of food webs. But first we need to understand how our system would even respond to changes in resource levels and which parameters determine resource sensitivity.
+
+## Understanding semi-chemostat dynamics
+
+TODO - show how changes in mortality affect abundance using different r_pp values
+
+## Option 1: Changes in total resource abundance 
+
+How would our system respond if total resource abundance changes. Perhaps due to eutrophication or climate change the overall abundance increases or decreases. We can explore it in a simple way by changing kappa parameter.
+
+```{r}
+#read in params 
+
+#increase kappa of plankton
+
+#project
+
+#increase kappa of benthos 
+
+#projet 
+
+#decrease kappa of plankton 
+
+#project 
+
+
+
+```
+
+### Exercise 1
+
+Change kappa, run to steady and commit
+
+## Option 2: Changes in resource slope 
+
+Climate change might change the slope of resource or its size structure. It might make resource slope steeper. Let's see how that will affect our ecosytsem
+
+```{r}
+#Use same kappa, steeper slope for plankotn only
+
+#use same kappa, steeper slope for benthos only
+
+#now steeper slope for both plankton and benthos 
+
+
+
+```
+
+### Exercise 2
+
+Change lambda, run to steady and commit
+
+todo: Add reference to Max Baltic Sea paper on changing resource abundance (kappa).
+
+Todo: Add reference to Tasmanian model benthic shiny R app for further exploration
+
+## Option 3: changes in resource regeneration rate
+
+We have explored how regeneration rate will determine resource response to mortality. Now let's see how this regeneration rate affects our ecosystem, biomasses and yields
+
+```{r}
+
+#check regeneraiton rate 
+
+#decrease plankton regeneration rate 
+
+#decrease benthos regeneration rate 
+
+#decrease benthos regeneration rate and make steeper slope 
+
+#decrease regeneration rate and change fishing 
+
+
+
+
+```
+
+We already can see how many combinations of resource changes we might want to explore and understand. And they all will have multiple effects on our ecosystem.
+
+### Exercise 3
+
+Running your own scenarios with changes in lambda and kappa - TODO say exactly what.
+
+## Option 4: changes through time 
 
 We can implement multiple drivers under climate change by coupling mizer to outputs of earth system models such as temperature, abundance of different size classes of plankton and/or detrital "marine snow" that reaches the seafloor through time.
-
-### Changes through time
 
 In this example, we will demonstrate how to implement changes in resource abundance and size structure through time, by working with pre-made resource size spectra files (n_pp) that were estimated from two climate change scenarios from earth system model output. These were derived from model variables small and large phytoplankton biomass from the Fisheries and Marine Ecosystems Model Intercomparison Project ([FishMIP](https://www.isimip.org/about/marine-ecosystems-fisheries/)). There are a lot of steps in processing these data, but we won't go in to that here. The main goal is to demonstrate how to use these scenario forcings to create changes in your mizer resources through time.
 
@@ -28,7 +109,7 @@ source("helper_functions.R")
 Read in the parameters and the climate scenario inputs for the resource spectrum.
 
 ```{r}
-sim <- readRDS("sim0.RDS")
+sim <- readRDS("toothfish/params10.RDS")
 params <- sim@params
 first_year <- 2021
 last_year <- 2070
@@ -70,99 +151,31 @@ other_params(params_worst)$n_pp_array <- readRDS("toothfish/IPSL_n_pp_array_CCsc
 
 ```
 
-
 Have a look how the model responds through time without fishing.
 
 ```{r,message=FALSE}
+sim_best <- project(params_best, effort = 0)
 
-sim_ncc <- project(sim@params, effort = 0, t_start = 2021, t_max = 50)
+sim_worst <- project(params_worst, effort = 0)
 
-
-sim_best <- project(params_best, effort = 0,t_start = 2021, t_max = 50)
-
-sim_worst <- project(params_worst, effort = 0,t_start = 2021, t_max = 50)
-
-
-plotBiomass(sim_ncc)
 plotBiomass(sim_best)
 plotBiomass(sim_worst)
-
 ```
 
-
-```{r}
-change_biomass_best <- melt(getBiomass(sim_best)-getBiomass(sim_ncc))
-change_biomass_worst <- melt(getBiomass(sim_worst)-getBiomass(sim_ncc))
-
-p1<-ggplot(change_biomass_best) +
-    geom_line(aes(x = time, y = value, colour = sp))
-
-p2<-p1 + geom_line(data= change_biomass_worst, aes(x = time, y = value, colour = sp),linetype = "dotted") + labs(y="Biomass/Biomass No CC")
-
-p2
-```
-
-
-This shows how the effects of plankton changing alone through time can have a big effects in the model but that the differences in the scenarios for this region are marginal.
-
-Next we can use the fishing effort projection from our previous tutorial.  Let's just look at the worst-case climate scenario for this.
-```{r}
-effort<-readRDS("sim_scen2.rds")@effort
-
-sim_ncc_f <- project(sim@params, effort = effort, t_start = 2021, t_max = 50)
-
-
-sim_worst_f <- project(params_worst, effort = effort,t_start = 2021, t_max = 50)
-
-
-```
-
-Now we can compare the combined effects of fishing + plankton under climate change to climate change alone by comparing the differences between the climate only simulations and the climate + fishing simulations to a no fishing and no climate change simulation. 
-
-```{r}
-
-change_biomass_worst_f <- melt(getBiomass(sim_worst_f)-getBiomass(sim_ncc)[1:50,])
-
-
-p1<-ggplot(change_biomass_worst_f) +
-    geom_line(aes(x = time, y = value, colour = sp))
-
-# the dotted line is without fishing
-p2<-p1 + geom_line(data= change_biomass_worst, aes(x = time, y = value, colour = sp),linetype = "dotted") + labs(y="Biomass/Biomass No CC No Fishing")
-
-p2
-```
-
-We can see, as expected, that adding fishing on top of climate change worsens the outcome for toothfish through time. What about the effects on climate change alone relative to fished system?
-
-```{r}
-change_biomass_ncc_f <- melt(getBiomass(sim_ncc_f)-getBiomass(sim_ncc)[1:50,])
-
-# solid line is effect of fishing alone
-p1<-ggplot(change_biomass_ncc_f) +
-    geom_line(aes(x = time, y = value, colour = sp))
-
- 
-
-p2<-p1 + geom_line(data= change_biomass_worst_f, aes(x = time, y = value, colour = sp),linetype = "dotted") + labs(y="Biomass/Biomass No CC No Fishing")
-
-p2
-```
-The solid line is the effect of fishing alone. So the effects of climate change on the fished ecosystem is fairly large.
-
+This shows how the effects of plankton changing alone can have a big effects on the model.
 
 The above example shows how you can directly use outputs of earth system models for projections (GFDL inputs - FishMIP), to easily show you what functions to work we will use 2 stylised scenarios that you can adapt and explore for your own model scenarios.
 
-This is just one part of the set up that we have used to create a thermizer model for the Patagonian toothfish fishery and for FishMIP. Incorporating the additonal effects of warming are more complex but can build on the above examples.
+This is one part of the set up that we have used to create a thermizer model for the Patagonian toothfish fishery and for FishMIP.
 
-### Comparing alternative states when there are multiple resources
+## Summary 
 
-Alternatively, even if we do not couple directly to these outputs we can create experiments that examine long-term changes in these drivers relative to a baseline steady state.
+## Further explorations
 
-There is high uncertainty about how non-planktonic benthic or macroalgal resources will change under climate scenarios. This is the topic being addressed with Asta's Tasmanian model in this paper. You can explore these scenarios using the Rshiny app developed from that model here.
+We barely scratched the surface about the possible ways how climate change might affect our ecosystems. For example, so far we did not include any direct temperature effects. Even though we modeled resource change, this was imposed externally and did not combine with possible effects of temperature on physiology. If you want to also include temperature effects on fish physiological rates, there are several options:
 
+1\) You can use a simple Arrhenius equation of exponentially increasing physiological rates. See examples here and here. TODO - does mizer now incorporate temperature rates? Or give a link to Asta's tasm model github?
 
+2\) You can use therMizer addon, which aims to account for dome-shaped species responses to temperature - increased rates up to a certain temperature and decreases after that. Here you can allow for different temperature sensitivities among species. This can get very complicated.
 
-SHOW STEADY STATE CHANGING OF KAPPA AND LAMBDA?
-
-*** Exercise: Try creating running your own scenarios - this time without fishing How do changes in resource affect the species biomass compared to when they are also fished? How do the scenarios compare?
+3\) Of course climate change will also affect the composition of species, because with warming new species will enter the ecosystem. This is an important aspect to address, but has not been thoroughly explored yet. Mizer allows you to add new species into ecosystem, but it is not necessarily clear how we tune parameters of new species for which we don't yet have good data (in that ecosystem at least).
