@@ -6,23 +6,62 @@ title: "Using a model to explore the consequences of change"
 
 Mizer is a tool that can be used to simulate a dynamic size spectrum in an marine ecosystem, subject to changes through time, such as fishing pressure. Multiple interacting species and fishing gears can be defined allowing for a range of fisheries management strategy scenarios, and their ecosystem impacts, to be tested.
 
-Below we explore some examples of what can be done using a previously calibrated mizer model. We will use the mizerHowTo package which contains some handy functions for this example.
+Below we explore some examples of what can be done using a previously calibrated mizer model.
 
-```{r set-up, echo = F,message=F, warning=F,code_folding=T}
-remotes::install_github("sizespectrum/mizerExperimental")
+```{r set-up}
+#| message: false
+#| warning: false
+remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
 library(mizerExperimental)
 remotes::install_github("sizespectrum/mizerMR")
 library(mizerMR)
-remotes::install_github("sizespectrum/mizerHowTo")
-library(mizerHowTo)
 library(tidyverse)
-source("helper_functions.R")
 
+# TODO: update this to load the model with calibrated reproduction levels and
+# original gear selectivity
+cur_model <- readParams("cmg_ReproTuned.rds")
 ```
 
-In the previous tutorials we have been focused on the steady state. Now we are ready to make changes through time by forcing the model away from its steady state. For this example, will start with the toothfish model but as always you can you your own model or the curonian lagoon for the exercises.
+In the previous tutorials we have been focused on the steady state. Now we are ready to make changes through time by forcing the model away from its steady state. 
 
-### Fishing through time
+## Increase fishing effort
+
+## Switch to more selective gear
+
+```{r}
+cur_model_sel <- cur_model
+gear_params(cur_model_sel)["pikeperch, Main", "l50"] <- 38
+
+sim <- project(cur_model_sel, t_max = 15)
+
+# TODO we need a function to plot proportional change in yield
+plotYield(sim)
+```
+
+## Gill nets
+
+```{r}
+gp <- gear_params(cur_model)
+gp$l50_right <- gp$l50 * 2
+gp$l25_right <- gp$l50_right + 2
+gp$sel_func <- "double_sigmoid_length"
+
+cur_model_gill <- cur_model
+gear_params(cur_model_gill) <- gp
+
+plotFMort(cur_model_gill)
+```
+
+```{r}
+sim <- project(cur_model_gill, t_max = 15)
+
+plotYield(sim)
+```
+
+
+For this example, will start with the toothfish model but as always you can you your own model or the curonian lagoon for the exercises.
+
+## Fishing through time
 
 In the previous tutorial, we examined a simple longline fishery that consists of targeting a single species (toothfish, here referred to as *D.ele*). However, all of the parameters for fishing were fixed through time. Mizer can also be used to carry out projections with changes in fishing effort.
 
@@ -110,11 +149,11 @@ These two plots look almost exactly the same. How do you interpret this? Remembe
 plotFMort(simf2)
 ```
 
-#### Exercise:
+### Exercise:
 
 Examine how catch time series changes relative to the data if the reproduction parameters change. Is this consistent with what you expected from the steady state yield curves? How do the biomasses change under these different scenarios?
 
-### Catch only exploration
+## Catch only exploration
 
 What if there was no effort data only catch ? This is the case for many data-poor fisheries or for fisheries where there is only restricted access to effort data.
 
@@ -171,15 +210,15 @@ saveRDS(simf3,"simf3.rds")
 
 We can see here at a fixed level of Fmax=0.5 through time catches initially increase, reach a peak around 2006 and then decline. The biomass trajectories also show that toothfish starts declining slightly before this.
 
-#### Exercise
+### Exercise
 
 What is the lowest level of Fmax you can find that causes toothfish catches to decline? Use the code above to change Fmax to determine this. Is this consistent with the knowledge from the equilibrium yield curves (sensitivity to fishing tutorial)?
 
-#### Exercise
+### Exercise
 
 Set up a bycatch on another the other species in the model. This can be done using the same gear (and effort) but changing the catchability of some of the other species (currently everything is set to zero except for toothfish). Hint: you can use the ?gear_params function to modify these values.
 
-### Summary
+## Summary
 
 \[in prep\]
 
