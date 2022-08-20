@@ -18,7 +18,8 @@ But because reproduction level will affect how species react to fishing, we now 
 #| message: false
 remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
 remotes::install_github("sizespectrum/mizerMR")
-source("experiment/getFCurves.R")
+# TODO: move this to mizerExperimental
+source("../experiment/getFCurves.R")
 library(mizerExperimental)
 library(mizerMR)
 library(tidyverse)
@@ -29,8 +30,8 @@ library(tidyverse)
 We load our final steady state model that we saved after playing with the tuneParams() gadget. We will run this model to steady() just to make sure resources are as expected (you don't need to get into details of this). We will use two models that Asta and Gustav independently tuned with the tuneParams() gadget.
 
 ```{r}
-cur_model_asta <- readParams("use/cur_model_asta.rds")
-cur_model_gustav <- readParams("build/cur_model_refined.rds")
+cur_model_asta <- readParams("../use/cur_model_asta.rds")
+cur_model_gustav <- readParams("../build/cur_model_refined.rds")
 
 #run to new steady level. We will abbreviate the two models as cma (curronian model asta) and cmg 
 cma <- cur_model_asta |> steady()
@@ -163,7 +164,7 @@ cmg_newGear <- setBevertonHolt(cmg_newGear, erepro = 0.002)
 #let's check what reproduction was set
 getReproductionLevel(cmg_newGear)
 #and look at species reproduction parameters 
-species_params(cma_newGear)[, c("erepro", "R_max")]
+species_params(cmg_newGear)[, c("erepro", "R_max")]
 
 ```
 
@@ -177,7 +178,7 @@ getRDD(cmg_newGear)/species_params(cmg_newGear)$R_max
 We can also look how close the actual reproduction is to the physiological reproduction - reproduction level produced by the model species, after accounting for the food intake and growth rates, but before applying density dependence (RDI)
 
 ```{r}
-getRDD(cma_newGear)/getRDI(cma_newGear)
+getRDD(cmg_newGear)/getRDI(cmg_newGear)
 
 ```
 
@@ -351,10 +352,5 @@ If time series data of F, species abundance and catches is available we also wil
 
 Some references to more advanced tuning and work in progress 
 
-```{r,echo=FALSE,message=FALSE}
-remotes::install_github("sizespectrum/mizerHowTo")
-library(mizerHowTo)
-library(tidyverse)
-source("use/helper_functions.R")
-```
+
 
