@@ -4,9 +4,28 @@ title: "Tune resilience"
 
 ## Introduction
 
-In the previous week we tuned our model parameters so that the steady state of the model agrees with observed growth rates, average observed biomasses and with observed catches. We did not yet tune how sensitively our model reacts to changes away from its steady state. In particular, we did not tune how resilient the species are to fishing.
+In the previous week we tuned our model parameters so that the steady state of the model agrees with observed growth rates, average observed biomasses and with observed catches. We did not yet tune how sensitively our model reacts to changes away from its steady state. In particular, we did not tune how resilient the species are to fishing. We will do that in this tutorial.
 
-In this tutorial we are going to look at the aspect of the model that has a big impact on the resilience of species to perturbations: the reproduction dynamics. In the tutorial on [dynamics of size spectra](../understand/dynamics-of-spectra.html#reproduction-level) in week 1 we briefly looked at how density dependence of reproduction can influence how species react to changes in mortality, such as from fishing. It might be good if you go back to that tutorial and remind yourself.
+As usual, we load the necessary packages
+
+```{r}
+#| message: false
+remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
+remotes::install_github("sizespectrum/mizerMR")
+library(mizerExperimental)
+library(mizerMR)
+library(tidyverse)
+```
+
+We load our Curonian lagoon model that we saved after [refining the model](../build/refine-model.qmd) in the previous tutorial using the `tuneParams()` gadget.
+
+```{r}
+cm <- readParams("../build/cur_model_refined.rds")
+```
+
+## Reproduction dynamics
+
+In this tutorial we are going to look at an aspect of the model that has a big impact on the resilience of species to perturbations: the reproduction dynamics. In the tutorial on [dynamics of size spectra](../understand/dynamics-of-spectra.html#reproduction-level) in week 1 we briefly looked at how density dependence of reproduction can influence how species react to changes in mortality, such as from fishing. It might be good if you go back to that tutorial and remind yourself.
 
 When we built our models in week 2 we were not concerned about the parameters that specify the reproduction dynamics. We were only concerned with setting the resulting reproduction rate for each species to the levels that produced the observed species biomass. But because the parameters for the reproduction dynamics will affect how resilient species are, we will choose appropriate values for them in this tutorial.
 
@@ -230,33 +249,33 @@ plotYieldCurve(cm_generic_gear, species = "smallfish", F_max = 2)
 
 We refer to the yield achieved in the steady state as the *sustainable yield* (SY) because because it can be sustained indefinitely. The sustainable yield for this species has a maximum (MSY) at a fishing mortality of about 0.8. We refer to this value as $F_{MSY}$. The small fish have a high resilience to fishing. This is close enough to expectations, so we judge that it is not necessar to make changes to the resource level of "smallfish".
 
-Next we look at ruffe. This is classified as a medium resilience species, so we would like the F_MSY to be between 0.1 and 0.5.
+Next we look at ruffe. This is classified as a medium resilience species, so we would like the $F_{MSY}$ to be between 0.1 and 0.5.
 
 ```{r}
 #| message: false 
 plotYieldCurve(cm_generic_gear, species = "ruffe", F_max = 1)
 ```
 
-We see that the F_MSY is at about 0.4, so again we have no reason to change the reproduction level. We encourage you to investigate the yield curves of the other medium resilience species in a similar way.
+We see that the $F_{MSY}$ is at about 0.4, so again we have no reason to change the reproduction level. We encourage you to investigate the yield curves of the other medium resilience species in a similar way.
 
 ::: callout-note
 If you run the above code yourself in your worksheet, you will notice that for some fishing mortalities, `plotYieldCurve()` gives a warning that convergence was not reached within the 99 years for which we ran the projection. This means that we stopped the simulation before the species had completely settled into a new stable state for that fishing level and thus the result for this specific fishing level is only approximate. But approximate values are good enough for our purpose. Often we find that it is the more extreme values of F where we do not get convergence.
 :::
 
-We jump to the first low resilience species in our model: perch. As a low resilience species it should have an F_MSY below 0.25.
+We jump to the first low resilience species in our model: perch. As a low resilience species it should have an $F_{MSY}$ below 0.25.
 
 ```{r}
 #| message: false 
 plotYieldCurve(cm_generic_gear, species = "perch", F_max = 1)
 ```
 
-The graph shows that the F_MSY is closer to 0.7. So we have reason to reduce the reproduction level for perch to make it less resilient. Its current reproduction level is
+The graph shows that the $F_{MSY}$ is closer to 0.7. So we have reason to reduce the reproduction level for perch to make it less resilient. Its current reproduction level is
 
 ```{r}
 getReproductionLevel(cm_generic_gear)["perch"]
 ```
 
-We do not know how much we need to reduce the reproduction level to get a sufficiently low F_MSY. We just try some values. Let's try 0.3.
+We do not know how much we need to reduce the reproduction level to get a sufficiently low $F_{MSY}$. We just try some values. Let's try 0.3.
 
 ```{r}
 #| message: false 
@@ -272,14 +291,14 @@ cm_generic_gear <- setBevertonHolt(cm_generic_gear,
 plotYieldCurve(cm_generic_gear, species = "perch", F_max = 1)
 ```
 
-With that reproduction level of 0.3 for perch, its F_MSY is just below 0.5. So still too high for a low resilience species. But before we try to reduce the reproduction level further, let's move on to the next species, pikeperch.
+With that reproduction level of 0.3 for perch, its $F_{MSY}$ is just below 0.5. So still too high for a low resilience species. But before we try to reduce the reproduction level further, let's move on to the next species, pikeperch.
 
 ```{r}
 #| message: false 
 plotYieldCurve(cm_generic_gear, species = "pikeperch", F_max = 1)
 ```
 
-Its F_MSY is also too high. So we also reduce the reproduction level of pikeperch.
+Its $F_{MSY}$ is also too high. So we also reduce the reproduction level of pikeperch.
 
 ```{r}
 #| message: false 
@@ -289,7 +308,7 @@ cm_generic_gear <- setBevertonHolt(cm_generic_gear,
 plotYieldCurve(cm_generic_gear, species = "pikeperch", F_max = 1)
 ```
 
-The new F_MSY is at the upper end of what we would expect for a low-resilience species, but we judge this to be o.k.
+The new $F_{MSY}$ is at the upper end of what we would expect for a low-resilience species, but we judge this to be o.k.
 
 ::: callout-note
 Notice that for high values of the fishing mortality `plotYieldCurve()` issues a warning to let us know that pikeperch will go extinct under this fishing mortality. That is fine.
@@ -302,7 +321,7 @@ So let's return to perch. We previously saw that even with its reduced reproduct
 plotYieldCurve(cm_generic_gear, species = "perch", F_max = 1)
 ```
 
-Are you surprised? Compare this yield curve for perch with the one we plotted above. The F_MSY has dropped from close to 0.5 to closer to 0.15 even though we have not changed the reproduction level of perch. The reduction in the resilience of perch has been caused solely by the reduction in resilience of pikeperch.
+Are you surprised? Compare this yield curve for perch with the one we plotted above. The $F_{MSY}$ has dropped from close to 0.5 to closer to 0.15 even though we have not changed the reproduction level of perch. The reduction in the resilience of perch has been caused solely by the reduction in resilience of pikeperch.
 
 ::: callout-important
 We have discovered above that the resilience of a species is influenced by the resilience of the other species. So resilience is a true multi-species effect.
@@ -318,9 +337,7 @@ cm_generic_gear <- setBevertonHolt(cm_generic_gear, reproduction_level = rep_lev
 
 But we don't have hard data on the resilience of our species, so these are judgement calls and we will be interested to see what choices you will make.
 
-### Exercise 1
-
-TODO: write
+You are encouraged to go through all the species and check that their resilience looks o.k.
 
 ### Set new reproduction levels
 
@@ -333,7 +350,7 @@ cm <- setBevertonHolt(cm, reproduction_level = rep_level)
 Let's plot the yield curve for one of the species that is caught commercially: breams. On the left we show the yield curve for the commercial yield, on the right the yield curve for our generic gear that we used for tuning the reproduction level.
 
 ```{r}
-#| warning: false
+#| message: false
 #| layout-ncol: 2
 #| fig-cap: 
 #|   - "Commercial"
