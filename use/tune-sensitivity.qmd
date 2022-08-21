@@ -24,7 +24,7 @@ There are several parameters and quantities that were introduced in that earlier
 
 -   The rate $E_R$ at which a species invests energy into reproduction. We discussed how this depends on the species parameters in a section of the tutorial on [single species spectra](../understand/single-species-spectra.qmd#investment-into-reproduction) in the first week of the course. In standard fisheries models the energy invested is assumed to be proportional to the spawning stock biomass. In mizer the energy invested also depends on how much food is available for the spawning stock. But nevertheless you won't go wrong too much if in your head you identify $E_R$ as spawning stock biomass.
 
--   The parameter **`erepro`** describes the efficiency with which the energy that a species invests into reproduction is converted to eggs. Multiplying $E_R$ by `erepro` gives the quantity that we called $R_{di}$: the rate of egg production. We also sometimes refer to $R_{di}$ as the *"density-independent reproduction rate"*. The efficiency `erepro` can be quite small because a lot of the energy expended on reproduction goes not into the production of eggs but in associated processes, like for example migration to the spawning grounds.
+-   The parameter **`erepro`** describes the efficiency with which the energy that a species invests into reproduction is converted to eggs. Multiplying $E_R$ by `erepro` and by the conversion factor from biomass to number of eggs gives the quantity that we called $R_{di}$: the rate of egg production. We also sometimes refer to $R_{di}$ as the *"density-independent reproduction rate"*. The efficiency `erepro` can be quite small because a lot of the energy expended on reproduction goes not into the production of eggs but in associated processes, like for example migration to the spawning grounds.
 
 -   The rate $R_{dd}$ at which new individuals can enter the smallest size class in the model (usually this represents the hatching of eggs). This depends in a non-linear way on the rate $R_{di}$ of egg production and therefore also non-linearly on the rate at $E_R$ at which the species invests energy into reproduction. We therefore sometimes refer to this as the *"density-dependent reproduction rate"*.
 
@@ -65,11 +65,11 @@ ggplot(rbind(df, df2)) +
     scale_linetype_manual(values = c("solid", "dashed", "dotted"))
 ```
 
-The black dot in the diagram is meant to represent the steady-state values for $E_R$ and $R_{dd}$. The solid curves represents how the density-dependent reproduction rate $R_{dd}$ depends on the rate $E_R$. Both the solid blue line and the solid black line go through the black dot, which means that they result in the same steady-state reproduction. They differ by the choice of the maximum reproduction rate $R_{max}$ (the height of the dotted line) and the reproductive efficiency `erepro` (the slope of the dashed line representing $R_{di}$).
+The black dot in the diagram is meant to represent the steady-state values for $E_R$ and $R_{dd}$. The solid curves represents how the density-dependent reproduction rate $R_{dd}$ depends on the rate $E_R$. Both the solid blue line and the solid black line go through the black dot, which means that they result in the same steady-state reproduction. They differ by the choice of the maximum reproduction rate `R_max` (the height of the dotted line) and the reproductive efficiency `erepro` (the slope of the dashed line representing $R_{di}$).
 
 We can see in the diagram how, as $E_R$ is changed, for example through a depletion of spawning stock biomass due to fishing, the resulting change in the reproduction rate $R_{dd}$ is more pronounced along the solid black curve than along the blue curve. This is why an increase in $R_{max}$ will make the species less resilient to fishing.
 
-Note how both $R_{max}$ and `erepro` need to be changed at the same time in order for the resulting curve for the reproduction rate to still go through the black dot, i.e., in order not to change the reproduction rate in the steady state. As we discussed earlier, the function `setBevertonHolt()` automatically changes both parameters together in the correct manner. In that function we can specify the desired reproduction curve by specifying either $R_{max}$ or `erepro` or the ratio between $R_{dd}$ at steady state and $R_{max}$, which we refer to as the **reproduction level**.
+Note how both `R_max` and `erepro` need to be changed at the same time in order for the resulting curve for the reproduction rate to still go through the black dot, i.e., in order not to change the reproduction rate in the steady state. As we discussed earlier, the function `setBevertonHolt()` automatically changes both parameters together in the correct manner. In that function we can specify the desired reproduction curve by specifying either `R_max` or `erepro` or the ratio between $R_{dd}$ at steady state and $R_{max}$, which we refer to as the **reproduction level**.
 
 We like to work with the reproduction level because it is a number between 0 and 1, where 0 means that the rate of reproduction increases in proportion to $E_R$ and 1 means that the rate of reproduction is independent of $E_R$. The higher the value of the reproduction level the less impact a change in $E_R$ will have on the species' reproduction. Thus higher levels of the reproduction level make the species more resilient for example to fishing.
 
@@ -94,17 +94,22 @@ cm <- readParams("../build/cur_model_refined.rds")
 
 ## How resilient should species be?
 
-We will need to tune the reproduction level of each species to make sure that their response to fishing is reasonable. How do we know what is reasonable? It is not a straightforward question. We can start by consulting general fisheries models. You can read about the principles of basic fisheries surplus production models in this excellent book by Malcolm Haddon "[Using R for Modelling and Quantitative Methods in Fisheries](https://haddonm.github.io/URMQMF/surplus-production-models.html)". In the simplest of these models, the population dynamics are specified in terms of a maximum population growth rate ***r*** (not to be confused with the maximum hatching rate `R_max` used in mizer) and a carrying capacity, which represents the unfished biomass level. Under these simplest standard assumptions about density dependence, maximum sustainable yield (MSY) is obtained when the stock is at 50% of the unfished biomass level. MSY is approximately $r/4 *$ unfished biomass and the fishing mortality which gives this MSY is $r/2$. This fishing mortality is referred to as $F_{MSY}$. This means that if for example $r = 0.5$ then the peak of the yield curve should be at about $F_{MSY} = 0.25$. If unfished biomass is 1000 tons, $MSY$ will be at 125 tons.
+We will need to tune the reproduction level of each species to make sure that their response to fishing is reasonable. How do we know what is reasonable? It is not a straightforward question. We can start by consulting general fisheries models. You can read about the principles of basic fisheries surplus production models in this excellent book by Malcolm Haddon "[Using R for Modelling and Quantitative Methods in Fisheries](https://haddonm.github.io/URMQMF/surplus-production-models.html)".
 
-We usually do not know population growth rates $r$ for our species, but we can look up estimates in the FishBase life-history tool section. Or we can use [generic estimates](https://studylib.net/doc/5888624/doc---fishbase) which suggest r of 0.6-1.5 for high resilience species (Von Bertalanffy growth rate K\>0.3, maturation age \< 1, high fecundity) and r of 0.2-1 for medium resilience species. We reproduce the table from this reference here:
+In the simplest of these models, the population dynamics are specified in terms of a maximum population growth rate ***r*** (not to be confused with the maximum hatching rate `R_max` used in mizer) and a carrying capacity, which represents the unfished biomass level. Under these simplest standard assumptions about density dependence, maximum sustainable yield (MSY) is obtained when the stock is at 50% of the unfished biomass level. MSY is approximately $r/4 \cdot$ unfished biomass and the fishing mortality which gives this MSY is $r/2$. This fishing mortality is referred to as $F_{MSY}$. This means that if for example $r = 0.5$ then the peak of the yield curve should be at about $F_{MSY} = 0.25$. If unfished biomass is $1000$ tons, $MSY$ will be at $125$ tons.
+
+We usually do not know population growth rates $r$ for our species, but we can look up estimates in the FishBase life-history tool section. Or we can use [generic estimates](https://studylib.net/doc/5888624/doc---fishbase) which suggest $r$ of 0.6-1.5 for high resilience species (Von Bertalanffy growth rate K\>0.3, maturation age \< 1, high fecundity) and r of 0.2-1 for medium resilience species. We reproduce the table from this reference here:
 
 ![](../images/PopGrowthRates.png)
 
+We had included the categorisation of our species in the species parameter dataframe in the `resilience` column.
 ```{r}
-species_params(cm) |> select(resilience)
+species_params(cm) |> select(resilience, funcgr)
 ```
 
-These values are derived from single species models with very different assumptions to those of ours, so they can only be used as very general guides. Alternatively, we can use [Ken Andersen's book](https://books.google.dk/books?hl=en&lr=lang_en&id=M-6YDwAAQBAJ&oi=fnd&pg=PP1&ots=XbQp07hJ2w&sig=59ugnqv17dH-KsbV2LVRB8rB9CM&redir_esc=y#v=onepage&q&f=false) and expectations for species with different asymptotic sizes, as estimated from trait-based models (where all species parameters are determined in terms of the asymptotic size) and when all species are fished with 50% selectivity at 5% of their asymptotic size. The panels below represents species with different asymptotic sizes: 333 g (top), 10 g (bottom left), and 10 kg (bottom right). The lines show yield (solid black lines), yield per recruit (dashed lines), spawning stock biomass (dark gray lines), and recruitment (light gray lines), all scaled by their maximum value. We will not deal with yield per recruit, so ignore the dashed lines. This figure shows that highest yields are expected at fishing mortality of about 0.3-0.5/year.
+Thus according to the above discussion, we should expect an $F_{MSY}$ between 0.3 and 0.75 for smallfish, between 0.1 and 0.5 for our benthivores and between 0.025 and 0.25 for the ominvores and predators. These values are derived from single species models with very different assumptions to those of ours, so they can only be used as very general guides. 
+
+Alternatively, we can use [Ken Andersen's book](https://books.google.dk/books?hl=en&lr=lang_en&id=M-6YDwAAQBAJ&oi=fnd&pg=PP1&ots=XbQp07hJ2w&sig=59ugnqv17dH-KsbV2LVRB8rB9CM&redir_esc=y#v=onepage&q&f=false) and expectations for species with different asymptotic sizes, as estimated from trait-based models (where all species parameters are determined in terms of the asymptotic size) and when all species are fished with 50% selectivity at 5% of their asymptotic size. The panels below represents species with different asymptotic sizes: 333 g (top), 10 g (bottom left), and 10 kg (bottom right). The lines show yield (solid black lines), yield per recruit (dashed lines), spawning stock biomass (dark gray lines), and recruitment (light gray lines), all scaled by their maximum value. We will not deal with yield per recruit, so ignore the dashed lines. This figure shows that highest yields are expected at fishing mortality of about 0.3-0.5/year.
 
 ![](../images/ReferencePointCurves.png)
 
@@ -130,7 +135,7 @@ If we try to set the value for `erepro` very low, the `setBevertonHolt()` functi
 cm <- setBevertonHolt(cm, erepro = 0.0001)
 ```
 
-Because we want all species to have the same value, we choose a value that is larger than those required. So we choose 0.001.
+Because we want all species to have the same value, we choose a value that is larger than those required. So we choose `erepro = 0.001`.
 
 ```{r}
 cm <- setBevertonHolt(cm, erepro = 0.001)
@@ -155,11 +160,11 @@ We can also look how close the density dependent reproduction rate RDD is to the
 getRDI(cm) / getRDD(cm)
 ```
 
-This tells us that most species can produce large amounts of eggs, but the actual reproduction is strongly capped by the `R_max` parameter.
+This tells us that many species can produce large amounts of eggs, but the actual reproduction is strongly capped by the `R_max` parameter.
 
 ## Tuning resilience to fishing
 
-Let's explore how changing reproduction levels will change our species' resiliences to fishing.
+We now want to adjust the reproduction levels so that the resilience of the species in our model matches expectations.
 
 ### Setting generic gear selectivity
 
@@ -198,7 +203,7 @@ We assign the model that uses these new gear parameters in a new variable `cm_ge
 
 ```{r}
 cm_generic_gear <- cm
-#set new gear parameters for the new model 
+# Set new gear parameters for the new model 
 gear_params(cm_generic_gear) <- gp
 ```
 
@@ -216,35 +221,33 @@ cm_generic_gear <- steady(cm_generic_gear)
 
 ### Exploring yield curves
 
-To set reproduction level to reasonable levels and get reasonable response to fishing, we will apply a range of fishing mortalities to one species at a time and check how their yields, spawning-stock biomasses (SSB) and reproduction rate (RDD) will change.
-
-For that purpose we project the model with a range of different fishing mortalities. For each fishing mortality we run the projection until the system has settled down to a new steady state. Then we calculates the yield, the spawning stock biomass SSB and the reproduction rate RDD in that steady state. After doing that for all fishing mortalities we can plot all the results in a graph. The `plotFCurves()` function does all that for us:
+To measure the resilience of our species to fishing, we will change the fishing mortality for one species at a time and check how their yields, spawning-stock biomasses (SSB) and reproduction rate (RDD) change in response. We keep the fishing mortality for the other species fixed. For our selected species we run through a range of fishing mortalities between 0 and a maximum. For each fishing mortality we run the projection until the system has settled down to a new steady state. Then we calculates the yield, the spawning stock biomass SSB and the reproduction rate RDD in that steady state. After doing that for all fishing mortalities we can plot all the results in a graph. The `plotYieldCurve()` function does all that for us. Here we plot the yield curve for smallfish.
 
 ```{r}
 #| message: false 
-plotFCurves(cm_generic_gear, species = "smallfish", F_max = 2, no_steps = 20)
+plotYieldCurve(cm_generic_gear, species = "smallfish", F_max = 2)
 ```
 
-We refer to the yield achieved in the steady state as the *sustainable yield* because because it can be sustained indefinitely. The sustainable yield for this speices has a maximum at a fishing mortality of about 0.8. We refer to this value as $F_{MSY}$. The small fish have a high resilience to fishing. This is as expected, so we do not need to make changes to the resource level of "smallfish".
+We refer to the yield achieved in the steady state as the *sustainable yield* (SY) because because it can be sustained indefinitely. The sustainable yield for this species has a maximum (MSY) at a fishing mortality of about 0.8. We refer to this value as $F_{MSY}$. The small fish have a high resilience to fishing. This is close enough to expectations, so we judge that it is not necessar to make changes to the resource level of "smallfish".
 
 Next we look at ruffe. This is classified as a medium resilience species, so we would like the F_MSY to be between 0.1 and 0.5.
 
 ```{r}
 #| message: false 
-plotFCurves(cm_generic_gear, species = "ruffe", F_max = 1, no_steps = 20)
+plotYieldCurve(cm_generic_gear, species = "ruffe", F_max = 1)
 ```
 
 We see that the F_MSY is at about 0.4, so again we have no reason to change the reproduction level. We encourage you to investigate the yield curves of the other medium resilience species in a similar way.
 
 ::: callout-note
-Notice that for some fishing mortalities, `plotFCurves()` gives a warning that convergence was not reached within the 99 years for which we ran the projection. This means that species didn't settle into a new stable state with a new fishing level and thus the result for this specific fishing level is only approximate. But approximate values are good enough for our purpose. Often we find that it is the more extreme values of F where we do not get convergence.
+If you run the above code yourself in your worksheet, you will notice that for some fishing mortalities, `plotYieldCurve()` gives a warning that convergence was not reached within the 99 years for which we ran the projection. This means that we stopped the simulation before the species had completely settled into a new stable state for that fishing level and thus the result for this specific fishing level is only approximate. But approximate values are good enough for our purpose. Often we find that it is the more extreme values of F where we do not get convergence.
 :::
 
 We jump to the first low resilience species in our model: perch. As a low resilience species it should have an F_MSY below 0.25.
 
 ```{r}
 #| message: false 
-plotFCurves(cm_generic_gear, species = "perch", F_max = 1, no_steps = 20)
+plotYieldCurve(cm_generic_gear, species = "perch", F_max = 1)
 ```
 
 The graph shows that the F_MSY is closer to 0.7. So we have reason to reduce the reproduction level for perch to make it less resilient. Its current reproduction level is
@@ -259,20 +262,21 @@ We do not know how much we need to reduce the reproduction level to get a suffic
 #| message: false 
 # First we save current reproduction level into a vector 
 rep_level <- getReproductionLevel(cm_generic_gear)
-# the we replace our species reproduction level with a new value 
+# then we replace our species' reproduction level with a new value 
 rep_level["perch"] <- 0.3
 # and asign it back to the model 
-cm_generic_gear <- setBevertonHolt(cm_generic_gear, reproduction_level = rep_level)
+cm_generic_gear <- setBevertonHolt(cm_generic_gear, 
+                                   reproduction_level = rep_level)
 
 # and plot F curves again
-plotFCurves(cm_generic_gear, species = "perch", F_max = 1, no_steps = 20)
+plotYieldCurve(cm_generic_gear, species = "perch", F_max = 1)
 ```
 
 With that reproduction level of 0.3 for perch, its F_MSY is just below 0.5. So still too high for a low resilience species. But before we try to reduce the reproduction level further, let's move on to the next species, pikeperch.
 
 ```{r}
 #| message: false 
-plotFCurves(cm_generic_gear, species = "pikeperch", F_max = 1, no_steps = 20)
+plotYieldCurve(cm_generic_gear, species = "pikeperch", F_max = 1)
 ```
 
 Its F_MSY is also too high. So we also reduce the reproduction level of pikeperch.
@@ -280,21 +284,22 @@ Its F_MSY is also too high. So we also reduce the reproduction level of pikeperc
 ```{r}
 #| message: false 
 rep_level["pikeperch"] <- 0.3
-cm_generic_gear <- setBevertonHolt(cm_generic_gear, reproduction_level = rep_level)
-plotFCurves(cm_generic_gear, species = "pikeperch", F_max = 1, no_steps = 20)
+cm_generic_gear <- setBevertonHolt(cm_generic_gear, 
+                                   reproduction_level = rep_level)
+plotYieldCurve(cm_generic_gear, species = "pikeperch", F_max = 1)
 ```
 
 The new F_MSY is at the upper end of what we would expect for a low-resilience species, but we judge this to be o.k.
 
 ::: callout-note
-Notice that for high values of the fishing mortality `plotFCurves()` issues a warning to let us know that pikeperch will go extinct under this fishing mortality. That is fine.
+Notice that for high values of the fishing mortality `plotYieldCurve()` issues a warning to let us know that pikeperch will go extinct under this fishing mortality. That is fine.
 :::
 
 So let's return to perch. We previously saw that even with its reduced reproduction level it was still too resilient. Let's look at its yield curve again:
 
 ```{r}
 #| message: false 
-plotFCurves(cm_generic_gear, species = "perch", F_max = 1, no_steps = 20)
+plotYieldCurve(cm_generic_gear, species = "perch", F_max = 1)
 ```
 
 Are you surprised? Compare this yield curve for perch with the one we plotted above. The F_MSY has dropped from close to 0.5 to closer to 0.15 even though we have not changed the reproduction level of perch. The reduction in the resilience of perch has been caused solely by the reduction in resilience of pikeperch.
@@ -303,7 +308,7 @@ Are you surprised? Compare this yield curve for perch with the one we plotted ab
 We have discovered above that the resilience of a species is influenced by the resilience of the other species. So resilience is a true multi-species effect.
 :::
 
-We decided to increase the reproduction level for perch a bit again to make it slightly more resilient.
+We decide to increase the reproduction level for perch a bit again to make it slightly more resilient.
 
 ```{r}
 #| message: false 
@@ -325,7 +330,7 @@ Above we studied the resilience of species to changes in their mortality imposed
 cm <- setBevertonHolt(cm, reproduction_level = rep_level)
 ```
 
-Let's plot the yield curve for a species that is caught commercially: breams
+Let's plot the yield curve for one of the species that is caught commercially: breams. On the left we show the yield curve for the commercial yield, on the right the yield curve for our generic gear that we used for tuning the reproduction level.
 
 ```{r}
 #| warning: false
@@ -334,9 +339,9 @@ Let's plot the yield curve for a species that is caught commercially: breams
 #|   - "Commercial"
 #|   - "Generic"
 # Yield curve with the commercial gear
-plotFCurves(cm, species = "breams", F_max = 1, no_steps = 20)
+plotYieldCurve(cm, species = "breams", F_max = 1)
 # Yield curve with generic gear
-plotFCurves(cm_generic_gear, species = "breams", F_max = 1, no_steps = 20)
+plotYieldCurve(cm_generic_gear, species = "breams", F_max = 1)
 ```
 
 Why the difference? Let's look how the original gear parameters differ from our generic set
@@ -347,14 +352,22 @@ c(l_mat = l_mat[3],
   l50_generic = gear_params(cm_generic_gear)$l50[3])
 ```
 
-We can see that with the commercial gear parameters, selectivity starts much later, so we are only catching the largest individuals. Therefore the species can sustain a much higher fishing mortality for those selected individuals.
+We can see that with the commercial gear parameters, selectivity starts much later, so we are only catching the largest individuals. Therefore the species can sustain a much higher fishing mortality for those selected individuals, because the population can sustain itself even if these large individuals are fished away.
+
+You are encouraged to look at the yield curves for other species when using the commercial gear.
+
+Finally we save our model with tuned resilience to disk for use in the next tutorial.
+
+```{r}
+saveParams(cm, "cur_model_resilient.rds")
+```
 
 ## Summary
 
-1.  Identifying approximate reproduction level for our model species is very important, because reproduction level will determine species resilience to fishing.
+1.  Identifying an appropriate reproduction level for our model species is very important, because the reproduction level will determine a species' resilience to fishing.
 
-2.  To determine approximate reproduction level we estimate fishing mortality that will give maximum sustainable yield ($F_{MSY}$). We use general fisheries and size ecology theory to get expected $F_{MSY}$ values for species with different life history parameters. Naturally, these are just approximate estimates, but they might be good enough for our purposes. Nevertheless, it is important to explore how our study conclusions might be affected by changes in species reproduction level.
+2.  To judge whether a reproduction level is appropriate, we estimate the fishing mortality that will give maximum sustainable yield ($F_{MSY}$). We use general fisheries and size ecology theory to get expected $F_{MSY}$ values for species with different life history parameters. Naturally, these are just approximate estimates, but they might be good enough for our purposes. Nevertheless, it is important to explore how our study conclusions might be affected by changes in species reproduction level.
 
 3.  When we explore $F_{MSY}$ for a species it is important to think about the gear selectivity that is used to impose fishing. If selectivity is such that small and large individuals are captured, resulting $F_{MSY}$ will be lower.
 
-4.  Species resilience to fishing is a true multi-species phenomenon. Even if we fish only one species in an ecosystem, other species will be affected by its change in biomass and will in turn affect our fished species. So it is important to explore resilience to fishing repeatedly for the same species, while we change reproduction levels of other species.
+4.  Species resilience to fishing is a true multi-species phenomenon. If we change the reproduction level of one species it can affect the resilience of other species. So when we have chosen a set of reproduction levels, we need to run again through all species to check that their resilience is as expected.

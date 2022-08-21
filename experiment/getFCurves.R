@@ -36,10 +36,10 @@ library(mizerMR)
 #' params <- newMultispeciesParams(NS_species_params_gears, inter)
 #' y <- getSSBVsF(params, "Cod", F_max = 1, no_steps = 5)
 #' }
-getFCurves <- function(params,
+getYieldCurve <- function(params,
                        species,
                        F_range,
-                       no_steps = 10,
+                       no_steps = 20,
                        F_max,
                        tol = 0.001,
                        t_max = 100) {
@@ -101,7 +101,7 @@ getFCurves <- function(params,
 
 #' Plot normalised SBB, RDD and sustainable yield versus F
 #'
-#' @inherit getFCurves
+#' @inherit getYieldCurve
 #'
 #' @inheritParams getYieldVsF
 #'
@@ -113,11 +113,11 @@ getFCurves <- function(params,
 #' @examples
 #' \dontrun{
 #' params <- newMultispeciesParams(NS_species_params_gears, inter)
-#' plotFCurves(params, "Cod")
+#' plotYieldCurve(params, "Cod")
 #' }
-plotFCurves <- function(params,
+plotYieldCurve <- function(params,
                         species,
-                        no_steps = 10,
+                        no_steps = 20,
                         F_max,
                         F_range,
                         tol = .001,
@@ -126,13 +126,13 @@ plotFCurves <- function(params,
     params <- validParams(params)
     species <- valid_species_arg(params, species)
     
-    curve <- getFCurves(params,
-                        species = species,
-                        F_range = F_range,
-                        no_steps = no_steps,
-                        F_max = F_max,
-                        tol = tol,
-                        t_max = t_max) |>
+    curve <- getYieldCurve(params,
+                           species = species,
+                           F_range = F_range,
+                           no_steps = no_steps,
+                           F_max = F_max,
+                           tol = tol,
+                           t_max = t_max) |>
         mutate(SSB = SSB / max(SSB),
                RDD = RDD / max(RDD),
                SY = SY / max(SY)) |>
@@ -150,7 +150,7 @@ plotFCurves <- function(params,
 #'
 #' @description
 #' This function replaces a loop used multiple times within
-#' `getFCurves`
+#' `getYieldCurve`
 #'
 #' @inheritParams getYieldVsF
 #'
