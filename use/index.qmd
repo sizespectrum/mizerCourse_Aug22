@@ -2,7 +2,7 @@
 title: "Week 3: Use mizer models"
 ---
 
-Now that you have a built and examined your model at steady state, this week we will explore changing conditions and temporal dynamics. We will first use an example to describe how to run your model with changing fishing, as well show how some of the outputs of the model can be analysed. Then you can use your model examine the consequences of simple changes in both resources and fishing.
+Now that you have a built and examined your model at steady state, we will explore changing conditions and temporal dynamics. We will first use an example to describe how to run your model with changing fishing, as well show how some of the outputs of the model can be analysed. Then you can use your model examine the consequences of simple changes in fishing scenarios and background resources.
 
 ### Lecture
 
@@ -10,7 +10,7 @@ This week's contributor is Julia Blanchard. Her lecture provides a broad overvie
 
 ```{r}
 #| echo: false
-#vembedr::embed_url("XXXTO ADDXXXX") |>
+#vembedr::embed_url("https://youtu.be/Z8FW7t4xrtU") |>
  #   vembedr::use_align("center") |>
   #  vembedr::use_rounded(10)
 ```
@@ -23,14 +23,16 @@ Using examples, the tutorials are designed to help you develop your own model si
     First, we will explore how sensitive your model is to the effects of fishing. As usual, we will start with an example system. We will show how the reproduction parameters influence how sensitive the model is to changes in mortality. We can make adjustments and refinements at this step if the model does not produce realistic responses to fishing intensity.
 
 2.  [**Simulating and examining changes**](simulate-change.qmd)\
-    Once the sensitivity to fishing is examined, we can assess how the model responds to changes in fishing through time. This step involves looking a bot closer at the fishing parameters in mizer and setting up a time-varying fishing effort. In this part we will start with an example that will show you how to run a model through a time series and compare it with data. You will then be able to explore how changes in reproduction, fishing and other parameters affect response to fishing through time.
+    Once the sensitivity to fishing is examined, we can assess how the model responds to changes in fishing through time. This step involves looking closer at the fishing parameters in mizer and setting up different fishing scenarios. 
+    
+3.  [**Changing resources**](change-resources.qmd)\
+    Now we will look at the resource spectrum and how changes in three main resource parameters can affect our ecosystem. With three main parameters for each resource, this can quickly get complicated. We will also show an example of how to force time series of resource using external data. 
 
-3.  [**Run your own scenarios**](run-your-own-scenarios.qmd)\
-    In this tutorial we will explore how to set up your own fishing experiments and scenarios. These can be scenarios that compare different levels of fishing or a comparison of different future scenario projections, where fishing changes through time.
+4.  [**Run your own scenarios**](run-your-own-scenarios.qmd)\
+    This tutorial provides extra material, prepared by Julia Blanchard using another system (Patagonian toothfish fishery) as an example. Here you can learn on how to set time series of fishing changes and more. 
+    
 
 
-4.  [**Changing resources**](change-resources.qmd)\
-    In this section we will examine whether the effects of fishing are affected by different parameters in the model that are affected by the environment, such as the amount of food available at the base of the food web, which is set by the amount of resources you have added in your model. For those wishing to go further, we will provide you with information on how you could take this example further by forcing the models with climate change scenarios through time.
 
 #To get your worksheet repository for this week, follow this link: \#<https://classroom.github.com/xxx>
 
