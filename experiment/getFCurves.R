@@ -25,7 +25,7 @@ library(mizerMR)
 #'   the egg production RDI over t_per years is less than tol for every species.
 #' @param t_max The longest time to run project to find steady state.
 #' 
-#' @return A data frame with columns `F`, `SSB`, `RDI`, `RDD`, `Yield`.
+#' @return A data frame with columns `F`, `SY`, `SSB`, `RDD`.
 #' @export
 #' @family summary functions
 #' @concept summary_function
@@ -99,7 +99,7 @@ getFCurves <- function(params,
     return(rbind(df1, df2))
 }
 
-#' Plot normalised SBB, RDD and Yield versus F
+#' Plot normalised SBB, RDD and sustainable yield versus F
 #'
 #' @inherit getFCurves
 #'
@@ -122,6 +122,9 @@ plotFCurves <- function(params,
                         F_range,
                         tol = .001,
                         t_max = 100) {
+    # Check parameters
+    params <- validParams(params)
+    species <- valid_species_arg(params, species)
     
     curve <- getFCurves(params,
                         species = species,
@@ -131,14 +134,15 @@ plotFCurves <- function(params,
                         tol = tol,
                         t_max = t_max) |>
         mutate(SSB = SSB / max(SSB),
-               RDI = RDI / max(RDI),
                RDD = RDD / max(RDD),
-               Yield = Yield / max(Yield)) |>
-        pivot_longer(!F , names_to = "Quantity", values_to = "Quantiles")
+               SY = SY / max(SY)) |>
+        pivot_longer(!F , names_to = "Quantity", values_to = "values") |>
+        mutate(Quantity = factor(Quantity, levels = c("SY", "SSB", "RDD")))
     
     ggplot(curve) +
-        geom_line(aes(x = F, y = Quantiles, linetype = Quantity)) +
-        xlab("Fishing mortality (1/yr)") +
+        geom_line(aes(x = F, y = values, linetype = Quantity)) +
+        labs(x = "Fishing mortality (1/yr)",
+             y = "Scaled quantities") +
         ggtitle(species)
 }
 
@@ -150,25 +154,23 @@ plotFCurves <- function(params,
 #'
 #' @inheritParams getYieldVsF
 #'
-#' @return A data frame with columns `F`, `SSB`, `RDI`, `RDD`, `Yield`
+#' @return A data frame with columns `F`, `SY`, `SSB`, `RDD`
 #'
 calc_vals <- function(params, F_range, idx_species,
                       tol = 0.001, t_max = 100) {
     SSB_vec <- F_range # To get the right length
-    RDI_vec <- F_range
     RDD_vec <- F_range
-    Yield_vec <- F_range
+    SY_vec <- F_range
     for (i in seq_along(F_range)) {
+        message(paste("F =", F_range[i]))
         params@initial_effort["tmp"] <- F_range[i]
         params <- projectToSteady(params, t_max = t_max, progress_bar = FALSE,
                                   tol = tol)
         
         SSB_vec[i] <- getSSB(params)[idx_species]
-        RDI_vec[i] <- getRDI(params)[idx_species]
         RDD_vec[i] <- getRDD(params)[idx_species]
-        Yield_vec[i] <- getYield(params)[idx_species]
+        SY_vec[i] <- getYield(params)[idx_species]
     }
     
-    data.frame(F = F_range, SSB = SSB_vec, RDD = RDD_vec, RDI = RDI_vec,
-               Yield = Yield_vec)
+    data.frame(F = F_range, SY = SY_vec, SSB = SSB_vec, RDD = RDD_vec)
 }
