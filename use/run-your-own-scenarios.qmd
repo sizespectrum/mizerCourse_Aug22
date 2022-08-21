@@ -6,27 +6,118 @@ title: "Run other scenarios"
 
 Mizer can be used to explore future scenarios, where a simulation continues to project through time under different potential scenarios. The goal of this tutorial is to set these up these projections so that you can design your own future scenarios to explore. Here we will use mizerExperimental and mizerHowTo and explore example model of longline fishery that consists of targeting a single species, Patagonian toothfish. 
 
-### Fishing through time
-
-In the previous tutorial, we examined a simple  (toothfish, here referred to as *D.ele*).
-
 As usual, we need to have some packages installed.
 
 ```{r set-up, echo = F,message=F, warning=F,code_folding=T}
 remotes::install_github("sizespectrum/mizerExperimental")
 library(mizerExperimental)
-remotes::install_github("sizespectrum/mizerMR")
-library(mizerMR)
+# remotes::install_github("sizespectrum/mizerMR")
+# library(mizerMR)
 remotes::install_github("sizespectrum/mizerHowTo")
 library(mizerHowTo)
 library(tidyverse)
-source("helper_functions.R")
+source("use/helper_functions.R")
 ```
 
-Let's start by exploring what happens if we change fishing in the future. To do this we set up two scenarios, one where the model starts with the last time step of the fished scenario and continues into the future  (the "status quo"). The other will be designed to explore "more sustainable scenario". Let's pick up the the model output we saved from the end of the last tutorial.
+Then we load the model 
+
+```{r,message=FALSE}
+sim <- readRDS("use/toothfish/params10.RDS")
+params <- sim@params
+plotBiomassObservedVsModelCustom(params,ratio = T)
+plotGrowthCurves(sim,species_panel = T)
+plotlySpectra(sim, power = 2, total = TRUE)
+plotDiet2(sim)
+```
+
+This model is focussed on Patagonian toothfish and key prey species in the longline fishery.
+
+For this model, we had the following main criteria for our project:
+
+-   Modelled biomasses were within +/- 10-20% of the observed biomasses.
+
+-   Unfished normalised biomass size spectrum slope that is negative and close to -1
+
+-   Growth curves approximated the von Bertalanffy growth curves for each species.
+
+-   Toothfish diet captured dietary changes with body size and became more piscivorous at larger sizes.
+
+-   Recruitment parameters ensured single-species yield curves were dome-shaped, as expected by theory.
+
+-   The modeled catches through time captured the trends in the reported catches through time.
+
+We can see from these plots that we still have more work to do with refining the model. The size at age for some species seem much higher than the empirical parameters, feeding level of near satiation for all species and the biomass of some species is much higher than the data. However size-at-age data are typically highly variable. So, let's set some of those issues aside for now.
+
+Let's take a look at how fishing is set up in this model.
 
 ```{r}
-sim <- readRDS("use/toothfish/params10.RDS")
+gear_params(params)
+```
+
+Currently we can see there is one gear - *longline* - which has a knife_edge selectivity function that starts fishing at very large sizes of toothfish only (*knife_edge_size*=2722 g). The size selectivity was derived from the length distribution of catches from the long-line fisheries data. If your model does not yet include fishing, you can set up your own fishing gear using the *gear_params()* function and by following the example [here](https://sizespectrum.org/mizer/reference/setFishing.html).
+
+We can see that the *initial_effort* has been set to 1 and the *catchability* has been set to a very low number: 7e-07. This shows the model has been calibrated with a very low level of fishing mortality.
+
+```{r,message=FALSE}
+reproduction_level <- getReproductionLevel(params)
+reproduction_level
+
+plotYieldVsF(params,species="D.ele",no_steps=30,F_max=2)
+# Fmsy around 0.4 for toothfish
+
+```
+
+Let's see what happens if reproduction level is reduced 
+
+```{r}
+params2 <- setBevertonHolt(params, reproduction_level = 0.85)
+plotBevertonHolt2(params, params2, "D.ele")
+
+sim2 <- project(params2, t_max = 20)
+plotBiomass(sim2)
+plotYieldVsF(params2,species="D.ele",no_steps=20,F_max=2)
+
+```
+
+This shows that altering the level of density-dependence in recruitment affects how sensitive toothfish (D.ele for short) are to fishing. The first model would enable toothfish to sustain (at equilbrium) much higher levels of fishing before it collapses.
+
+## Comparing ecosystem states: effects of fishing relative to an unfished state
+
+To be able to assess the wider ecosystem impacts of fishing in the community we need to understand how changes compare to an unfished state. We can use the above model unfished steady state with effort = 0 to do this combined with some functions to calculate ecological indicators.
+
+Let's compare the current size spectra (with fishing) to the unfished size spectra to assess whether there is any evidence of a size-structured trophic cascade due to fishing.
+
+```{r , code_folding=TRUE, eval = T, echo = T, warning=F}
+sim0 <- projectToSteady(params, effort = 0, return_sim = TRUE, t_max = 200)
+sim <- projectToSteady(params, effort = 1, return_sim = TRUE, t_max = 200)
+plot_relative_biomass(sim0, sim)
+
+```
+
+Here we can see the effect of the reduction in large sized individuals of heavily fished species on the other sizes and species in the model, relative to the unfished steady state.
+
+The abundance of some (but not all) of the smaller to medium sizes of prey are a lot higher when their larger predators are removed (note the logarithmic scale). 
+
+We can do the same with Biomass to see when, if any, of the species collapse. For simplicity, we use \< 0.1 of B/B_unfished as a proxy for a reference point for population collapse. We can add other reference points to this kind of plot, for example a simple rule of thumb for B_msy could be 0.5\*B_unfished.
+
+```{r,code_folding=TRUE, eval = T, echo = F, warning=F}
+# collect the biomasses from unfish and calcualte the relative change
+B0 <- getBiomass(sim0)[2,]
+Brel <- melt(sweep(getBiomass(sim), 2, B0, "/")[2,])
+ggplot(log10(Brel), aes(x = row.names(Brel), y = value)) +
+  geom_bar(stat = "identity",
+           show.legend = FALSE) + # Remove the legend
+  xlab("Group") +
+  ylab("Proportion of Unfished Biomass") 
+
+```
+
+### Fishing through time
+
+Now let's see what happens if we change fishing in the future. To do this we set up two scenarios, one where the model starts with the last time step of the fished scenario and continues into the future  (the "status quo"). The other will be designed to explore "more sustainable scenario". Let's pick up the the model output we saved from the end of the last tutorial.
+
+```{r}
+#sim <- readRDS("use/toothfish/params10.RDS")
 sim<-readRDS("use/simf3.rds")
 params<-sim@params
 ```
@@ -34,7 +125,7 @@ params<-sim@params
 The effort values in 2020 were
 
 ```{r, echo= FALSE}
-current_effort <- getEffort(sim)["2020", ]
+(current_effort <- getEffort(sim)["2020", ])
 ```
 
 Let's start a new simulation that begins with the logistic effort from 2020 and projects forward for 50 years. We will apply a linear decrease in effort for toothfish to a target value (here assumed for simplicity to be F=0.2).
@@ -42,6 +133,7 @@ Let's start a new simulation that begins with the logistic effort from 2020 and 
 To do this we need to work the effort array again (time x gear) to enable changes in effort through time.
 
 ```{r, code_folding=T, echo = FALSE}
+
 sim_scen1<-project(params,initial_n = sim@n["2020",,], initial_n_pp = sim@n_pp["2020",],effort=current_effort,t_max = 50)
 plot(sim_scen1)
 
@@ -109,7 +201,7 @@ Let's take a look at the relative exploitation status of the stocks using the pr
 
 ```{r}
 # plot change in biomass under each scenario relative to unfished values
-# get saved values from steady state without fishing (previous tutorial)
+# get saved values from steady state without fishing that we generated earlier 
 sim0<-readRDS("use/sim0.rds")
 # get the unfished biomasses
 B_unfished <- getBiomass(sim0)[1, ]
@@ -158,7 +250,6 @@ gear_params(params)
 
 Note that catchability is set to 1. This is because the fishing "effort" was here assumed to be the fishing mortality rate of fully selected sizes (see here [setFishing](https://sizespectrum.org/mizer/reference/setFishing.html?q=set%20fishing)).
 
-
 ```{r}
 params <- setFishing(params, initial_effort = 0.1)
 ```
@@ -170,7 +261,6 @@ sim_unfished <- projectToSteady(params, effort = 0, t_max = 500)
 plot(sim_unfished)
 params_longline_trawl<-params
 sim_longline_trawl <- projectToSteady(params_longline_trawl, effort = 0.1, t_max = 500)
-
 
 params_longline<-params
 gear_params(params_longline)$catchability[2]=0
@@ -199,7 +289,6 @@ ggplot(Brel_scens, aes(fill=scen, y=value, x=species)) +
 
 The impact of the combined trawl and longline appears to have more of an effect on C.gun but the biomass of D.ele is less depleted relative to the unfished state. 
 
-There are a lot of additional plots and results that can be explored from the above scenarios.
 
 
 
