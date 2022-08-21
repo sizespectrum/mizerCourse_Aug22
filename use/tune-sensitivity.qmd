@@ -4,9 +4,30 @@ title: "Tune resilience"
 
 ## Introduction
 
-In the previous week we tuned our model parameters so that the steady state of the model agrees with observed growth rates, average observed biomasses and with observed catches. We did not yet tune how sensitively our model reacts to changes away from its steady state. In particular, we did not tune how resilient the species are to fishing.
+In the previous week we tuned our model parameters so that the steady state of the model agrees with observed growth rates, average observed biomasses and with observed catches. We did not yet tune how sensitively our model reacts to changes away from its steady state. In particular, we did not tune how resilient the species are to fishing. We will do that in this tutorial.
 
-In this tutorial we are going to look at the aspect of the model that has a big impact on the resilience of species to perturbations: the reproduction dynamics. In the tutorial on [dynamics of size spectra](../understand/dynamics-of-spectra.html#reproduction-level) in week 1 we briefly looked at how density dependence of reproduction can influence how species react to changes in mortality, such as from fishing. It might be good if you go back to that tutorial and remind yourself.
+As usual, we load the necessary packages
+
+```{r}
+#| message: false
+remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
+remotes::install_github("sizespectrum/mizerMR")
+# TODO: move this to mizerExperimental
+source("../experiment/getFCurves.R")
+library(mizerExperimental)
+library(mizerMR)
+library(tidyverse)
+```
+
+We load our Curonian lagoon model that we saved after [refining the model](../build/refine-model.qmd) in the previous tutorial using the `tuneParams()` gadget.
+
+```{r}
+cm <- readParams("../build/cur_model_refined.rds")
+```
+
+## Reproduction dynamics
+
+In this tutorial we are going to look at an aspect of the model that has a big impact on the resilience of species to perturbations: the reproduction dynamics. In the tutorial on [dynamics of size spectra](../understand/dynamics-of-spectra.html#reproduction-level) in week 1 we briefly looked at how density dependence of reproduction can influence how species react to changes in mortality, such as from fishing. It might be good if you go back to that tutorial and remind yourself.
 
 When we built our models in week 2 we were not concerned about the parameters that specify the reproduction dynamics. We were only concerned with setting the resulting reproduction rate for each species to the levels that produced the observed species biomass. But because the parameters for the reproduction dynamics will affect how resilient species are, we will choose appropriate values for them in this tutorial.
 
@@ -73,24 +94,6 @@ Note how both `R_max` and `erepro` need to be changed at the same time in order 
 
 We like to work with the reproduction level because it is a number between 0 and 1, where 0 means that the rate of reproduction increases in proportion to $E_R$ and 1 means that the rate of reproduction is independent of $E_R$. The higher the value of the reproduction level the less impact a change in $E_R$ will have on the species' reproduction. Thus higher levels of the reproduction level make the species more resilient for example to fishing.
 
-As usual, we load the necessary packages
-
-```{r}
-#| message: false
-remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
-remotes::install_github("sizespectrum/mizerMR")
-# TODO: move this to mizerExperimental
-source("../experiment/getFCurves.R")
-library(mizerExperimental)
-library(mizerMR)
-library(tidyverse)
-```
-
-We load our Curonian lagoon model that we saved after [refining the model](../build/refine-model.qmd) in the previous tutorial using the `tuneParams()` gadget.
-
-```{r}
-cm <- readParams("../build/cur_model_refined.rds")
-```
 
 ## How resilient should species be?
 
@@ -204,7 +207,7 @@ We assign the model that uses these new gear parameters in a new variable `cm_ge
 ```{r}
 cm_generic_gear <- cm
 # Set new gear parameters for the new model 
-gear_params(cm_generic_gear) <- gp
+#gear_params(cm_generic_gear) <- gp
 ```
 
 Let's look at the fishing mortality from the new gear:
@@ -263,7 +266,7 @@ We do not know how much we need to reduce the reproduction level to get a suffic
 # First we save current reproduction level into a vector 
 rep_level <- getReproductionLevel(cm_generic_gear)
 # then we replace our species' reproduction level with a new value 
-rep_level["perch"] <- 0.3
+rep_level["perch"] <- 0.5
 # and asign it back to the model 
 cm_generic_gear <- setBevertonHolt(cm_generic_gear, 
                                    reproduction_level = rep_level)
@@ -283,7 +286,7 @@ Its F_MSY is also too high. So we also reduce the reproduction level of pikeperc
 
 ```{r}
 #| message: false 
-rep_level["pikeperch"] <- 0.3
+rep_level["pikeperch"] <- 0.5
 cm_generic_gear <- setBevertonHolt(cm_generic_gear, 
                                    reproduction_level = rep_level)
 plotYieldCurve(cm_generic_gear, species = "pikeperch", F_max = 1)

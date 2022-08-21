@@ -54,10 +54,6 @@ getYieldCurve <- function(params,
         stop("Invalid species specification")
     }
     
-    # Project to steady with the current fishing
-    params <- projectToSteady(params, t_max = t_max, progress_bar = FALSE,
-                              tol = tol)
-    
     # First make a new gear for that specific species
     sp_name <- params@species_params$species[[idx_species]]
     gp <- gear_params(params)
@@ -68,13 +64,25 @@ getYieldCurve <- function(params,
         stop("This function only works in the case where the target species ",
              "is selected by a single gear only")
     }
-    current_FMort <- params@initial_effort * gp_extra$catchability
+    
+    weight_to_length <- function(w, params) {
+        a <- species_params(params)$a
+        b <- species_params(params)$b
+        (w / a) ^ (1 / b)
+    }
+    l_mat = weight_to_length(species_params(params)$w_mat, params)
+    l_25mat = weight_to_length(species_params(params)$w_mat25, params)
+    
+    current_FMort <- params@initial_effort[gp$gear[gps]] * gp_extra$catchability
     gp_extra$gear <- "tmp"
     gp_extra$catchability <- 1
+    gp_extra$l50 <- l_mat[idx_species] / 2
+    gp_extra$l25 <- l_25mat[idx_species] / 2
     gp$catchability[gps] <- 0
     gear_params(params) <- rbind(gp, gp_extra)
-    initial_effort(params)["tmp"] <- initial_effort(params)[gp$gear[gps]] # setting initial effort same as original gear
-    effort <- getInitialEffort(params)
+    initial_effort(params)["tmp"] <- current_FMort
+    
+    params <- steady(params)
     
     if (!missing(F_max)) {
         F_range = seq(0, F_max, length.out = no_steps)
