@@ -111,7 +111,7 @@ plotSpectra2(p_tripleEffort, 'a_triple', p_sameFishing, 'same')
 
 Now the change is even more evident. Large individuals of pikeperch and predator_fish are greatly reduced, but there are a lot more adult perch, burbot and all sizes of roach. As a result ruffe and small fish are slightly reduced.
 
-### **Exercise 1** 
+### **Exercise 1**
 
 TODO - finalise setting it up. Use your calibrated parameter file, double and then triple fishing effort on all species, save results and commit the file
 
@@ -168,7 +168,7 @@ getYield(sim_cur_model_Pikeperch)[idxFinalT(sim_cur_model_Pikeperch), ] / getYie
 
 We can see that just by changing fishing mortality on one important species, we have triggered a trophic cascade and changed biomasses and yields of all other species. Now we know that yields of other species really changed due to species interactions, since we are fishing them with same parameters as before. So by fishing pikeperch more intensively, we increased biomasses and yields on nearly all other species. Only ruffe and smallfish decreased, since they are now more heavily predated by intermediate sized fish. You can use plotDeath() and plotSpectra2() to explore this further.
 
-### Exercise 2 
+### Exercise 2
 
 TODO: set this up too
 
@@ -320,11 +320,118 @@ Pay attention how abundance of predator_fish in gillnet selectivity case at sele
 
 ## Option 5: changing effort slowly through time
 
-Quite often managment options include slow decrease in fishing effort to allow stocks to rebuild, but fishers still catch something. We can simulate that by providing mizer with a time series of effort. Or what if we want to change effort on one species only? We need to change catchability then?
+Quite often managment options include slow decrease in fishing effort to allow stocks to rebuild, but fishers still catch something. We can simulate that by providing mizer with a time series of effort. 
+
+GUSTAV - I suppose if we want to change effort on one species and project that forward we should set a new gear for that species, since we can have only one effort value per gear. Julia's example must have had different gears for different species, so we need to adapt it. Or do we change catchability through time? 
+
+Let's start a new simulation that begins with the current effort and projects forward for 30 years. We will apply a linear reduction in effort for a selected species to a target value (here assumed for simplicity to be 0.2 with effort expressed in terms of the species' fishing mortality rate for fully selected sizes).
+
+To do this we need to work with the effort array (time x gear) to enable changes in effort through time, for this scenario. Here we have a 'gear' for each species, since effort in this case were annual single-species fishing mortality estimates.
+
+```{r, echo = FALSE}
+
+#We get effort from the last time step 
+getEffort(sim_cur_model_sameFishing)[idxFinalT(sim_cur_model_sameFishing), ]
+
+#We can set effort as a vector for each species 
+effort_vector <- rep(0.3, length(species_params(cur_model)$species))
+effort_vector
+
+#check that sim
+same_effort <- project(cur_model, effort = effort_vector, t_max = 20, dt = 0.1)
+#ok, this does not work because we only can have one value per gear.. 
+
+
+#now we build a matrix of changing effort into the future. Because we only want to change effort on one species we will build a matrix of year x pecies. 
+proj_effort <- matrix(current_effort, nrow = 51, ncol = 12, byrow = TRUE)
+dimnames(proj_effort) <- list(time = 2019:2069,
+                              gear = unique(gear_params(params)$gear))
+
+#Julia's code below 
+library(mizerHowTo) 
+
+# upgrade params
+sim <- upgradeSim(HTM0_sim2)
+
+params <- getParams(sim)
+effort <- getEffort(sim)
+
+
+knitr::kable(t(current_effort), caption = "Current effort",)
+
+sim_status_quo<-project(params,initial_n = sim@n["2018",,], initial_n_pp = sim@n_pp["2018",],effort=current_effort,t_max = 50)
+
+
+proj_effort <- matrix(current_effort, nrow = 51, ncol = 12, byrow = TRUE)
+dimnames(proj_effort) <- list(time = 2019:2069,
+                              gear = unique(gear_params(params)$gear))
+
+target<-0.2
+select_species="Sprat"
+# reach target by 10 years
+proj_effort[1:10, select_species] <- 
+    seq(from = proj_effort[1, select_species], to = target, length = 10)
+
+# then hold at target
+proj_effort[11:51, select_species] <- target
+
+# check it
+proj_effortDf <- data.frame("Time" = rownames(proj_effort), "Effort" = proj_effort[,select_species])
+proj_effortDf_short <- proj_effortDf[c(1:13,49:51),] # looks nicer but keeping long version
+flextable::regulartable(proj_effortDf_short) %>% flextable::set_caption("Projected effort on Sprat")
+
+# run the simulation forward, using the 2018 abundances as initial values
+
+params_status_quo <- setInitialValues(params, sim)
+sim_scen <- project(params_status_quo, effort = proj_effort, t_max = 50)
+
+
+# plot change in biomass relative to 2018 values
+
+B_current <- getBiomass(sim_scen)[1, ]
+
+Brel_scen <- melt(sweep(getBiomass(sim_scen), 2, B_current, "/"))
+colnames(Brel_scen)[2] <- "Species"
+legend_levels <- intersect(names(sim_scen@params@linecolour), Brel_scen$Species)
+
+ggplot(Brel_scen) + 
+  geom_line(aes(x = time,y = value,color = Species), size = 1) + 
+  geom_hline(yintercept = 1, linetype = 1, colour = "grey", size = 0.75) +
+  scale_y_continuous(name = "Relative biomass") +
+  scale_color_manual(values = sim@params@linecolour[legend_levels]) +
+  theme(legend.key = element_rect(fill = "white"))
+
+
+```
+
+We can see that when we reduce fishing on Sprat it increases the biomass of this species but also affects the biomass of other species in the community.
+
+Are any species collapsed still?
+
+```{r, echo = FALSE}
+
+Brel_ref <- Brel_scen  %>% mutate(collapsed = value < 0.1)
+
+plot_Brel_all<-ggplot(Brel_ref)+ 
+  geom_line(aes(x=time,y=value), size = 1) + 
+  ggpubr::theme_pubr() + 
+  geom_hline(yintercept = 0.1, linetype=1, colour="red", size=0.75) +
+  geom_hline(yintercept = 0.5, linetype=1, colour="steel blue", size=0.75) +
+  facet_wrap(.~Species,scales = "free") +
+  scale_y_continuous(name = "Relative Biomass") +
+  scale_x_continuous(breaks = seq(2020,2060, length.out = 3), name = "Time")+
+  annotate("text", x = 2027, y = 0.1+0.15, label = "Blim", color = "red") +
+  annotate("text", x = 2025, y = 0.5+0.15, label = "Bmsy", color = "steel blue")
+
+plot_Brel_all
+
+```
+
+
 
 Gustav
 
-## Exploring same fishing scenarios with another model calibration 
+## Exploring same fishing scenarios with another model calibration
 
 TODO: Do the same with cma model
 
@@ -336,6 +443,6 @@ TODO: Do the same with cma model
 
 ## Further explorations
 
-There are a lot more ways how we can explore fishing scenarios (past and future) in mizer. You can explore [mizerHowTo](https://github.com/sizespectrum/mizerHowTo) R package, which provides further tutorials about: 1) statistically fit models to time series, 2) set up logistic change in effort when only catch data is available, 3) exploring model outputs with past effort data, and so on.
+There are a lot more ways how we can explore fishing scenarios (past and future) in mizer. You can explore [mizerHowTo](https://github.com/sizespectrum/mizerHowTo) R package, developed by Julia Blanchard, Samik Datta and Romain Forestier. While this package is currently being finalised, it provides useful further tutorials and exercised with a different model system and examples. In first mizerHowTo tutorial (called as HTML0) you can explore how to assess unfished ecosystem state and simulate recovery, set up new fishing gears, and add a new species to the model. Most importantly, mizerHowTo has two tutorials (HTLM2 and HTMl3) where you can dive deeper into statistical tuning of reproduction resilience from average or time series data of catches, fishing effort or stock abundance using optim functions that minimise error between model predicted and observation time series. We did not explore statistical fitting procedures in this course, but they are often used in publications and more advanced mizer models. 
 
-You can also read more on mizer blog and webpage. For example, a blog post on gear selectivity, etc, etc (**TODO - Gustav, add links**?)
+You can also learn more on mizer blog and webpage. For example, a blog post on gear selectivity, etc, etc (**TODO - Gustav, add links**?)
