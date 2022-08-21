@@ -2,37 +2,33 @@
 title: "Week 3: Use mizer models"
 ---
 
-Now that you have a built and examined your model at steady state, we will explore changing conditions and temporal dynamics. We will first use an example to describe how to run your model with changing fishing, as well show how some of the outputs of the model can be analysed. Then you can use your model examine the consequences of simple changes in fishing scenarios and background resources.
+Now that you have built and examined your model at steady state, we will use it to explore changing conditions and temporal dynamics.
 
 ### Lecture
 
-This week's contributor is Julia Blanchard. Her lecture provides a broad overview of the different ways in which mizer is being used to help understand the consequences of change in aquatic ecosystems. There are a lot of ways! The material describes how you can set model simulations to study change, some of which are explored in further detail below.
+This week's contributor is Julia Blanchard. Her lecture provides a broad overview of the different ways in which mizer is being used to help understand the consequences of change in aquatic ecosystems. There are a lot of ways! The material describes how you can set model simulations to study change, some of which are explored in this week's tutorials.
 
 ```{r}
 #| echo: false
-#vembedr::embed_url("https://youtu.be/Z8FW7t4xrtU") |>
- #   vembedr::use_align("center") |>
-  #  vembedr::use_rounded(10)
+vembedr::embed_url("https://youtu.be/Z8FW7t4xrtU") |>
+   vembedr::use_align("center") |>
+   vembedr::use_rounded(10)
 ```
 
 ### Tutorials
 
-Using examples, the tutorials are designed to help you develop your own model simulation experiments, in the following four stages:
+Using examples, the tutorials are designed to help you develop your own model simulation experiments:
 
-1.  [**Tuning the sensitivity to fishing**](tune-sensitivity.qmd)\
-    First, we will explore how sensitive your model is to the effects of fishing. As usual, we will start with an example system. We will show how the reproduction parameters influence how sensitive the model is to changes in mortality. We can make adjustments and refinements at this step if the model does not produce realistic responses to fishing intensity.
+1.  [**Tune the resilience to fishing**](tune-resilience)
+    First, we will explore how sensitive your model is to the effects of fishing. We will show how the reproduction parameters influence the resilience of the species. We make adjustments to the reproduction levels to produce realistic responses to fishing intensity.
 
-2.  [**Simulating and examining changes**](simulate-change.qmd)\
-    Once the sensitivity to fishing is examined, we can assess how the model responds to changes in fishing through time. This step involves looking closer at the fishing parameters in mizer and setting up different fishing scenarios. 
-    
-3.  [**Changing resources**](change-resources.qmd)\
-    Now we will look at the resource spectrum and how changes in three main resource parameters can affect our ecosystem. With three main parameters for each resource, this can quickly get complicated. We will also show an example of how to force time series of resource using external data. 
+2.  [**Simulate fishing scenarios**](fishing-scenarios.qmd)\
+    Once the resilience to fishing is tuned, we can assess how the model responds to changes in fishing through time. This step involves looking closer at the fishing parameters in mizer and setting up different fishing scenarios.
 
-4.  [**Explore further scenarios**](run-your-own-scenarios.qmd)\
-    This tutorial provides extra material, prepared by Julia Blanchard using another system (Patagonian toothfish fishery) as an example. Here you can learn on how to set time series of fishing changes and more. 
-    
+3.  [**Change resources**](change-resources.qmd)\
+    Next we will look at the resource spectrum and how changes in three main resource parameters can affect our ecosystem. With three main parameters for each resource, this can quickly get complicated. We will also show an example of how to use external data on resource time series to force the mizer model.
 
+<!-- 4.  [**Explore further scenarios**](run-your-own-scenarios.qmd)\ -->
+<!--     This tutorial provides extra material, prepared by Julia Blanchard using another system (Patagonian toothfish fishery) as an example. Here you can learn on how to set time series of fishing changes and more. -->
 
-
-#To get your worksheet repository for this week, follow this link: \#<https://classroom.github.com/xxx>
-
+<!-- #To get your worksheet repository for this week, follow this link: \#<https://classroom.github.com/xxx> -->

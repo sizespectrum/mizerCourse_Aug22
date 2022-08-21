@@ -4,9 +4,21 @@ title: "Using a model to explore fishing scenarios"
 
 ## Introduction
 
-Mizer is a tool that can be used to simulate a dynamic size spectrum in a marine ecosystem, subject to changes through time, such as fishing pressure. It is a dynamic multi-species model with emergent growth, reproduction and biomass, so it allows us to better understand how changes in fishing mortality can affect the entire ecosystem. Mizer allows complicated setup of multiple fishing gears and selectivities, but we will start with a few simple explorations and give references for further reading to users who want to explore more.
+Mizer is a tool that can be used to simulate a dynamic size spectrum in a marine ecosystem, subject to changes through time, such as fishing pressure. It is a dynamic multi-species model with emergent growth, reproduction and biomass, so it allows us to better understand how changes in fishing mortality can affect the entire ecosystem. 
 
-Let's first explore some examples of what can be done using a mizer model for the Curonian lagoon. We will load the model from our previous tutorial where we tuned reproduction level of each species and returned gear selectivity to the original Curonian lagoon gear.
+In the previous week we have been focused on the steady state of the model. Now we are ready to make changes through time, which means that the ecosystem will move away from the tuned steady state.
+
+:::{.callout-note}
+There are two ways how we could explore scenarios:
+
+The first way is to use our existing calibrated model as a starting point, impose new conditions, and then run to the new steady state and compare this to the original steady state. This is how many modelling studies are done. 
+
+The second way is to impose a time series of changes, where change in conditions happens slowly over a certain time. In this second case we would be interested in transient dynamics, or the time series of change. So we would analyse how conditions change through time. 
+
+The first way is easier and more common in modelling studies, because it is easier to compare steady states than to compare time series, and because the steady state shows properties that can be sustained in the long run. But both types of exploration can be performed in mizer and have been used in various examples, as you have heard in Julia Blanchard's lecture.
+:::
+
+For explorations in this tutorial we will be using our mizer model for the Curonian lagoon. We will load the model from our previous tutorial where we tuned reproduction level of each species.
 
 ```{r set-up}
 #| message: false
@@ -18,57 +30,58 @@ library(mizerMR)
 library(tidyverse)
 
 # Load tuned model with original selectivity
-cur_model <- readParams("cur_model_resilient.rds")
+cm <- readParams("cur_model_resilient.rds")
 ```
 
-In the previous tutorials we have been focused on the steady state. Now we are ready to make changes through time, which means that the ecosystem will move away from the tuned steady state.
+Mizer allows complicated setups of multiple fishing gears and selectivities, but we will start with a few simple scenarios and give references for further reading to users who want to explore more.
 
-**Note**
+## Scenario 1: Change fishing effort
 
-There are two ways how we could explore scenarios. The first one is to use our existing calibrated model as a starting point, impose new conditions, run to equilibrium and compare the new equilibrium state to the previous equilibrium state. This is how many modelling studies are done. The second way is to impose time series of changes, when change in conditions happens slowly over a certain time. In this second case we would be interested in transient dynamics, or time series of change. So we would analyse how conditions change through time. The first way is easier and more common in modelling studies, because it is more defensible to compare to steady states of a system. But both can be applied and have been used in various examples, as you have heard in Julia Blanchard's lecture.
+The first option most users want to explore is to see what happens if we start fishing more or if we reduce fishing mortality. We will use our Curonian model with tuned reproduction and change the total fishing effort. We will run the simulation with the changed effort until it again settles down to a steady state and then compare the resulting state to the original state. 
 
-## Option 1: Change fishing effort
-
-The first option most users want to explore is to see what happens if we start fishing more or if we reduce fishing mortality. We will use our Curonian model with tuned reproduction and change total effort. We will run both models (same effort and increased effort) to steady state and compare. Whenever we are saving simulations (with time dimension) we will use sim\_ in object names, to separate them from params objects
-
-```{r, code_folding=TRUE}
-#remind ourselves of the initial effort 
-initial_effort(cur_model)
-
-#run to steady with same effort - it should not take any time, because the model is already at steady, but just in case
-sim_cur_model_sameFishing <- projectToSteady(cur_model, effort = 0.3, return_sim = T, t_max = 100, dt = 0.1)
-
-#double the effort, which will double fishing mortality on all species 
-sim_cur_model_doubleEffort <- projectToSteady(cur_model, effort = 0.6, return_sim = T, t_max = 100, dt = 0.1)
-```
-
-Alternatively we could have used project() and tell mizer for how many years we want to run it, usually 20-50 years to ensure the system settles into a new equilibrium.
+We remind ourselves of the current fishing effort to which we tuned the model in week 2:
 
 ```{r}
-sim_cur_model_doubleEffort2 <- project(cur_model, effort = 0.6, t_max = 100, dt = 0.1)
-
+initial_effort(cm)
 ```
 
-But you will notice that this takes longer, since we really only needed to run for 18 years and we didn't know that in advance. This is why projectToSteady() is useful.
-
-Now we want to check what happened when we doubled the effort. We can simply plot the main diagnostic plot
+We now simulate the result of doubling the fishing effort. We use the `projectToSteady()` function.
 
 ```{r}
-plot(sim_cur_model_doubleEffort)
-
+sim_double_effort <- projectToSteady(cm, effort = 0.6, return_sim = TRUE)
 ```
 
-This shows some changes in species biomasses in the first year, once new effort was applied. It also shows that fishing mortality on fully recruited individuals of roach (pink lines) is very high, but remember due to the selectivity and maturity parameters for this species, we are only fishing largest individuals from this population.
+We used the `return_sim = TRUE` argument to `projectToSteady()` so that the result was a MizerSim object. We assigned this to the variable `sim_double_effort`. Our convention is to include `sim_` in the variable name when we assign a MizerSim object.
+
+Alternatively we could have used `project()` and specified via the `t_max` argument for how many years we want to run it. We might choose 50 years years to ensure the system settles into a new equilibrium:
+
+```{r}
+sim_double_effort2 <- project(cm, effort = 0.6, t_max = 50)
+```
+
+But you will notice that this takes longer, since we really only needed to run for 18 years and we didn't know that in advance. This is why `projectToSteady()` is useful.
+
+We can now analyse the time series contained in that MizerSim object. For example we can look at how the species biomasses changed over time:
+
+```{r}
+plotBiomass(sim_double_effort)
+```
+
+```{r}
+biomass_
+biomass_double_effort <- getBiomass(sim_double_effort)
+```
+
 
 We can also just calculate the ratio of relative biomasses and yields in equilibrium conditions, i.e final year of simulations.
 
 ```{r}
 #compare final biomasses 
-getBiomass(sim_cur_model_doubleEffort)[idxFinalT(sim_cur_model_doubleEffort), ] / getBiomass(sim_cur_model_sameFishing)[idxFinalT(sim_cur_model_sameFishing), ]
-#here the subscript [idxFinalT(cur_model_doubleEffort), ] just tells to use the last value in the time x species biomass data frame 
+getBiomass(sim_double_effort)[idxFinalT(sim_double_effort), ] / getBiomass(sim_sameFishing)[idxFinalT(sim_sameFishing), ]
+#here the subscript [idxFinalT(cm_double_effort), ] just tells to use the last value in the time x species biomass data frame 
 
 #compare final yield - are we actually getting more catch? 
-getYield(sim_cur_model_doubleEffort)[idxFinalT(sim_cur_model_doubleEffort), ] / getYield(sim_cur_model_sameFishing)[idxFinalT(sim_cur_model_sameFishing), ]
+getYield(sim_double_effort)[idxFinalT(sim_double_effort), ] / getYield(sim_sameFishing)[idxFinalT(sim_sameFishing), ]
 ```
 
 We can see that, surprisingly, after doubling fishing effort on all species biomasses of breams, roach, vimba, perch and carassius increased rather than decreased! And yields for all but predator_fish species increased, when effort was doubled. We get NaN for small fish, because its catchability is set to 0, so clearly we don't get any yield.
@@ -77,10 +90,10 @@ The predator_fish is not doing well after doubling the effort. Let's see how the
 
 ```{r}
 #convert to params object (take only the last timestep)
-p_doubleEffort <- setInitialValues(sim_cur_model_doubleEffort@params, sim_cur_model_doubleEffort)
-p_sameFishing <- setInitialValues(sim_cur_model_sameFishing@params, sim_cur_model_sameFishing)
+p_double_effort <- setInitialValues(sim_double_effort@params, sim_double_effort)
+p_sameFishing <- setInitialValues(sim_sameFishing@params, sim_sameFishing)
 
-plotSpectra2(p_doubleEffort, 'double', p_sameFishing, 'same')
+plotSpectra2(p_double_effort, 'double', p_sameFishing, 'same')
 
 ```
 
@@ -90,19 +103,19 @@ Let's see what happens if we triple the effort on all species.
 
 ```{r}
 #increase the fishing even more 
-sim_cur_model_tripleEffort <- projectToSteady(cur_model, effort = 0.9, return_sim = T, t_max = 100, dt = 0.1)
+sim_tripleEffort <- projectToSteady(cm, effort = 0.9, return_sim = T, t_max = 100, dt = 0.1)
 
 #compare final biomasses 
-getBiomass(sim_cur_model_tripleEffort)[idxFinalT(sim_cur_model_tripleEffort), ] / getBiomass(sim_cur_model_sameFishing)[idxFinalT(sim_cur_model_sameFishing), ]
+getBiomass(sim_tripleEffort)[idxFinalT(sim_tripleEffort), ] / getBiomass(sim_sameFishing)[idxFinalT(sim_sameFishing), ]
 
 #compare final yield - are we actually getting more catch? 
-getYield(sim_cur_model_tripleEffort)[idxFinalT(sim_cur_model_tripleEffort), ] / getYield(sim_cur_model_sameFishing)[idxFinalT(sim_cur_model_sameFishing), ]
+getYield(sim_tripleEffort)[idxFinalT(sim_tripleEffort), ] / getYield(sim_sameFishing)[idxFinalT(sim_sameFishing), ]
 ```
 
 Now the yield on perch increased 8 times and for roach 11 times! This is both because tripling fishing mortality on all species, doubled perch and roach biomasses, and then by tripling the effort we are catching more of them. Let's look at the spectra again.
 
 ```{r}
-p_tripleEffort <- setInitialValues(sim_cur_model_tripleEffort@params, sim_cur_model_tripleEffort)
+p_tripleEffort <- setInitialValues(sim_tripleEffort@params, sim_tripleEffort)
 
 #the legend is arranged alphabetically by the fishing name, so we will rename triple to a_triple, so that it is shown in bold line, consistently with the double fishing spectra comparison
 plotSpectra2(p_tripleEffort, 'a_triple', p_sameFishing, 'same')
@@ -117,11 +130,11 @@ TODO - finalise setting it up. Use your calibrated parameter file, double and th
 
 ## Option 2: change fishing on one species only
 
-Previously we saw that when effort changed on all species it was impossible to know what is driving change in total biomasses and yields - fishing or species interactions. Clearly, it was both, since in a single species model we would not get more biomass with increased fishing mortality. But to separate this effect better, let's now try to change fishing on one species only and we will do that on pikeperch. Let's increase its fishing mortality and see that affects the ecosystems. We will do that by changing the catchability parameter in the gear_params dataframe.
+Previously we saw that when effort changed on all species it was impossible to know what is driving change in total biomasses and yields - fishing or species interactions. Clearly, it was both, since in a single species model we would not get more biomass with increased fishing mortality. But to separate this effect better, let's now try to change fishing on one species only and we will do that on pikeperch. Let's increase its fishing mortality and see how that affects the ecosystems. We will do that by changing the catchability parameter in the gear_params dataframe.
 
 ```{r}
 #save gear params with a new name
-fishMorePikeprech <- gear_params(cur_model)
+fishMorePikeprech <- gear_params(cm)
 
 #check catchability of pikeperch (species 8)
 fishMorePikeprech$catchability[8]
@@ -129,12 +142,12 @@ fishMorePikeprech$catchability[8]
 #and replace it with higher value. Let's double the mortality to really see the change
 fishMorePikeprech$catchability[8] <- 2
 
-#assign our main cur_model params object to a new one 
-cur_model_fishPikeperch <- cur_model
+#assign our main cm params object to a new one 
+cm_fishPikeperch <- cm
 #update its gear parameters 
-gear_params(cur_model_fishPikeperch) <- fishMorePikeprech
+gear_params(cm_fishPikeperch) <- fishMorePikeprech
 #check that pikeperch catchability is now doubled 
-gear_params(cur_model_fishPikeperch) 
+gear_params(cm_fishPikeperch) 
 
 ```
 
@@ -142,31 +155,31 @@ Now let's project with same overall effort and see what happens. We will run it 
 
 ```{r}
 #increase the fishing even more 
-sim_cur_model_Pikeperch <- projectToSteady(cur_model_fishPikeperch, effort = 0.3, return_sim = T, t_max = 100, dt = 0.1)
+sim_Pikeperch <- projectToSteady(cm_fishPikeperch, effort = 0.3, return_sim = T, t_max = 100, dt = 0.1)
 
 #check the biomass change. If we use plotly option we can hover over the plot to highlight specific species 
-plotlyBiomass(sim_cur_model_Pikeperch)
+plotlyBiomass(sim_Pikeperch)
 ```
 
 Mizer says that biomasses reached equilibrium (changes are small enough), but they still seem to be changing slightly, so we can run project for a longer time and see how the trajectories continue
 
 ```{r}
-sim_cur_model_Pikeperch <- project(cur_model_fishPikeperch, effort = 0.3, t_max = 100, dt = 0.1)
-plotlyBiomass(sim_cur_model_Pikeperch)
+sim_Pikeperch <- project(cm_fishPikeperch, effort = 0.3, t_max = 100, dt = 0.1)
+plotlyBiomass(sim_Pikeperch)
 ```
 
 We can see that pikeperch and perch took a while to stabilise to a new equilibrium. Let's compare final biomasses to the baseline model. This will show what happens if we only double fishing mortality on pikeperch
 
 ```{r}
 #compare final biomasses 
-getBiomass(sim_cur_model_Pikeperch)[idxFinalT(sim_cur_model_Pikeperch), ] / getBiomass(sim_cur_model_sameFishing)[idxFinalT(sim_cur_model_sameFishing), ]
+getBiomass(sim_Pikeperch)[idxFinalT(sim_Pikeperch), ] / getBiomass(sim_sameFishing)[idxFinalT(sim_sameFishing), ]
 
 #compare final yield
-getYield(sim_cur_model_Pikeperch)[idxFinalT(sim_cur_model_Pikeperch), ] / getYield(sim_cur_model_sameFishing)[idxFinalT(sim_cur_model_sameFishing), ]
+getYield(sim_Pikeperch)[idxFinalT(sim_Pikeperch), ] / getYield(sim_sameFishing)[idxFinalT(sim_sameFishing), ]
 
 ```
 
-We can see that just by changing fishing mortality on one important species, we have triggered a trophic cascade and changed biomasses and yields of all other species. Now we know that yields of other species really changed due to species interactions, since we are fishing them with same parameters as before. So by fishing pikeperch more intensively, we increased biomasses and yields on nearly all other species. Only ruffe and smallfish decreased, since they are now more heavily predated by intermediate sized fish. You can use plotDeath() and plotSpectra2() to explore this further.
+We can see that just by changing fishing mortality on one important species, we have triggered a trophic cascade and changed biomasses and yields of all other species. Now we know that yields of other species really changed due to species interactions, since we are fishing them with same parameters as before. So by fishing pikeperch more intensively, we increased biomasses and yields on nearly all other species. Only ruffe and smallfish decreased, since they are now more heavily predated by intermediate sized fish. You can use `plotDeath()` and `plotSpectra2()` to explore this further.
 
 ### Exercise 2
 
@@ -181,25 +194,25 @@ One common policy in fisheries management is to increase mesh sizes of commercia
 ```{r}
 
 #make a new params object 
-cur_model_sel <- cur_model
+cm_sel <- cm
 #check current gear selecitvity for predator_fish 
-gear_params(cur_model_sel)[10, ]
+gear_params(cm_sel)[10, ]
 #or if we don't want to remember species numbers we can use 
-gear_params(cur_model_sel)["predator_fish, Main", ]
+gear_params(cm_sel)["predator_fish, Main", ]
 #here "Main" means the main gear, because mizer can have multiple gears
 
 #We will increase L50 for this species from 30 to 40 and keep the slope of size selectivity same (3 cm difference between L50 and L25)
-gear_params(cur_model_sel)["predator_fish, Main", "l50"] <- 40
-gear_params(cur_model_sel)["predator_fish, Main", "l25"] <- 37
+gear_params(cm_sel)["predator_fish, Main", "l50"] <- 40
+gear_params(cm_sel)["predator_fish, Main", "l25"] <- 37
 
 #now we will project with the same fishing effort 
-sim_cur_model_largerMesh <- projectToSteady(cur_model_sel, effort = 0.3, return_sim = T, t_max = 100, dt = 0.1)
+sim_largerMesh <- projectToSteady(cm_sel, effort = 0.3, return_sim = T, t_max = 100, dt = 0.1)
 #we always check how the biomass trajectories look
-plotlyBiomass(sim_cur_model_largerMesh)
+plotlyBiomass(sim_largerMesh)
 
 #compare final biomasses and yields 
-getBiomass(sim_cur_model_largerMesh)[idxFinalT(sim_cur_model_largerMesh), ] / getBiomass(sim_cur_model_sameFishing)[idxFinalT(sim_cur_model_sameFishing), ]
-getYield(sim_cur_model_largerMesh)[idxFinalT(sim_cur_model_largerMesh), ] / getYield(sim_cur_model_sameFishing)[idxFinalT(sim_cur_model_sameFishing), ]
+getBiomass(sim_largerMesh)[idxFinalT(sim_largerMesh), ] / getBiomass(sim_sameFishing)[idxFinalT(sim_sameFishing), ]
+getYield(sim_largerMesh)[idxFinalT(sim_largerMesh), ] / getYield(sim_sameFishing)[idxFinalT(sim_sameFishing), ]
 
 # TODO we need a function to plot proportional change in yield
 #plotYield(sim)
@@ -214,7 +227,7 @@ Another management option that we often hear about is protecting largest fish fr
 
 ```{r}
 #save new dataframe for gear parameters 
-(gear_double_sigmoid <- gear_params(cur_model))
+(gear_double_sigmoid <- gear_params(cm))
 
 # change all selectivity curves to double sigmoid (changing trawling to gillneting)
 gear_double_sigmoid$sel_func <- "double_sigmoid_length"
@@ -232,12 +245,12 @@ Now we will save a new parameter object and assign the newly made gear params to
 
 ```{r}
 #create new params object
-cur_model_gillnet <- cur_model
+cm_gillnet <- cm
 
-gear_params(cur_model_gillnet) <- gear_double_sigmoid
+gear_params(cm_gillnet) <- gear_double_sigmoid
 
 #check how the selectivity curves look 
-plotFMort(cur_model_gillnet)
+plotFMort(cm_gillnet)
 ```
 
 We notice how pikeperch selectivity curve is very shallow on the right side. This selection comes from tuneParams() stage, when we were trying to fit observed catch size distributions and overall catches. If we have better data on selectivity, we should use empirical data. But this is just a theoretical example.
@@ -245,13 +258,13 @@ We notice how pikeperch selectivity curve is very shallow on the right side. Thi
 Now we will project with the same fishing effort
 
 ```{r}
-sim_cur_model_gillnet <- projectToSteady(cur_model_gillnet, effort = 0.3, return_sim = T, t_max = 100, dt = 0.1)
+sim_gillnet <- projectToSteady(cm_gillnet, effort = 0.3, return_sim = T, t_max = 100, dt = 0.1)
 ```
 
 Mizer says that the model now changed so much that species biomasses keep changing even after 100 years and the model did not converge. Let's see which species is in trouble.
 
 ```{r}
-plotlyBiomass(sim_cur_model_gillnet)
+plotlyBiomass(sim_gillnet)
 ```
 
 We can see that pikeperch does not cope. Even when we protect large pikeperch, its biomass goes down. This is because predator_fish benefited so greatly from this new selectivity and increased a lot and this had a knock down effect on other species.
@@ -259,16 +272,16 @@ We can see that pikeperch does not cope. Even when we protect large pikeperch, i
 But after changing gear selectivity our managers will not wait for 100 years. So let's see what happens after 20 years. We know the system will not be at equilibrium by then, but natural ecosystems never are. So we run the model with project() for 20 years.
 
 ```{r}
-sim_cur_model_gillnet <- project(cur_model_gillnet, effort = 0.3, t_max = 20, dt = 0.1)
-plotlyBiomass(sim_cur_model_gillnet)
+sim_gillnet <- project(cm_gillnet, effort = 0.3, t_max = 20, dt = 0.1)
+plotlyBiomass(sim_gillnet)
 ```
 
 Let's look at changes in biomasses and yields at the end of 20 years
 
 ```{r}
-getBiomass(sim_cur_model_gillnet)[idxFinalT(sim_cur_model_gillnet), ] / getBiomass(sim_cur_model_sameFishing)[idxFinalT(sim_cur_model_sameFishing), ]
+getBiomass(sim_gillnet)[idxFinalT(sim_gillnet), ] / getBiomass(sim_sameFishing)[idxFinalT(sim_sameFishing), ]
 
-getYield(sim_cur_model_gillnet)[idxFinalT(sim_cur_model_gillnet), ] / getYield(sim_cur_model_sameFishing)[idxFinalT(sim_cur_model_sameFishing), ]
+getYield(sim_gillnet)[idxFinalT(sim_gillnet), ] / getYield(sim_sameFishing)[idxFinalT(sim_sameFishing), ]
 ```
 
 Relative biomasses how that introducing gillnet type selectivity and protecting large fish helped some species, but decreased biomasses in other species. The predator_fish benefited most of all and pikeperch is in biggest trouble.
@@ -283,33 +296,33 @@ gear_double_sigmoid$catchability[10]
 gear_double_sigmoid$catchability[10] <- 10
 
 #we must remember to assign our new gear params to our params object 
-gear_params(cur_model_gillnet) <- gear_double_sigmoid
+gear_params(cm_gillnet) <- gear_double_sigmoid
 
 #check 
-gear_params(cur_model_gillnet)
+gear_params(cm_gillnet)
 ```
 
 Now we run the simulations for 20 years and see if we could increase the yield to what we had previously with logistic selectivity and lower catchability
 
 ```{r}
-sim_cur_model_gillnet <- project(cur_model_gillnet, effort = 0.3, t_max = 20, dt = 0.1)
-plotlyBiomass(sim_cur_model_gillnet)
+sim_gillnet <- project(cm_gillnet, effort = 0.3, t_max = 20, dt = 0.1)
+plotlyBiomass(sim_gillnet)
 
 #compare final biomasses and yields 
-getYield(sim_cur_model_gillnet)[idxFinalT(sim_cur_model_gillnet), ] / getYield(sim_cur_model_sameFishing)[idxFinalT(sim_cur_model_sameFishing), ]
+getYield(sim_gillnet)[idxFinalT(sim_gillnet), ] / getYield(sim_sameFishing)[idxFinalT(sim_sameFishing), ]
 ```
 
 Even after increasing catchability in the selected range 5 times we still only get a quarter of the original yield for predator_fish. As a result predator_fish biomass increases and pikeperch biomass decreases, although less drastically.
 
 ```{r}
-getBiomass(sim_cur_model_gillnet)[idxFinalT(sim_cur_model_gillnet), ] / getBiomass(sim_cur_model_sameFishing)[idxFinalT(sim_cur_model_sameFishing), ]
+getBiomass(sim_gillnet)[idxFinalT(sim_gillnet), ] / getBiomass(sim_sameFishing)[idxFinalT(sim_sameFishing), ]
 
 ```
 
 We definitely want to look at changes in size spectra with this size based fishing example
 
 ```{r}
-p_protectLargeFish <- setInitialValues(sim_cur_model_gillnet@params, sim_cur_model_gillnet)
+p_protectLargeFish <- setInitialValues(sim_gillnet@params, sim_gillnet)
 
 #the legend is arranged alphabetically by the fishing name, so we will rename triple to a_triple, so that it is shown in bold line, consistently with the double fishing spectra comparison
 plotSpectra2(p_protectLargeFish, 'gillnet', p_sameFishing, 'trawl')
@@ -320,7 +333,7 @@ Pay attention how abundance of predator_fish in gillnet selectivity case at sele
 
 ## Option 5: changing effort slowly through time
 
-Quite often managment options include slow decrease in fishing effort to allow stocks to rebuild, but fishers still catch something. We can simulate that by providing mizer with a time series of effort. 
+Quite often management options include slow decrease in fishing effort to allow stocks to rebuild, but fishers still catch something. We can simulate that by providing mizer with a time series of effort. 
 
 GUSTAV - I suppose if we want to change effort on one species and project that forward we should set a new gear for that species, since we can have only one effort value per gear. Julia's example must have had different gears for different species, so we need to adapt it. Or do we change catchability through time? 
 
@@ -329,16 +342,16 @@ Let's start a new simulation that begins with the current effort and projects fo
 To do this we need to work with the effort array (time x gear) to enable changes in effort through time, for this scenario. Here we have a 'gear' for each species, since effort in this case were annual single-species fishing mortality estimates.
 
 ```{r, echo = FALSE}
-
+#| eval: false
 #We get effort from the last time step 
-getEffort(sim_cur_model_sameFishing)[idxFinalT(sim_cur_model_sameFishing), ]
+getEffort(sim_sameFishing)[idxFinalT(sim_sameFishing), ]
 
 #We can set effort as a vector for each species 
-effort_vector <- rep(0.3, length(species_params(cur_model)$species))
+effort_vector <- rep(0.3, length(species_params(cm)$species))
 effort_vector
 
 #check that sim
-same_effort <- project(cur_model, effort = effort_vector, t_max = 20, dt = 0.1)
+same_effort <- project(cm, effort = effort_vector, t_max = 20, dt = 0.1)
 #ok, this does not work because we only can have one value per gear.. 
 
 
@@ -409,7 +422,7 @@ We can see that when we reduce fishing on Sprat it increases the biomass of this
 Are any species collapsed still?
 
 ```{r, echo = FALSE}
-
+#| eval: false
 Brel_ref <- Brel_scen  %>% mutate(collapsed = value < 0.1)
 
 plot_Brel_all<-ggplot(Brel_ref)+ 
@@ -437,12 +450,14 @@ TODO: Do the same with cma model
 
 ## Summary
 
-1.  Mizer has lots of options to explore changes in gears, effort and fishing dynamics. In this tutorial we only explored basic options and found that even with very basic changes ecosystem responses can be hard to predict and fully understand.
+1.  Mizer has lots of options to explore changes in gears, effort and fishing dynamics. In this tutorial we only explored basic options and found that even with very basic changes, the response of the ecosystem can be surprising and hard to fully understand.
+
 2.  Ecosystem responses to fishing scenarios will depend on how we set up species resilience to fishing. It is therefore important to interpret results carefully and explore alternative parameter combinations of reproductive level.
+
 3.  When we explore fishing scenarios we can run them as two models ran to equilibrium conditions, where we only compare the final timestep. Or alternatively we might want to explore time series of changes and responses. Depending on how we set our fishing scenarios, interpretation and presentation of results will also differ.
 
 ## Further explorations
 
 There are a lot more ways how we can explore fishing scenarios (past and future) in mizer. You can explore [mizerHowTo](https://github.com/sizespectrum/mizerHowTo) R package, developed by Julia Blanchard, Samik Datta and Romain Forestier. While this package is currently being finalised, it provides useful further tutorials and exercised with a different model system and examples. In first mizerHowTo tutorial (called as HTML0) you can explore how to assess unfished ecosystem state and simulate recovery, set up new fishing gears, and add a new species to the model. Most importantly, mizerHowTo has two tutorials (HTLM2 and HTMl3) where you can dive deeper into statistical tuning of reproduction resilience from average or time series data of catches, fishing effort or stock abundance using optim functions that minimise error between model predicted and observation time series. We did not explore statistical fitting procedures in this course, but they are often used in publications and more advanced mizer models. 
 
-You can also learn more on mizer blog and webpage. For example, a blog post on gear selectivity, etc, etc (**TODO - Gustav, add links**?)
+
