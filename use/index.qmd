@@ -28,7 +28,7 @@ Using examples, the tutorials are designed to help you develop your own model si
 3.  [**Changing resources**](change-resources.qmd)\
     Now we will look at the resource spectrum and how changes in three main resource parameters can affect our ecosystem. With three main parameters for each resource, this can quickly get complicated. We will also show an example of how to force time series of resource using external data. 
 
-4.  [**Run your own scenarios**](run-your-own-scenarios.qmd)\
+4.  [**Explore further scenarios**](run-your-own-scenarios.qmd)\
     This tutorial provides extra material, prepared by Julia Blanchard using another system (Patagonian toothfish fishery) as an example. Here you can learn on how to set time series of fishing changes and more. 
     
 
