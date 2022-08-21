@@ -4,20 +4,68 @@ title: "Change resources"
 
 ## Introduction
 
-Mizer can be used to explore the consequences of climate change scenarios on aquatic ecosystems and fisheries. One of the major responses to climate change is changing plankton abundance and size structure. However, these responses are highly uncertain and variable and so are their impacts on the rest of food webs. But first we need to understand how our system would even respond to changes in resource levels and which parameters determine resource sensitivity.
+Mizer can be used to explore the consequences of climate change scenarios on aquatic ecosystems and fisheries. One of the major responses to climate change is changing plankton abundance and size structure. However, these responses are highly uncertain and variable and so are their impacts on the rest of food webs. But first we need to understand how our system would even respond to changes in resource levels and which parameters determine resource sensitivity. This is what we are going to do in this tutorial.
+
+```{r set-up}
+#| message: false
+#| warning: false
+remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
+library(mizerExperimental)
+remotes::install_github("sizespectrum/mizerMR")
+library(mizerMR)
+library(tidyverse)
+
+# Load tuned model with original selectivity
+cur_model <- readParams("cur_model_resilient.rds")
+```
 
 ## Understanding semi-chemostat dynamics
 
-TODO - show how changes in mortality affect abundance using different r_pp values
+```{r}
+#look at resource params 
+resource_params(cur_model)
 
-## Option 1: Changes in total resource abundance 
+```
 
-How would our system respond if total resource abundance changes. Perhaps due to eutrophication or climate change the overall abundance increases or decreases. We can explore it in a simple way by changing kappa parameter.
+We already know kappa - overall abundance, and lambda - slope of the spectrum. We also briefly discussed w_min and w_max for the resources. But what is r_pp and how does it work?
+
+Equation for semi-chemostat here
+
+Let's create a vector of resource abundances, apply some mortality on them and see how much resource is left in the next time step. Remember, in each simulation timestep resource is depleted (eated by fish) but also regenerating (growing back). So the amount of resource in the next time step will depend on the balance bewteen how much was removed and how quickly it grew back. If resource regenerates slowly, even small amount of consumption by fish will reduce its availability and will deplete it. But if it regenerating very fast, we are literally modelling a constant resrouce level, because no matter how much fish eats, resource will always stay at the level of carrying capacity, as it will fully regenerate at each time step.
+
+Let's change the regeneration rate and apply a certain mortality to see what happens
 
 ```{r}
-#read in params 
+#create a vector of resource based on w_min, w_max, kappa and lambda (do we need n here?)
 
-#increase kappa of plankton
+#set regeneration rate based on r_pp=10 and n
+
+#Apply same mortality on all sizes (say mortality of 1), show how much resource is left in the next time step 
+
+#reduce regeneration rate to 4, do the same 
+
+#reduce rate of 2 or 1, do the same 
+
+#increase it back to 10 and increase mortality to 10 or 100 to see how much mortality is required to deplete it 
+
+
+```
+
+## Option 1: Changes in total resource abundance
+
+How would our, Curonian lagoon, system respond if total resource abundance changes. Perhaps due to eutrophication or climate change the overall abundance increases or decreases. We can explore it in a simple way by changing kappa parameter.
+
+```{r}
+#let's look at our parameters again 
+resource_params(cur_model)
+
+#decrease kappa of plankton
+res_cur_model_morePlankton <- resource_params(cur_model)
+res_cur_model_morePlankton$kappa[1] <- res_cur_model_morePlankton$kappa[1] / 1.5
+res_cur_model_morePlankton
+
+cur_model_modelPlankton <- cur_model
+setResource(cur_model_modelPlankton) <- res_cur_model_morePlankton
 
 #project
 
@@ -37,7 +85,7 @@ How would our system respond if total resource abundance changes. Perhaps due to
 
 Change kappa, run to steady and commit
 
-## Option 2: Changes in resource slope 
+## Option 2: Changes in resource slope
 
 Climate change might change the slope of resource or its size structure. It might make resource slope steeper. Let's see how that will affect our ecosytsem
 
@@ -55,10 +103,6 @@ Climate change might change the slope of resource or its size structure. It migh
 ### Exercise 2
 
 Change lambda, run to steady and commit
-
-todo: Add reference to Max Baltic Sea paper on changing resource abundance (kappa).
-
-Todo: Add reference to Tasmanian model benthic shiny R app for further exploration
 
 ## Option 3: changes in resource regeneration rate
 
@@ -87,47 +131,51 @@ We already can see how many combinations of resource changes we might want to ex
 
 Running your own scenarios with changes in lambda and kappa - TODO say exactly what.
 
-## Option 4: changes through time 
+## Option 4: changes through time
 
-We can implement multiple drivers under climate change by coupling mizer to outputs of earth system models such as temperature, abundance of different size classes of plankton and/or detrital "marine snow" that reaches the seafloor through time.
+Scenario explorations above where very simple, because we changed one or several of resource parameters and projected the system to a new steady state. While the mechanics of setting such scenarios is straightforward, examples above show that understanding all the complex ways how simple changes can affect the ecosystem may be harder.
 
-In this example, we will demonstrate how to implement changes in resource abundance and size structure through time, by working with pre-made resource size spectra files (n_pp) that were estimated from two climate change scenarios from earth system model output. These were derived from model variables small and large phytoplankton biomass from the Fisheries and Marine Ecosystems Model Intercomparison Project ([FishMIP](https://www.isimip.org/about/marine-ecosystems-fisheries/)). There are a lot of steps in processing these data, but we won't go in to that here. The main goal is to demonstrate how to use these scenario forcings to create changes in your mizer resources through time.
+However, many researchers do not want to explore such hypothetical resource changes, but instead use independently derived time series of resource abundance provided by e.g. satellite observations and earth system models. This is very useful, although we do encourage you to play with simple changes above first to gain understanding about your system and its sensitivity to resource changes. Just like with fishing mortality scenarios, ecosystem response will depend strongly on our model calibration. This means that before we go into complex scenarios we need to be satisfied with the parameters we provided and know limitations of our simulations. For example, alternative, equally possible model calibrations may provide different quantitative change (i.e. how much the biomasses or yields change), but similar qualitatitve response in the ecosystem. If quantitative differences are very large, perhaps it would be best to focus on more general qualitative responses.
 
-We will combine these plankton forcings with the status quo fishing scenario we used last time to explore how the marine demersal fish community changes under this forcing through time. The two model scenarios are ssp585 (highest emissions or "worst") and ssp126 (mitigation to cut emissions or "best").
+But let's look at how we can implement multiple drivers under climate change by coupling mizer to outputs of earth system models such as temperature, abundance of different size classes of plankton or detrital "marine snow" that reaches the seafloor through time. This example is provided by Julia Blanchard and it demonstrates how to implement changes in resource abundance and size structure through time, by working with pre-made resource size spectra files (n_pp) that were estimated from two climate change scenarios from earth system model output.
+
+These resource spectra files were derived from small and large phytoplankton biomasses predicted by the Fisheries and Marine Ecosystems Model Intercomparison Project ([FishMIP](https://www.isimip.org/about/marine-ecosystems-fisheries/)). There are a lot of steps in processing these data, but we won't go in to that here. The main goal is to demonstrate how to use these scenario forcings to create changes in your mizer resources through time. This example will use another model - Patagonian toothfish fishery ecosystem. We will combine these plankton forcings with the status quo fishing scenario we used last time to explore how the marine demersal fish community changes under this forcing through time. The two model scenarios are ssp585 (highest emissions or "worst") and ssp126 (mitigation to cut emissions or "best"). You will need to install mizerHowTo package to get access to the new model and some new functions. Note - this new model does NOT use multiple resources, we are u
 
 ```{r,message=FALSE}
-remotes::install_github("sizespectrum/mizerExperimental")
-library(mizerExperimental)
-remotes::install_github("sizespectrum/mizerMR")
-library(mizerMR)
 remotes::install_github("sizespectrum/mizerHowTo")
 library(mizerHowTo)
-library(tidyverse)
 source("helper_functions.R")
 ```
 
 Read in the parameters and the climate scenario inputs for the resource spectrum.
 
 ```{r}
-sim <- readRDS("toothfish/params10.RDS")
+sim <- readRDS("use/toothfish/params10.RDS")
 params <- sim@params
 first_year <- 2021
 last_year <- 2070
-times <- seq(first_year,last_year, by = 1)
+(times <- seq(first_year,last_year, by = 1))
 ```
 
 We need to create a function to enable the mizer model to use the plankton forcing from the earth system model.
 
 ```{r,code_folding=T,message=FALSE}
+
 plankton_forcing <- function(params, t, ...) {
   w_cut_off <- 10
   pkt <- 10^(other_params(params)$n_pp_array[t + params@other_params$other$t_idx,])/params@dw_full # converting to density
   pkt[which(as.numeric(names(pkt)) >= w_cut_off)] <- 0
   return(pkt)  
 }
+```
+
+And now we update plankton dynamics from semi-chemostat to forcing. This means that in each year resource abundance (only plankton in this case, as this is only one resource model) will be determined not by mortality in the model, but overwritten with externally provided value
+
+```{r}
 
 params<- setResource(params, resource_dynamics = "plankton_forcing")
 
+#?? WHAT? don't get what this means 
 
 ## Time index
 other_params(params)$t_idx = -2020 # n_pp array starts at 2021 so any time generated by the effort array will match the rownumber of the n_pp array
@@ -135,26 +183,25 @@ other_params(params)$t_idx = -2020 # n_pp array starts at 2021 so any time gener
 
 ```
 
-Now, set up the two climate scenarios. These read in the pre-existing n_pp files mentioned above.
+Now, we will set up the two climate scenarios with plankton forcing. These read in the pre-existing n_pp files from earth system models.
 
 ```{r,code_folding=T,message=FALSE}
 
+#create new params files
 params_worst<-params
-
 params_best<-params
 
+#replace plankton abundance with external data 
 other_params(params_best)$n_pp_array <-readRDS("toothfish/IPSL_n_pp_array_CCscenario_126.RDS")
     
 other_params(params_worst)$n_pp_array <- readRDS("toothfish/IPSL_n_pp_array_CCscenario_585.RDS")
 
-
-
 ```
 
-Have a look how the model responds through time without fishing.
+Now we will project Have a look how the model responds through time without fishing. TODO: - except I can't! If I run the line below I get Error in prey\[, idx_sp\] : incorrect number of dimensions
 
 ```{r,message=FALSE}
-sim_best <- project(params_best, effort = 0)
+sim_best <- project(params_best, effort = 0, tmax = 50)
 
 sim_worst <- project(params_worst, effort = 0)
 
@@ -166,16 +213,18 @@ This shows how the effects of plankton changing alone can have a big effects on 
 
 The above example shows how you can directly use outputs of earth system models for projections (GFDL inputs - FishMIP), to easily show you what functions to work we will use 2 stylised scenarios that you can adapt and explore for your own model scenarios.
 
-This is one part of the set up that we have used to create a thermizer model for the Patagonian toothfish fishery and for FishMIP.
+## Summary
 
-## Summary 
+## Further explorations and climate change effects 
 
-## Further explorations
+If you want to explore how changes in the resource due to climate change can affect ecosystems with multiple resources you can look at two recent model applications. One example is a recently published [Baltic Sea mizer model](https://onlinelibrary.wiley.com/doi/full/10.1111/gcb.16341) where authors explored how changes in resource total abundance (kappa) and regeneration rate (r_pp) might affect the ecosystem.
 
-We barely scratched the surface about the possible ways how climate change might affect our ecosystems. For example, so far we did not include any direct temperature effects. Even though we modeled resource change, this was imposed externally and did not combine with possible effects of temperature on physiology. If you want to also include temperature effects on fish physiological rates, there are several options:
+Another example in the Tasmanian rocky reef model (a preprint can be found [here](https://www.biorxiv.org/content/10.1101/2022.06.20.496925v1.abstract)), where authors used multiple parameter combinations to assess how changes in kappa and lambda for plankton and benthos might affect the ecosystem. The Tasmanian model has a supporting [R Shiny application](https://fishsize.shinyapps.io/BenthicSizeSpectrum/) that allows you explore your own resource change scenarios, using one parameterisation. Here you can change kappa and lambda of either resource and combine it with physiological responses to temperature change, by also changing temperatures. This will display changes in biomass, yields and mean sizes for the modeled fish species.
+
+Despite all the complexities above, we barely scratched the surface about the possible ways how climate change might affect our ecosystems. For example, so far we did not include any direct temperature effects. Even though we modeled resource change, this was imposed externally and did not combine with possible effects of temperature on physiology. If you want to also include temperature effects on fish physiological rates, there are several options:
 
 1\) You can use a simple Arrhenius equation of exponentially increasing physiological rates. See examples here and here. TODO - does mizer now incorporate temperature rates? Or give a link to Asta's tasm model github?
 
 2\) You can use therMizer addon, which aims to account for dome-shaped species responses to temperature - increased rates up to a certain temperature and decreases after that. Here you can allow for different temperature sensitivities among species. This can get very complicated.
 
-3\) Of course climate change will also affect the composition of species, because with warming new species will enter the ecosystem. This is an important aspect to address, but has not been thoroughly explored yet. Mizer allows you to add new species into ecosystem, but it is not necessarily clear how we tune parameters of new species for which we don't yet have good data (in that ecosystem at least).
+3\) Of course climate change will also affect the composition of species, because with warming new species will enter the ecosystem. This is an important aspect to address, but has not been thoroughly explored yet. Mizer allows you to add new species into ecosystem, and you can find an example in the mizerHowTo package and on this link (link to mizer webpage?). However, it is not necessarily clear how we tune parameters of new species for which we don't yet have data (in that ecosystem at least), so exploring climate heating driven species composition change is not straightforward.
