@@ -36,6 +36,16 @@ Let's create a vector of resource abundances, apply some mortality on them and s
 Let's change the regeneration rate and apply a certain mortality to see what happens
 
 ```{r}
+source("../experimental/setResourceSemichemostat.R")
+rp <- resource_params(cur_model)
+# Change r_pp for plankton to 8
+rp["pl", "r_pp"] <- 8
+# Create new model with the changed resource params
+cm_high_r_pp <- setResourceSemichemostat(cur_model, rp)
+```
+
+
+```{r}
 #create a vector of resource based on w_min, w_max, kappa and lambda (do we need n here?)
 
 #set regeneration rate based on r_pp=10 and n
