@@ -4,7 +4,7 @@ title: "Change resources"
 
 ## Introduction
 
-Mizer can be used to explore the consequences of climate change scenarios on aquatic ecosystems and fisheries. One of the major effects that climate change is having on aquatic ecosystems is through changes in plankton and benthos abundance and size structure. However, these responses in resources are highly uncertain and variable, and predictions are difficult. For plankton we can use satellite observations of chlorophyl A and earth system models to assess past changes and project into the future, but for benthos we often have almost no empirical systematic data. We just know that lots of change is happening. Nevertheless we might want to explore the potential effect of these changes on the rest of food web and on our fisheries. This is what we are going to do in this tutorial by running a few hypothetical scenarios.
+Mizer can be used to explore the consequences of climate change on aquatic ecosystems and fisheries. One of the major effects that climate change is having on aquatic ecosystems is through changes in plankton and benthos abundance and size structure. However, responses in resources are highly uncertain and variable and predictions are difficult. For plankton we can use satellite observations of chlorophyl A and earth system models to assess past changes and aim to predict the future. Benthos changes also are likely having large impacts on shallow water ecosystems, but in many cases we have almost no empirical data on how much change is happening. Nevertheless we might want to explore the potential effect of these changes on the rest of aquatic food webs and on our fisheries. This is what we are going to do in this tutorial.
 
 As usual we install and load libraries and also load the parameter file from the first tutorial, where we tuned reproduction resilience.
 
@@ -18,7 +18,7 @@ library(mizerMR)
 library(tidyverse)
 
 # Load tuned model with original selectivity
-cur_model <- readParams("use/cur_model_resilient.rds") |> steady()
+cur_model <- readParams("cur_model_resilient.rds") |> steady()
 source("experiment/setResourceSemichemostat.R")
 
 ```
@@ -30,15 +30,15 @@ resource_params(cur_model)
 
 ```
 
-We see four main resource parameters. From week 2, Set multiple resources tutorial, we already know kappa, which defines the overall abundance of the resource, and lambda, which is the slope of the resource spectrum. We also know w_min and w_max, which set minimum and maximum resource sizes. But what is r_pp and how does it work?
+We see four main resource parameters. From week 2 tutorial on [multiple resources](https://course.mizer.sizespectrum.org/build/set-multiple-resources.html), we already know `kappa`, which defines the overall abundance of the resource, and `lambda`, which is the slope of the resource spectrum. We also know `w_min` and `w_max`, which set minimum and maximum resource sizes. But what is `r_pp` and what does it do?
 
-Previously we learned about the logistic growth rate function (Von Bertalanffy growth rate or population growth rates), which are described by the parameter defining the instantaneous growth rate and parameter defining the maximum value (carrying capacity, maximum size). Parameter r_pp defines resource instantaneous growth rate, which determines resource regeneration rate. It is the coefficient of the size dependent regeneration rate, and the slope of this rate is defined by -n. This means that regeneration rate decreases with size, and smaller resource size classes will regenerate faster than larger size classes.
+We have already learned about the logistic growth rate function (Von Bertalanffy growth rate or population growth rates), which is based on two main parameters - parameter defining the instantaneous growth rate and parameter defining the maximum value, such as carrying capacity or maximum size. So `r_pp` defines resource instantaneous growth rate and determines its rate of regeneration, once below the carrying capacity. `r_pp` is the coefficient of the size dependent regeneration rate, and the slope of this rate is defined by - `n`. This means that the regeneration rate decreases with size, and smaller resource size classes will regenerate faster than larger size classes.
 
-Semi-chemostat resource dynamics means that in each simulation timestep resource is depleted (eaten by fish) but also regenerating (growing back). So the amount of resource in the next time step will depend on the balance between how much was removed and how quickly it grew back. If resource regenerates slowly, even small amount of consumption by fish will reduce its availability and will deplete it. But if it regenerating very fast, we are basically assuming a constant resource level, because no matter how much fish eats, resource will always stay at a similar level, as it will fully regenerate at each time step.
+Semi-chemostat resource dynamics means that in each simulation timestep resource is depleted (eaten by fish) but also regenerating (growing back). Therefore, the amount of resource in the next time step will depend on the balance between how much was removed and how quickly it grew back. If resource regenerates slowly, even small amount of consumption by fish will reduce its availability and will deplete it. But if it regenerating very fast, we are basically assuming a constant resource level, because no matter how much fish eats, resource will always stay at a similar level, as it will fully regenerate at each time step.
 
-Just like with reproduction rate we did not need to worry about regeneration rate in the steady state, because steady() set resource abundance in such a way that we get observed fish biomasses. But if we change fish biomasses by, for example, imposing fishing, they will affect the resource and the rate of resource regeneration will determine how the resource and the entire ecosystem will respond. Let's explore it.
+Just like with reproduction rate we did not need to worry about regeneration rate in the steady state. But if we change fish biomasses by, for example, imposing fishing, they will affect the resource and the rate of resource regeneration will determine how the resource and the entire ecosystem will respond. Let's explore it.
 
-## Change resource regeneration rate
+## Changing resource regeneration rate
 
 First, let's change regeneration rate of plankton.
 
@@ -61,7 +61,7 @@ rp_Pl_low["pl", "r_pp"] <- 1
 rp_Pl_low
 ```
 
-We will use a new function setResourceSemichemostat() to update resource parameters in our models. This function will do update a resource --- GUSTAV...
+We will use a new function setResourceSemichemostat() to update resource parameters in our models. **This function will do update a resource --- GUSTAV...**
 
 ```{r}
 #currently we need to call it twice
@@ -76,30 +76,30 @@ resource_params(cm_Pl_high)
 resource_params(cm_Pl_low)
 ```
 
-After updating resource regeneration rate we will run steady().
+After updating resource regeneration rate we will run *steady()*.
 
 ```{r}
 cm_Pl_high <- steady(cm_Pl_high)
 cm_Pl_low <- steady(cm_Pl_low)
 ```
 
-We can see that convergence was achieved immediate, because the existing steady state has not changed when regeneration rate was changed. We should only notice difference when we pertube the system. We will run three simulations with the same, reduced and increased regeneration rate, and with higher fishing effort. Now that fish biomases change due to fishing, resource consumption will change and regeneration rate might become important.
+We can see that convergence was achieved immediately, because the existing steady state has not changed when regeneration rate was changed. We should only notice difference when we perturb the system. We will run three simulations with the same, reduced and increased regeneration rate, and with higher fishing effort. Now that fish biomases change due to fishing, resource consumption will change and regeneration rate might become important.
 
 ```{r}
 #Same resource params, just higher effort 
-SameRes <- project(cur_model, effort = 0.6, t_max = 50, dt = 0.1)
+SameRes <- project(cur_model, effort = 0.7, t_max = 50, dt = 0.1)
 plotBiomass(SameRes)
 
 # Higher regeneration, higher effort 
-HigherRes <- project(cm_Pl_high, effort = 0.6, t_max = 50, dt = 0.1)
+HigherRes <- project(cm_Pl_high, effort = 0.7, t_max = 50, dt = 0.1)
 plotBiomass(HigherRes)
 
 # Lower regeneration, higher effort 
-LowerRes <- project(cm_Pl_low, effort = 0.6, t_max = 50, dt = 0.1)
+LowerRes <- project(cm_Pl_low, effort = 0.7, t_max = 50, dt = 0.1)
 plotBiomass(LowerRes)
 ```
 
-It seems that even if there are any changes they are small, as it is hard to see them on the plots. We can just compare final biomasses and yields, relative to the same resource simulation. We can also compare feeding level at the last time step for all species at some specific size class (number 30, in the case below).
+It seems that even if there were any changes they were small, because we it is hard to see them on the plots. We can just compare final biomasses and yields, relative to the same resource simulation. We can also compare feeding level at the last time step for all species at some specific size class (number 30, in the case below).
 
 Difference from higher regeneration rate
 
@@ -118,17 +118,17 @@ getFeedingLevel(LowerRes)[idxFinalT(LowerRes), ,30]/getFeedingLevel(SameRes)[idx
 
 ```
 
-We can see that the differences are tiny (especially compared with all the uncertainties in the model). We conclude that for this scenario selection of r_pp may not be so important, as the system is not sensitive to it.
+We can see that in this case the differences are very small, a maximum of 2%, which is very little considering all the uncertainties in the model. We conclude that for when we want to explore increases in fishing effort selection of `r_pp` may not be so important, as the system is not sensitive to it. However, there is a catch. In our system mortalities on small individuals are very low and we didn't bother to fix them with additional mortality to get exponentially decreasing mortality curves, observed in nature. Had we done that, even small changes in resource and larval feeding level might be important. This is because lower feeding by larvae will make them grow slower, they will spend more time in smallest size classes with very high mortality, and this will affect the entire ecosystem. You can read about it, in [this study](https://onlinelibrary.wiley.com/doi/full/10.1111/faf.12465). And if you want to explore it further and implement it to your model, the mizer code is [here](https://github.com/sizespectrum/plankton-anchovy).
 
 ## Option 1: Changes in total plankton abundance
 
-Now we want to explore how the system might respond to the overall changes in resource abundance. Perhaps due to eutrophication or climate change the overall abundance will increases or decreases. We can explore it in a simple way by changing kappa parameter.
+Now we want to explore how our ecosytsem might respond to the overall changes in resource abundance. Perhaps due to climate change the overall resource abundance will increase or decrease. We can explore it in a simple way by changing kappa parameter.
 
-Important!
+**Important!**
 
-Traditionally mizer used kappa to define resource abundance at carrying capacity. The actual resource abundance would emerge based on the consumption imposed by fish and resource regeneration rate. MizerExperimental is now changing what parameter kappa means. Now kappa defines the observed or emergent resource abundance at steady state. After all, Sheldon's spectra in natural ecosystems reflect abundances in natural systems and not a hypothetical carrying capacity that would emerge if there was no feeding on the resource. This change in kappa definition is largely theoretical and it does not affect new models or simulations from earlier built models. But it is an important theoretical distinction, which we should bear in mind. With this new update steady() will chose the carrying capacity in such a way that with the current consumption from fish and resource regeneration rate, the abundance of the resource will be set at the level defined by kappa. Beginner mizer users do not need to go into specific details of this, but more advanced users may want to pay attention here.
+Traditionally mizer used `kappa` to define **resource abundance at carrying capacity**. The actual, observed resource abundance would emerge based on the consumption imposed by fish and resource regeneration rate. MizerExperimental is now changing what parameter `kappa` means and uses it to describe the **abundance of** **observed or emergent resource abundance** at steady state. After all, Sheldon's spectra in natural ecosystems reflect abundances in natural systems and not a hypothetical carrying capacity that would emerge if there was no feeding on the resource. This change in `kappa` definition is largely theoretical and it does not affect new models or simulations from earlier built models. But it is an important distinction, which we should bear in mind. With this new update, *steady()* will chose the carrying capacity in such a way that with the current resource consumption rate and resource regeneration rate, the emergent steady state abundance of the resource will be set at the level defined by `kappa`. Beginner mizer users do not need to go into specific details of this, but more advanced users may want to pay attention.
 
-Now we will update plankton kappa in the same way as we updated r_pp. Just to make sure we see some impact, let's increase or decrease kappa by 50% and project to a new state. Here we will be comparing just the final, equilibriums system states with two differnet resource levels. We are not paying attention to transition into this final state.
+Now we will update plankton `kappa` in the same way as we updated `r_pp`. Just to make sure we see some impact, let's increase or decrease `kappa` by 50% and project to a new state. As before, we will be comparing just the final, equilibrium system states with two different resource levels. We are not paying attention to transition into this final state.
 
 ```{r}
 #create new resource parameter data frames for more and less plankton 
@@ -159,7 +159,7 @@ plotSpectra(cm_More_Pl)
 plotSpectra(cm_Less_Pl)
 ```
 
-Spectra for plankton look different (relative to benthos spectrum). Now we will project for 50 years with the new level and compare to the unchanged conditions.
+Now we will project for 50 years with the new level and compare to the unchanged conditions.
 
 ```{r}
 #project the same model without any changes (nothing should change)
@@ -190,14 +190,16 @@ getFeedingLevel(sim_MorePlankton)[idxFinalT(sim_MorePlankton), ,80]/getFeedingLe
 
 ```
 
-These results are quite expected. As plankton abundance increased, biomasses and yields for all species also increased. Now let's look what happens when plankton abundance decreases. First biomasses and yields.
+These results are quite expected. As plankton abundance increased, biomasses and yields for all species also increased. Roach benefited most, but pikeperch was also affected positively. Predator_fish also increasd.
+
+Now let's look what happens when plankton abundance decreases. First look at biomasses and yields.
 
 ```{r}
 getBiomass(sim_LessPlankton)[idxFinalT(sim_LessPlankton), ] / getBiomass(sim_Same)[idxFinalT(sim_Same), ]
 getYield(sim_LessPlankton)[idxFinalT(sim_LessPlankton), ] / getYield(sim_Same)[idxFinalT(sim_Same), ]
 ```
 
-The differnece is more pronounced for roach, pikeperch and predator_fish. For other species, such as perch the difference is small, and this is probably driven by both changes in plankton and decrease in predation. We can also look at feeding levels
+The effect of decreasing plankton abundance is strongest on roach, pikeperch and predator_fish. So the overall effects of 50% increase and decrease in plankton `kappa` are rather symmetrical and expected. We can also look at feeding levels
 
 ```{r}
 getFeedingLevel(sim_LessPlankton)[idxFinalT(sim_LessPlankton), ,20]/getFeedingLevel(sim_Same)[idxFinalT(sim_Same), ,20]
@@ -207,7 +209,7 @@ getFeedingLevel(sim_LessPlankton)[idxFinalT(sim_LessPlankton), ,80]/getFeedingLe
 
 ## Option 2: Changes in total benthos abundance
 
-From the plankton exercise we might expect that chaning benthos will lead to similar ecosystem change. But this is not necessarily the case, because all species feed on plankton, but only some species feed on benthos. Without exploring this question specifically in a multi-species context, we cannot really predict. But we have a nice model, so we should check. We will follow exactly the same steps.
+From the plankton exercise we might expect that changing benthos will lead to similar ecosystem change. But this is not necessarily the case, because all species feed on plankton, yet only some species feed on benthos. Without exploring this question in a multi-species context, we cannot really predict. We will follow exactly the same steps.
 
 ```{r}
 #create new resource parameter data frames for more and less plankton 
@@ -225,10 +227,7 @@ rp_Less_Be
 
 #put new resource dataframes into a model 
 cm_More_Be <- setResourceSemichemostat(cur_model, rp_More_Be)
-cm_More_Be <- setResourceSemichemostat(cm_More_Be, rp_More_Be)
-
 cm_Less_Be <- setResourceSemichemostat(cur_model, rp_Less_Be)
-cm_Less_Be <- setResourceSemichemostat(cm_Less_Be, rp_Less_Be)
 
 #check
 plotSpectra(cm_More_Be)
@@ -248,77 +247,131 @@ getBiomass(sim_MoreBenthos)[idxFinalT(sim_MoreBenthos), ] / getBiomass(sim_Same)
 getYield(sim_MoreBenthos)[idxFinalT(sim_MoreBenthos), ] / getYield(sim_Same)[idxFinalT(sim_Same), ]
 ```
 
-And with less benthos, when changes might be more pronounced
+Surprisingly, effects of decreasing benthos are far less pronounced on benthivorous fish, like roach, carrasius and breams. And it is perch and pikeperch that increased most, when benthos increased.
+
+Now let's look at impacts of reduced benthos abundance.
 
 ```{r}
 getBiomass(sim_LessBenthos)[idxFinalT(sim_LessBenthos), ] / getBiomass(sim_Same)[idxFinalT(sim_Same), ]
 getYield(sim_LessBenthos)[idxFinalT(sim_LessBenthos), ] / getYield(sim_Same)[idxFinalT(sim_Same), ]
 ```
 
-We will also look at feeding levels of small individuals (size class 20) and large individuls (size class 80)
+Again, biggest impacts are seen on perch and pikeperch, while benthivorous species show very little effect, compared to changes in plankton. This is despite the fact that relative feeding levels of large individuals of benthivorous fish clearly decrease when benthos abundance decreases.
 
 ```{r}
-getFeedingLevel(sim_LessBenthos)[idxFinalT(sim_LessBenthos), ,20]/getFeedingLevel(sim_Same)[idxFinalT(sim_Same), ,20]
 getFeedingLevel(sim_LessBenthos)[idxFinalT(sim_LessBenthos), ,80]/getFeedingLevel(sim_Same)[idxFinalT(sim_Same), ,80]
 ```
 
-Here we see that by reducing benthos ouf predatory fish suffered most, with their biomases and yields decreasing. Feeding levels (relative to no changes in the resource) decreased for all species, but benthivorous species probably benefited from reduced predation, hence their yields didn't change much or even increased.
+It appears that benthivorous species benefited from reduced predation, hence their yields didn't change much or even increased.
+
+This is just a simple exploration, but it demonstrates that in a multi-species system that consists of different trophic groups (planktivores, benthivores, predators), changes in plankton and benthos resource levels can have different and sometimes unexpected effects on species and yields. Also, different resources are likely to respond to climate change differently, and mizerMR provides an opportunity to explore it. Remember, you can set more than two resources in mizerMR. In fact every species could have its own resource, although this would be a pretty boring model. But if you have a good reason to set 3 or 4 separate resources, this can be easily done.
 
 ### Exercise 1
 
-Repeat the same steps for your model, save results and commit.
+TODO: Repeat the same steps for your model, save results and commit.
 
 ### Exercise 2
 
-Now change the lambda parameter, first for plankton and then for benthos. For plankton decrease lambda from 2.05 to 2.00. For benthos decrease lambda from 1.9 to 1.8. Project for 50 years, save results and commit.
+TODO: Now change the lambda parameter, first for plankton and then for benthos. For plankton decrease lambda from 2.05 to 2.00.
 
-## Option 3: changes in resource abundance and regeneration rate
+For benthos decrease lambda from 1.9 to 1.8. Project for 50 years, save results and commit.
 
-We now saw that decreases in plankton kappa had an effect on the ecosystem. We also saw that changes in regeneration rate had negligible effects on our fishing scenarios. But what happens if decreasing plankton abundance also combines with changing slopes? In the exercise above you already explored how changing lambda from 2.05 to 2.00 will affect the system. Now we will change both resource parameters.
+## Option 3: changes in resource size structure and regeneration rate
+
+It has also been suggested that climate change is changing the size structure of aquatic organisms, from plankton to fishes. We can attempt to model such changes in resource size structure by changing `lambda` parameter. Mostly, it is expected that organisms will get smaller, so we expect lambda to become steeper (larger values). But at the same time benthic organisms might have faster growth rates, so their sizes might increase. These are just entirely hypothetical scenarios, but we can explore how potentially differnet responses in plankton and benthos will affect the ecosystem. But unlike with `kappa` we change `lambda` just a bit, because even small changes will have large effects on size based feeding.
+
+We will repeat the steps from above - save the dataframe, update it with new parameters, check, put it back into params objects
 
 ```{r}
 
 #create new resource parameter data frames for more and less plankton 
-rp_lessPl2 <- rp
+rp_steeperPl <- rp
+rp_shallowBe <- rp
+rp_Both <- rp
 
-# decrease plankton kappa by 50%
-rp_lessPl2["pl", "kappa"] <- rp$kappa[1]/1.5
-#reduce slope to 2.00
-rp_lessPl2["pl", "lambda"] <- 2.00
-#reduce regeneration rate by half
-#rp_lessPl2["pl", "r_pp"] <- rp$r_pp[1]/2
+# increase plankton lambda by 0.1, setting it to 2.15 instead of 2.05
+rp_steeperPl["pl", "lambda"] <- 2.15
+# decrease benthos slope by 0.1, setting it to 1.8
+rp_shallowBe["bb", "lambda"] <- 1.8
+#And now make both steeper
+rp_Both["pl", "lambda"] <- 2.15
+rp_Both["bb", "lambda"] <- 1.8
+
 #check
-rp_lessPl2
+rp_steeperPl
+rp_shallowBe
+rp_Both
 
 #put new resource dataframes into a model 
-cm_lessPl2 <- setResourceSemichemostat(cur_model, rp_lessPl2)
-cm_lessPl2 <- setResourceSemichemostat(cm_lessPl2, rp_lessPl2)
+cm_steeperPl <- setResourceSemichemostat(cur_model, rp_steeperPl)
+cm_shallowBe <- setResourceSemichemostat(cur_model, rp_shallowBe)
+cm_Both <- setResourceSemichemostat(cur_model, rp_Both)
+```
 
+Now we project with steeper plankton slope and same effort for 50 years and compare final biomasses and yields
+
+```{r}
 #project 
-sim_lessPl2 <- project(cm_lessPl2, effort = 0.3, t_max = 50, dt = 0.1)
-plotBiomass(sim_lessPl2)
+sim_steeperPl <- project(cm_steeperPl, effort = 0.3, t_max = 50, dt = 0.1)
+plotBiomass(sim_steeperPl)
 
 #compare biomasses to simulation without resource change 
-getBiomass(sim_lessPl2)[idxFinalT(sim_lessPl2), ] / getBiomass(sim_Same)[idxFinalT(sim_Same), ]
-getYield(sim_lessPl2)[idxFinalT(sim_lessPl2), ] / getYield(sim_Same)[idxFinalT(sim_Same), ]
+getBiomass(sim_steeperPl)[idxFinalT(sim_steeperPl), ] / getBiomass(sim_Same)[idxFinalT(sim_Same), ]
+getYield(sim_steeperPl)[idxFinalT(sim_steeperPl), ] / getYield(sim_Same)[idxFinalT(sim_Same), ]
+```
 
+Here changes are more dramatic, with all species increasing their biomases with steeper plankton slopes. This might sound strange and counter intuitive, but we must realise that slope only affects the steepness of the resource, keeping abundance at 1g constant. So steeper slopes mean less plankton larger than 1 g, but more plankton small than 1 g. And since our maximum plankton size is only 1g, we only increased its overall abundance!
+
+Now let's look at changes in benthos slope.
+
+```{r}
+#project 
+sim_shallowBe <- project(cm_shallowBe, effort = 0.3, t_max = 50, dt = 0.1)
+plotBiomass(sim_shallowBe)
+
+#compare biomasses to simulation without resource change 
+getBiomass(sim_shallowBe)[idxFinalT(sim_shallowBe), ] / getBiomass(sim_Same)[idxFinalT(sim_Same), ]
+getYield(sim_shallowBe)[idxFinalT(sim_shallowBe), ] / getYield(sim_Same)[idxFinalT(sim_Same), ]
+```
+
+With more shallow benthos slopes, roach and pikeperch are affected badly and other benthivores decrease slighly, but are probably benefiting from reduced predation due to reduced predator biomass. We can compare feeding level changes through time and see that large predators have largest decreases in feeding level.
+
+```{r}
+getFeedingLevel(sim_shallowBe)[idxFinalT(sim_shallowBe), ,80]/getFeedingLevel(sim_Same)[idxFinalT(sim_Same), ,80]
+```
+
+And what happens if both plankton and benthos slopes change?
+
+```{r}
+#project 
+sim_Both <- project(cm_Both, effort = 0.3, t_max = 50, dt = 0.1)
+plotBiomass(sim_Both)
+
+#compare biomasses to simulation without resource change 
+getBiomass(sim_Both)[idxFinalT(sim_Both), ] / getBiomass(sim_Same)[idxFinalT(sim_Same), ]
+getYield(sim_Both)[idxFinalT(sim_Both), ] / getYield(sim_Same)[idxFinalT(sim_Same), ]
+```
+
+Now effects partly balance each other out, but to understand this better we will compare to simulations where, for example, only plankton slope changed. This can help isolate the interacting effects.
+
+```{r}
 #compare biomasses to simulation where only kappa changed
-getBiomass(sim_lessPl2)[idxFinalT(sim_lessPl2), ] / getBiomass(sim_LessPlankton)[idxFinalT(sim_LessPlankton), ]
-getYield(sim_lessPl2)[idxFinalT(sim_lessPl2), ] / getYield(sim_LessPlankton)[idxFinalT(sim_LessPlankton), ]
+getBiomass(sim_Both)[idxFinalT(sim_Both), ] / getBiomass(sim_steeperPl)[idxFinalT(sim_steeperPl), ]
+getYield(sim_Both)[idxFinalT(sim_Both), ] / getYield(sim_steeperPl)[idxFinalT(sim_steeperPl), ]
 
 ```
 
-We can see much larger effects. You can also try to combine these changes with changes in the resource regeneration rate (which can either go up or down due to climate change) and see how many options we already have. And then these plankton changes will probably also interact with changes in benthic resource, and feed back into the ecosystem through species interactions. Moreover, our system response to these changes will depend on reproduction level and resource resilience parameters (regeneration rate), and it will depend on other parameters for our species. This gets complicated very quickly. On top of that we probably want to explore how fishing might interact with changes in the resource abundance, so that gets even more complicated. This is not to discourage you, but to show that there are plenty of opportunities for exploration and intersting publications. We are still very uncertain on how resources will respond to changes in climate and will probably learn a lot more in the future.
+You can also try to combine these changes in `lambda` with changes in the resource regeneration rate (which can either go up or down due to climate change) and see how many options we already have. And then these `lambda` changes will probably also interact with changes in `kappa`, and feed back into the ecosystem through species interactions. Moreover, our system response to these changes will depend on reproduction level and resource resilience parameters (regeneration rate), and it will depend on other parameters for our species. This gets complicated very quickly. On top of that we probably want to explore how fishing might interact with changes in the resource abundance, so that gets even more complicated. This is not to discourage you, but to show that there are plenty of opportunities for exploration and interesting publications. We are still very uncertain on how resources will respond to changes in climate and will probably learn a lot more in the future.
 
 ## Option 4: changes through time
 
 Scenario explorations above where very simple, because we changed one or several of resource parameters and projected the system to a new steady state. While the mechanics of setting such scenarios is straightforward, examples above show that understanding all the complex ways how simple changes can affect the ecosystem may be harder.
 
-However, many researchers do not want to explore such hypothetical resource changes, but instead use independently derived time series of resource abundance provided by e.g. satellite observations and earth system models. This is important and useful, although we do encourage you to play with simple changes first to gain understanding about your system and its sensitivity to resource changes. Just like with fishing mortality scenarios, ecosystem response will depend strongly on our model calibration. This means that before we go into complex scenarios we need to be satisfied with the parameters we provided and know limitations of our simulations. For example, alternative, equally possible model calibrations may provide different quantitative change (i.e. how much the biomasses or yields change), but similar qualitatitve response in the ecosystem. If quantitative differences are very large, perhaps it would be best to focus on more general qualitative responses.
+However, many researchers do not want to explore such hypothetical resource changes, but instead use independently derived time series of resource abundance provided by e.g. satellite observations and earth system models. This is important and useful, although we do encourage you to play with simple changes first to gain understanding about your system and its sensitivity to resource changes. Just like with fishing mortality scenarios, ecosystem response will depend strongly on our model calibration. This means that before we go into complex scenarios we need to be satisfied with the parameters we provided and know limitations of our simulations. For example, alternative, equally possible model calibrations may provide different quantitative change (i.e. how much the biomasses or yields change), but similar qualitative response in the ecosystem. If quantitative differences are very large, perhaps it would be best to focus on more general qualitative responses.
 
 But let's look at how we can implement multiple drivers under climate change by coupling mizer to outputs of earth system models such as temperature, abundance of different size classes of plankton or detrital "marine snow" that reaches the seafloor through time. This example is provided by Julia Blanchard and it demonstrates how to implement changes in resource abundance and size structure through time, by working with pre-made resource size spectra files (n_pp) that were estimated from two climate change scenarios from earth system model output.
 
-These resource spectra files were derived from small and large phytoplankton biomasses predicted by the Fisheries and Marine Ecosystems Model Intercomparison Project ([FishMIP](https://www.isimip.org/about/marine-ecosystems-fisheries/)). There are a lot of steps in processing these data, but we won't go in to that here. The main goal is to demonstrate how to use these scenario forcings to create changes in your mizer resources through time. This example will use another model - Patagonian toothfish fishery ecosystem. We will combine these plankton forcings with the status quo fishing scenario we used last time to explore how the marine demersal fish community changes under this forcing through time. The two model scenarios are ssp585 (highest emissions or "worst") and ssp126 (mitigation to cut emissions or "best"). You will need to install mizerHowTo package to get access to the new model and some new functions. Note - this new model does NOT use multiple resources, we are u
+These resource spectra files were derived from small and large phytoplankton biomasses predicted by the Fisheries and Marine Ecosystems Model Intercomparison Project ([FishMIP](https://www.isimip.org/about/marine-ecosystems-fisheries/)). There are a lot of steps in processing these data, but we won't go in to that here. The main goal is to demonstrate how to use these scenario forcings to create changes in your mizer resources through time. This example will use another model - Patagonian toothfish fishery ecosystem. We will combine these plankton forcings with the status quo fishing scenario we used last time to explore how the marine demersal fish community changes under this forcing through time. The two model scenarios are ssp585 (highest emissions or "worst") and ssp126 (mitigation to cut emissions or "best"). You will need to install mizerHowTo package to get access to the new model and some new functions. Note - this new model does NOT use multiple resources
 
 ```{r,message=FALSE}
 remotes::install_github("sizespectrum/mizerHowTo")
@@ -329,7 +382,7 @@ source("helper_functions.R")
 Read in the parameters and the climate scenario inputs for the resource spectrum.
 
 ```{r}
-sim <- readRDS("use/toothfish/params10.RDS")
+sim <- readRDS("toothfish/params10.RDS")
 params <- sim@params
 first_year <- 2021
 last_year <- 2070
@@ -348,13 +401,11 @@ plankton_forcing <- function(params, t, ...) {
 }
 ```
 
-And now we update plankton dynamics from semi-chemostat to forcing. This means that in each year resource abundance (only plankton in this case, as this is only one resource model) will be determined not by mortality in the model, but overwritten with externally provided value
+And now we update plankton dynamics from semichemostat to forcing. This means that in each year resource abundance (only plankton in this case, as this is only one resource model) will be determined not by mortality in the model, but overwritten with externally provided value
 
 ```{r}
 
 params<- setResource(params, resource_dynamics = "plankton_forcing")
-
-#?? WHAT? don't get what this means 
 
 ## Time index
 other_params(params)$t_idx = -2020 # n_pp array starts at 2021 so any time generated by the effort array will match the rownumber of the n_pp array
@@ -377,7 +428,9 @@ other_params(params_worst)$n_pp_array <- readRDS("toothfish/IPSL_n_pp_array_CCsc
 
 ```
 
-Now we will project Have a look how the model responds through time without fishing. TODO: - except I can't! If I run the line below I get Error in prey\[, idx_sp\] : incorrect number of dimensions
+Now we will project Have a look how the model responds through time without fishing.
+
+**TODO: - except I can't! If I run the line below I get Error in prey\[, idx_sp\] : incorrect number of dimensions**
 
 ```{r,message=FALSE}
 sim_best <- project(params_best, effort = 0, tmax = 50)
@@ -388,121 +441,25 @@ plotBiomass(sim_best)
 plotBiomass(sim_worst)
 ```
 
-This shows how the effects of plankton changing alone can have a big effects on the model.
-
-The above example shows how you can directly use outputs of earth system models for projections (GFDL inputs - FishMIP), to easily show you what functions to work we will use 2 stylised scenarios that you can adapt and explore for your own model scenarios.
+This shows how the effects of plankton changing alone can have a big effects on the model. The above example shows how you can directly use outputs of earth system models for projections (GFDL inputs - FishMIP).
 
 ## Summary
 
-## Understanding semi-chemostat dynamics
-
-```{r, eval = F}
-
-resource_at_size <- cur_model@initial_n_pp
-getRes
-
-#how do we calculate how much resource we will have in the next time step? 
-tmp <- (sim@params@rr_bb * sim@params@cc_bb / (sim@params@rr_bb + m2_benthos))
-        n_bb <- tmp - (tmp - n_bb) * exp(-(sim@params@rr_bb + m2_benthos) * dt)
-
-    res@rr_bb[] <- r_bb * res@w_full^(n - 1) # weight specific benthos growth rate
-    res@cc_bb[] <- kappa_ben *res@w_full^(-lambda_ben) # benthos carrying capacity
-    res@cc_bb[res@w_full > w_bb_cutoff] <- 0  # set density of sizes < benthic cutoff size
-    res@cc_bb[res@w_full < min_w_bb] <- 0 #set density of sizes < min size of benthos ##AAdec
-    res@initial_n_bb <- res@cc_bb  # put this as initial density
-    
-     # Dynamics of benthic spectrum uses a semi-chemostat model 
-    # currently it follows exactly the same rules as plankton but has it's own parameters
-        tmp <- (sim@params@rr_bb * sim@params@cc_bb / (sim@params@rr_bb + m2_benthos))
-        n_bb <- tmp - (tmp - n_bb) * exp(-(sim@params@rr_bb + m2_benthos) * dt)
-        n_bb[sim@params@initial_n_bb == 0] <- 0 # destroy what's below (and above) threshold sizes
- 
-
-
-### Explore spectra dynamics
-
-#How would small changes in kappa and lambda affect the spectrum. 
-
-
-params <- MizerParams(mariaParams, interaction = inter, no_w = no_size_groups, kappa = kappa, lambda = lambda, min_w_pp = min_w_pp, w_pp_cutoff = w_pp_cutoff, r_pp = r_pp, kappa_ben = kappa_ben, lambda_ben = lambda_ben, w_bb_cutoff = w_bb_cutoff, r_bb = r_bb, min_w_bb = min_w_bb, kappa_alg = kappa_alg, lambda_alg = lambda_alg, w_aa_cutoff = w_aa_cutoff, r_aa = r_aa, min_w_aa = min_w_aa, store_kernel = F)
-
-w_full <- params@w_full[which(params@w_full > min_w_bb & params@w_full < w_bb_cutoff)]
-dw_full <- params@dw_full[which(params@w_full > min_w_bb & params@w_full < w_bb_cutoff)]
-n_bb <- stable_ben[which(params@w_full > min_w_bb & params@w_full < w_bb_cutoff)]
-n_bb_C <- n_bb*dw_full
-init_nbb <- params@initial_n_bb[which(params@w_full > min_w_bb & params@w_full < w_bb_cutoff)]
-init_nbb_C <- init_nbb*dw_full
-
-n <- 0.75
-m2_benthos <- ben_mort
-dt.t = 0.2
-
-r_bb <- 1 #baseline is 1
-r_bb21 <- 1
-lambda_ben <- 1.9
-lambda_ben21 <- 2.1
-kappa_ben <- 6
-kappa_ben21 <- 4
-
-rr_bb <- r_bb * w_full^(n - 1) # weight specific benthos growth rate
-rr_bb21 <- r_bb21 * w_full^(n - 1) 
-
-cc_bb <- kappa_ben *w_full^(-lambda_ben) # benthos carrying capacity: this sets initial abundance 
-cc_bb21 <- kappa_ben21 *w_full^(-lambda_ben21) # benthos carrying capacity
-
-# Dynamics of benthic spectrum uses a semi-chemostat model 
-tmp <- (rr_bb * cc_bb / (rr_bb + m2_benthos))
-tmp21 <- (rr_bb21 * cc_bb21 / (rr_bb21 + m2_benthos))
-
-n_bb_next <- tmp - (tmp - n_bb) * exp(-(rr_bb + m2_benthos) * dt.t)
-n_bb_next21 <- tmp21 - (tmp21 - n_bb) * exp(-(rr_bb21 + m2_benthos) * dt.t)
-
-n_bb_next_C <- n_bb_next*dw_full
-n_bb_next21_C <- n_bb_next21*dw_full
-
-plot(log(w_full), log(n_bb_C), type = "l", col = "orange", lwd = 1.5, main = "Benthos spectrum", xlab = "log weigth(g)", ylab = "log abundance per m2")
-points(log(w_full), log(init_nbb_C), type = 'l', col = 'black', lwd = 1.5)
-points(log(w_full), log(n_bb_next_C), type = 'l', col = 'blue', lwd = 1.5)
-points(log(w_full), log(n_bb_next21_C), type = 'l', col = 'red', lwd = 1.5)
-abline(v=0, lty=2)
-
-
-```
-
-Equation for semi-chemostat here
-
-Let's create a vector of resource abundances, apply some mortality on them and see how much resource is left in the next time step.
-
-Let's change the regeneration rate and apply a certain mortality to see what happens
-
-```{r}
-#create a vector of resource based on w_min, w_max, kappa and lambda (do we need n here?)
-
-#set regeneration rate based on r_pp=10 and n
-
-#Apply same mortality on all sizes (say mortality of 1), show how much resource is left in the next time step 
-
-#reduce regeneration rate to 4, do the same 
-
-#reduce rate of 2 or 1, do the same 
-
-#increase it back to 10 and increase mortality to 10 or 100 to see how much mortality is required to deplete it 
-
-
-```
+1.  Resource regeneration rate `r_pp` will determine resilience of the resource spectrum to mortality imposed by fish. In many scenarios selection of regeneration rate may not make a big impact, but in others it will be important. Therefore we should explore how this parameter might affect our model dynamics (together with other parameters, of course).
+2.  Climate change is likely to impact resource abundance, size structure and productivity. Mizer allows you to explore how these changes might impact aquatic ecosystems and yields.
+3.  My separating plankton and benthos resource mizerMR allows us to model separate resource responses to climate, which are likely to lead to different responses in different trophic groups of fish. There are many potential ways how these resources can change, so one needs to carefully consider how best to select scenarios.
+4.  We can change resource dynamics to functions other than semi-chemostat. Mizer allows you to force models with externally obtained resource time series. This way we can explore gradual ecosystem changes through time.
 
 ## Further explorations and climate change effects
 
-If you want to explore how changes in the resource due to climate change can affect ecosystems with multiple resources you can look at two recent model applications. One example is a recently published [Baltic Sea mizer model](https://onlinelibrary.wiley.com/doi/full/10.1111/gcb.16341) where authors explored how changes in resource total abundance (kappa) and regeneration rate (r_pp) might affect the ecosystem.
+If you want to explore how changes in the resource due to climate change can affect ecosystems with multiple resources you can look at two recent model applications. One example is a recently published [Baltic Sea mizer model](https://onlinelibrary.wiley.com/doi/full/10.1111/gcb.16341) where authors explored how changes in resource total abundance (`kappa`) and regeneration rate (`r_pp`) might affect the ecosystem.
 
 Another example in the Tasmanian rocky reef model (a preprint can be found [here](https://www.biorxiv.org/content/10.1101/2022.06.20.496925v1.abstract)), where authors used multiple parameter combinations to assess how changes in kappa and lambda for plankton and benthos might affect the ecosystem. The Tasmanian model has a supporting [R Shiny application](https://fishsize.shinyapps.io/BenthicSizeSpectrum/) that allows you explore your own resource change scenarios, using one parameterisation. Here you can change kappa and lambda of either resource and combine it with physiological responses to temperature change, by also changing temperatures. This will display changes in biomass, yields and mean sizes for the modeled fish species.
 
-Gustav to add a paper where extra juvenile mortality makes a big difference with r_pp
-
 Despite all the complexities above, we barely scratched the surface about the possible ways how climate change might affect our ecosystems. For example, so far we did not include any direct temperature effects. Even though we modeled resource change, this was imposed externally and did not combine with possible effects of temperature on physiology. If you want to also include temperature effects on fish physiological rates, there are several options:
 
-1\) You can use a simple Arrhenius equation of exponentially increasing physiological rates. See examples here and here. Explain how to update rates with preferred rates.
+1\) You can replace rate functions in mizer with your own set functions. For example, you might want to use a simple Arrhenius scaling, or other temperature responses. You can read more about changing rates here (**TODO: give link**)
 
-2\) You can use therMizer addon, which aims to account for dome-shaped species responses to temperature - increased rates up to a certain temperature and decreases after that. Here you can allow for different temperature sensitivities among species. Change with temperature in time demonstratio.
+2\) You can use therMizer plug-in, which aims to account for dome-shaped species responses to temperature - increased rates up to a certain temperature and decreases after that. Here you can allow for different temperature sensitivities among species. **TODO: link to the blog**
 
-3\) Of course climate change will also affect the composition of species, because with warming new species will enter the ecosystem. This is an important aspect to address, but has not been thoroughly explored yet. Mizer allows you to add new species into ecosystem, and you can find an example in the mizerHowTo package and on this link. However, it is not necessarily clear how we tune parameters of new species for which we don't yet have data (in that ecosystem at least), so exploring climate heating driven species composition change is not straightforward.
+3\) Of course climate change will also affect the composition of species, because with warming new species will enter the ecosystem. This is an important aspect to address, but has not been thoroughly explored yet. Mizer allows you to add new species into ecosystem, and you can find an example in the [mizerHowTo](https://github.com/sizespectrum/mizerHowTo) package. However, it is not necessarily clear how we tune parameters of new species for which we don't yet have data (in that ecosystem at least), so exploring climate heating driven species composition change is not straightforward.
