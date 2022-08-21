@@ -22,16 +22,97 @@ cur_model <- readParams("cur_model_resilient.rds")
 ## Understanding semi-chemostat dynamics
 
 ```{r}
+
+resource_at_size <- cur_model@initial_n_pp
+getRes
+
+#how do we calculate how much resource we will have in the next time step? 
+tmp <- (sim@params@rr_bb * sim@params@cc_bb / (sim@params@rr_bb + m2_benthos))
+        n_bb <- tmp - (tmp - n_bb) * exp(-(sim@params@rr_bb + m2_benthos) * dt)
+
+    res@rr_bb[] <- r_bb * res@w_full^(n - 1) # weight specific benthos growth rate
+    res@cc_bb[] <- kappa_ben *res@w_full^(-lambda_ben) # benthos carrying capacity
+    res@cc_bb[res@w_full > w_bb_cutoff] <- 0  # set density of sizes < benthic cutoff size
+    res@cc_bb[res@w_full < min_w_bb] <- 0 #set density of sizes < min size of benthos ##AAdec
+    res@initial_n_bb <- res@cc_bb  # put this as initial density
+    
+     # Dynamics of benthic spectrum uses a semi-chemostat model 
+    # currently it follows exactly the same rules as plankton but has it's own parameters
+        tmp <- (sim@params@rr_bb * sim@params@cc_bb / (sim@params@rr_bb + m2_benthos))
+        n_bb <- tmp - (tmp - n_bb) * exp(-(sim@params@rr_bb + m2_benthos) * dt)
+        n_bb[sim@params@initial_n_bb == 0] <- 0 # destroy what's below (and above) threshold sizes
+ 
+
+
+### Explore spectra dynamics
+
+#How would small changes in kappa and lambda affect the spectrum. 
+
+
+params <- MizerParams(mariaParams, interaction = inter, no_w = no_size_groups, kappa = kappa, lambda = lambda, min_w_pp = min_w_pp, w_pp_cutoff = w_pp_cutoff, r_pp = r_pp, kappa_ben = kappa_ben, lambda_ben = lambda_ben, w_bb_cutoff = w_bb_cutoff, r_bb = r_bb, min_w_bb = min_w_bb, kappa_alg = kappa_alg, lambda_alg = lambda_alg, w_aa_cutoff = w_aa_cutoff, r_aa = r_aa, min_w_aa = min_w_aa, store_kernel = F)
+
+w_full <- params@w_full[which(params@w_full > min_w_bb & params@w_full < w_bb_cutoff)]
+dw_full <- params@dw_full[which(params@w_full > min_w_bb & params@w_full < w_bb_cutoff)]
+n_bb <- stable_ben[which(params@w_full > min_w_bb & params@w_full < w_bb_cutoff)]
+n_bb_C <- n_bb*dw_full
+init_nbb <- params@initial_n_bb[which(params@w_full > min_w_bb & params@w_full < w_bb_cutoff)]
+init_nbb_C <- init_nbb*dw_full
+
+n <- 0.75
+m2_benthos <- ben_mort
+dt.t = 0.2
+
+r_bb <- 1 #baseline is 1
+r_bb21 <- 1
+lambda_ben <- 1.9
+lambda_ben21 <- 2.1
+kappa_ben <- 6
+kappa_ben21 <- 4
+
+rr_bb <- r_bb * w_full^(n - 1) # weight specific benthos growth rate
+rr_bb21 <- r_bb21 * w_full^(n - 1) 
+
+cc_bb <- kappa_ben *w_full^(-lambda_ben) # benthos carrying capacity: this sets initial abundance 
+cc_bb21 <- kappa_ben21 *w_full^(-lambda_ben21) # benthos carrying capacity
+
+# Dynamics of benthic spectrum uses a semi-chemostat model 
+tmp <- (rr_bb * cc_bb / (rr_bb + m2_benthos))
+tmp21 <- (rr_bb21 * cc_bb21 / (rr_bb21 + m2_benthos))
+
+n_bb_next <- tmp - (tmp - n_bb) * exp(-(rr_bb + m2_benthos) * dt.t)
+n_bb_next21 <- tmp21 - (tmp21 - n_bb) * exp(-(rr_bb21 + m2_benthos) * dt.t)
+
+n_bb_next_C <- n_bb_next*dw_full
+n_bb_next21_C <- n_bb_next21*dw_full
+
+plot(log(w_full), log(n_bb_C), type = "l", col = "orange", lwd = 1.5, main = "Benthos spectrum", xlab = "log weigth(g)", ylab = "log abundance per m2")
+points(log(w_full), log(init_nbb_C), type = 'l', col = 'black', lwd = 1.5)
+points(log(w_full), log(n_bb_next_C), type = 'l', col = 'blue', lwd = 1.5)
+points(log(w_full), log(n_bb_next21_C), type = 'l', col = 'red', lwd = 1.5)
+abline(v=0, lty=2)
+
+
+```
+
+
+```{r}
 #look at resource params 
 resource_params(cur_model)
 
 ```
 
-We already know kappa - overall abundance, and lambda - slope of the spectrum. We also briefly discussed w_min and w_max for the resources. But what is r_pp and how does it work?
+In this array we see four main resource 
+
+We already know kappa - overall abundance (or carrying capacity???), and lambda - slope of the spectrum. We also briefly discussed w_min and w_max for the resources. But what is r_pp and how does it work?
+
+We already learned about growth rates, which describe how quickly an individual or population regenerates to the maximum abundance (or carrying capacity). So r_pp defines exactly that, resource regeneration rate. Just like with reproduction rate we did not need to worry about it in the steady state, as mizer steady() set resource abundance in such a way that we get observed fish biomasses. But if we change these biomasses by imposing fishing, for example, they will affect the resource and the rate of resource regeneration will determine how resource and the entire ecosystem will respond. 
+
+Remember, in each simulation timestep resource is depleted (eaten by fish) but also regenerating (growing back). So the amount of resource in the next time step will depend on the balance between how much was removed and how quickly it grew back. If resource regenerates slowly, even small amount of consumption by fish will reduce its availability and will deplete it. But if it regenerating very fast, we are literally modelling a constant resrouce level, because no matter how much fish eats, resource will always stay at the level of carrying capacity, as it will fully regenerate at each time step.
+
 
 Equation for semi-chemostat here
 
-Let's create a vector of resource abundances, apply some mortality on them and see how much resource is left in the next time step. Remember, in each simulation timestep resource is depleted (eated by fish) but also regenerating (growing back). So the amount of resource in the next time step will depend on the balance bewteen how much was removed and how quickly it grew back. If resource regenerates slowly, even small amount of consumption by fish will reduce its availability and will deplete it. But if it regenerating very fast, we are literally modelling a constant resrouce level, because no matter how much fish eats, resource will always stay at the level of carrying capacity, as it will fully regenerate at each time step.
+Let's create a vector of resource abundances, apply some mortality on them and see how much resource is left in the next time step. 
 
 Let's change the regeneration rate and apply a certain mortality to see what happens
 
@@ -43,7 +124,6 @@ rp["pl", "r_pp"] <- 8
 # Create new model with the changed resource params
 cm_high_r_pp <- setResourceSemichemostat(cur_model, rp)
 ```
-
 
 ```{r}
 #create a vector of resource based on w_min, w_max, kappa and lambda (do we need n here?)
@@ -225,7 +305,7 @@ The above example shows how you can directly use outputs of earth system models 
 
 ## Summary
 
-## Further explorations and climate change effects 
+## Further explorations and climate change effects
 
 If you want to explore how changes in the resource due to climate change can affect ecosystems with multiple resources you can look at two recent model applications. One example is a recently published [Baltic Sea mizer model](https://onlinelibrary.wiley.com/doi/full/10.1111/gcb.16341) where authors explored how changes in resource total abundance (kappa) and regeneration rate (r_pp) might affect the ecosystem.
 
