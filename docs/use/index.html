@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.0.36">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>mizer course - Prepare for the mizer course</title>
+<title>mizer course - Week 3: Use mizer models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,7 +21,8 @@ ul.task-list{list-style: none;}
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../prepare/introduce-yourself.html" rel="next">
+<link href="../use/tune-resilience.html" rel="next">
+<link href="../build/refine-model.html" rel="prev">
 <link href="../images/favicon-16x16.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -52,8 +53,8 @@ ul.task-list{list-style: none;}
 }</script><link href="../site_libs/vembedr-0.1.5/css/vembedr.css" rel="stylesheet">
 <link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 <script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script><link rel="stylesheet" href="../styles.css">
-<meta name="twitter:title" content="mizer course - Prepare for the mizer course">
-<meta name="twitter:description" content="While the course only starts on Monday the 8th of August, if you like you can already start preparations:">
+<meta name="twitter:title" content="mizer course - Week 3: Use mizer models">
+<meta name="twitter:description" content="Now that you have built and examined your model at steady state, we will use it to explore changing conditions and temporal dynamics.">
 <meta name="twitter:creator" content="gustavdelius">
 <meta name="twitter:card" content="summary">
 </head>
@@ -61,7 +62,7 @@ ul.task-list{list-style: none;}
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Prepare for the mizer course</h1>
+      <h1 class="quarto-secondary-nav-title">Week 3: Use mizer models</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -82,7 +83,7 @@ ul.task-list{list-style: none;}
     <ul class="list-unstyled mt-1">
 <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../prepare/index.html" class="sidebar-item-text sidebar-link active">Prepare</a>
+            <a href="../prepare/index.html" class="sidebar-item-text sidebar-link">Prepare</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -172,7 +173,7 @@ ul.task-list{list-style: none;}
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../use/index.html" class="sidebar-item-text sidebar-link">Week 3: Use</a>
+            <a href="../use/index.html" class="sidebar-item-text sidebar-link active">Week 3: Use</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -213,11 +214,16 @@ ul.task-list{list-style: none;}
     </ul>
 </div>
 </nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#lecture" id="toc-lecture" class="nav-link active" data-scroll-target="#lecture">Lecture</a></li>
+  <li><a href="#tutorials" id="toc-tutorials" class="nav-link" data-scroll-target="#tutorials">Tutorials</a></li>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sizespectrum/mizerCourse/edit/main/use/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sizespectrum/mizerCourse/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title d-none d-lg-block">Prepare for the mizer course</h1>
+<h1 class="title d-none d-lg-block">Week 3: Use mizer models</h1>
 </div>
 
 
@@ -229,25 +235,30 @@ ul.task-list{list-style: none;}
   </div>
   
 
-</header><div class="cell" data-hash="index_cache/html/unnamed-chunk-1_d5234d016646382ead0111525dbc3eb1">
+</header><p>Now that you have built and examined your model at steady state, we will use it to explore changing conditions and temporal dynamics.</p>
+<section id="lecture" class="level3"><h3 class="anchored" data-anchor-id="lecture">Lecture</h3>
+<p>This week’s contributor is Julia Blanchard. Her lecture provides a broad overview of the different ways in which mizer is being used to help understand the consequences of change in aquatic ecosystems. There are a lot of ways! The material describes how you can set model simulations to study change, some of which are explored in this week’s tutorials.</p>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-1_2da21073ccba00ce7b849bf5c644ec9d">
 <div class="cell-output-display">
 <div class="vembedr" align="center">
 <div class="vembedr-rounded" style="border-radius: 10px;">
-<iframe src="https://www.youtube.com/embed/MesBEpwkTaQ" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+<iframe src="https://www.youtube.com/embed/Z8FW7t4xrtU" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
 </div>
 </div>
 </div>
 </div>
-<p>While the course only starts on Monday the 8th of August, if you like you can already start preparations:</p>
-<p>1) You can <a href="../prepare/introduce-yourself.html">introduce yourself</a> and your interests to your fellow participants.</p>
-<p>2) You can <a href="../prepare/install-tools.html">install the tools</a> that we will use in the course.</p>
-<p>3) You can familiarise yourself with how we will be <a href="../prepare/use-git-and-github.html">using Git and GitHub</a> in this course for collaboration and feedback on your coursework.</p>
-<p>4) We assume that you are familiar with the basics of R programming. There are plenty of free resources to learn R. You can look through <a href="https://www.rstudio.com/resources/webinars/">R studio resources</a>, go through <a href="https://r4ds.had.co.nz/">R for Data Science</a> or explore multiple other tools. You can also share your favourite tutorials or resources in the comments below.</p>
-<p>That will allow for a flying start to the course. You won’t believe how much we are looking forward to meeting you all on the 8th of August</p>
+</section><section id="tutorials" class="level3"><h3 class="anchored" data-anchor-id="tutorials">Tutorials</h3>
+<p>Using examples, the tutorials are designed to help you develop your own model simulation experiments:</p>
+<ol type="1">
+<li><p><a href="tune-resilience"><strong>Tune the resilience to fishing</strong></a> First, we will explore how sensitive your model is to the effects of fishing. We will show how the reproduction parameters influence the resilience of the species. We make adjustments to the reproduction levels to produce realistic responses to fishing intensity.</p></li>
+<li><p><a href="../use/fishing-scenarios.html"><strong>Simulate fishing scenarios</strong></a><br>
+Once the resilience to fishing is tuned, we can assess how the model responds to changes in fishing through time. This step involves looking closer at the fishing parameters in mizer and setting up different fishing scenarios.</p></li>
+<li><p><a href="../use/change-resources.html"><strong>Change resources</strong></a><br>
+Next we will look at the resource spectrum and how changes in three main resource parameters can affect our ecosystem. With three main parameters for each resource, this can quickly get complicated. We will also show an example of how to use external data on resource time series to force the mizer model.</p></li>
+</ol>
+<!-- 4.  [**Explore further scenarios**](run-your-own-scenarios.qmd)\ --><!--     This tutorial provides extra material, prepared by Julia Blanchard using another system (Patagonian toothfish fishery) as an example. Here you can learn on how to set time series of fishing changes and more. --><!-- #To get your worksheet repository for this week, follow this link: \#<https://classroom.github.com/xxx> -->
 
-
-
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -359,10 +370,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><script src="https://giscus.app/client.js" data-repo="sizespectrum/mizerCourse" data-repo-id="R_kgDOHlJwYg" data-category="Comments" data-category-id="DIC_kwDOHlJwYs4CP_7j" data-mapping="title" data-reactions-enabled="0" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../build/refine-model.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Refine your model</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../prepare/introduce-yourself.html" class="pagination-link">
-        <span class="nav-page-text">Introduce yourself</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../use/tune-resilience.html" class="pagination-link">
+        <span class="nav-page-text">Tune resilience</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

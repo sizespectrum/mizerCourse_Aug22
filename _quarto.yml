@@ -28,7 +28,6 @@ website:
   site-url: "https://course.mizer.sizespectrum.org"
   favicon: images/favicon-16x16.png
   repo-url: https://github.com/sizespectrum/mizerCourse
-  repo-branch: week-2
   repo-actions: [edit, issue]
   twitter-card:
     site: "@mizer_model"
@@ -78,8 +77,14 @@ website:
           - text: Refine your model
             href: build/refine-model.qmd
       - section: "Week 3: Use"
+        href: use/index.qmd
         contents:
-          - text: Released on 22 August
+          - text: Tune resilience
+            href: use/tune-resilience.qmd
+          - text: Simulate fishing scenarios
+            href: use/fishing-scenarios.qmd
+          - text: Change resources
+            href: use/change-resources.qmd
       - section: "Info"
         contents:
           - text: Troubleshooting

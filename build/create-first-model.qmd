@@ -42,7 +42,7 @@ When you repeat this work in your worksheet, you can check that the data was rea
 
 We will now set up a multi-species mizer model using the function `newMultispeciesParams()`. Besides the species parameters, the gear parameters and the interaction matrix, the other information that flows into a multi-species model are the resource parameters, the allometric exponents `n` and `p` and the fishing effort.
 
-We let mizer choose defaults for the resource parameters. By default, the resource carrying capacity will be set to a power law $N_R(w) = \kappa w^{-\lambda}$ with $\lambda = 2.05$, as we are already familiar with from week 1.
+We let mizer choose defaults for the resource parameters. By default, the resource number density will be set to a power law $N_R(w) = \kappa w^{-\lambda}$ with $\lambda = 2.05$, as we are already familiar with from week 1.
 
 Last week we discussed that our choice for the allometric exponents $n$ (growth exponent) and $p$ (metabolic exponent) is to take them both equal to $3/4$. By default these exponents in multi-species models are set to different values, so we will overwrite the defaults in our `newMultispeciesParams()` command.
 

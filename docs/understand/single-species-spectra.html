@@ -249,15 +249,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Week 3: Use</a>
+            <a href="../use/index.html" class="sidebar-item-text sidebar-link">Week 3: Use</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
-  Released on 22 August
-  </li>
+  <div class="sidebar-item-container"> 
+  <a href="../use/tune-resilience.html" class="sidebar-item-text sidebar-link">Tune resilience</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/fishing-scenarios.html" class="sidebar-item-text sidebar-link">Simulate fishing scenarios</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/change-resources.html" class="sidebar-item-text sidebar-link">Change resources</a>
+  </div>
+</li>
       </ul>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -299,7 +311,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul>
 </li>
   <li><a href="#summary-and-recap" id="toc-summary-and-recap" class="nav-link" data-scroll-target="#summary-and-recap">Summary and recap</a></li>
-  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sizespectrum/mizerCourse/edit/week-2/understand/single-species-spectra.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sizespectrum/mizerCourse/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sizespectrum/mizerCourse/edit/main/understand/single-species-spectra.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sizespectrum/mizerCourse/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
@@ -618,7 +630,7 @@ Coefficients:
 <div class="cell" data-hash="single-species-spectra_cache/html/unnamed-chunk-29_c98e7b2033c0834aff4d7c5a8b1bc417">
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">-</span><span class="va">m0</span> <span class="op">/</span> <span class="va">g0</span> <span class="op">-</span> <span class="fl">3</span><span class="op">/</span><span class="fl">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.714505</code></pre>
+<pre><code>[1] -1.6777</code></pre>
 </div>
 </div>
 <p>That is not quite the result of the linear model fit, but that is the nature of numerical calculations: one gets discretisation errors and rounding errors. Anyway it is close enough. And it is also amazing how we can calculate expected numbers of fish from basic assumptions and rules. Of course natural ecosystems never look like that, but if we have theoretical expectations derived from clear assumptions (about growth and mortality rate and food availability), we can start asking questions about which processes in natural ecosystems deviate from these generic assumptions, why this happens and how it should affect the observed size spectra.</p>
@@ -658,28 +670,30 @@ Coefficients:
 <p>Such species parameters are contained in a data frame inside the <code>params</code> object that we can access with the <code><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params()</a></code> function.</p>
 <div class="cell" data-df-print="tibble" data-hash="single-species-spectra_cache/html/unnamed-chunk-32_ce9994330431b7b012e6214a0a7fb360">
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                      species w_min w_inf    w_mat w_min_idx k_vb    gamma
-Target species Target species 0.001   100 25.11886         1    1 4067.903
-                     ks  f0   fc beta sigma z0 alpha   erepro
-Target species 5.906914 0.6 0.25  100   1.3  0   0.4 0.899483
-               interaction_resource    n    p   q pred_kernel_type        h k
-Target species                    1 0.75 0.75 0.8        lognormal 59.06914 0
-                w_mat25 m R_max
-Target species 22.50546 1   Inf</code></pre>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["species"],"name":[1],"type":["chr"],"align":["left"]},{"label":["w_min"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["w_inf"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["w_mat"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["w_min_idx"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["k_vb"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["gamma"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["ks"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["f0"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["fc"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["beta"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["sigma"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["z0"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["alpha"],"name":[14],"type":["dbl"],"align":["right"]},{"label":["erepro"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["interaction_resource"],"name":[16],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[17],"type":["dbl"],"align":["right"]},{"label":["p"],"name":[18],"type":["dbl"],"align":["right"]},{"label":["q"],"name":[19],"type":["dbl"],"align":["right"]},{"label":["pred_kernel_type"],"name":[20],"type":["chr"],"align":["left"]},{"label":["h"],"name":[21],"type":["dbl"],"align":["right"]},{"label":["k"],"name":[22],"type":["dbl"],"align":["right"]},{"label":["w_mat25"],"name":[23],"type":["dbl"],"align":["right"]},{"label":["m"],"name":[24],"type":["dbl"],"align":["right"]},{"label":["R_max"],"name":[25],"type":["dbl"],"align":["right"]}],"data":[{"1":"Target species","2":"0.001","3":"100","4":"25.11886","5":"1","6":"1","7":"4067.903","8":"5.906914","9":"0.6","10":"0.25","11":"100","12":"1.3","13":"0","14":"0.4","15":"0.899483","16":"1","17":"0.75","18":"0.75","19":"0.8","20":"lognormal","21":"59.06914","22":"0","23":"22.50546","24":"1","25":"Inf","_rn_":"Target species"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 </div>
 <p>As you can see, there are a lot of other species parameters, some of which we will talk about later. For now let’s just select the 4 parameters we are interested in.</p>
 <div class="cell" data-hash="single-species-spectra_cache/html/unnamed-chunk-33_ea022f4d2e13e18370a45b6f034a215f">
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span>, <span class="va">w_mat</span>, <span class="va">w_mat25</span>, <span class="va">w_inf</span>, <span class="va">m</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                  w_mat  w_mat25 w_inf m
-Target species 25.11886 22.50546   100 1</code></pre>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span>, <span class="va">w_mat</span>, <span class="va">w_mat25</span>, <span class="va">w_inf</span>, <span class="va">m</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["w_mat"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["w_mat25"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["w_inf"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["m"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"25.11886","2":"22.50546","3":"100","4":"1","_rn_":"Target species"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 </div>
 <p>And with this knowledge of parameter we can improve the plot for clarity and add a vertical line at 25% and 50% maturation weight</p>
 <div class="cell" data-hash="single-species-spectra_cache/html/unnamed-chunk-34_5a506e7b7cb2dc7391d3ce6307fe7a77">
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">maturation_weight50</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span><span class="op">$</span><span class="va">w_mat</span></span>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">maturation_weight50</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span><span class="op">$</span><span class="va">w_mat</span></span>
 <span><span class="va">maturation_weight25</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span><span class="op">$</span><span class="va">w_mat25</span></span>
 <span></span>
 <span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">maturation_weight50</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
@@ -691,21 +705,25 @@ Target species 25.11886 22.50546   100 1</code></pre>
 </section><section id="change-in-maturity-curve" class="level3"><h3 class="anchored" data-anchor-id="change-in-maturity-curve">Change in maturity curve</h3>
 <p>Let us investigate what happens when we change the maturity curve. Let’s assume the maturity size is actually 40 grams and the size at which 25% of individuals is mature is 30 grams. Let us change the values in the <code>species_params</code> data frame. But first we make a copy of the params object so that we can keep the old version around unchanged.</p>
 <div class="cell" data-hash="single-species-spectra_cache/html/unnamed-chunk-35_67c09c5c85e10c92843f826a0ab119ff">
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params_changed_maturity</span> <span class="op">&lt;-</span> <span class="va">params</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params_changed_maturity</span> <span class="op">&lt;-</span> <span class="va">params</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this copy we now change the species parameters</p>
 <div class="cell" data-hash="single-species-spectra_cache/html/unnamed-chunk-36_1bdc9c6db400348305f1787b8188bf17">
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params_changed_maturity</span><span class="op">)</span><span class="op">$</span><span class="va">w_mat</span> <span class="op">&lt;-</span> <span class="fl">40</span></span>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params_changed_maturity</span><span class="op">)</span><span class="op">$</span><span class="va">w_mat</span> <span class="op">&lt;-</span> <span class="fl">40</span></span>
 <span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params_changed_maturity</span><span class="op">)</span><span class="op">$</span><span class="va">w_mat25</span> <span class="op">&lt;-</span> <span class="fl">30</span></span>
 <span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params_changed_maturity</span><span class="op">)</span>, <span class="va">w_mat</span>, <span class="va">w_mat25</span>, <span class="va">w_inf</span>, <span class="va">m</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>               w_mat w_mat25 w_inf m
-Target species    40      30   100 1</code></pre>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["w_mat"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["w_mat25"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["w_inf"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["m"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"40","2":"30","3":"100","4":"1","_rn_":"Target species"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 </div>
 <p>Now the maturity curve has changed, which we can verify by plotting it</p>
 <div class="cell" data-hash="single-species-spectra_cache/html/unnamed-chunk-37_00092450259a5e33266648de7600f885">
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">psi_changed_maturity</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/reshape2/man/melt.html">melt</a></span><span class="op">(</span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/setReproduction.html">maturity</a></span><span class="op">(</span><span class="va">params_changed_maturity</span><span class="op">)</span> <span class="op">*</span> </span>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">psi_changed_maturity</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/reshape2/man/melt.html">melt</a></span><span class="op">(</span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/setReproduction.html">maturity</a></span><span class="op">(</span><span class="va">params_changed_maturity</span><span class="op">)</span> <span class="op">*</span> </span>
 <span>                                 <span class="fu"><a href="https://sizespectrum.org/mizer/reference/setReproduction.html">repro_prop</a></span><span class="op">(</span><span class="va">params_changed_maturity</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">psi_changed_maturity</span><span class="op">)</span> <span class="op">+</span></span>
@@ -723,16 +741,16 @@ Target species    40      30   100 1</code></pre>
 </section><section id="two-curves-in-one-plot" class="level3"><h3 class="anchored" data-anchor-id="two-curves-in-one-plot">Two curves in one plot</h3>
 <p>At this point let’s take a little break and learn how to draw two curves in the same graph. How can we see the old maturity curve and the new maturity curve in the same plot? First we add an extra column to each dataframe describing it</p>
 <div class="cell" data-hash="single-species-spectra_cache/html/unnamed-chunk-38_f7948efc2ad580325c555f67c5d969b2">
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">psi</span><span class="op">$</span><span class="va">type</span> <span class="op">=</span> <span class="st">"original"</span></span>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">psi</span><span class="op">$</span><span class="va">type</span> <span class="op">=</span> <span class="st">"original"</span></span>
 <span><span class="va">psi_changed_maturity</span><span class="op">$</span><span class="va">type</span> <span class="op">=</span> <span class="st">"changed"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we bind the two data frames together</p>
 <div class="cell" data-hash="single-species-spectra_cache/html/unnamed-chunk-39_a0a43730decb0ca9a83095fc5e0654dd">
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">psi_combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">psi</span>, <span class="va">psi_changed_maturity</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">psi_combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">psi</span>, <span class="va">psi_changed_maturity</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and send that combined data frame to <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code></p>
 <div class="cell" data-hash="single-species-spectra_cache/html/unnamed-chunk-40_4d9b4a35ce59f7274439577a29f3c98a">
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">psi_combined</span><span class="op">)</span> <span class="op">+</span></span>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">psi_combined</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">w</span>, y <span class="op">=</span> <span class="va">value</span>, colour <span class="op">=</span> <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Weight [g]"</span>,</span>
 <span>         y <span class="op">=</span> <span class="st">"Proportion invested into reproduction"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -760,11 +778,11 @@ Exercise 4
 </section><section id="effect-of-changed-maturity" class="level3"><h3 class="anchored" data-anchor-id="effect-of-changed-maturity">Effect of changed maturity</h3>
 <p>Next let us look at how the change in the maturity parameters affects the steady state spectrum. First need to calculate the new steady state using the function <code><a href="https://rdrr.io/pkg/mizerExperimental/man/singleSpeciesSteady.html">singleSpeciesSteady()</a></code>.</p>
 <div class="cell" data-hash="single-species-spectra_cache/html/unnamed-chunk-41_51fb5f0c9c8cc14d246a25786b952d01">
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params_changed_maturity</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mizerExperimental/man/singleSpeciesSteady.html">singleSpeciesSteady</a></span><span class="op">(</span><span class="va">params_changed_maturity</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params_changed_maturity</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mizerExperimental/man/singleSpeciesSteady.html">singleSpeciesSteady</a></span><span class="op">(</span><span class="va">params_changed_maturity</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we can use the function <code><a href="https://rdrr.io/pkg/mizerExperimental/man/plotSpectra2.html">plotSpectra2()</a></code> to plot the old size spectrum and the new size spectrum on the same graph.</p>
 <div class="cell" data-hash="single-species-spectra_cache/html/unnamed-chunk-42_bc48ce6a80e7c7917e333c60e25248a6">
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/mizerExperimental/man/plotSpectra2.html">plotSpectra2</a></span><span class="op">(</span><span class="va">params</span>, <span class="st">"Early maturity"</span>,</span>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/mizerExperimental/man/plotSpectra2.html">plotSpectra2</a></span><span class="op">(</span><span class="va">params</span>, <span class="st">"Early maturity"</span>,</span>
 <span>             <span class="va">params_changed_maturity</span>, <span class="st">"Late maturity"</span>,</span>
 <span>             power <span class="op">=</span> <span class="fl">2</span>, resource <span class="op">=</span> <span class="cn">FALSE</span>, wlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">

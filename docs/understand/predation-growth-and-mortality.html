@@ -249,15 +249,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Week 3: Use</a>
+            <a href="../use/index.html" class="sidebar-item-text sidebar-link">Week 3: Use</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
-  Released on 22 August
-  </li>
+  <div class="sidebar-item-container"> 
+  <a href="../use/tune-resilience.html" class="sidebar-item-text sidebar-link">Tune resilience</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/fishing-scenarios.html" class="sidebar-item-text sidebar-link">Simulate fishing scenarios</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../use/change-resources.html" class="sidebar-item-text sidebar-link">Change resources</a>
+  </div>
+</li>
       </ul>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -304,7 +316,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul>
 </li>
   <li><a href="#summary-and-recap" id="toc-summary-and-recap" class="nav-link" data-scroll-target="#summary-and-recap">Summary and recap</a></li>
-  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sizespectrum/mizerCourse/edit/week-2/understand/predation-growth-and-mortality.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sizespectrum/mizerCourse/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sizespectrum/mizerCourse/edit/main/understand/predation-growth-and-mortality.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sizespectrum/mizerCourse/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
@@ -499,19 +511,23 @@ Exercise 1
 <p>We see that the predator of size 10g likes to feed on prey that is about the size of 0.1g, which is about 100 times smaller than itself. But it also feeds on other sizes, just with reduced preference. The preferred predator/prey size ratio is determined by the species parameter <code>beta</code> and the width of the feeding kernel, i.e., how fussy the predator is regarding their prey size, is determined by the species parameter <code>sigma</code>. <code>beta</code> is the <em>preferred</em> predator prey mass ratio or PPMR. Larger PPMR values mean that the predator prefers to feed on a relatively smaller prey (larger ratio). In our model these have the values</p>
 <div class="cell" data-hash="predation-growth-and-mortality_cache/html/unnamed-chunk-14_0f52ec8762d09b442f77c0ccf14b65e0">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span>, <span class="va">beta</span>, <span class="va">sigma</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>               beta sigma
-Target species  100   1.3</code></pre>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["beta"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["sigma"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"100","2":"1.3","_rn_":"Target species"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 </div>
 <p>Let us change the preferred predator prey mass ratio from 100 to 1000. As usual, we first create a copy of the parameter object, then we make the change in that copy.</p>
 <div class="cell" data-hash="predation-growth-and-mortality_cache/html/unnamed-chunk-15_960fbe509d8a8b73e216f3fe630132cc">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params_pk</span> <span class="op">&lt;-</span> <span class="va">params</span></span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params_pk</span> <span class="op">&lt;-</span> <span class="va">params</span></span>
 <span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params_pk</span><span class="op">)</span><span class="op">$</span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s make a plot to see that the predation kernel has indeed changed.</p>
 <div class="cell" data-hash="predation-growth-and-mortality_cache/html/unnamed-chunk-16_30eaa043c0b8695eeffcaa0757b82ac5">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/setPredKernel.html">getPredKernel</a></span><span class="op">(</span><span class="va">params_pk</span><span class="op">)</span><span class="op">[</span>, <span class="fl">81</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/setPredKernel.html">getPredKernel</a></span><span class="op">(</span><span class="va">params_pk</span><span class="op">)</span><span class="op">[</span>, <span class="fl">81</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/reshape2/man/melt.html">melt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">w_prey</span>, y <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -522,7 +538,7 @@ Target species  100   1.3</code></pre>
 </div>
 <p>If we now again reduce the prey in the size range from 1mg to 10mg as before, we now expect this to produce a peak in the biomass spectrum somewhere between 1g and 10g. Let’s check.</p>
 <div class="cell" data-hash="predation-growth-and-mortality_cache/html/unnamed-chunk-17_d3d1b354379970403f42d61a44251f24">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Put reduced resource abundance values into params_pk </span></span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Put reduced resource abundance values into params_pk </span></span>
 <span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/initialNResource-set.html">initialNResource</a></span><span class="op">(</span><span class="va">params_pk</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sizespectrum.org/mizer/reference/initialNResource-set.html">initialNResource</a></span><span class="op">(</span><span class="va">params_starved</span><span class="op">)</span></span>
 <span><span class="co"># Find the new steady state, because conditions have changed.</span></span>
 <span><span class="va">params_pk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mizerExperimental/man/singleSpeciesSteady.html">singleSpeciesSteady</a></span><span class="op">(</span><span class="va">params_pk</span><span class="op">)</span></span>
@@ -596,20 +612,20 @@ Exercise 2
 <p>This is one of many powerful aspects about strong theoretical basis behind size based models. We can of course disagree with this assumption if we have evidence and data, but at least there is a basic assumption to base the discussion on.</p>
 <p>Most people using mizer rarely modify the default assumptions about the body scaling exponents and focus on more on the coefficients. So let us see what effect changing the coefficient <span class="math inline">\gamma_0</span> in the search volume rate has. Its current value in our model is</p>
 <div class="cell" data-hash="predation-growth-and-mortality_cache/html/unnamed-chunk-18_219a7c9799d618a9aaa048fbada02d8f">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span><span class="op">$</span><span class="va">gamma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span><span class="op">$</span><span class="va">gamma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4067.903</code></pre>
 </div>
 </div>
 <p>We change that to 2000 and find the new steady state.</p>
 <div class="cell" data-hash="predation-growth-and-mortality_cache/html/unnamed-chunk-19_bf04493d4f2fac587d1adcd47bded98f">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params_new_gamma</span> <span class="op">&lt;-</span> <span class="va">params</span></span>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params_new_gamma</span> <span class="op">&lt;-</span> <span class="va">params</span></span>
 <span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params_new_gamma</span><span class="op">)</span><span class="op">$</span><span class="va">gamma</span> <span class="op">&lt;-</span> <span class="fl">2000</span></span>
 <span><span class="va">params_new_gamma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mizerExperimental/man/singleSpeciesSteady.html">singleSpeciesSteady</a></span><span class="op">(</span><span class="va">params_new_gamma</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can see the effect in the growth curve of our species.</p>
 <div class="cell" data-hash="predation-growth-and-mortality_cache/html/unnamed-chunk-20_4d8d3015fdde84c19e6159108bd85bba">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">gf_original</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sizespectrum.org/mizer/reference/plotGrowthCurves.html">plotGrowthCurves</a></span><span class="op">(</span><span class="va">params</span>, return_data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">gf_original</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sizespectrum.org/mizer/reference/plotGrowthCurves.html">plotGrowthCurves</a></span><span class="op">(</span><span class="va">params</span>, return_data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">gf_original</span><span class="op">$</span><span class="va">Model</span> <span class="op">&lt;-</span> <span class="st">"Original"</span></span>
 <span><span class="va">gf_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sizespectrum.org/mizer/reference/plotGrowthCurves.html">plotGrowthCurves</a></span><span class="op">(</span><span class="va">params_new_gamma</span>, return_data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">gf_new</span><span class="op">$</span><span class="va">Model</span> <span class="op">&lt;-</span> <span class="st">"Reduced search volume"</span></span>
@@ -641,7 +657,7 @@ Exercise 3
 <p>In mizer we assume that feeding rate follows a <a href="https://en.wikipedia.org/wiki/Functional_response">Holling type II feeding curve</a>. This means that feeding rate is increasing fast at low prey densities, but then reaches a maximum or satiation level. So a predator will not be able to utilise food at a faster rate than its maximum intake rate. Of course in practice it will not feed at the maximum intake rate because of limited availability of prey. We describe this by the <em>feeding level</em> which is the proportion of its maximum intake rate at which the predator is actually taking in prey.</p>
 <p>In our simple model this feeding level is constant across all fish body sizes (this is rarely the case in more realistic models, as you will see later).</p>
 <div>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/plotFeedingLevel.html">plotFeedingLevel</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/plotFeedingLevel.html">plotFeedingLevel</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/plotFeedingLevel.html">plotFeedingLevel</a></span><span class="op">(</span><span class="va">params_new_gamma</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell quarto-layout-panel" data-hash="predation-growth-and-mortality_cache/html/unnamed-chunk-21_b42725efd57e3594397ee5416dfc2645">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -665,7 +681,7 @@ Exercise 3
 <p>In the model with the reduced search volume the feeding level is lower, as one would expect.</p>
 <p>The feeding level will depend on the maximum intake, search rate and food availability. The maximum intake rate scales with body size with the exponent <span class="math inline">n = 3/4</span> and is determined by the coefficient <span class="math inline">h</span>. So the maximum intake rate at size <span class="math inline">h(w)</span> is modelled as <span class="math inline">h(w) = h w^n</span>. Again, if we want to modify the maximum intake rate we usually change the coefficient <span class="math inline">h</span>. We will do that in later tutorials. The current value of the coefficient <span class="math inline">h</span> is</p>
 <div class="cell" data-hash="predation-growth-and-mortality_cache/html/unnamed-chunk-22_68cbdbde69f3d184f101f849e8b89a72">
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span><span class="op">$</span><span class="va">h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/species_params.html">species_params</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span><span class="op">$</span><span class="va">h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 59.06914</code></pre>
 </div>
@@ -681,13 +697,13 @@ Exercise 3
 </section><section id="fishing-mortality" class="level3"><h3 class="anchored" data-anchor-id="fishing-mortality">Fishing mortality</h3>
 <p>The cause of mortality that is most under our control is mortality from fishing. We discuss more how fishing is set up in mizer in week 3 of this course when we study the consequences of changes in fishing rates. Here we only look at a simple example: we introduce fishing on our species only for fish above 30 grams. All fish greater than 30 grams will be exposed to the same fishing mortality. We call this kind of fishing selectivity “knife_edge” selectivity. Mizer can of course also deal with more general selectivity curves, like sigmoidal or doubly sigmoidal.</p>
 <div class="cell" data-hash="predation-growth-and-mortality_cache/html/unnamed-chunk-23_a194790c03bbb050562a839bd757eed3">
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params_fishing</span> <span class="op">&lt;-</span> <span class="va">params</span></span>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">params_fishing</span> <span class="op">&lt;-</span> <span class="va">params</span></span>
 <span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/gear_params.html">gear_params</a></span><span class="op">(</span><span class="va">params_fishing</span><span class="op">)</span><span class="op">$</span><span class="va">sel_func</span> <span class="op">&lt;-</span> <span class="st">"knife_edge"</span></span>
 <span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/gear_params.html">gear_params</a></span><span class="op">(</span><span class="va">params_fishing</span><span class="op">)</span><span class="op">$</span><span class="va">knife_edge_size</span> <span class="op">&lt;-</span> <span class="fl">30</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We also need to specify the fishing effort or fishing mortality, which we set as an annual instantaneous fishing mortality rate. Now we can then plot the resulting fishing mortality. For illustration we will set a rate of 1 per year.</p>
 <div class="cell" data-hash="predation-growth-and-mortality_cache/html/unnamed-chunk-24_8b64643a788a45a92cafa7cc82c127a3">
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/initial_effort.html">initial_effort</a></span><span class="op">(</span><span class="va">params_fishing</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/initial_effort.html">initial_effort</a></span><span class="op">(</span><span class="va">params_fishing</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="fu"><a href="https://sizespectrum.org/mizer/reference/plotFMort.html">plotFMort</a></span><span class="op">(</span><span class="va">params_fishing</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="predation-growth-and-mortality_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
@@ -695,7 +711,7 @@ Exercise 3
 </div>
 <p>We can now see how fishing affects the adult size spectrum.</p>
 <div class="cell" data-hash="predation-growth-and-mortality_cache/html/unnamed-chunk-25_bb761405e2b1a35894b6978f7cd5b03f">
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># We find the new steady state with fishing mortality imposed </span></span>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># We find the new steady state with fishing mortality imposed </span></span>
 <span><span class="va">params_fishing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mizerExperimental/man/singleSpeciesSteady.html">singleSpeciesSteady</a></span><span class="op">(</span><span class="va">params_fishing</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/mizerExperimental/man/plotSpectra2.html">plotSpectra2</a></span><span class="op">(</span><span class="va">params</span>, <span class="st">"No Fishing"</span>, <span class="va">params_fishing</span>, <span class="st">"Knife-edge"</span>,</span>
