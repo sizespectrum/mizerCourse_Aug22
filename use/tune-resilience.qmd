@@ -98,8 +98,6 @@ As usual, we load the necessary packages
 #| message: false
 remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
 remotes::install_github("sizespectrum/mizerMR")
-# TODO: move this to mizerExperimental
-source("../experiment/getFCurves.R")
 library(mizerExperimental)
 library(mizerMR)
 library(tidyverse)
