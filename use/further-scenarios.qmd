@@ -370,6 +370,6 @@ ggplot(Brel_scens, aes(fill=scen, y=value, x=species)) +
 
 The impact of the combined trawl and longline appears to have more of an effect on C.gun and the biomass of D.ele is slightly more depleted relative to the unfished state.
 
-## **Further Exploration** 
+## Further Exploration
 
 The above plots provide you with a way to compare different modelling scenarios. You may wish to explore different levels of fishing mortality in the above example or add completely different gears to the fishery.
