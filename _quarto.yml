@@ -79,12 +79,14 @@ website:
       - section: "Week 3: Use"
         href: use/index.qmd
         contents:
-          - text: Tune resilience of species
+          - text: Tune resilience
             href: use/tune-resilience.qmd
           - text: Simulate fishing scenarios
             href: use/fishing-scenarios.qmd
           - text: Change resources
             href: use/change-resources.qmd
+          - text: Explore further scenarios
+            href: use/further-scenarios.qmd
       - section: "Info"
         contents:
           - text: Troubleshooting
