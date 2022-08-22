@@ -7,6 +7,7 @@ title: "Explore further scenarios"
 This final tutorial gives some examples from another mizer model, tuned to a different system and used to explore different questions. It is always useful to see alternative ways of using mizer and get examples of code to setup different analyses. This tutorial is contributed by Julia Blanchard. Here we will explore an example model of longline fishery that consists of targeting a single species, Patagonian toothfish.
 
 ## A look at the model
+
 As usual, we need to have some packages installed.
 
 ```{r set-up}
@@ -40,6 +41,7 @@ the feeding levels,
 ```{r}
 plotFeedingLevel(params)
 ```
+
 and toothfish diet.
 
 ```{r}
@@ -50,7 +52,7 @@ For this model, we had the following main criteria for our project:
 
 -   Modelled biomasses were within +/- 10-20% of the observed biomasses.
 
--   Unfished normalised biomass size spectrum slope that is negative and close to -1
+-   Unfished normalised biomass size spectrum slope that is negative and close to -1.
 
 -   Growth curves approximated the von Bertalanffy growth curves for each species.
 
@@ -74,7 +76,7 @@ Currently we can see there is one gear - *longline* - which has a knife_edge sel
 initial_effort(params)
 ```
 
-This shows that the model has been calibrated with a very low level of fishing mortality.
+This shows that the model has been calibrated with a very low level of fishing mortality (multiply effort by catchability).
 
 Let's look at the reproduction levels and the yield curve for toothfish:
 
@@ -85,11 +87,11 @@ plotYieldCurve(params, species = "D.ele", no_steps = 30, F_max = 2)
 
 ```
 
-
+They generally look good and the curve is dome-shaped.
 
 ## Comparing ecosystem states: effects of fishing relative to an unfished state
 
-To be able to assess the wider ecosystem impacts of fishing in the community we need to understand how changes compare to an unfished state. We can use the above model unfished steady state with effort = 0 to do this combined with some functions to calculate ecological indicators.
+To be able to assess the wider ecosystem impacts of fishing in the community we need to understand how changes compare to an unfished state. We can use the above model to simulate an unfished steady state with effort = 0 and then explore this state using some ecological indicators.
 
 Let's compare the current size spectra (with fishing) to the unfished size spectra to assess whether there is any evidence of a size-structured trophic cascade due to fishing.
 
@@ -104,7 +106,7 @@ The abundance of some (but not all) of the smaller to medium sizes of prey are a
 
 ## Fishing through time: past time series
 
-Mizer can also be used to carry out projections with changes in fishing effort. We will start by reading in a time series of catch and effort. We will read in the effort data for this fishery. Note: these are not the  correct effort values, they are only for illustration in this example. Then we plot effort and catch through time.
+Mizer can also be used to carry out projections with changes in fishing effort. We will start by reading in a time series of catch and effort. We will read in the effort data for this fishery. Note: these are not the correct effort values, they are only for illustration in this example. Then we plot effort and catch through time.
 
 ```{r, code_folding=TRUE}
 dat <- readRDS("toothfish/longline.rds")
@@ -147,9 +149,9 @@ plotYieldGear(simf) +
 
 Here we can see that the modeled catch time series fall within the scatter of the observed catch data (reassuring), but the trends are different. It seems there is a sharp decline in modeled catches towards the end of the time series. While we should not expect the exact up and down fluctuations to be captured by our model (we don't have anything forcing the changes through time other than fishing!), we could examine further how changing the reproduction parameters affects how well the model captures stock decline (and later, recovery), relative to the trends in the data. It may also be that our estimates of catchability and effort are way off (they are). And that other factors could be influencing observed changes not accounted for by our model.
 
-## What if we only have catch data? 
+## What if we only have catch data?
 
-What if there was no effort data only catch? This is the case for many data-poor fisheries or for fisheries where there is only restricted access to effort data.
+What if there was no effort data and only catch data? This is the case for many data-poor fisheries or for fisheries where there is only restricted access to effort data.
 
 Many fisheries develop through time according to phases: an exponential growth period, following either a peak and subsequent decline and a plateau, if stocks drop below sustainable levels and management kicks in (see [here](https://www.pnas.org/doi/abs/10.1073/pnas.1820344116) for example). These different types of development can be represented by a function, *logistic_effort*(), and can be used to help estimate the fishing parameters given the the model parameters and data you may have. This is the approach used [here](https://www.pnas.org/doi/full/10.1073/pnas.1612722114). Here, we will use this function to explore effort through time.
 
@@ -203,7 +205,7 @@ plotBiomass(simf3)
 
 We can see here as effort develops towards a plateau of Fmax = 0.5 through time, catches initially increase, reach a peak around 2006, and then decline. The biomass trajectories also show that toothfish starts declining slightly before this.
 
-## Fishing through time: projecting into the future 
+## Fishing through time: projecting into the future
 
 Now let's see what happens if we change fishing in the future. To do this we set up two scenarios, one where the model starts with the last time step of the fished scenario and continues into the future (the "status quo"). The other will be designed to explore a "more sustainable" scenario.
 
@@ -213,7 +215,7 @@ params <- getParams(simf3)
 params <- setInitialValues(params, simf3)
 ```
 
-The `setInitialValues()` function has set the intitial spectra and the intial effort in the `params` object to the final values from `simf3`, i.e., to the values from 2020. The effort was
+The `setInitialValues()` function has set the initial spectra and the initial effort in the `params` object to the final values from `simf3`, i.e., to the values from 2020. The effort was
 
 ```{r}
 initial_effort(params)
@@ -271,9 +273,9 @@ ggplot(Brel_scen) +
   theme(legend.key = element_rect(fill = "white")) 
 ```
 
-Relative to 2020 values, reducing Fmsy to 0.2 has increased toothfish biomass and has affected the other species in the system too. 
+Relative to 2020 values, reducing Fmsy to 0.2 has increased toothfish biomass and has affected the other species in the system too.
 
-To compare the status of the stock across the two scenarios we need to express the changes relative to the unfished state according to the model. This will provide us with a rough indicator of the level of depletion. Generally, we would consider a stock to be collapsed if biomass was \< 0.1 of the unfished levels. Some data-poor single species fisheries management strategies seek for depletion to be around or above 0.5 of unfished levels.
+To compare the status of the stock across the two scenarios we need to express the changes relative to the unfished state according to the model. This will provide us with a rough indicator of the level of depletion. Generally, we would consider a stock to be collapsed if biomass was \<0.1 of the unfished levels. Some data-poor single species fisheries management strategies seek for depletion to be around or above 0.5 of unfished levels.
 
 Let's take a look at the relative exploitation status of the stocks using the projected values for 2050. We will put the y-axis scale is log10 to better visualise the differences across species.
 
@@ -368,4 +370,6 @@ ggplot(Brel_scens, aes(fill=scen, y=value, x=species)) +
 
 The impact of the combined trawl and longline appears to have more of an effect on C.gun and the biomass of D.ele is slightly more depleted relative to the unfished state.
 
-**Further Exploration** The above plots provide you with a way to compare different modelling scenarios. You may wish to explore different levels of fishing mortality in the above example or add completely different gears to the fishery.
+## **Further Exploration** 
+
+The above plots provide you with a way to compare different modelling scenarios. You may wish to explore different levels of fishing mortality in the above example or add completely different gears to the fishery.
