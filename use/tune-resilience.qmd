@@ -378,6 +378,15 @@ Finally we save our model with tuned resilience to disk for use in the next tuto
 saveParams(cm, "cur_model_resilient.rds")
 ```
 
+### Exercise 1
+
+Look at the yield curves in the model we just saved (in the worksheet for this tutorial you can either reproduce the tuning steps above or you can take the shortcut and load our saved model). What approximately is the value of $F_{MSY}$ for pikeperch?
+
+### Exercise 2
+
+Now tune the reproduction levels for your version of the Curonian lagoon model that you built last week. Don't be surprised if things work out very differently for your model. 
+
+
 ## Summary
 
 1.  Identifying an appropriate reproduction level for our model species is very important, because the reproduction level will determine a species' resilience to fishing.

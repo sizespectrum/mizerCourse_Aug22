@@ -275,6 +275,12 @@ Pay attention to how abundance of predator_fish in gillnet selectivity case at s
 
 <!-- To do this we need to work with the effort array (time x gear) to enable changes in effort through time, for this scenario. Here we have a 'gear' for each species, since effort in this case were annual single-species fishing mortality estimates. -->
 
+### Exercise
+
+There are obviously many fishing scenarios you may want to try out for yourself. This exercise should only get you started with something simple:
+
+If you reduce the effort in our model from 0.3 to 0.1, this will of course immediately reduce the yield of all species. How many years does it take in this model before the yield of predator_fish has increased above the yield achieved with an effort of 0.3?
+
 ## Summary
 
 1.  Mizer has lots of options to explore changes in gears, effort and fishing dynamics. In this tutorial we only explored basic options and found that even with very basic changes, the response of the ecosystem can be surprising and hard to fully understand.

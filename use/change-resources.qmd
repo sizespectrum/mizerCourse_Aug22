@@ -184,6 +184,12 @@ plotlyBiomassRelative(sim_lower, sim_higher)
 
 We can see that in this case the differences are never much more than 4%, which is very little considering all the uncertainties in the model. We conclude that for our model, when we want to explore increases in fishing effort, the choice of value for `r_pp` may not be so important, as the model is not very sensitive to it. However, that may be an artefact of how we have set up external mortality in our model. In our model, mortalities on small individuals are very low and we didn't bother to fix them with additional mortality to get the allometric mortality rates observed in nature. Had we done that, even small changes in the resource and hence in the larval feeding levels might be important. This is because lower feeding by larvae will make them grow slower, they will spend more time in smallest size classes with very high mortality, and this will affect the entire ecosystem. You can read about it, in [this study](https://onlinelibrary.wiley.com/doi/full/10.1111/faf.12465). And if you want to explore it further and implement it to your model, the mizer code is [here](https://github.com/sizespectrum/plankton-anchovy).
 
+### Exercise
+
+Now reduce the replenishment rate coefficient `r_pp`on both plankton and benthos to just 0.01. In addition, increase the fishing effort from 0.3 to 0.4 and project the model far enough to reach a new steady state. By how many percent approximately is the biomass of roach higher in this new steady state than in the original one?
+
+There will be no further formal exercises for you to complete, but of course we hope that you will feel the urge to do your own explorations of other scenarios.
+
 ## Scenario 2: Changes in total plankton abundance
 
 Now we want to explore how our ecosystem might respond to the overall changes in resource abundance. Perhaps due to climate change the overall resource abundance will increase or decrease. We can explore this in a simple way by changing the `kappa` parameter.
