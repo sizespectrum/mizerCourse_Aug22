@@ -120,11 +120,12 @@ We usually do not know population growth rates $r$ for our species, but we can l
 ![](../images/PopGrowthRates.png)
 
 We had included the categorisation of our species in the species parameter dataframe in the `resilience` column.
+
 ```{r}
 species_params(cm) |> select(resilience, funcgr)
 ```
 
-Thus according to the above discussion, we should expect an $F_{MSY}$ between 0.3 and 0.75 for smallfish, between 0.1 and 0.5 for our benthivores and between 0.025 and 0.25 for the ominvores and predators. These values are derived from single species models with very different assumptions to those of ours, so they can only be used as very general guides. 
+Thus according to the above discussion, we should expect an $F_{MSY}$ between 0.3 and 0.75 for smallfish, between 0.1 and 0.5 for our benthivores and between 0.025 and 0.25 for the ominvores and predators. These values are derived from single species models with very different assumptions to those of ours, so they can only be used as very general guides.
 
 Alternatively, we can use [Ken Andersen's book](https://books.google.dk/books?hl=en&lr=lang_en&id=M-6YDwAAQBAJ&oi=fnd&pg=PP1&ots=XbQp07hJ2w&sig=59ugnqv17dH-KsbV2LVRB8rB9CM&redir_esc=y#v=onepage&q&f=false) and expectations for species with different asymptotic sizes, as estimated from trait-based models (where all species parameters are determined in terms of the asymptotic size) and when all species are fished with 50% selectivity at 5% of their asymptotic size. The panels below represents species with different asymptotic sizes: 333 g (top), 10 g (bottom left), and 10 kg (bottom right). The lines show yield (solid black lines), yield per recruit (dashed lines), spawning stock biomass (dark gray lines), and recruitment (light gray lines), all scaled by their maximum value. We will not deal with yield per recruit, so ignore the dashed lines. This figure shows that highest yields are expected at fishing mortality of about 0.3-0.5/year.
 

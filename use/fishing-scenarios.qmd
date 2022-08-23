@@ -1,14 +1,15 @@
 ---
-title: "Using a model to explore fishing scenarios"
+title: "Explore fishing scenarios"
 ---
 
 ## Introduction
 
-Mizer is a tool that can be used to simulate a dynamic size spectrum in a marine ecosystem, subject to changes through time, such as fishing pressure. It is a dynamic multi-species model with emergent growth, reproduction and biomass, so it allows us to better understand how changes in fishing mortality can affect the entire ecosystem. 
+Mizer is a tool that can be used to simulate a dynamic size spectrum in a marine ecosystem, subject to changes through time, such as fishing pressure. It is a dynamic multi-species model with emergent growth, reproduction and biomass, so it allows us to better understand how changes in fishing mortality can affect the entire ecosystem.
 
 In the previous week we have been focused on the steady state of the model. Now we are ready to make changes through time, which means that the ecosystem will move away from the tuned steady state.
 
 <!-- :::{.callout-note} -->
+
 <!-- There are two ways how we could explore scenarios: -->
 
 <!-- The first way is to use our existing calibrated model as a starting point, impose new conditions, and then run to the new steady state and compare this to the original steady state. This is how many modelling studies are done.  -->
@@ -16,6 +17,7 @@ In the previous week we have been focused on the steady state of the model. Now 
 <!-- The second way is to impose a time series of changes, where change in conditions happens slowly over a certain time. In this second case we would be interested in transient dynamics, or the time series of change. So we would analyse how conditions change through time.  -->
 
 <!-- The first way is easier and more common in modelling studies, because it is easier to compare steady states than to compare time series, and because the steady state shows properties that can be sustained in the long run. But both types of exploration can be performed in mizer and have been used in various examples, as you have heard in Julia Blanchard's lecture. -->
+
 <!-- ::: -->
 
 For explorations in this tutorial we will be using our mizer model for the Curonian lagoon. We will load the model from our previous tutorial where we tuned reproduction level of each species.
@@ -37,7 +39,7 @@ Mizer allows complicated setups of multiple fishing gears and selectivities, but
 
 ## Scenario 1: Change fishing effort
 
-The first option most users want to explore is to see what happens if we start fishing more or if we reduce fishing mortality. We will use our Curonian model with tuned reproduction and change the total fishing effort. We will run the simulation with the changed effort long enough so that it again settles down to a steady state and then look at how the system evolved over this time period. 
+The first option most users want to explore is to see what happens if we start fishing more or if we reduce fishing mortality. We will use our Curonian model with tuned reproduction and change the total fishing effort. We will run the simulation with the changed effort long enough so that it again settles down to a steady state and then look at how the system evolved over this time period.
 
 We remind ourselves of the current fishing effort to which we tuned the model in week 2:
 
@@ -45,7 +47,7 @@ We remind ourselves of the current fishing effort to which we tuned the model in
 initial_effort(cm)
 ```
 
-We now simulate the result of doubling the fishing effort to 0.6. 
+We now simulate the result of doubling the fishing effort to 0.6.
 
 ```{r}
 sim_double_effort <- project(cm, effort = 0.6, t_max = 30)
@@ -65,7 +67,7 @@ The changes in biomass can be seen more clearly if we plot the relative change c
 plotlyBiomassRelative(sim_double_effort)
 ```
 
-We can see that, surprisingly, after doubling fishing effort on all species, the biomasses of breams, roach, vimba, perch and carassius increased rather than decreased! 
+We can see that, surprisingly, after doubling fishing effort on all species, the biomasses of breams, roach, vimba, perch and carassius increased rather than decreased!
 
 To understand how that is possible, we have to look at how the spectra have changed. After all mizer is all about changes at size. Looking at overall biomasses does not tell use about size dynamics. We can compare the spectra using the `plotSpectra2()` function:
 
@@ -91,7 +93,7 @@ And again we look at the relative change over time. The `plotlyYieldRelative()` 
 plotlyYieldRelative(sim_double_effort, cm)
 ```
 
-Yields for all but predator_fish species increased when the fishing effort was doubled. The initial increase by 100% is because doubling the fishing mortality will give double the yield until the fish populations are affected by the increased fishing mortality. 
+Yields for all but predator_fish species increased when the fishing effort was doubled. The initial increase by 100% is because doubling the fishing mortality will give double the yield until the fish populations are affected by the increased fishing mortality.
 
 Let's see what happens if we triple the effort on all species.
 
@@ -125,7 +127,7 @@ gear_params(cm_fishPikeperch)["pikeperch, Main", "catchability"] <- 2
 # Here "Main" means the main gear, because mizer can have multiple gears
 ```
 
-Now let's project with same overall effort and see what happens. 
+Now let's project with same overall effort and see what happens.
 
 ```{r}
 sim_Pikeperch <- project(cm_fishPikeperch, t_max = 30)
@@ -141,7 +143,7 @@ Let us also look at the change in yields:
 plotlyYieldRelative(sim_Pikeperch, cm)
 ```
 
-By fishing pikeperch more intensively, we decreased the yield of pikeperch, but we increased biomasses and yields on nearly all other species. Now we know that yields of other species really changed due to species interactions, since we are fishing them with same parameters as before. 
+By fishing pikeperch more intensively, we decreased the yield of pikeperch, but we increased biomasses and yields on nearly all other species. Now we know that yields of other species really changed due to species interactions, since we are fishing them with same parameters as before.
 
 We see that biomasses are still changing after 30 years, so we can run project for a longer time and see how the trajectories continue:
 
@@ -151,8 +153,6 @@ plotlyBiomassRelative(sim_Pikeperch)
 ```
 
 We can see that pikeperch and perch took a while to stabilise to a new equilibrium.
-
-
 
 <!-- ### Exercise 2 -->
 
@@ -185,12 +185,13 @@ sim_largerMesh <- project(cm_sel, t_max = 30)
 ```
 
 We again plot the relative change in biomass and in yield
+
 ```{r}
 plotlyBiomassRelative(sim_largerMesh)
 plotlyYieldRelative(sim_largerMesh, cm)
 ```
 
-Indeed, increasing the mesh size helped the predator_fish. We can see that by changing gear selectivity but keeping the same effort, we increased predator_fish biomasses and yields. Yield is lower for predator_fish only in the first few years. Both managers and fishers are happy. Effect on other species yield is negligible. 
+Indeed, increasing the mesh size helped the predator_fish. We can see that by changing gear selectivity but keeping the same effort, we increased predator_fish biomasses and yields. Yield is lower for predator_fish only in the first few years. Both managers and fishers are happy. Effect on other species yield is negligible.
 
 You can now also play with changing size selectivities in your model and see which species react strongly, and which don't. How does it affect other species in the ecosystem?
 
@@ -237,7 +238,7 @@ The picture looks quite different for the yield.
 plotlyYieldRelative(sim_gillnet, cm)
 ```
 
-Even though predator_fish biomass increased so much, the yield on predator_fish decreased a lot. This is because we are not catching all the large fish that constitute most biomass. 
+Even though predator_fish biomass increased so much, the yield on predator_fish decreased a lot. This is because we are not catching all the large fish that constitute most biomass.
 
 Fishers would probably try to increase the fishing effort to try and get the same amount of yield. Let's increase fishing mortality of predator fish and aim to get similar yield. We will need to increase catchability quite a lot to increase yield substantially. Let's increase it 5 fold from 2 to 10.
 
@@ -252,7 +253,7 @@ sim_gillnet <- project(cm_gillnet, t_max = 30)
 plotlyYieldRelative(sim_gillnet, cm)
 ```
 
-Even after increasing catchability in the selected range 5 times we still only get 10\% of the original yield for predator_fish. As a result predator_fish biomass increases and pikeperch biomass decreases, although less drastically:
+Even after increasing catchability in the selected range 5 times we still only get 10% of the original yield for predator_fish. As a result predator_fish biomass increases and pikeperch biomass decreases, although less drastically:
 
 ```{r}
 plotlyBiomassRelative(sim_gillnet)
@@ -264,7 +265,7 @@ We definitely want to look at changes in size spectra with this size based fishi
 plotlySpectraRelative(cm, sim_gillnet)
 ```
 
-Pay attention to how abundance of predator_fish in gillnet selectivity case at selected sizes drops sharply but then greatly increases once they are above the selected limit. 
+Pay attention to how abundance of predator_fish in gillnet selectivity case at selected sizes drops sharply but then greatly increases once they are above the selected limit.
 
 <!-- ## Option 5: changing effort slowly through time -->
 
@@ -274,21 +275,16 @@ Pay attention to how abundance of predator_fish in gillnet selectivity case at s
 
 <!-- To do this we need to work with the effort array (time x gear) to enable changes in effort through time, for this scenario. Here we have a 'gear' for each species, since effort in this case were annual single-species fishing mortality estimates. -->
 
-
-
 ## Summary
 
 1.  Mizer has lots of options to explore changes in gears, effort and fishing dynamics. In this tutorial we only explored basic options and found that even with very basic changes, the response of the ecosystem can be surprising and hard to fully understand.
 
-2. Changes in fishing on one species can have large effects on the biomasses and yields of other species.
+2.  Changes in fishing on one species can have large effects on the biomasses and yields of other species.
 
-3. To understand the trophic cascades that are triggered by changes in fishing one needs to look at the changes in the size spectra, not only at total biomasses.
+3.  To understand the trophic cascades that are triggered by changes in fishing one needs to look at the changes in the size spectra, not only at total biomasses.
 
 4.  Ecosystem responses to fishing scenarios will depend on how we set up species resilience to fishing. It is therefore important to interpret results carefully and explore alternative parameter combinations of reproductive level.
-
 
 <!-- ## Further explorations -->
 
 <!-- There are a lot more ways how we can explore fishing scenarios (past and future) in mizer. You can explore [mizerHowTo](https://github.com/sizespectrum/mizerHowTo) R package, developed by Julia Blanchard, Samik Datta and Romain Forestier. While this package is currently being finalised, it provides useful further tutorials and exercised with a different model system and examples. In first mizerHowTo tutorial (called as HTML0) you can explore how to assess unfished ecosystem state and simulate recovery, set up new fishing gears, and add a new species to the model. Most importantly, mizerHowTo has two tutorials (HTLM2 and HTMl3) where you can dive deeper into statistical tuning of reproduction resilience from average or time series data of catches, fishing effort or stock abundance using optim functions that minimise error between model predicted and observation time series. We did not explore statistical fitting procedures in this course, but they are often used in publications and more advanced mizer models.  -->
-
-
