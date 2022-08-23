@@ -81,7 +81,7 @@ website:
         contents:
           - text: Tune resilience
             href: use/tune-resilience.qmd
-          - text: Simulate fishing scenarios
+          - text: Explore fishing scenarios
             href: use/fishing-scenarios.qmd
           - text: Change resources
             href: use/change-resources.qmd
