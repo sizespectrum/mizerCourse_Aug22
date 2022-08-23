@@ -31,4 +31,4 @@ Using examples, the tutorials are designed to help you develop your own model si
 4.  [**Explore further scenarios**](further-scenarios.qmd)\
     This tutorial provides extra material, prepared by Julia Blanchard using another system (Patagonian toothfish fishery) as an example. Here you can learn on how to set time series of fishing changes and more.
 
-<!-- #To get your worksheet repository for this week, follow this link: \#<https://classroom.github.com/xxx> -->
+To get your worksheet repository for this week, follow this link: <https://classroom.github.com/a/_sExBJYv>
