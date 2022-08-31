@@ -109,7 +109,7 @@ The abundance of some (but not all) of the smaller to medium sizes of prey are a
 Mizer can also be used to carry out projections with changes in fishing effort. We will start by reading in a time series of catch and effort. We will read in the effort data for this fishery. Note: these are not the correct effort values, they are only for illustration in this example. Then we plot effort and catch through time.
 
 ```{r, code_folding=TRUE}
-dat <- readRDS("toothfish/longline.rds")
+dat <- readRDS("longline.rds")
 plot_dat <- melt(dat, "Year")
 
 ggplot(plot_dat, aes(x = Year, y = value)) +
