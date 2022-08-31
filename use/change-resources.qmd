@@ -76,14 +76,14 @@ c_R <- (mu_bar + r_R) / r_R * N_bar
 mu_R <- seq(0, 2, by = 0.05)
 N_R <- c_R * r_R / (mu_R + r_R)
 df <- melt(data.frame(N_R, mu_R, c_R), id.vars = "mu_R")
-df$dd <- "Low"
+df$dd <- "High"
 
 r_R <- 2
 c_R <- (mu_bar + r_R) / r_R * N_bar
 mu_R <- seq(0, 2, by = 0.05)
 N_R <- c_R * r_R / (mu_R + r_R)
 df2 <- melt(data.frame(N_R, mu_R, c_R), id.vars = "mu_R")
-df2$dd <- "High"
+df2$dd <- "Low"
 
 df <- rbind(df, df2)
 df <- df[df$value < 2.1, ]
@@ -97,7 +97,7 @@ ggplot(rbind(df, df2)) +
                        breaks = N_bar, labels = c("N_R")) +
     scale_x_continuous(name = "Resource mortality rate [1/year]",
                        breaks = mu_bar, labels = c("mu_R")) +
-    scale_colour_manual(values = c("black", "blue")) +
+    scale_colour_manual(values = c("blue","black")) +
     scale_linetype_manual(values = c("solid", "dotted"))
 ```
 
