@@ -281,8 +281,7 @@ Let's take a look at the relative exploitation status of the stocks using the pr
 
 ```{r}
 # plot change in biomass under each scenario relative to unfished values
-# get saved values from steady state without fishing that we generated earlier 
-sim0<-readRDS("sim0.rds")
+# using the sim0 values from steady state without fishing that we generated earlier 
 # get the unfished biomasses
 B_unfished <- getBiomass(sim0)[1, ]
 #scen 1
