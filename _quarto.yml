@@ -32,7 +32,7 @@ website:
   twitter-card:
     site: "@mizer_model"
     creator: "gustavdelius"
-  opengraph: true
+  open-graph: true
   search: 
     location: navbar
     type: textbox
@@ -101,5 +101,3 @@ comments:
     input-position: bottom
     repo-id: R_kgDOHlJwYg
     category-id: DIC_kwDOHlJwYs4CP_7j
-    data-loading: lazy
-    
