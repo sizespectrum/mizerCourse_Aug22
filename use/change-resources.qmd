@@ -11,9 +11,10 @@ As usual we install and load libraries and also load the parameter file from the
 ```{r set-up}
 #| message: false
 #| warning: false
+remotes::install_github("sizespectrum/mizer", ref = "4b38107")
+remotes::install_github("sizespectrum/mizerMR", ref = "364972c")
 remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
 library(mizerExperimental)
-remotes::install_github("sizespectrum/mizerMR")
 library(mizerMR)
 library(tidyverse)
 

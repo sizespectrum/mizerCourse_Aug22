@@ -10,8 +10,9 @@ As usual, we load the necessary packages
 
 ```{r}
 #| message: false
+remotes::install_github("sizespectrum/mizer", ref = "4b38107")
+remotes::install_github("sizespectrum/mizerMR", ref = "364972c")
 remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
-remotes::install_github("sizespectrum/mizerMR")
 library(mizerExperimental)
 library(mizerMR)
 library(tidyverse)
@@ -91,17 +92,6 @@ We can see in the diagram how, as $E_R$ is changed, for example through a deplet
 Note how both `R_max` and `erepro` need to be changed at the same time in order for the resulting curve for the reproduction rate to still go through the black dot, i.e., in order not to change the reproduction rate in the steady state. As we discussed earlier, the function `setBevertonHolt()` automatically changes both parameters together in the correct manner. In that function we can specify the desired reproduction curve by specifying either `R_max` or `erepro` or the ratio between $R_{dd}$ at steady state and $R_{max}$, which we refer to as the **reproduction level**.
 
 We like to work with the reproduction level because it is a number between 0 and 1, where 0 means that the rate of reproduction increases in proportion to $E_R$ and 1 means that the rate of reproduction is independent of $E_R$. The higher the value of the reproduction level the less impact a change in $E_R$ will have on the species' reproduction. Thus higher levels of the reproduction level make the species more resilient for example to fishing.
-
-As usual, we load the necessary packages
-
-```{r}
-#| message: false
-remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
-remotes::install_github("sizespectrum/mizerMR")
-library(mizerExperimental)
-library(mizerMR)
-library(tidyverse)
-```
 
 We load our Curonian lagoon model that we saved after [refining the model](../build/refine-model.qmd) in the previous tutorial using the `tuneParams()` gadget.
 

@@ -41,19 +41,28 @@ install.packages(c("mizer", "tidyverse", "plotly", "remotes", "usethis",
                    "rmarkdown", "rstudioapi"))
 ```
 
-The mizerExperimental package is for code that is still experimental and thus changes frequently. Therefore it is hosted in a [GitHub repository](https://github.com/sizespectrum/mizerExperimental). You install it with
-
-```{r}
-#| eval: false
-remotes::install_github("sizespectrum/mizerExperimental")
-```
-
 The mizerMR package that extends mizer to work with multiple resources has not been released to CRAN because the plan is to incorporate it into core mizer in the future, so this too you need to install directly from GitHub.
 
 ```{r}
 #| eval: false
-remotes::install_github("sizespectrum/mizerMR")
+remotes::install_github("sizespectrum/mizerMR", ref = "364972c")
 ```
+
+The mizerExperimental package is for code that is still experimental and thus changes frequently. Therefore it is hosted in a [GitHub repository](https://github.com/sizespectrum/mizerExperimental). We need the package in the form from August 2022. You install it with
+
+```{r}
+#| eval: false
+remotes::install_github("sizespectrum/mizerExperimental", ref = "2465461")
+```
+
+Finally, while the latest release of the mizer package can be installed from
+CRAN as described above, for this course we need the version from August 2022:
+
+```{r}
+#| eval: false
+remotes::install_github("sizespectrum/mizer", ref = "4b38107")
+```
+
 
 ## Git
 

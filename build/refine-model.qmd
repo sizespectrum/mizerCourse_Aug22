@@ -10,8 +10,9 @@ A large fraction of tuning can be done using a `tuneParams()` R Shiny gadget tha
 
 ```{r}
 #| message: false
+remotes::install_github("sizespectrum/mizer", ref = "4b38107")
+remotes::install_github("sizespectrum/mizerMR", ref = "364972c")
 remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
-remotes::install_github("sizespectrum/mizerMR")
 library(mizerExperimental)
 library(mizerMR)
 library(tidyverse)

@@ -11,7 +11,8 @@ In this tutorial you are also going to start using mizer functions. When you wan
 First, load some required packages with the following commands:
 
 ```{r message=FALSE}
-remotes::install_github("sizespectrum/mizerExperimental")
+remotes::install_github("sizespectrum/mizer", ref = "4b38107")
+remotes::install_github("sizespectrum/mizerExperimental", ref = "2465461")
 library(mizerExperimental)
 library(tidyverse)
 ```

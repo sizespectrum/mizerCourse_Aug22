@@ -10,7 +10,8 @@ As always, we start by making sure we have the latest version of the mizerExperi
 
 ```{r}
 #| message: false
-remotes::install_github("sizespectrum/mizerExperimental")
+remotes::install_github("sizespectrum/mizer", ref = "4b38107")
+remotes::install_github("sizespectrum/mizerExperimental", ref = "2465461")
 library(mizerExperimental)
 library(tidyverse)
 ```

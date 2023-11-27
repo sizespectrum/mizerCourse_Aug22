@@ -25,9 +25,9 @@ execute:
 
 website:
   title: "mizer course"
-  site-url: "https://course.mizer.sizespectrum.org"
+  site-url: "https://course.mizer.aug22.sizespectrum.org"
   favicon: images/favicon-16x16.png
-  repo-url: https://github.com/sizespectrum/mizerCourse
+  repo-url: https://github.com/sizespectrum/mizerCourse_Aug22
   repo-actions: [edit, issue]
   twitter-card:
     site: "@mizer_model"
@@ -95,7 +95,7 @@ website:
 
 comments:
   giscus:
-    repo: sizespectrum/mizerCourse
+    repo: sizespectrum/mizerCourse_Aug22
     category: Comments
     reactions-enabled: false
     input-position: bottom
