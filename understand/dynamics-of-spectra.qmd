@@ -42,7 +42,7 @@ library(tidyverse)
 
 In the previous tutorial, in the section on [trophic cascades](species-interactions.qmd#trophic-cascades), we already simulated the size-spectrum dynamics to find the new steady state. But we only looked at the final outcome once the dynamics had settled down to the new steady state. We reproduce the code here:
 
-```{r}
+```{r message=FALSE}
 # Create trait-based model
 mp <- newTraitParams() |> 
     # run to steady state with constant reproduction rate
@@ -60,7 +60,8 @@ species_params(mp_lessRes)$interaction_resource[8:11] <- 0.8
 mp_lessRes_steady <- projectToSteady(mp_lessRes)
 
 # We compare the steady states
-plotSpectra2(mp_lessRes_steady, "less resource", mp, "original", 
+plotSpectra2(mp_lessRes_steady, name1 = "less resource", 
+             mp, name2 = "original", 
             total = TRUE, power = 2, 
             ylim = c(1e-8, NA), wlim = c(1e-3, NA))
 ```
@@ -114,7 +115,7 @@ The above simulation was run with constant abundance in the smallest size class 
 
 To see the effect we run the same code as above after deleting the two lines that turned off the reproduction dynamics. We also specify with `t_save = 2` that we want to save the spectrum only every second year, which speeds up the display of the animation.
 
-```{r}
+```{r message=FALSE}
 # Create trait-based model
 mp <- newTraitParams() |> 
     # run to steady state with constant reproduction rate
@@ -241,7 +242,8 @@ Changing the reproduction level has no effect on the steady state, because that 
 ```{r}
 mp9 <- projectToSteady(mp9)
 
-plotSpectra2(mp, "reproduction_level = 0.25", mp9, "reproduction_level = 0.9", 
+plotSpectra2(mp, name1 = "reproduction_level = 0.25", 
+             mp9, name2 = "reproduction_level = 0.9", 
             total = TRUE, power = 2, ylim = c(1e-8, NA), wlim = c(1e-3, NA))
 ```
 
