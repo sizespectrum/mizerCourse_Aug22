@@ -447,8 +447,8 @@ params_changed_maturity <- singleSpeciesSteady(params_changed_maturity)
 Then we can use the function `plotSpectra2()` to plot the old size spectrum and the new size spectrum on the same graph.
 
 ```{r}
-plotSpectra2(params, "Early maturity",
-             params_changed_maturity, "Late maturity",
+plotSpectra2(params, name1 = "Early maturity",
+             params_changed_maturity, name2 = "Late maturity",
              power = 2, resource = FALSE, wlim = c(10, NA))
 ```
 

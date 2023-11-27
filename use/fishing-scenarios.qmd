@@ -70,7 +70,7 @@ We can see that, surprisingly, after doubling fishing effort on all species, the
 To understand how that is possible, we have to look at how the spectra have changed. After all mizer is all about changes at size. Looking at overall biomasses does not tell use about size dynamics. We can compare the spectra using the `plotSpectra2()` function:
 
 ```{r}
-plotSpectra2(sim_double_effort, 'double', cm, 'same', power = 2)
+plotSpectra2(sim_double_effort, name1 = 'double', cm, name2 = 'same', power = 2)
 ```
 
 Again, the changes are more visible if we plot relative change with respect to the initial spectra:

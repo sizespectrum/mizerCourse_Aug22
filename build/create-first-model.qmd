@@ -38,7 +38,7 @@ curonian_interaction <- read.csv("curonian_interaction.csv", row.names = 1)
 
 We use `rownames = 1` to let `read.csv` know that the first column in the spreadsheet, which contains the predator names, should be used as the names of the rows of the interaction matrix.
 
-When you repeat this work in your worksheet, you can check that the data was read in correctly by clicking on `curonian_species_params`, `curonian_species_params` and `curonian_interaction` in the "Environment" tab. That will open the data frames in your editor window for you to inspect.
+When you repeat this work in your worksheet, you can check that the data was read in correctly by clicking on `curonian_species_params`, `curonian_gear_params` and `curonian_interaction` in the "Environment" tab. That will open the data frames in your editor window for you to inspect.
 
 We will now set up a multi-species mizer model using the function `newMultispeciesParams()`. Besides the species parameters, the gear parameters and the interaction matrix, the other information that flows into a multi-species model are the resource parameters, the allometric exponents `n` and `p` and the fishing effort.
 
@@ -84,7 +84,7 @@ We will now project to the steady state, which will finally give us realistic sp
 cur_model <- steady(cur_model)
 ```
 
-We can ignore the warning from the `setBevertonHolt()` function about unrealistic reproductive efficiencies. Those warnings are an artefact of how the reproduction level is set by default by the `matchBiomasses()` function. We could fix those defaults, but we are not yet concerned with the reproduction dynamics so we don't have to do that and just ignore the warnings.
+We can ignore the warning from the `setBevertonHolt()` function about unrealistic reproductive efficiencies. Those warnings are an artefact of how the reproduction level is set by default. We could fix those defaults, but we are not yet concerned with the reproduction dynamics so we don't have to do that and just ignore the warnings.
 
 ::: {.callout-important collapse="false"}
 Remember, the steady() function does not yet calibrate your model to any observed biomasses or catches. It simply runs the model to find a state where species spectra stop changing. If you start a simulation from initial biomasses that the set of current species and resource parameters cannot support, species biomasses will change drastically at the start. Perhaps there are too many predators at the start, or too many fish for the resource to support it. After a while these fluctuations will settle down (hopefully) and species biomasses will be stable for a given set of parameters. Of course, since we are keeping reproduction and resource levels constant, this is not yet a final model.
