@@ -246,7 +246,7 @@ To measure the resilience of our species to fishing, we will change the fishing 
 plotYieldCurve(cm_generic_gear, species = "smallfish", F_max = 2)
 ```
 
-We refer to the yield achieved in the steady state as the *sustainable yield* (SY) because because it can be sustained indefinitely. The sustainable yield for this species has a maximum (MSY) at a fishing mortality of about 0.8. We refer to this value as $F_{MSY}$. The small fish have a high resilience to fishing. This is close enough to expectations, so we judge that it is not necessar to make changes to the resource level of "smallfish".
+We refer to the yield achieved in the steady state as the *sustainable yield* (SY) because because it can be sustained indefinitely. The sustainable yield for this species has a maximum (MSY) at a fishing mortality of about 0.8. We refer to this value as $F_{MSY}$. The small fish have a high resilience to fishing. This is close enough to expectations, so we judge that it is not necessary to make changes to the resource level of "smallfish".
 
 Next we look at ruffe. This is classified as a medium resilience species, so we would like the $F_{MSY}$ to be between 0.1 and 0.5.
 

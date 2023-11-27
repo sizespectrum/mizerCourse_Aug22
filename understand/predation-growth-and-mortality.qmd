@@ -344,7 +344,8 @@ We can now see how fishing affects the adult size spectrum.
 # We find the new steady state with fishing mortality imposed 
 params_fishing <- singleSpeciesSteady(params_fishing)
 
-plotSpectra2(params, "No Fishing", params_fishing, "Knife-edge",
+plotSpectra2(params, name1 = "No Fishing", 
+             params_fishing, name2 = "Knife-edge",
              power = 2, wlim = c(10, NA))
 
 ```

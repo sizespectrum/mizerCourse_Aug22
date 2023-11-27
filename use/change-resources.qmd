@@ -76,14 +76,14 @@ c_R <- (mu_bar + r_R) / r_R * N_bar
 mu_R <- seq(0, 2, by = 0.05)
 N_R <- c_R * r_R / (mu_R + r_R)
 df <- melt(data.frame(N_R, mu_R, c_R), id.vars = "mu_R")
-df$dd <- "Low"
+df$dd <- "High"
 
 r_R <- 2
 c_R <- (mu_bar + r_R) / r_R * N_bar
 mu_R <- seq(0, 2, by = 0.05)
 N_R <- c_R * r_R / (mu_R + r_R)
 df2 <- melt(data.frame(N_R, mu_R, c_R), id.vars = "mu_R")
-df2$dd <- "High"
+df2$dd <- "Low"
 
 df <- rbind(df, df2)
 df <- df[df$value < 2.1, ]
@@ -97,7 +97,7 @@ ggplot(rbind(df, df2)) +
                        breaks = N_bar, labels = c("N_R")) +
     scale_x_continuous(name = "Resource mortality rate [1/year]",
                        breaks = mu_bar, labels = c("mu_R")) +
-    scale_colour_manual(values = c("black", "blue")) +
+    scale_colour_manual(values = c("blue","black")) +
     scale_linetype_manual(values = c("solid", "dotted"))
 ```
 
@@ -216,7 +216,8 @@ cm_less_be <- setResourceSemichemostat(cm, rp_less_be)
 Let's check that resource abundances really changed by plotting the spectra
 
 ```{r}
-plotSpectra2(cm_more_be, "More", cm_less_be, "Less", power = 2)
+plotSpectra2(cm_more_be, name1 = "More", 
+             cm_less_be, name2 = "Less", power = 2)
 ```
 
 As we discussed before, while the `setResourceSemichemostat()` has set the resource carrying capacity so that initially the new resource abundance is steady, the fish abundances will change over time in response to the changed resource abundance and as a result also the resource abundance will start to change. Let us investigate that by projecting for 50 years with the new level and compare to the unchanged conditions.
@@ -270,7 +271,7 @@ cm_more_be <- setResourceSemichemostat(cm, rp_more_be)
 cm_less_be <- setResourceSemichemostat(cm, rp_less_be)
 
 # Check on the spectra plot that the changes have taken place
-plotSpectra2(cm_more_be, "More", cm_less_be, "Less", power = 2)
+plotSpectra2(cm_more_be, name1 = "More", cm_less_be, name2 = "Less", power = 2)
 ```
 
 Now we will project for 50 years with the new level and see how the biomasses are changed
