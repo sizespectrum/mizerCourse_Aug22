@@ -8,13 +8,11 @@ This final tutorial gives some examples from another mizer model, tuned to a dif
 
 ## A look at the model
 
-As usual, we need to have some packages installed.
+As usual, we need to have some packages loaded.
 
 ```{r set-up}
 #| message: false
 #| warning: false
-remotes::install_github("sizespectrum/mizer", ref = "4b38107")
-remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
 library(mizerExperimental)
 library(tidyverse)
 ```

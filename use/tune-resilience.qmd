@@ -10,9 +10,6 @@ As usual, we load the necessary packages
 
 ```{r}
 #| message: false
-remotes::install_github("sizespectrum/mizer", ref = "4b38107")
-remotes::install_github("sizespectrum/mizerMR", ref = "364972c")
-remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
 library(mizerExperimental)
 library(mizerMR)
 library(tidyverse)

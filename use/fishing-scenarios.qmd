@@ -25,9 +25,6 @@ For explorations in this tutorial we will be using our mizer model for the Curon
 ```{r set-up}
 #| message: false
 #| warning: false
-remotes::install_github("sizespectrum/mizer", ref = "4b38107")
-remotes::install_github("sizespectrum/mizerMR", ref = "364972c")
-remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
 library(mizerExperimental)
 library(mizerMR)
 library(tidyverse)

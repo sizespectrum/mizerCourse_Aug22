@@ -29,12 +29,10 @@ What makes these seemingly obvious dynamics interesting is how the growth rate a
 
 You will be doing your own work for this tutorial in the accompanying worksheet file "worksheet5-dynamics-of-spectra.Rmd". You will find this file in the worksheet repository for this week that you already used in previous tutorials.
 
-As always, we start by making sure we have the latest version of the mizerExperimental package and load it as well as the tidyverse.
+As always, we start by loading the mizerExperimental package as well as the tidyverse.
 
 ```{r}
 #| message: false
-remotes::install_github("sizespectrum/mizer", ref = "4b38107")
-remotes::install_github("sizespectrum/mizerExperimental", ref = "2465461")
 library(mizerExperimental)
 library(tidyverse)
 ```

@@ -16,11 +16,9 @@ We will concentrate on building models with the correct steady state this week a
 
 In this tutorial we will take the species parameters that we assembled in the previous tutorial for the Curonian Lagoon and use the `newMultispeciesParams()` function to build a mizer model with them. We will let mizer choose most of the defaults and then adjust a few things so that the model has a steady state that has the observed species biomasses and growth curves. We will not do any fine-tuning of the steady state because the first big improvement that we will make in the next tutorial will be to add multiple resource spectra, as is appropriate for this shallow coastal ecosystem.
 
-As always, we start by updating and loading packages.
+As always, we start by loading packages.
 
 ```{r message=FALSE}
-remotes::install_github("sizespectrum/mizer", ref = "4b38107")
-remotes::install_github("sizespectrum/mizerExperimental", ref = "2465461")
 library(mizerExperimental)
 library(tidyverse)
 ```
