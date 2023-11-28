@@ -155,6 +155,11 @@ The heights are now slightly more even among the bins, because the largest bin i
 
 It is very important that you break up your reading of the tutorials with some hands-on work that builds on what you have just learned. Therefore you will find exercises throughout the tutorials. You have now reached the first exercise. You will find that it can be accomplished using the R functions you have already learned about. Please do your work in the worksheet that accompanies this tutorial and that you will find in this week's worksheet repository.
 
+::: {.callout-caution}
+Now that the live version of this course has finished, you no longer need the worksheet repository mentioned
+below. Instead you can simply create your own worksheets by copying code over from the tutorials.
+:::
+
 If you have not yet created this week's worksheet repository, you can do so by following this link to accept your assignments for week 1:
 
 <https://classroom.github.com/a/5cnr1H7R>

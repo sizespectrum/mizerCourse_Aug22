@@ -38,6 +38,13 @@ The material is split into 5 tutorials:
 
 ## Worksheets
 
+::: {.callout-caution}
+Now that the live version of this course has finished, you no longer need to use the worksheets mentioned below.
+It is not guaranteed that they will still work. You are still encouraged to try out the code that you find in the 
+tutorials on this website and to complete the exercises but you do not need these worksheets for that purpose. All
+the code you need is given in the tutorials.
+:::
+
 Each tutorial comes with exercises and a worksheet in which to complete the exercises. These worksheets are contained in a dedicated repository on GitHub to which you will push your work to get feedback. This will work the same way as we discussed in the tutorial [Use Git and GitHub](../prepare/use-git-and-github.qmd). If you did not yet get a chance to work through that tutorial, please do so now before continuing with this week's tutorials.
 
 ```{r}
@@ -47,6 +54,10 @@ vembedr::embed_url("https://youtu.be/igE1mk1DQ6w") |>
     vembedr::use_rounded(10)
 ```
 
+::: {.callout-caution}
+Now that the live version of this course has finished, you no longer need the worksheet repository mentioned
+below. Instead you can simply create your own worksheets by copying code over from the tutorials.
+:::
 To get your worksheet repository for this week, follow this link:
 
 <https://classroom.github.com/a/5cnr1H7R>

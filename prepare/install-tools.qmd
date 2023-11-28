@@ -59,6 +59,11 @@ remotes::install_github("sizespectrum/mizerMR", ref = "364972c")
 
 ## Git
 
+::: {.callout-caution}
+Now that the live version of the course has finished and you are working through the tutorials on your own,
+you do not need to use Git any more. But of course Git is generally a very important tool, so feel free to install it.
+:::
+
 [Git](https://git-scm.com/) is a distributed version control system that we will use in this course. We will discuss that more on the page [Use Git and GitHub](use-git-and-github.qmd).
 
 Git may already be installed on your system. If you are in RStudio, then you can issue the following command in the "Terminal" tab:
