@@ -293,7 +293,7 @@ You will be prompted for your answer in the worksheet for this tutorial.
 
 ## Summary and recap
 
-1\) When using mizer models it is very important to investigate who eats whom and where mortality comes from. So we need to use functions plotDeath() and plotsDiet() often.
+1\) When using mizer models it is very important to investigate who eats whom and where mortality comes from. So we need to use functions `plotDeath()` and `plotDiet()` often.
 
 2\) It is important to remember that the amount of different species consumed will depend on the biomasses of these species in the suitable size range. If all values of the species interaction matrix are set to 1 then consumption will simply be proportional to the relative abundance of the prey species.
 
