@@ -37,6 +37,7 @@ vignettes/*.pdf
 *_cache/
 /cache/
 *_files/
+_freeze/
 
 # Temporary files created by R markdown
 *.utf8.md
