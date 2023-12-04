@@ -1,1 +1,1 @@
-Sitemap: https://course.mizer.sizespectrum.org/sitemap.xml
+Sitemap: https://mizer.course.aug22.sizespectrum.org/sitemap.xml

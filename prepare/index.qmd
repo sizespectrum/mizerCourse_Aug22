@@ -3,6 +3,11 @@ title: "Prepare for the mizer course"
 editor: visual
 ---
 
+::: callout-caution
+Some of the information below is no longer important now that the live version of the course has finished. The interaction via GitHub is no longer needed when you work through the tutorials on your own. Instead of using the worksheets simply copy and paste the code from the tutorials to try it out and to do the exercises.
+
+In order for the code from the tutorials to work without problems, you should install the versions of the mizer, mizerMR and mizerExperimental packages as they were during August 2022. To do that, follow [these instructions](install-tools.qmd#r-packages).
+:::
 
 ```{r}
 #| echo: false
@@ -10,7 +15,6 @@ vembedr::embed_url("https://youtu.be/MesBEpwkTaQ") |>
     vembedr::use_align("center") |>
     vembedr::use_rounded(10)
 ```
-
 
 While the course only starts on Monday the 8th of August, if you like you can already start preparations:
 

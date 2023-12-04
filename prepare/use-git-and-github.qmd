@@ -2,6 +2,12 @@
 title: "Use Git and GitHub"
 ---
 
+::: {.callout-caution}
+Now that the live version of this course has finished, you no longer need to use Git and GitHub to work
+through the tutorials. Instead, simply copy and paste the code from the tutorial to try it out and to complete
+the exercises on your own.
+:::
+
 In this course we will collaborate via Git and GitHub. This means that if you have not used these tools before, then you will have to learn some new concepts and get used to a particular workflow. The investment of your time will more than pay off. Developing your research code with Git and GitHub has great advantages, and it'll be great if this course gets you hooked on these tools. The use we make of Git and GitHub in this course is relatively simple, so it may be the perfect gateway drug.
 
 We'll start by first introducing some of the ideas theoretically, but then we will also show what the workflow looks like in practice. We will only scratch the surface, if you want to go deeper then [Happy Git and GitHub for the useR](https://happygitwithr.com/) is a useful resource.
@@ -47,6 +53,12 @@ There are circumstances where the standard workflow fails. If you attempt to pul
 This more involved workflow takes a bit of getting used to, but is definitely the best way to work on code and data. If you follow the guidelines about committing your code changes regularly you will easily go back to earlier versions of your code if you need to, work with multiple people on the same code development, return to old coding projects that need reviewing, and be a part of open and reproducible science. So next you will get to try this out in practice.
 
 ## Practice
+
+::: {.callout-caution}
+Now that the live version of this course has finished, there is no guarantee that the GitHub repositories 
+mention below will be maintained and the worksheets may no longer work. You can simply work through the tutorials
+without using the worksheets because all the code you need is included in the tutorials on this website.
+:::
 
 For each week of this course you will get a Git repository with worksheets for you to complete. This repository will be set up for you on GitHub by [GitHub classroom](https://classroom.github.com/). You will clone that repository to your computer and then commit your work to that repository and push it back to GitHub. This gives the course leaders a chance to see your work and to comment on it. These repositories will be private repositories, visible only to you and the course leaders [Asta](https://github.com/astaaudzi) and [Gustav](https://github.com/gustavdelius) and to [Romain](https://github.com/baldrech) who provides technological support for the course. Below you will get a preparatory repository (also private) on which you can practice the workflow.
 

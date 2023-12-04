@@ -8,12 +8,11 @@ This final tutorial gives some examples from another mizer model, tuned to a dif
 
 ## A look at the model
 
-As usual, we need to have some packages installed.
+As usual, we need to have some packages loaded.
 
 ```{r set-up}
 #| message: false
 #| warning: false
-remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
 library(mizerExperimental)
 library(tidyverse)
 ```
@@ -107,6 +106,10 @@ The abundance of some (but not all) of the smaller to medium sizes of prey are a
 ## Fishing through time: past time series
 
 Mizer can also be used to carry out projections with changes in fishing effort. We will start by reading in a time series of catch and effort. We will read in the effort data for this fishery. Note: these are not the correct effort values, they are only for illustration in this example. Then we plot effort and catch through time.
+```{r eval=FALSE}
+download.file("https://github.com/sizespectrum/mizerCourse/raw/main/use/toothfish/longline.rds",
+              destfile = "toothfish/longline.rds")
+```
 
 ```{r, code_folding=TRUE}
 dat <- readRDS("toothfish/longline.rds")

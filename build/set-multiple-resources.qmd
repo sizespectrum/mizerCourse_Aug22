@@ -14,19 +14,13 @@ The Curonian Lagoon is a shallow water productive ecosystem, where benthic produ
 
 In this tutorial we will modify our basic mizer model by adding an explicit benthic size structured resource.
 
-## Step 1: Get mizerMR
+## Step 1: Load mizerMR
 
 [mizerMR](https://github.com/sizespectrum/mizerMR) is an extension to the mizer package and it demonstrates a flexible way of adding new features, contributed by the mizer modeller community. If you modify mizer to add new features, please consider making an extension package and making it available for all mizer users.
 
-First, we will install mizerMR from GitHub.
-
 ```{r}
 #| message: false
-remotes::install_github("sizespectrum/mizerMR")
 library(mizerMR)
-
-# Also update and load mizerExperimental and tidyverse
-remotes::install_github("sizespectrum/mizerExperimental")
 library(mizerExperimental)
 library(tidyverse)
 ```

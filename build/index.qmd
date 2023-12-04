@@ -20,7 +20,11 @@ The material is split into 4 tutorials:
 4.  [**Refine your model**](refine-model.qmd)\
     In this section we will use an R shiny application to explore how changes in parameters will affect model behaviour and to refine the model given our observations and knowledge about the species. 
     
+::: {.callout-caution}
+Now that the live version of this course has finished, you no longer need the worksheet repository mentioned
+below. Instead you can simply create your own worksheets by copying code over from the tutorials.
+:::
 To get your worksheet repository for this week, follow this link:
-
 <https://classroom.github.com/a/0wH7LDgR>
+
 

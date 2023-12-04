@@ -6,11 +6,10 @@ In the previous tutorials we studied a single species interacting with a fixed b
 
 You will be doing your own work for this tutorial in the accompanying worksheet file "worksheet4-species-interactions.Rmd". You will find this file in the worksheet repository for this week that you already used in previous tutorials.
 
-As always, we start by making sure we have the latest version of the mizerExperimental package and load it, as well as the tidyverse.
+As always, we start by loading the mizerExperimental package as well as the tidyverse.
 
 ```{r}
 #| message: false
-remotes::install_github("sizespectrum/mizerExperimental")
 library(mizerExperimental)
 library(tidyverse)
 ```
@@ -294,7 +293,7 @@ You will be prompted for your answer in the worksheet for this tutorial.
 
 ## Summary and recap
 
-1\) When using mizer models it is very important to investigate who eats whom and where mortality comes from. So we need to use functions plotDeath() and plotsDiet() often.
+1\) When using mizer models it is very important to investigate who eats whom and where mortality comes from. So we need to use functions `plotDeath()` and `plotDiet()` often.
 
 2\) It is important to remember that the amount of different species consumed will depend on the biomasses of these species in the suitable size range. If all values of the species interaction matrix are set to 1 then consumption will simply be proportional to the relative abundance of the prey species.
 

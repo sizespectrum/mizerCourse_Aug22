@@ -1,7 +1,4 @@
 library(tidyverse)
-#remotes::install_github("sizespectrum/mizer")
-remotes::install_github("sizespectrum/mizerExperimental")
-remotes::install_github("sizespectrum/mizerMR")
 library(mizerExperimental)
 library(mizerMR)
 source("experiment/helpers.R")

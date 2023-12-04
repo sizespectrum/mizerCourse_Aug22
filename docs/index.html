@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.3.433">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,7 +17,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
 </style>
@@ -56,31 +56,45 @@ ul.task-list li input[type="checkbox"] {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
 
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="mizer course - Online mizer course">
-<meta property="og:description" content="2022 August 8-26">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://mizer.course.aug22.sizespectrum.org/images/paste-3ABCF373.png">
 <meta property="og:site-name" content="mizer course">
+<meta property="og:image:height" content="173">
+<meta property="og:image:width" content="1086">
 <meta name="twitter:title" content="mizer course - Online mizer course">
-<meta name="twitter:description" content="2022 August 8-26">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://mizer.course.aug22.sizespectrum.org/images/paste-3ABCF373.png">
 <meta name="twitter:creator" content="gustavdelius">
 <meta name="twitter:site" content="@mizer_model">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image-height" content="173">
+<meta name="twitter:image-width" content="1086">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar docked fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Online mizer course</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      mizer course
+      </li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -88,150 +102,172 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">mizer course</a> 
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./prepare/index.html" class="sidebar-item-text sidebar-link">Prepare</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a href="./prepare/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prepare</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./prepare/introduce-yourself.html" class="sidebar-item-text sidebar-link">Introduce yourself</a>
+  <a href="./prepare/introduce-yourself.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduce yourself</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./prepare/install-tools.html" class="sidebar-item-text sidebar-link">Install tools</a>
+  <a href="./prepare/install-tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Install tools</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./prepare/use-git-and-github.html" class="sidebar-item-text sidebar-link">Use Git and GitHub</a>
+  <a href="./prepare/use-git-and-github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Use Git and GitHub</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./understand/index.html" class="sidebar-item-text sidebar-link">Week 1: Understand</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a href="./understand/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1: Understand</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./understand/observed-size-spectra.html" class="sidebar-item-text sidebar-link">Observed size spectra</a>
+  <a href="./understand/observed-size-spectra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Observed size spectra</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./understand/single-species-spectra.html" class="sidebar-item-text sidebar-link">Single species spectra</a>
+  <a href="./understand/single-species-spectra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Single species spectra</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./understand/predation-growth-and-mortality.html" class="sidebar-item-text sidebar-link">Predation, growth and mortality</a>
+  <a href="./understand/predation-growth-and-mortality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Predation, growth and mortality</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./understand/species-interactions.html" class="sidebar-item-text sidebar-link">Species interactions</a>
+  <a href="./understand/species-interactions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Species interactions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./understand/dynamics-of-spectra.html" class="sidebar-item-text sidebar-link">Dynamics of size spectra</a>
+  <a href="./understand/dynamics-of-spectra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamics of size spectra</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./build/index.html" class="sidebar-item-text sidebar-link">Week 2: Build</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a href="./build/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2: Build</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./build/find-species-parameters.html" class="sidebar-item-text sidebar-link">Find species parameters</a>
+  <a href="./build/find-species-parameters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Find species parameters</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./build/create-first-model.html" class="sidebar-item-text sidebar-link">Create your first model</a>
+  <a href="./build/create-first-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create your first model</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./build/set-multiple-resources.html" class="sidebar-item-text sidebar-link">Set up multiple resources</a>
+  <a href="./build/set-multiple-resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Set up multiple resources</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./build/refine-model.html" class="sidebar-item-text sidebar-link">Refine your model</a>
+  <a href="./build/refine-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Refine your model</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./use/index.html" class="sidebar-item-text sidebar-link">Week 3: Use</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <a href="./use/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3: Use</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./use/tune-resilience.html" class="sidebar-item-text sidebar-link">Tune resilience</a>
+  <a href="./use/tune-resilience.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tune resilience</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./use/fishing-scenarios.html" class="sidebar-item-text sidebar-link">Explore fishing scenarios</a>
+  <a href="./use/fishing-scenarios.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Explore fishing scenarios</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./use/change-resources.html" class="sidebar-item-text sidebar-link">Change resources</a>
+  <a href="./use/change-resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Change resources</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./use/further-scenarios.html" class="sidebar-item-text sidebar-link">Explore further scenarios</a>
+  <a href="./use/further-scenarios.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Explore further scenarios</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">Info</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Info</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">Troubleshooting</a>
+  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Troubleshooting</span></a>
   </div>
 </li>
       </ul>
@@ -239,6 +275,7 @@ ul.task-list li input[type="checkbox"] {
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     
 <!-- main -->
@@ -246,7 +283,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Online mizer course</h1>
+<h1 class="title">Online mizer course</h1>
 </div>
 
 
@@ -266,7 +303,20 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="size-based-ecosystem-models-with-the-r-package-mizer-and-applications-for-coastal-and-inland-ecosystems">Size based ecosystem models with the R package mizer and applications for coastal and inland ecosystems</h2>
 <p>In this online course you will learn about the principles of size based community and ecosystem modelling, implementation of these principles in the R package mizer, learn about adaptation of mizer for shallow ecosystems with multiple resources, and learn how to build a new model with your own or example data and use it to investigate the ecosystem effect of changes in fishing or other stressors.</p>
 <p>The course is led by Gustav Delius (University of York, UK) and Asta Audzijonyte (Nature Research Centre, Lithuania &amp; University of Tasmania, Australia), with technical support by Romain Forestier (University of Tasmania). Invited speakers include Ken Haste Andersen and Julia Blanchard.</p>
-<p>Participation is free. If you would like to participate in this course, please <a href="https://docs.google.com/forms/d/e/1FAIpQLSeLGJfGQ1IBa5ZozqWTGIXX17xF73kPHKYhAFFa0H2nn4CT4Q/viewform?vc=0&amp;c=0&amp;w=1&amp;flr=0">register</a>.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This course ran live in August 2022 and, besides the tutorials, also consisted of worksheets that participants would commit via GitHub to obtain feedback. The course was supported by daily online meetings. While those live elements are no longer available, you can still work through the tutorials on this website on your own and use the discussion board at the bottom of each tutorial for questions and comments.</p>
+<p>There is an <a href="https://mizer.course.sizespectrum.org">updated version of the course</a> available now, however that course does not use the mizerMR extension that allows for multiple resource spectra.</p>
+</div>
+</div>
 </section>
 <section id="tutorials-and-worksheets" class="level2">
 <h2 class="anchored" data-anchor-id="tutorials-and-worksheets">Tutorials and worksheets</h2>
@@ -283,6 +333,19 @@ We will use this new ensemble of mizer models to explore the effects of changes 
 </section>
 <section id="on-line-meetings" class="level2">
 <h2 class="anchored" data-anchor-id="on-line-meetings">On-line meetings</h2>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Now that the live course has ended, the information below is obsolete.</p>
+</div>
+</div>
 <p>There will be several optional online meeting scheduled throughout the course, see the list of meetings in the table below. The purpose of the meetings is to add a social dimension to the course. You only have to join when you can. For each day we organise two meetings to accommodate different time zones:</p>
 <ul>
 <li><p>7am UK summer time (BST) most suitable for Asia and Australasia:<br>
@@ -292,17 +355,17 @@ We will use this new ensemble of mizer models to explore the effects of changes 
 </ul>
 <p>Please follow one of these links now. You will be asked to create yourself an account. Please use the email address that you used for registering for this mizer course. If you need to use another email address, please send an email from that email address to <a href="mailto:gustav.delius@gmail.com">gustav.delius@gmail.com</a> and he will add that email to the list of accepted emails.</p>
 <p>Once you have logged into Remo, you will be introduced to its main features and then Remo will check whether your browser and operating system is on their list of supported configurations.</p>
-<div class="callout-important callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Important
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p>Do not worry if you get the message that your configuration is not supported. It will most likely work anyway.</p>
 </div>
@@ -426,9 +489,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -493,6 +570,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -531,12 +694,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp(/https:\/\/course\.mizer\.sizespectrum\.org/);
+      var filterRegex = new RegExp("https:\/\/mizer\.course\.aug22\.sizespectrum\.org");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
-    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -546,10 +709,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
 });
 </script>
-<script src="https://giscus.app/client.js" data-repo="sizespectrum/mizerCourse" data-repo-id="R_kgDOHlJwYg" data-category="Comments" data-category-id="DIC_kwDOHlJwYs4CP_7j" data-mapping="title" data-reactions-enabled="0" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+<script src="https://giscus.app/client.js" data-repo="sizespectrum/mizerCourse_Aug22" data-repo-id="R_kgDOHlJwYg" data-category="Comments" data-category-id="DIC_kwDOHlJwYs4CP_7j" data-mapping="title" data-reactions-enabled="0" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sizespectrum/mizerCourse_Aug22/edit/main/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sizespectrum/mizerCourse_Aug22/issues/new" class="toc-action">Report an issue</a></p></div></div></div></div></footer></body></html>
