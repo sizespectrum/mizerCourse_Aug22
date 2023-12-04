@@ -25,7 +25,7 @@ execute:
 
 website:
   title: "mizer course"
-  site-url: "https://course.mizer.aug22.sizespectrum.org"
+  site-url: "https://mizer.course.aug22.sizespectrum.org"
   favicon: images/favicon-16x16.png
   repo-url: https://github.com/sizespectrum/mizerCourse_Aug22
   repo-actions: [edit, issue]

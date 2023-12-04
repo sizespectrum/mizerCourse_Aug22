@@ -13,6 +13,8 @@ The course is led by Gustav Delius (University of York, UK) and Asta Audzijonyte
 
 ::: {.callout-caution}
 This course ran live in August 2022 and, besides the tutorials, also consisted of worksheets that participants would commit via GitHub to obtain feedback. The course was supported by daily online meetings. While those live elements are no longer available, you can still work through the tutorials on this website on your own and use the discussion board at the bottom of each tutorial for questions and comments.
+
+There is an [updated version of the course](https://mizer.course.sizespectrum.org) available now, however that course does not use the mizerMR extension that allows for multiple resource spectra.
 :::
 
 ## Tutorials and worksheets
