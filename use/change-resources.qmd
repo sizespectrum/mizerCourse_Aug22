@@ -385,6 +385,14 @@ But let's look at how we can implement multiple drivers under climate change by 
 These resource spectra files were derived from small and large phytoplankton biomasses predicted by the Fisheries and Marine Ecosystems Model Intercomparison Project ([FishMIP](https://www.isimip.org/about/marine-ecosystems-fisheries/)). There are a lot of steps in processing these data, but we won't go in to that here. The main goal is to demonstrate how to use these scenario forcings to create changes in your mizer resources through time. This example will use another model - Patagonian toothfish fishery ecosystem. We will explore how the marine demersal fish community changes under this forcing through time. The two model scenarios are ssp585 (highest emissions or "worst") and ssp126 (mitigation to cut emissions or "best"). Note: this new model does NOT use multiple resources
 
 Read in the model and the resource abundances provided by the earth system model.
+```{r eval=FALSE}
+download.file("https://github.com/sizespectrum/mizerCourse/raw/main/use/toothfish_model.rds",
+              destfile = "toothfish_model.rds")
+download.file("https://github.com/sizespectrum/mizerCourse/raw/main/use/resource_scenario_126.rds",
+              destfile = "resource_scenario_126.rds")
+download.file("https://github.com/sizespectrum/mizerCourse/raw/main/use/resource_scenario_585.rds",
+              destfile = "resource_scenario_585.rds")
+```
 
 ```{r}
 params <- readParams("toothfish_model.rds")

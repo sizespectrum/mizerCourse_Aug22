@@ -12,7 +12,7 @@ In this online course you will learn about the principles of size based communit
 The course is led by Gustav Delius (University of York, UK) and Asta Audzijonyte (Nature Research Centre, Lithuania & University of Tasmania, Australia), with technical support by Romain Forestier (University of Tasmania). Invited speakers include Ken Haste Andersen and Julia Blanchard.
 
 ::: {.callout-caution}
-The course ran live in August 2022 and besides the tutorials also consisted of worksheets that participants would commit via GitHub to obtain feedback and was supported by online meetings. While those live elements are no longer available, you can still work through the tutorials on this website on your own and use the discussion board at the bottom of each tutorial for questions and comments.
+This course ran live in August 2022 and, besides the tutorials, also consisted of worksheets that participants would commit via GitHub to obtain feedback. The course was supported by daily online meetings. While those live elements are no longer available, you can still work through the tutorials on this website on your own and use the discussion board at the bottom of each tutorial for questions and comments.
 :::
 
 ## Tutorials and worksheets

@@ -25,6 +25,11 @@ cur_model_coarse <- readParams("cur_model_coarse.rds")
 
 We will also load data on the size distribution of catches. Such data is often collected in data-poor fisheries, so it will be useful to see how we can use such data for model calibration. This specific dataset is not really from commercial fisheries in Curonian lagoon, but from some years of scientific surveys, where only commercial mesh sizes were used. 
 
+```{r eval=FALSE}
+download.file("https://github.com/sizespectrum/mizerCourse/raw/main/build/catch.rds",
+              destfile = "catch.rds")
+```
+
 ```{r}
 catch_lengths <- readRDS("catch.rds")
 head(catch_lengths)

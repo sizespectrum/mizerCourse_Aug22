@@ -48,13 +48,13 @@ The mizerExperimental package is for code that is still experimental and thus ch
 #| eval: false
 remotes::install_github("sizespectrum/mizerExperimental", ref = "tuneMR")
 ```
+At this point R will offer to update some packages. In particular it will offer to update mizer to a current version. You do not want to do that but keep mizer 2.3.1 which was the version in place when this course was running.
 
 The mizerMR package that extends mizer to work with multiple resources has not been released to CRAN because the plan is to incorporate it into core mizer in the future, so this too you need to install directly from GitHub. For this course we also specify the `ref` argument so that we get the package in the state it was in in August 2022.
 
 ```{r}
 #| eval: false
 remotes::install_github("sizespectrum/mizerMR", ref = "364972c")
-
 ```
 
 ## Git
